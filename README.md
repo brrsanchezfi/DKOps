@@ -1,2 +1,0 @@
-# BigDataFrameworkSpark
-Desarrollo Framework spark
