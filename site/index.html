@@ -14,8 +14,10 @@
       
       
       
+        <link rel="next" href="guide/quickstart/">
       
-      <link rel="icon" href="/assets/images/favicon.png">
+      
+      <link rel="icon" href="assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.50">
     
     
@@ -24,10 +26,10 @@
       
     
     
-      <link rel="stylesheet" href="/assets/stylesheets/main.a40c8224.min.css">
+      <link rel="stylesheet" href="assets/stylesheets/main.a40c8224.min.css">
       
         
-        <link rel="stylesheet" href="/assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -46,9 +48,9 @@
       
     
     
-      <link rel="stylesheet" href="/assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="assets/_mkdocstrings.css">
     
-    <script>__md_scope=new URL("/",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -73,6 +75,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#caracteristicas" class="md-skip">
+          Saltar a contenido
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -83,7 +90,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Cabecera">
-    <a href="/." title="DKOps" class="md-header__button md-logo" aria-label="DKOps" data-md-component="logo">
+    <a href="." title="DKOps" class="md-header__button md-logo" aria-label="DKOps" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -103,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              
+              Inicio
             
           </span>
         </div>
@@ -208,9 +215,11 @@
         
   
   
+    
   
-    <li class="md-tabs__item">
-      <a href="/." class="md-tabs__link">
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="." class="md-tabs__link">
         
   
     
@@ -229,7 +238,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="/guide/quickstart/" class="md-tabs__link">
+        <a href="guide/quickstart/" class="md-tabs__link">
           
   
   Guía de uso
@@ -253,7 +262,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="/api/launcher/" class="md-tabs__link">
+        <a href="api/launcher/" class="md-tabs__link">
           
   
   API Reference
@@ -289,7 +298,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navegación" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="/." title="DKOps" class="md-nav__button md-logo" aria-label="DKOps" data-md-component="logo">
+    <a href="." title="DKOps" class="md-nav__button md-logo" aria-label="DKOps" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -316,10 +325,28 @@
       
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="/." class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Inicio
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="." class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -328,6 +355,51 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#caracteristicas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Características
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quickstart" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quickstart
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#arquitectura" class="md-nav__link">
+    <span class="md-ellipsis">
+      Arquitectura
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -381,7 +453,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/guide/quickstart/" class="md-nav__link">
+      <a href="guide/quickstart/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -402,7 +474,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/guide/contracts/" class="md-nav__link">
+      <a href="guide/contracts/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -423,7 +495,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/guide/writers/" class="md-nav__link">
+      <a href="guide/writers/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -444,7 +516,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/guide/migrations/" class="md-nav__link">
+      <a href="guide/migrations/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -556,7 +628,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/api/launcher/" class="md-nav__link">
+      <a href="api/launcher/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -577,7 +649,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/api/environment_config/" class="md-nav__link">
+      <a href="api/environment_config/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -598,7 +670,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/api/logger_config/" class="md-nav__link">
+      <a href="api/logger_config/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -669,7 +741,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/api/contracts/loader/" class="md-nav__link">
+      <a href="api/contracts/loader/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -690,7 +762,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/api/contracts/validator/" class="md-nav__link">
+      <a href="api/contracts/validator/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -761,7 +833,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/api/writers/base/" class="md-nav__link">
+      <a href="api/writers/base/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -782,7 +854,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/api/writers/create/" class="md-nav__link">
+      <a href="api/writers/create/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -803,7 +875,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/api/writers/append/" class="md-nav__link">
+      <a href="api/writers/append/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -824,7 +896,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/api/writers/upsert/" class="md-nav__link">
+      <a href="api/writers/upsert/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -845,7 +917,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/api/writers/partition/" class="md-nav__link">
+      <a href="api/writers/partition/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -866,7 +938,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/api/writers/delete/" class="md-nav__link">
+      <a href="api/writers/delete/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -937,7 +1009,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/api/migrations/safe_migrator/" class="md-nav__link">
+      <a href="api/migrations/safe_migrator/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -984,6 +1056,41 @@
   
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#caracteristicas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Características
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quickstart" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quickstart
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#arquitectura" class="md-nav__link">
+    <span class="md-ellipsis">
+      Arquitectura
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -994,8 +1101,48 @@
             <div class="md-content" data-md-component="content">
               <article class="md-content__inner md-typeset">
                 
-  <h1>404 - Not found</h1>
+                  
 
+  
+  
+
+
+  <h1>Inicio</h1>
+
+<p><strong>Lakehouse automation framework para DataOps, DevOps y arquitectura Medallion en Databricks.</strong></p>
+<h2 id="caracteristicas">Características<a class="headerlink" href="#caracteristicas" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Contratos de tabla</strong> — define schema, tipos, particiones y permisos en JSON</li>
+<li><strong>Validación automática</strong> — verifica tipos y nulabilidad antes de escribir</li>
+<li><strong>Writers con gobierno</strong> — <code>CreateWriter</code>, <code>AppendWriter</code>, <code>UpsertWriter</code>, <code>PartitionWriter</code>, <code>DeleteWriter</code></li>
+<li><strong>Dual runtime</strong> — mismo código en PC local y en Databricks</li>
+<li><strong>Migraciones seguras</strong> — <code>SafeMigrator</code> sin pérdida de datos</li>
+<li><strong>Logging estructurado</strong> — cada operación loguea inicio, fin y duración</li>
+</ul>
+<h2 id="quickstart">Quickstart<a class="headerlink" href="#quickstart" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">DKOps.launcher</span><span class="w"> </span><span class="kn">import</span> <span class="n">Launcher</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">DKOps.table_governance</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_contract</span><span class="p">,</span> <span class="n">CreateWriter</span><span class="p">,</span> <span class="n">UpsertWriter</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">launcher</span> <span class="o">=</span> <span class="n">Launcher</span><span class="p">(</span><span class="s2">&quot;config/config.json&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">contract</span> <span class="o">=</span> <span class="n">load_contract</span><span class="p">(</span><span class="s2">&quot;tables/fact_vuelos.json&quot;</span><span class="p">,</span> <span class="n">launcher</span><span class="o">.</span><span class="n">env</span><span class="p">)</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="n">CreateWriter</span><span class="p">(</span><span class="n">launcher</span><span class="o">.</span><span class="n">spark</span><span class="p">,</span> <span class="n">contract</span><span class="p">,</span> <span class="n">launcher</span><span class="o">.</span><span class="n">env</span><span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="n">UpsertWriter</span><span class="p">(</span><span class="n">launcher</span><span class="o">.</span><span class="n">spark</span><span class="p">,</span> <span class="n">contract</span><span class="p">,</span> <span class="n">launcher</span><span class="o">.</span><span class="n">env</span><span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">df_nuevo</span><span class="p">,</span> <span class="n">merge_keys</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;vuelo_id&quot;</span><span class="p">,</span> <span class="s2">&quot;fecha&quot;</span><span class="p">])</span>
+</code></pre></div>
+<h2 id="arquitectura">Arquitectura<a class="headerlink" href="#arquitectura" title="Permanent link">&para;</a></h2>
+
+
+
+
+
+
+
+
+
+
+
+
+                
               </article>
             </div>
           
@@ -1035,10 +1182,10 @@
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "/", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "content.code.copy"], "search": "/assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}}</script>
+    <script id="__config" type="application/json">{"base": ".", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "content.code.copy"], "search": "assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}}</script>
     
     
-      <script src="/assets/javascripts/bundle.60a45f97.min.js"></script>
+      <script src="assets/javascripts/bundle.60a45f97.min.js"></script>
       
     
   </body>
