@@ -1,18 +1,76 @@
+# =========================
+# Python environments
+# =========================
+.venv/
+venv/
+env/
+
 .venv-databricks/
 .venv-local/
 
-
-.databricks
-
-/config/config.json
-.tables/
-
-dist/
-build/
-.vscode
-metastore_db
-
+# =========================
+# Python cache / artifacts
+# =========================
 __pycache__/
+*.py[cod]
+*.pyo
+*.pyd
 
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
 
+# =========================
+# Build artifacts
+# =========================
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# =========================
+# IDE / Editor
+# =========================
+.vscode/
+.idea/
+
+# =========================
+# Logs
+# =========================
 *.log
+logs/
+
+# =========================
+# Databricks
+# =========================
+.databricks/
+
+# =========================
+# Local configs / secrets
+# =========================
+config/config.json
+.env
+.env.*
+*.secret
+*.key
+
+# =========================
+# Spark / local warehouse
+# =========================
+metastore_db/
+spark-warehouse/
+
+# =========================
+# Local tables / generated data
+# =========================
+data/
+tmp/
+temp/
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
