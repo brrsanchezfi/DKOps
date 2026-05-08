@@ -1,0 +1,75 @@
+{
+  "_doc": "Dimensión de tiempo — generada una vez, usada en joins con la fact",
+  "catalog": "{catalog.bronze}",
+  "schema": "aeronautica",
+  "name": "dim_tiempo",
+  "type": "EXTERNAL",
+  "format": "DELTA",
+  "comment": "Dimensión de tiempo con atributos de fecha para análisis",
+  "owner": "data-engineers",
+  "location": "{path.bronze}/aeronautica/dim_tiempo",
+  "columns": [
+    {
+      "name": "fecha",
+      "type": "DATE",
+      "nullable": false,
+      "comment": "Fecha completa — clave primaria"
+    },
+    {
+      "name": "anio",
+      "type": "INTEGER",
+      "comment": "Año"
+    },
+    {
+      "name": "mes",
+      "type": "INTEGER",
+      "comment": "Mes (1-12)"
+    },
+    {
+      "name": "mes_nombre",
+      "type": "STRING",
+      "comment": "Nombre del mes en español"
+    },
+    {
+      "name": "trimestre",
+      "type": "INTEGER",
+      "comment": "Trimestre (1-4)"
+    },
+    {
+      "name": "semana_anio",
+      "type": "INTEGER",
+      "comment": "Semana del año (1-53)"
+    },
+    {
+      "name": "dia_semana",
+      "type": "INTEGER",
+      "comment": "Día de la semana (1=Lunes, 7=Domingo)"
+    },
+    {
+      "name": "dia_semana_nombre",
+      "type": "STRING",
+      "comment": "Nombre del día en español"
+    },
+    {
+      "name": "es_fin_semana",
+      "type": "BOOLEAN",
+      "comment": "True si es sábado o domingo"
+    },
+    {
+      "name": "es_festivo",
+      "type": "BOOLEAN",
+      "comment": "True si es festivo en Colombia"
+    }
+  ],
+  "properties": {
+    "quality": "dimension",
+    "owner_team": "data-engineering"
+  },
+  "permissions": [
+    {
+      "action": "SELECT",
+      "principal": "analysts-group",
+      "operation": "GRANT"
+    }
+  ]
+}

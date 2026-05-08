@@ -11,6 +11,12 @@ Abstrae la diferencia entre local PC y Databricks/Databricks Connect:
 
 Todos los writers usan self._write_df() y self._table_path — nunca
 llaman a saveAsTable directamente.
+
+API
+---
+El writer solo recibe el `contract` (y opcionalmente flags). El Spark y
+el EnvironmentConfig se obtienen del Launcher activo via
+`Launcher.current()`. Esto asume un único Launcher por proceso.
 """
 
 from __future__ import annotations
@@ -18,11 +24,11 @@ from __future__ import annotations
 import os
 from abc import ABC, abstractmethod
 
-from pyspark.sql import DataFrame, SparkSession
+from pyspark.sql import DataFrame
 from pyspark.sql import functions as F
 
+from DKOps.launcher import Launcher
 from DKOps.logger_config import LoggableMixin
-from DKOps.environment_config import EnvironmentConfig
 from DKOps.table_governance.contracts.loader import TableContract
 from DKOps.table_governance.contracts.validator import SchemaValidator, ValidationResult
 
@@ -33,26 +39,29 @@ class BaseWriter(LoggableMixin, ABC):
 
     Parámetros
     ----------
-    spark           : SparkSession activa (launcher.spark).
     contract        : TableContract cargado por ContractLoader.
-    env             : EnvironmentConfig activo (launcher.env).
     strict_columns  : si True, columnas extra en el DF generan WARNING.
     fail_on_warning : si True, WARNINGs también bloquean la escritura.
     dry_run         : si True, valida pero no escribe nada.
+
+    Notas
+    -----
+    Spark y EnvironmentConfig se resuelven automáticamente desde el
+    Launcher activo (Launcher.current()).
     """
 
     def __init__(
         self,
-        spark:           SparkSession,
         contract:        TableContract,
-        env:             EnvironmentConfig,
         strict_columns:  bool = True,
         fail_on_warning: bool = False,
         dry_run:         bool = False,
     ) -> None:
-        self._spark           = spark
+        launcher = Launcher.current()
+
+        self._spark           = launcher.spark
+        self._env             = launcher.env
         self._contract        = contract
-        self._env             = env
         self._strict_columns  = strict_columns
         self._fail_on_warning = fail_on_warning
         self._dry_run         = dry_run
@@ -61,7 +70,7 @@ class BaseWriter(LoggableMixin, ABC):
         # Nombre efectivo según runtime
         self._table_name = (
             contract.full_name
-            if env._is_databricks
+            if self._env._is_databricks
             else f"{contract.schema}.{contract.name}"
         )
 
@@ -70,7 +79,7 @@ class BaseWriter(LoggableMixin, ABC):
 
         self.log.debug(
             f"Writer listo | tabla='{self._table_name}' | "
-            f"runtime={'databricks' if env._is_databricks else 'local-pc'} | "
+            f"runtime={'databricks' if self._env._is_databricks else 'local-pc'} | "
             f"dry_run={dry_run}"
         )
 

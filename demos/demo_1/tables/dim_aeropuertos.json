@@ -1,0 +1,66 @@
+{
+  "_doc": "Dimensión de aeropuertos — SCD Type 1 (sobrescribe)",
+  "catalog": "{catalog.bronze}",
+  "schema": "aeronautica",
+  "name": "dim_aeropuertos",
+  "type": "EXTERNAL",
+  "format": "DELTA",
+  "comment": "Catálogo de aeropuertos con código IATA, ciudad y país",
+  "owner": "data-engineers",
+  "location": "{path.bronze}/aeronautica/dim_aeropuertos",
+  "columns": [
+    {
+      "name": "iata_code",
+      "type": "STRING",
+      "nullable": false,
+      "comment": "Código IATA del aeropuerto (3 letras)"
+    },
+    {
+      "name": "nombre",
+      "type": "STRING",
+      "comment": "Nombre completo del aeropuerto"
+    },
+    {
+      "name": "ciudad",
+      "type": "STRING",
+      "comment": "Ciudad donde está ubicado"
+    },
+    {
+      "name": "pais",
+      "type": "STRING",
+      "comment": "País donde está ubicado"
+    },
+    {
+      "name": "latitud",
+      "type": "DOUBLE",
+      "comment": "Coordenada latitud"
+    },
+    {
+      "name": "longitud",
+      "type": "DOUBLE",
+      "comment": "Coordenada longitud"
+    },
+    {
+      "name": "activo",
+      "type": "BOOLEAN",
+      "comment": "Si el aeropuerto está operativo"
+    },
+    {
+      "name": "actualizado_en",
+      "type": "TIMESTAMP",
+      "comment": "Última actualización del registro",
+      "default": "current_timestamp()"
+    }
+  ],
+  "properties": {
+    "quality": "dimension",
+    "owner_team": "data-engineering"
+  },
+  "permissions": [
+    {
+      "action": "SELECT",
+      "principal": "analysts-group",
+      "operation": "GRANT"
+    }
+  ]
+}

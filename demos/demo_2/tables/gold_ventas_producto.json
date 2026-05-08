@@ -1,0 +1,21 @@
+{
+  "_doc": "Gold - ventas mensuales por producto con ranking",
+  "catalog": "{catalog.gold}",
+  "schema": "manufactura_kpi",
+  "name": "ventas_producto",
+  "type": "EXTERNAL",
+  "format": "DELTA",
+  "comment": "Monto neto y unidades vendidas por producto/mes con ranking de ingresos",
+  "owner": "data-engineers",
+  "location": "{path.gold}/manufactura_kpi/ventas_producto",
+  "columns": [
+    {"name": "anio_mes",       "type": "STRING",  "nullable": false},
+    {"name": "producto_id",    "type": "STRING",  "nullable": false},
+    {"name": "unidades_netas", "type": "INTEGER", "comment": "Vendidas - devueltas"},
+    {"name": "monto_neto",     "type": "DOUBLE",  "nullable": false},
+    {"name": "ranking_mes",    "type": "INTEGER", "comment": "Posición por monto_neto en el mes"},
+    {"name": "fecha_proceso",  "type": "TIMESTAMP", "default": "current_timestamp()"}
+  ],
+  "partitions": ["anio_mes"],
+  "properties": {"quality": "gold", "layer": "gold"}
+}

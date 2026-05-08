@@ -5,17 +5,13 @@ Elimina filas de una tabla Delta según una condición SQL.
 
 Uso
 ---
-    DeleteWriter(launcher.spark, contract, launcher.env).delete(
-        "vuelo_id = 'AV-010'", preview=True
-    )
+    DeleteWriter(contract).delete("vuelo_id = 'AV-010'", preview=True)
 """
 
 from __future__ import annotations
 
-from pyspark.sql import SparkSession
-
+from DKOps.launcher import Launcher
 from DKOps.logger_config import LoggableMixin, log_operation
-from DKOps.environment_config import EnvironmentConfig
 from DKOps.table_governance.contracts.loader import TableContract
 
 
@@ -30,22 +26,27 @@ class DeleteWriter(LoggableMixin):
     -----------
     - GDPR / derecho al olvido.
     - Corrección de datos erróneos por ID o rango de fechas.
+
+    Notas
+    -----
+    Spark y EnvironmentConfig se resuelven automáticamente desde el
+    Launcher activo (Launcher.current()).
     """
 
     def __init__(
         self,
-        spark:    SparkSession,
         contract: TableContract,
-        env:      EnvironmentConfig,
         dry_run:  bool = False,
     ) -> None:
-        self._spark      = spark
+        launcher = Launcher.current()
+
+        self._spark      = launcher.spark
+        self._env        = launcher.env
         self._contract   = contract
-        self._env        = env
         self._dry_run    = dry_run
         self._table_name = (
             contract.full_name
-            if env._is_databricks
+            if self._env._is_databricks
             else f"{contract.schema}.{contract.name}"
         )
 

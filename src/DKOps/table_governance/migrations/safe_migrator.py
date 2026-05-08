@@ -6,7 +6,7 @@ actual contra el estado real en Unity Catalog / Hive local.
 
 Uso
 ---
-    migrator = SafeMigrator(launcher.spark, contract, launcher.env)
+    migrator = SafeMigrator(contract)
     plan = migrator.plan()
     plan.print()
     migrator.apply()
@@ -16,10 +16,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
-from pyspark.sql import SparkSession
-
+from DKOps.launcher import Launcher
 from DKOps.logger_config import LoggableMixin, log_operation
-from DKOps.environment_config import EnvironmentConfig
 from DKOps.table_governance.contracts.loader import TableContract
 
 
@@ -58,26 +56,29 @@ class SafeMigrator(LoggableMixin):
 
     Parámetros
     ----------
-    spark   : SparkSession activa (launcher.spark).
-    contract: TableContract con el estado deseado.
-    env     : EnvironmentConfig activo (launcher.env).
-    dry_run : si True, genera el plan pero no ejecuta nada.
+    contract : TableContract con el estado deseado.
+    dry_run  : si True, genera el plan pero no ejecuta nada.
+
+    Notas
+    -----
+    Spark y EnvironmentConfig se resuelven automáticamente desde el
+    Launcher activo (Launcher.current()).
     """
 
     def __init__(
         self,
-        spark:    SparkSession,
         contract: TableContract,
-        env:      EnvironmentConfig,
         dry_run:  bool = False,
     ) -> None:
-        self._spark      = spark
+        launcher = Launcher.current()
+
+        self._spark      = launcher.spark
+        self._env        = launcher.env
         self._contract   = contract
-        self._env        = env
         self._dry_run    = dry_run
         self._table_name = (
             contract.full_name
-            if env._is_databricks
+            if self._env._is_databricks
             else f"{contract.schema}.{contract.name}"
         )
 

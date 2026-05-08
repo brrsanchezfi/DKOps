@@ -1,0 +1,24 @@
+{
+  "_doc": "Bronze - órdenes de producción tal como llegan del MES (sucias)",
+  "catalog": "{catalog.bronze}",
+  "schema": "manufactura",
+  "name": "ordenes_produccion_raw",
+  "type": "EXTERNAL",
+  "format": "DELTA",
+  "comment": "Órdenes de producción crudas — pueden tener nulos, duplicados, fechas como string",
+  "owner": "data-engineers",
+  "location": "{path.bronze}/manufactura/ordenes_produccion_raw",
+  "columns": [
+    {"name": "orden_id",        "type": "STRING",    "comment": "ID de orden (puede tener espacios o casing inconsistente)"},
+    {"name": "linea_id",        "type": "STRING",    "comment": "Línea de producción (L1, L2, L3, L4)"},
+    {"name": "producto_id",     "type": "STRING",    "comment": "SKU del producto"},
+    {"name": "fecha_inicio",    "type": "STRING",    "comment": "Fecha+hora de inicio como string (ISO o vacío)"},
+    {"name": "fecha_fin",       "type": "STRING",    "comment": "Fecha+hora de fin como string"},
+    {"name": "cantidad_planeada","type": "INTEGER",  "comment": "Unidades planeadas a producir"},
+    {"name": "cantidad_real",   "type": "INTEGER",   "comment": "Unidades realmente producidas"},
+    {"name": "estado",          "type": "STRING",    "comment": "Estado bruto: COMPLETED, completed, OK, finalizada, ..."},
+    {"name": "operador",        "type": "STRING",    "comment": "Operador a cargo (puede venir null)"},
+    {"name": "cargado_en",      "type": "TIMESTAMP", "comment": "Timestamp de ingesta", "default": "current_timestamp()"}
+  ],
+  "properties": {"quality": "raw", "layer": "bronze"}
+}

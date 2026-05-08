@@ -1,0 +1,23 @@
+{
+  "_doc": "Gold - KPI calidad mensual por producto",
+  "catalog": "{catalog.gold}",
+  "schema": "manufactura_kpi",
+  "name": "calidad_lotes",
+  "type": "EXTERNAL",
+  "format": "DELTA",
+  "comment": "Tasa de aprobación QC y merma promedio por producto/mes",
+  "owner": "data-engineers",
+  "location": "{path.gold}/manufactura_kpi/calidad_lotes",
+  "columns": [
+    {"name": "anio_mes",         "type": "STRING",  "nullable": false, "comment": "Formato YYYY-MM"},
+    {"name": "producto_id",      "type": "STRING",  "nullable": false},
+    {"name": "lotes_totales",    "type": "INTEGER", "nullable": false},
+    {"name": "lotes_aprobados",  "type": "INTEGER", "nullable": false},
+    {"name": "lotes_rechazados", "type": "INTEGER", "nullable": false},
+    {"name": "tasa_aprobacion",  "type": "DOUBLE",  "comment": "aprobados/totales * 100"},
+    {"name": "merma_pct_prom",   "type": "DOUBLE",  "comment": "Merma promedio del producto en el mes"},
+    {"name": "fecha_proceso",    "type": "TIMESTAMP", "default": "current_timestamp()"}
+  ],
+  "partitions": ["anio_mes"],
+  "properties": {"quality": "gold", "layer": "gold"}
+}

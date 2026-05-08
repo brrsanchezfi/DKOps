@@ -1,0 +1,61 @@
+{
+  "_doc": "Dimensión de aerolíneas",
+  "catalog": "{catalog.bronze}",
+  "schema": "aeronautica",
+  "name": "dim_aerolineas",
+  "type": "EXTERNAL",
+  "format": "DELTA",
+  "comment": "Catálogo de aerolíneas con código IATA y alianza",
+  "owner": "data-engineers",
+  "location": "{path.bronze}/aeronautica/dim_aerolineas",
+  "columns": [
+    {
+      "name": "iata_code",
+      "type": "STRING",
+      "nullable": false,
+      "comment": "Código IATA de la aerolínea (2 letras)"
+    },
+    {
+      "name": "nombre",
+      "type": "STRING",
+      "comment": "Nombre completo de la aerolínea"
+    },
+    {
+      "name": "pais_origen",
+      "type": "STRING",
+      "comment": "País de origen de la aerolínea"
+    },
+    {
+      "name": "alianza",
+      "type": "STRING",
+      "comment": "Alianza aérea: Star Alliance, Oneworld, SkyTeam, Ninguna"
+    },
+    {
+      "name": "tipo",
+      "type": "STRING",
+      "comment": "Tipo: low_cost, traditional, charter"
+    },
+    {
+      "name": "activa",
+      "type": "BOOLEAN",
+      "comment": "Si la aerolínea está operativa"
+    },
+    {
+      "name": "actualizado_en",
+      "type": "TIMESTAMP",
+      "comment": "Última actualización",
+      "default": "current_timestamp()"
+    }
+  ],
+  "properties": {
+    "quality": "dimension",
+    "owner_team": "data-engineering"
+  },
+  "permissions": [
+    {
+      "action": "SELECT",
+      "principal": "analysts-group",
+      "operation": "GRANT"
+    }
+  ]
+}

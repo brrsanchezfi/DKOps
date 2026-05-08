@@ -1,0 +1,50 @@
+{
+  "EXECUTION_ENVIRONMENT": "local",
+
+  "SPARK_APP_NAME":      "manufacturaAseo",
+  "SPARK_WAREHOUSE_DIR": "/tmp/spark-warehouse",
+
+  "CLUSTER_ID": "0405-181044-j4dmpswy",
+
+  "DELTA_VERSION": "3.2.0",
+
+  "DATABRICKS_HOST": "",
+  "DATABRICKS_TOKEN": "",
+  "DATABRICKS_PROFILE": "DEFAULT",
+  "DATABRICKS_TARGET": "dev",
+
+  "LOG_LEVEL":     "INFO",
+  "LOG_DIR":      "/tmp/logs",
+  "LOG_FILENAME": "manufacturaAseo.log",
+  "LOG_ROTATION": "10 MB",
+  "LOG_RETENTION":"7 days",
+  "LOG_SERIALIZE": false,
+
+  "environments": {
+    "2370424844216896": {
+      "env":            "dev",
+      "env_short":      "d",
+      "workspace_host": "https://adb-7405608374292777.17.azuredatabricks.net",
+      "catalogs": {
+        "bronze": "bronze",
+        "silver": "silver",
+        "gold":   "gold"
+      },
+      "storage_accounts": {
+        "default": "umcmasterbrsspark001",
+        "raw":     "umcmasterbrsspark001"
+      },
+      "paths": {
+        "bronze": "abfss://bronze@umcmasterbrsspark001.dfs.core.windows.net",
+        "silver": "abfss://silver@umcmasterbrsspark001.dfs.core.windows.net",
+        "gold":   "abfss://gold@umcmasterbrsspark001.dfs.core.windows.net"
+      },
+      "secrets": { "scope": "kv-dev" },
+      "tags": {
+        "environment": "dev",
+        "cost_center": "CC-1001",
+        "team":        "data-engineering"
+      }
+    }
+  }
+}

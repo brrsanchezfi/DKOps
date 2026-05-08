@@ -12,5 +12,7 @@ build/
 .vscode
 metastore_db
 
+__pycache__/
+
 
 *.log

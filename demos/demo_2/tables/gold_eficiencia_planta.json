@@ -1,0 +1,24 @@
+{
+  "_doc": "Gold - KPI eficiencia diaria por línea (proxy de OEE)",
+  "catalog": "{catalog.gold}",
+  "schema": "manufactura_kpi",
+  "name": "eficiencia_planta",
+  "type": "EXTERNAL",
+  "format": "DELTA",
+  "comment": "Cumplimiento de producción y disponibilidad por línea/día",
+  "owner": "data-engineers",
+  "location": "{path.gold}/manufactura_kpi/eficiencia_planta",
+  "columns": [
+    {"name": "fecha",                "type": "DATE",      "nullable": false},
+    {"name": "linea_id",             "type": "STRING",    "nullable": false},
+    {"name": "ordenes_completadas",  "type": "INTEGER",   "nullable": false},
+    {"name": "ordenes_canceladas",   "type": "INTEGER",   "nullable": false},
+    {"name": "unidades_planeadas",   "type": "INTEGER",   "nullable": false},
+    {"name": "unidades_producidas",  "type": "INTEGER",   "nullable": false},
+    {"name": "cumplimiento_pct",     "type": "DOUBLE",    "comment": "producidas/planeadas * 100"},
+    {"name": "tiempo_productivo_min","type": "INTEGER",   "comment": "Suma duración órdenes completadas"},
+    {"name": "fecha_proceso",        "type": "TIMESTAMP", "default": "current_timestamp()"}
+  ],
+  "partitions": ["fecha"],
+  "properties": {"quality": "gold", "layer": "gold"}
+}

@@ -21,7 +21,7 @@ class AppendWriter(BaseWriter):
 
     Uso
     ---
-        AppendWriter(launcher.spark, contract, launcher.env).write(df)
+        AppendWriter(contract).write(df)
     """
 
     @log_operation("append")

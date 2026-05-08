@@ -1,0 +1,27 @@
+{
+  "_doc": "Silver - órdenes de producción limpias, deduplicadas, fechas tipadas",
+  "catalog": "{catalog.silver}",
+  "schema": "manufactura",
+  "name": "ordenes_produccion",
+  "type": "EXTERNAL",
+  "format": "DELTA",
+  "comment": "Órdenes válidas — sin duplicados por orden_id, fechas como TIMESTAMP, estado normalizado",
+  "owner": "data-engineers",
+  "location": "{path.silver}/manufactura/ordenes_produccion",
+  "columns": [
+    {"name": "orden_id",          "type": "STRING",    "nullable": false, "comment": "ID limpio (uppercase, sin espacios)"},
+    {"name": "linea_id",          "type": "STRING",    "nullable": false, "comment": "Línea L1-L4"},
+    {"name": "producto_id",       "type": "STRING",    "nullable": false, "comment": "SKU"},
+    {"name": "fecha_inicio",      "type": "TIMESTAMP", "nullable": false, "comment": "Inicio parseado"},
+    {"name": "fecha_fin",         "type": "TIMESTAMP",                     "comment": "Fin parseado (null si en curso)"},
+    {"name": "duracion_min",      "type": "INTEGER",                       "comment": "Minutos transcurridos (calculado)"},
+    {"name": "cantidad_planeada", "type": "INTEGER",   "nullable": false, "comment": "Unidades planeadas"},
+    {"name": "cantidad_real",     "type": "INTEGER",   "nullable": false, "comment": "Unidades producidas"},
+    {"name": "cumplimiento_pct",  "type": "DOUBLE",                        "comment": "cantidad_real / cantidad_planeada * 100"},
+    {"name": "estado",            "type": "STRING",    "nullable": false, "comment": "Estado normalizado: COMPLETED|IN_PROGRESS|CANCELLED"},
+    {"name": "operador",          "type": "STRING",                        "comment": "Operador (puede ser null)"},
+    {"name": "fecha_proceso",     "type": "TIMESTAMP", "default": "current_timestamp()", "comment": "Cuándo procesó el ETL"}
+  ],
+  "partitions": ["estado"],
+  "properties": {"quality": "silver", "layer": "silver"}
+}

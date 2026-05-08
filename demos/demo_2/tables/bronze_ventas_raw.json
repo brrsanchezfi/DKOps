@@ -1,0 +1,22 @@
+{
+  "_doc": "Bronze - ventas a distribuidores tal como vienen del ERP",
+  "catalog": "{catalog.bronze}",
+  "schema": "manufactura",
+  "name": "ventas_raw",
+  "type": "EXTERNAL",
+  "format": "DELTA",
+  "comment": "Ventas crudas — incluye canceladas, devoluciones y posibles montos negativos",
+  "owner": "data-engineers",
+  "location": "{path.bronze}/manufactura/ventas_raw",
+  "columns": [
+    {"name": "venta_id",        "type": "STRING",    "comment": "ID transacción"},
+    {"name": "fecha",           "type": "STRING",    "comment": "Fecha venta como string"},
+    {"name": "distribuidor_id", "type": "STRING",    "comment": "Cliente B2B"},
+    {"name": "producto_id",     "type": "STRING",    "comment": "SKU vendido"},
+    {"name": "cantidad",        "type": "INTEGER",   "comment": "Unidades vendidas (puede ser negativa = devolución)"},
+    {"name": "precio_unitario", "type": "DOUBLE",    "comment": "Precio por unidad en COP"},
+    {"name": "estado_venta",    "type": "STRING",    "comment": "CONFIRMED, CANCELLED, RETURNED, PENDING"},
+    {"name": "cargado_en",      "type": "TIMESTAMP", "default": "current_timestamp()"}
+  ],
+  "properties": {"quality": "raw", "layer": "bronze"}
+}

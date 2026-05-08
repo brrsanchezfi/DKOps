@@ -24,6 +24,13 @@ Runtimes soportados
     └─ Databricks Connect  → SparkSession remota vía databricks-connect
                               is_databricks = True
 
+Singleton implícito
+-------------------
+La instancia más reciente de Launcher se registra como `Launcher._current`.
+Otros componentes (writers, loaders, etc.) la obtienen vía `Launcher.current()`
+sin necesidad de pasar `spark` y `env` explícitamente. Asume un único
+Launcher activo por proceso.
+
 Campos relevantes de config.json
 ---------------------------------
     "EXECUTION_ENVIRONMENT": "local" | "databricks"
@@ -41,6 +48,8 @@ Campos relevantes de config.json
     "DATABRICKS_TOKEN"    : "<pat>"          // Método 1 — PAT
     "DATABRICKS_PROFILE"  : "DEFAULT"        // Método 2 — OAuth/CLI (opcional)
 """
+
+from __future__ import annotations
 
 import json
 import os
@@ -73,7 +82,13 @@ class Launcher(LoggableMixin):
         launcher = Launcher("config/config.json")
         spark    = launcher.spark   # SparkSession lista
         env      = launcher.env     # EnvironmentConfig
+
+        # Otros componentes acceden via singleton:
+        Launcher.current().spark
     """
+
+    # Instancia activa del proceso — la consume Launcher.current()
+    _current: "Launcher | None" = None
 
     def __init__(self, config_file: str | None = None) -> None:
         config_path = self._resolve_config_path(config_file)
@@ -119,6 +134,31 @@ class Launcher(LoggableMixin):
         else:
             self.env = None
             self.log.debug("Sección 'environments' no encontrada — env=None")
+
+        # Registrar como Launcher activo del proceso.
+        # Se hace al FINAL para que solo quede registrado si todo se inicializó OK.
+        Launcher._current = self
+        self.log.debug("Launcher registrado como activo (Launcher.current())")
+
+    # ── Singleton accessor ────────────────────────────────────────────────
+
+    @classmethod
+    def current(cls) -> "Launcher":
+        """
+        Devuelve el Launcher activo del proceso.
+
+        Lanza RuntimeError si nadie ha instanciado un Launcher todavía —
+        eso significa que algún componente (writer, loader, etc.) se está
+        usando antes de inicializar la app, lo cual es siempre un error
+        de orden de imports/instanciación.
+        """
+        if cls._current is None:
+            raise RuntimeError(
+                "No hay Launcher activo. Instancia Launcher(...) "
+                "antes de usar writers, contracts u otros componentes "
+                "que dependan de spark/env."
+            )
+        return cls._current
 
     # ── Detección de runtime ──────────────────────────────────────────────
 

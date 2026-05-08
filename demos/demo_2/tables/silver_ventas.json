@@ -1,0 +1,24 @@
+{
+  "_doc": "Silver - ventas netas (excluye canceladas, devoluciones aplicadas)",
+  "catalog": "{catalog.silver}",
+  "schema": "manufactura",
+  "name": "ventas",
+  "type": "EXTERNAL",
+  "format": "DELTA",
+  "comment": "Ventas confirmadas con monto total calculado y devoluciones consolidadas",
+  "owner": "data-engineers",
+  "location": "{path.silver}/manufactura/ventas",
+  "columns": [
+    {"name": "venta_id",        "type": "STRING",    "nullable": false},
+    {"name": "fecha",           "type": "DATE",      "nullable": false},
+    {"name": "distribuidor_id", "type": "STRING",    "nullable": false},
+    {"name": "producto_id",     "type": "STRING",    "nullable": false},
+    {"name": "cantidad",        "type": "INTEGER",   "nullable": false, "comment": "Negativa = devolución"},
+    {"name": "precio_unitario", "type": "DOUBLE",    "nullable": false},
+    {"name": "monto_total",     "type": "DOUBLE",    "nullable": false, "comment": "cantidad * precio_unitario"},
+    {"name": "es_devolucion",   "type": "BOOLEAN",   "nullable": false},
+    {"name": "fecha_proceso",   "type": "TIMESTAMP", "default": "current_timestamp()"}
+  ],
+  "partitions": ["fecha"],
+  "properties": {"quality": "silver", "layer": "silver"}
+}

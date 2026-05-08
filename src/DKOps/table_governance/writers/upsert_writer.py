@@ -8,9 +8,7 @@ En local PC la tabla debe existir previamente — usa CreateWriter primero.
 
 Uso
 ---
-    UpsertWriter(launcher.spark, contract, launcher.env).write(
-        df, merge_keys=["vuelo_id"]
-    )
+    UpsertWriter(contract).write(df, merge_keys=["vuelo_id"])
 """
 
 from __future__ import annotations
@@ -27,7 +25,7 @@ class UpsertWriter(BaseWriter):
 
     Uso
     ---
-        UpsertWriter(launcher.spark, contract, launcher.env).write(
+        UpsertWriter(contract).write(
             df,
             merge_keys=["vuelo_id"],
             update_columns=["retraso_min"],   # opcional — default: todas las no-key

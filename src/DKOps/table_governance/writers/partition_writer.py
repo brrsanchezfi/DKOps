@@ -21,9 +21,7 @@ class PartitionWriter(BaseWriter):
 
     Uso
     ---
-        PartitionWriter(launcher.spark, contract, launcher.env).write(
-            df, partition={"fecha": "2024-01-15"}
-        )
+        PartitionWriter(contract).write(df, partition={"fecha": "2024-01-15"})
     """
 
     @log_operation("overwrite_partition")

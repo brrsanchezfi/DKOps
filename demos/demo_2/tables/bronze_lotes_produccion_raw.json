@@ -1,0 +1,24 @@
+{
+  "_doc": "Bronze - lotes de producción con resultado de control de calidad",
+  "catalog": "{catalog.bronze}",
+  "schema": "manufactura",
+  "name": "lotes_produccion_raw",
+  "type": "EXTERNAL",
+  "format": "DELTA",
+  "comment": "Lotes producidos con merma y resultado de QC — datos crudos del laboratorio",
+  "owner": "data-engineers",
+  "location": "{path.bronze}/manufactura/lotes_produccion_raw",
+  "columns": [
+    {"name": "lote_id",         "type": "STRING",    "comment": "ID único del lote"},
+    {"name": "orden_id",        "type": "STRING",    "comment": "FK a orden de producción"},
+    {"name": "producto_id",     "type": "STRING",    "comment": "SKU producto"},
+    {"name": "fecha_produccion","type": "STRING",    "comment": "Fecha producción como string"},
+    {"name": "cantidad_producida","type": "INTEGER", "comment": "Unidades producidas"},
+    {"name": "cantidad_defectuosa","type": "INTEGER","comment": "Unidades rechazadas en QC"},
+    {"name": "resultado_qc",    "type": "STRING",    "comment": "APPROVED, REJECTED, RETEST, vacío"},
+    {"name": "ph_medido",       "type": "DOUBLE",    "comment": "pH del producto (debe estar 5.5-7.5 para jabones)"},
+    {"name": "viscosidad_cp",   "type": "DOUBLE",    "comment": "Viscosidad en centipoise"},
+    {"name": "cargado_en",      "type": "TIMESTAMP", "default": "current_timestamp()"}
+  ],
+  "properties": {"quality": "raw", "layer": "bronze"}
+}

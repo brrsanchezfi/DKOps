@@ -24,7 +24,7 @@ class CreateWriter(BaseWriter):
 
     Uso
     ---
-        CreateWriter(launcher.spark, contract, launcher.env).write(df)
+        CreateWriter(contract).write(df)
     """
 
     @log_operation("create_or_replace")

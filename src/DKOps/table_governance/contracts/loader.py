@@ -54,8 +54,8 @@ Uso
 ---
     from DKOps.table_governance.contracts.loader import load_contract
 
-    launcher  = Launcher("config.json")
-    contract  = load_contract("tables/aeronautica/vuelos_raw.json", launcher.env)
+    launcher = Launcher("config.json")
+    contract = load_contract("tables/aeronautica/vuelos_raw.json")
 
     print(contract.full_name)         # ct_bronze_dlsuraanaliticadev.aeronautica.vuelos_raw
     print(contract.location)          # abfss://raw@dlsuraanaliticadev.../aeronautica/vuelos_raw
@@ -106,6 +106,25 @@ VALID_ACTIONS    = {
     "SELECT", "MODIFY", "CREATE", "READ_METADATA",
     "ALL PRIVILEGES", "USAGE", "EXECUTE",
 }
+
+
+# ── Helper interno ───────────────────────────────────────────────────────────
+
+def _resolve_env(env: EnvironmentConfig | None) -> EnvironmentConfig:
+    """
+    Devuelve el EnvironmentConfig a usar.
+
+    Si el caller pasa uno explícito, se respeta. Si no, se obtiene del
+    Launcher activo (Launcher.current()) — el caso 99% común.
+
+    Import local del Launcher para evitar el ciclo
+    loader → launcher → (eventual import de) loader.
+    """
+    if env is not None:
+        return env
+
+    from DKOps.launcher import Launcher
+    return Launcher.current().env
 
 
 # ── Dataclasses del contrato ─────────────────────────────────────────────────
@@ -170,6 +189,7 @@ class TableContract:
     Propiedades útiles
     ------------------
     full_name         → "<catalog>.<schema>.<name>"
+    effective_name    → nombre calificado según runtime (Databricks vs local)
     column_names      → lista de todos los nombres de columna
     required_columns  → columnas sin default (deben estar en el DataFrame)
     nullable_map      → {col_name: bool}
@@ -231,6 +251,25 @@ class TableContract:
     def partition_columns(self) -> list[str]:
         return list(self.partitions)
 
+    @property
+    def effective_name(self) -> str:
+        """
+        Nombre de la tabla calificado según el runtime activo.
+
+          Databricks → catalog.schema.name  (Unity Catalog gestiona el path)
+          Local PC   → schema.name          (catálogo nativo de Spark)
+
+        Resuelve el runtime via Launcher.current() — asume que hay un
+        Launcher activo. Es el nombre que debe usarse en cualquier SQL
+        directo que referencie la tabla (SELECT, JOIN, etc.).
+        """
+        env = _resolve_env(None)
+        return (
+            self.full_name
+            if env._is_databricks
+            else f"{self.schema}.{self.name}"
+        )
+
     def get_column(self, name: str) -> ColumnContract | None:
         """Devuelve la ColumnContract por nombre, o None si no existe."""
         for col in self.columns:
@@ -257,20 +296,22 @@ class ContractLoader(LoggableMixin):
 
     Parámetros
     ----------
-    env : EnvironmentConfig activo (viene de ``launcher.env``).
+    env : EnvironmentConfig opcional. Si no se pasa, se obtiene del
+          Launcher activo (Launcher.current().env). Solo es útil pasarlo
+          explícitamente en tests o flujos avanzados con múltiples envs.
 
     Uso
     ---
-        loader   = ContractLoader(launcher.env)
+        loader   = ContractLoader()                      # usa Launcher.current()
         contract = loader.load("tables/aeronautica/vuelos_raw.json")
     """
 
-    def __init__(self, env: EnvironmentConfig) -> None:
-        self._env = env
+    def __init__(self, env: EnvironmentConfig | None = None) -> None:
+        self._env = _resolve_env(env)
         self.log.debug(
             f"ContractLoader listo | "
-            f"env='{env.env}' | "
-            f"catálogos={list(env._vars.get('catalogs', {}).keys())}"
+            f"env='{self._env.env}' | "
+            f"catálogos={list(self._env._vars.get('catalogs', {}).keys())}"
         )
 
     def load(self, path: str | Path) -> TableContract:
@@ -563,31 +604,34 @@ class ContractLoader(LoggableMixin):
         return tuple(perms)
 
 
-# ── Función de conveniencia ───────────────────────────────────────────────────
+# ── Funciones de conveniencia ────────────────────────────────────────────────
 
-def load_contract(path: str | Path, env: EnvironmentConfig) -> TableContract:
+def load_contract(
+    path: str | Path,
+    env:  EnvironmentConfig | None = None,
+) -> TableContract:
     """
     Shortcut para cargar un único contrato sin instanciar ContractLoader.
 
+    Si ``env`` no se pasa, se obtiene del Launcher activo. Pasarlo
+    explícitamente solo es útil en tests o flujos avanzados.
+
     Uso
     ---
-        contract = load_contract("tables/aeronautica/vuelos_raw.json", launcher.env)
+        contract = load_contract("tables/aeronautica/vuelos_raw.json")
     """
     return ContractLoader(env).load(path)
 
 
 def load_schema_contracts(
     schema_dir: str | Path,
-    env: EnvironmentConfig,
+    env:        EnvironmentConfig | None = None,
 ) -> list[TableContract]:
     """
     Shortcut para cargar todos los contratos de un directorio de schema.
 
     Uso
     ---
-        contracts = load_schema_contracts("tables/aeronautica/", launcher.env)
+        contracts = load_schema_contracts("tables/aeronautica/")
     """
     return ContractLoader(env).load_schema(schema_dir)
-
-
-

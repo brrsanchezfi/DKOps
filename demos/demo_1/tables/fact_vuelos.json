@@ -1,0 +1,133 @@
+{
+  "_doc": "Tabla de hechos de vuelos — particionada por fecha, upsert por vuelo_id+fecha",
+  "catalog": "{catalog.bronze}",
+  "schema": "aeronautica",
+  "name": "fact_vuelos",
+  "type": "EXTERNAL",
+  "format": "DELTA",
+  "comment": "Hechos de vuelos: métricas operacionales por vuelo y fecha",
+  "owner": "data-engineers",
+  "location": "{path.bronze}/aeronautica/fact_vuelos",
+  "columns": [
+    {
+      "name": "vuelo_id",
+      "type": "STRING",
+      "nullable": false,
+      "comment": "Identificador único del vuelo (ej: AV-2024-001)"
+    },
+    {
+      "name": "fecha",
+      "type": "DATE",
+      "nullable": false,
+      "comment": "Fecha de operación del vuelo — clave de partición"
+    },
+    {
+      "name": "iata_origen",
+      "type": "STRING",
+      "nullable": false,
+      "comment": "Código IATA aeropuerto origen"
+    },
+    {
+      "name": "iata_destino",
+      "type": "STRING",
+      "nullable": false,
+      "comment": "Código IATA aeropuerto destino"
+    },
+    {
+      "name": "iata_aerolinea",
+      "type": "STRING",
+      "nullable": false,
+      "comment": "Código IATA de la aerolínea operadora"
+    },
+    {
+      "name": "hora_salida_programada",
+      "type": "STRING",
+      "comment": "Hora programada de salida (HH:MM)"
+    },
+    {
+      "name": "hora_salida_real",
+      "type": "STRING",
+      "comment": "Hora real de salida (HH:MM)"
+    },
+    {
+      "name": "hora_llegada_programada",
+      "type": "STRING",
+      "comment": "Hora programada de llegada (HH:MM)"
+    },
+    {
+      "name": "hora_llegada_real",
+      "type": "STRING",
+      "comment": "Hora real de llegada (HH:MM)"
+    },
+    {
+      "name": "retraso_salida_min",
+      "type": "INTEGER",
+      "comment": "Minutos de retraso en salida (negativo = adelantado)"
+    },
+    {
+      "name": "retraso_llegada_min",
+      "type": "INTEGER",
+      "comment": "Minutos de retraso en llegada"
+    },
+    {
+      "name": "duracion_min",
+      "type": "INTEGER",
+      "comment": "Duración real del vuelo en minutos"
+    },
+    {
+      "name": "distancia_km",
+      "type": "DOUBLE",
+      "comment": "Distancia entre origen y destino en km"
+    },
+    {
+      "name": "pasajeros",
+      "type": "INTEGER",
+      "comment": "Número de pasajeros a bordo"
+    },
+    {
+      "name": "capacidad",
+      "type": "INTEGER",
+      "comment": "Capacidad total de la aeronave"
+    },
+    {
+      "name": "estado",
+      "type": "STRING",
+      "comment": "Estado del vuelo: ON_TIME, DELAYED, CANCELLED, DIVERTED"
+    },
+    {
+      "name": "causa_retraso",
+      "type": "STRING",
+      "comment": "Causa del retraso si aplica: WEATHER, AIRLINE, AIRPORT, SECURITY, null"
+    },
+    {
+      "name": "cargado_en",
+      "type": "TIMESTAMP",
+      "comment": "Timestamp de ingesta",
+      "default": "current_timestamp()"
+    }
+  ],
+  "partitions": ["fecha"],
+  "properties": {
+    "delta.autoOptimize.optimizeWrite": "true",
+    "delta.autoOptimize.autoCompact": "true",
+    "quality": "fact",
+    "owner_team": "data-engineering"
+  },
+  "permissions": [
+    {
+      "action": "SELECT",
+      "principal": "analysts-group",
+      "operation": "GRANT"
+    },
+    {
+      "action": "MODIFY",
+      "principal": "etl-service-account",
+      "operation": "GRANT"
+    },
+    {
+      "action": "ALL PRIVILEGES",
+      "principal": "data-engineers",
+      "operation": "GRANT"
+    }
+  ]
+}

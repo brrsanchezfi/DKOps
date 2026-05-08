@@ -1,0 +1,28 @@
+{
+  "_doc": "Silver - lotes producción con merma calculada y QC normalizado",
+  "catalog": "{catalog.silver}",
+  "schema": "manufactura",
+  "name": "lotes_produccion",
+  "type": "EXTERNAL",
+  "format": "DELTA",
+  "comment": "Lotes válidos con porcentaje de merma y resultado QC categorizado",
+  "owner": "data-engineers",
+  "location": "{path.silver}/manufactura/lotes_produccion",
+  "columns": [
+    {"name": "lote_id",            "type": "STRING",    "nullable": false},
+    {"name": "orden_id",           "type": "STRING",    "nullable": false},
+    {"name": "producto_id",        "type": "STRING",    "nullable": false},
+    {"name": "fecha_produccion",   "type": "DATE",      "nullable": false},
+    {"name": "cantidad_producida", "type": "INTEGER",   "nullable": false},
+    {"name": "cantidad_defectuosa","type": "INTEGER",   "nullable": false},
+    {"name": "cantidad_neta",      "type": "INTEGER",   "comment": "producida - defectuosa"},
+    {"name": "merma_pct",          "type": "DOUBLE",    "comment": "defectuosa / producida * 100"},
+    {"name": "resultado_qc",       "type": "STRING",    "nullable": false, "comment": "APPROVED|REJECTED|RETEST"},
+    {"name": "ph_medido",          "type": "DOUBLE"},
+    {"name": "viscosidad_cp",      "type": "DOUBLE"},
+    {"name": "ph_dentro_rango",    "type": "BOOLEAN",   "comment": "True si pH ∈ [5.5, 7.5]"},
+    {"name": "fecha_proceso",      "type": "TIMESTAMP", "default": "current_timestamp()"}
+  ],
+  "partitions": ["fecha_produccion"],
+  "properties": {"quality": "silver", "layer": "silver"}
+}
