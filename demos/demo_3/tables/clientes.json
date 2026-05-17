@@ -1,0 +1,65 @@
+{
+  "_doc": "Dimensión de clientes — con enmascaramiento en datos sensibles",
+  "catalog": "{catalog.bronze}",
+  "schema":  "ecommerce",
+  "name":    "clientes",
+  "type":    "MANAGED",
+  "format":  "DELTA",
+  "comment": "Dimensión de clientes del e-commerce",
+  "merge_schema": false,
+  "columns": [
+    {
+      "name": "cliente_id",
+      "type": "STRING",
+      "nullable": false,
+      "comment": "Identificador único del cliente"
+    },
+    {
+      "name": "nombre",
+      "type": "STRING",
+      "nullable": false,
+      "comment": "Nombre completo del cliente"
+    },
+    {
+      "name": "email",
+      "type": "STRING",
+      "nullable": false,
+      "comment": "Email — dato sensible",
+      "mask": "security.mask_email"
+    },
+    {
+      "name": "telefono",
+      "type": "STRING",
+      "nullable": true,
+      "comment": "Teléfono — dato sensible",
+      "mask": "security.mask_phone"
+    },
+    {
+      "name": "pais",
+      "type": "STRING",
+      "nullable": false,
+      "comment": "País de residencia"
+    },
+    {
+      "name": "segmento",
+      "type": "STRING",
+      "nullable": true,
+      "comment": "Segmento de cliente: VIP, REGULAR, NEW"
+    },
+    {
+      "name": "fecha_registro",
+      "type": "DATE",
+      "nullable": false,
+      "comment": "Fecha de registro en la plataforma"
+    },
+    {
+      "name": "cargado_en",
+      "type": "TIMESTAMP",
+      "comment": "Timestamp de ingesta",
+      "default": "current_timestamp()"
+    }
+  ],
+  "properties": {
+    "delta.autoOptimize.optimizeWrite": "true"
+  }
+}

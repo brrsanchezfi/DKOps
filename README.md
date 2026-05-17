@@ -21,20 +21,23 @@
 DKOps es un framework Python que **profesionaliza la construcción de pipelines de datos** sobre Spark + Delta Lake. Resuelve los problemas que aparecen cuando un equipo crece más allá de "scripts sueltos":
 
 - **Contratos de tabla** — el schema, los permisos, el particionado y los metadatos viven en JSON versionado, no enterrados en código.
-- **Writers gobernados** — `CreateWriter`, `AppendWriter`, `UpsertWriter`, `PartitionWriter`, `DeleteWriter`. Cada uno valida contra el contrato antes de escribir.
+- **`TableWriter`** — API unificada: `overwrite`, `append`, `upsert`, `overwrite_partition`, `delete`. Un solo objeto, sin ruido.
+- **merge_schema** — declara `"merge_schema": true` en el contrato y Delta añade columnas nuevas automáticamente al hacer append, sin recrear la tabla.
+- **Enmascaramiento de columnas** — declara `"mask": "security.fn"` en una columna y el framework aplica `ALTER TABLE … SET MASK` post-escritura en Unity Catalog.
 - **Migraciones seguras** — `SafeMigrator` compara contrato vs estado real y genera un plan de cambios sin pérdida de datos.
 - **Runtime-agnóstico** — el mismo pipeline corre en local PC (Spark + Delta) y en Databricks (Connect o cluster nativo). El framework detecta el entorno y se adapta.
 - **Configuración por entorno** — placeholders `{catalog.bronze}`, `{path.silver}` se resuelven contra `dev`/`prod` desde un único `config.json`.
 
 ```python
 from DKOps.launcher import Launcher
-from DKOps.table_governance import load_contract, CreateWriter, UpsertWriter
+from DKOps.table_governance import load_contract, TableWriter
 
 launcher = Launcher("config/config.json")
 contract = load_contract("tables/fact_ventas.json")
 
-CreateWriter(contract).write(df)                    # full load
-UpsertWriter(contract).write(df_nuevo, merge_keys=["venta_id"])
+TableWriter(contract).overwrite(df)                         # full load
+TableWriter(contract).upsert(df_nuevo, keys=["venta_id"])   # SCD1
+TableWriter(contract).append(df_evolucionado)               # schema evolution automática
 ```
 
 ---
@@ -65,19 +68,21 @@ DKOps/
 ├── logger_config.py             # logging estructurado (loguru) con contexto
 └── table_governance/
     ├── contracts/
-    │   ├── loader.py            # carga JSON → TableContract tipado
+    │   ├── loader.py            # carga JSON → TableContract tipado (merge_schema, mask)
     │   └── validator.py         # valida DataFrame contra contrato (tipos, nulls)
     ├── writers/
-    │   ├── base_writer.py       # bridge local PC ↔ Databricks
+    │   ├── table_writer.py      # ★ fachada pública: overwrite/append/upsert/delete
+    │   ├── base_writer.py       # bridge local PC ↔ Databricks + merge_schema + masks
     │   ├── create_writer.py     # CREATE OR REPLACE TABLE
     │   ├── append_writer.py     # INSERT INTO
     │   ├── upsert_writer.py     # MERGE INTO (SCD1)
     │   ├── partition_writer.py  # overwrite de partición específica
     │   └── delete_writer.py     # DELETE WHERE
-    └── safe_migrator.py         # compara contrato vs tabla real → plan de migración
+    └── migrations/
+        └── safe_migrator.py     # compara contrato vs tabla real → plan de migración
 ```
 
-**Filosofía:** pasar `spark` y `env` a cada componente es ruido. El `Launcher` se auto-registra como singleton del proceso; los writers, loaders y migrator obtienen lo que necesitan vía `Launcher.current()`. La API queda mínima: `CreateWriter(contract).write(df)`.
+**Filosofía:** pasar `spark` y `env` a cada componente es ruido. El `Launcher` se auto-registra como singleton del proceso; los writers, loaders y migrator obtienen lo que necesitan vía `Launcher.current()`. La API queda mínima: `TableWriter(contract).overwrite(df)`.
 
 ---
 
@@ -97,7 +102,7 @@ Para desarrollo y tests en tu máquina con Spark + Delta Lake configurados desde
 
 ```bash
 # 1. Clonar el repo
-git clone https://github.com/<TU_USER>/<NOMBRE_REPO>.git
+git clone https://github.com/brrsanchezfi/BigDataFrameworkSpark.git
 cd <NOMBRE_REPO>
 
 # 2. Crear el venv local
@@ -224,7 +229,7 @@ DKOps busca el config en este orden:
 
 ```python
 from DKOps.launcher import Launcher
-from DKOps.table_governance import load_contract, CreateWriter, UpsertWriter
+from DKOps.table_governance import load_contract, TableWriter
 
 # 1. Inicializa el Launcher (auto-detecta runtime, crea SparkSession)
 launcher = Launcher("config/config.json")
@@ -235,14 +240,15 @@ contract = load_contract("tables/fact_ventas.json")
 # 3. Construye tu DataFrame (de un source, una transformación, lo que sea)
 df = launcher.spark.read.parquet("source/ventas.parquet")
 
-# 4. Escribe usando el writer apropiado
-CreateWriter(contract).write(df)
+# 4. Escribe — full load inicial
+TableWriter(contract).overwrite(df)
 
 # 5. Día siguiente — solo añadir lo nuevo
-UpsertWriter(contract).write(
-    df_delta,
-    merge_keys=["venta_id", "fecha"],
-)
+TableWriter(contract).upsert(df_delta, keys=["venta_id", "fecha"])
+
+# 6. Schema evolution — el contrato tiene merge_schema: true
+df_nuevo_campo = df_delta.withColumn("canal", lit("web"))
+TableWriter(contract).append(df_nuevo_campo)   # Delta añade la columna automáticamente
 ```
 
 Para ejemplos completos con varias capas y tests, ver la carpeta [`demos/`](demos/).
@@ -257,7 +263,7 @@ Cada demo es **independiente y autocontenido**, pensado como referencia de uso.
 |---|---|---|
 | [`demos/demo_1`](demos/demo_1) | Contratos y writers gobernados | Bootstrap, append, upsert, partition overwrite, delete y migración con `SafeMigrator`. Dominio: aeronáutica. |
 | [`demos/demo_2`](demos/demo_2) | Transformaciones testeables y Data Quality | Pipeline bronze → silver → gold con funciones puras de transformación, tests `pytest` y motor de DQ declarativo. Dominio: manufactura de aseo. |
-| `demos/demo_3` | *(próximamente)* | — |
+| [`demos/demo_3`](demos/demo_3) | merge_schema y enmascaramiento | Schema evolution con `merge_schema: true` y column masking con `mask` en contratos. Dominio: e-commerce. |
 
 Para correr un demo:
 
@@ -299,10 +305,13 @@ databricks libraries install --cluster-id <id> --whl dist/dkops-X.Y.Z-py3-none-a
 |---|---|
 | `Launcher` (multi-runtime) | ✅ Estable |
 | Contratos + `ContractLoader` | ✅ Estable |
-| Writers (`Create`, `Append`, `Upsert`, `Partition`, `Delete`) | ✅ Estables |
+| `TableWriter` (fachada unificada) | ✅ Estable |
+| Writers individuales (`Create`, `Append`, `Upsert`, `Partition`, `Delete`) | ✅ Estables |
+| `merge_schema` (schema evolution) | ✅ Disponible |
+| Enmascaramiento de columnas (`mask`) | ✅ Disponible (Databricks / Unity Catalog) |
 | `SafeMigrator` (esquema seguro) | ✅ Estable |
-| Demos (1, 2) | ✅ Disponibles |
-| Tests del framework | 🚧 En desarrollo |
+| Demos (1, 2, 3) | ✅ Disponibles |
+| Tests del framework (36 tests) | ✅ Disponibles |
 | Documentación de API | 🚧 En desarrollo |
 | Soporte SCD2 | 📋 Backlog |
 | Módulo de Data Quality nativo | 📋 Backlog (existe prototipo en `demo_2`) |
@@ -315,15 +324,15 @@ databricks libraries install --cluster-id <id> --whl dist/dkops-X.Y.Z-py3-none-a
 
 **¿Te interesa lo que estamos construyendo? Las contribuciones son bienvenidas y muy apreciadas.**
 
-[![Issues abiertos](https://img.shields.io/github/issues/<TU_USER>/<NOMBRE_REPO>)](https://github.com/<TU_USER>/<NOMBRE_REPO>/issues)
-[![PRs abiertos](https://img.shields.io/github/issues-pr/<TU_USER>/<NOMBRE_REPO>)](https://github.com/<TU_USER>/<NOMBRE_REPO>/pulls)
-[![Last commit](https://img.shields.io/github/last-commit/<TU_USER>/<NOMBRE_REPO>)](https://github.com/<TU_USER>/<NOMBRE_REPO>/commits)
+[![Issues abiertos](https://img.shields.io/github/issues/brrsanchezfi/BigDataFrameworkSpark)](https://github.com/brrsanchezfi/BigDataFrameworkSpark/issues)
+[![PRs abiertos](https://img.shields.io/github/issues-pr/brrsanchezfi/BigDataFrameworkSpark)](https://github.com/brrsanchezfi/BigDataFrameworkSpark/pulls)
+[![Last commit](https://img.shields.io/github/last-commit/brrsanchezfi/BigDataFrameworkSpark)](https://github.com/brrsanchezfi/BigDataFrameworkSpark/commits)
 
 </div>
 
 Áreas donde nos vendría especialmente bien ayuda:
 
-- 🧪 **Tests del framework** — todavía no hay suite de tests para DKOps mismo (los demos sí están testeados).
+- 🧪 **Más tests** — la suite cubre contratos, writers y migrator; faltan tests de integración y cobertura de casos extremos.
 - 📖 **Documentación** — guías de uso, referencia de API, casos reales.
 - 🎨 **Más demos** — dominios distintos, patrones distintos.
 - 🐛 **Reportar bugs** — abre un issue con un caso reproducible.
