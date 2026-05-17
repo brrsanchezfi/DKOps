@@ -1,0 +1,59 @@
+{
+  "_doc": "Pedidos e-commerce — versión 1 (schema inicial, sin columnas de envío)",
+  "catalog": "{catalog.bronze}",
+  "schema":  "ecommerce",
+  "name":    "pedidos",
+  "type":    "MANAGED",
+  "format":  "DELTA",
+  "comment": "Pedidos de la plataforma e-commerce",
+  "merge_schema": true,
+  "columns": [
+    {
+      "name": "pedido_id",
+      "type": "STRING",
+      "nullable": false,
+      "comment": "Identificador único del pedido"
+    },
+    {
+      "name": "cliente_id",
+      "type": "STRING",
+      "nullable": false,
+      "comment": "ID del cliente que realizó el pedido"
+    },
+    {
+      "name": "email_cliente",
+      "type": "STRING",
+      "nullable": true,
+      "comment": "Email del cliente — sensible",
+      "mask": "security.mask_email"
+    },
+    {
+      "name": "fecha_pedido",
+      "type": "DATE",
+      "nullable": false,
+      "comment": "Fecha en que se realizó el pedido"
+    },
+    {
+      "name": "total_usd",
+      "type": "DOUBLE",
+      "nullable": false,
+      "comment": "Monto total del pedido en USD"
+    },
+    {
+      "name": "estado",
+      "type": "STRING",
+      "nullable": false,
+      "comment": "Estado: PENDING, CONFIRMED, SHIPPED, DELIVERED, CANCELLED"
+    },
+    {
+      "name": "cargado_en",
+      "type": "TIMESTAMP",
+      "comment": "Timestamp de ingesta",
+      "default": "current_timestamp()"
+    }
+  ],
+  "partitions": ["fecha_pedido"],
+  "properties": {
+    "delta.autoOptimize.optimizeWrite": "true"
+  }
+}

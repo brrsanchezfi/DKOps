@@ -62,6 +62,7 @@ nav:
     - Contratos de tabla: guide/contracts.md
     - Writers: guide/writers.md
     - Migraciones: guide/migrations.md
+    - Arquitectura: guide/architecture.md
   - API Reference:
     - Core:
       - Launcher: api/launcher.md
@@ -71,6 +72,7 @@ nav:
       - loader: api/contracts/loader.md
       - validator: api/contracts/validator.md
     - Writers:
+      - table_writer: api/writers/table_writer.md
       - base_writer: api/writers/base.md
       - create_writer: api/writers/create.md
       - append_writer: api/writers/append.md
