@@ -50,9 +50,10 @@ class CreateWriter(BaseWriter):
         self._write_df(df, mode="overwrite", overwrite_schema=True)
 
         # Post-escritura — saveAsTable borra la metadata del DDL previo.
-        # Hay que reaplicar comentarios, owner y permisos después de escribir.
+        # Hay que reaplicar comentarios, masks, owner y permisos después de escribir.
         self._apply_table_comment()
         self._apply_column_comments()
+        self._apply_column_masks()
 
         if self._env._is_databricks and self._contract.owner:
             try:

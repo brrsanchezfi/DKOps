@@ -11,7 +11,7 @@
   "columns": [
     {"name": "venta_id",        "type": "STRING",    "nullable": false},
     {"name": "fecha",           "type": "DATE",      "nullable": false},
-    {"name": "distribuidor_id", "type": "STRING",    "nullable": false},
+    {"name": "distribuidor_id", "type": "STRING",    "nullable": false, "mask": "security.mask_distribuidor"},
     {"name": "producto_id",     "type": "STRING",    "nullable": false},
     {"name": "cantidad",        "type": "INTEGER",   "nullable": false, "comment": "Negativa = devolución"},
     {"name": "precio_unitario", "type": "DOUBLE",    "nullable": false},

@@ -6,16 +6,17 @@ Pipeline de manufactura de artículos de aseo — bronze → silver → gold.
 Demuestra el patrón completo de un pipeline gobernado y testeado:
 
   FASE 1 — Bootstrap bronze
-    · CreateWriter para las 3 tablas raw con datos sintéticos sucios.
+    · TableWriter.overwrite() para las 3 tablas raw con datos sintéticos sucios.
 
   FASE 2 — Transformaciones a silver
     · Aplica funciones puras (transformar_*_silver) a cada bronze.
-    · Escribe el resultado con CreateWriter.
+    · Escribe el resultado con TableWriter.overwrite().
     · Ejecuta DQ checks declarativos sobre el resultado.
+    · silver_ventas tiene distribuidor_id con mask declarado en el contrato.
 
   FASE 3 — Agregaciones a gold
     · Aplica funciones de KPI (kpi_*) a las tablas silver.
-    · Escribe gold con CreateWriter.
+    · Escribe gold con TableWriter.overwrite().
     · Ejecuta DQ checks sobre los KPIs.
 
   FASE 4 — Reporte ejecutivo
@@ -34,7 +35,7 @@ Para correr los unit tests:
 from __future__ import annotations
 
 from DKOps.launcher import Launcher
-from DKOps.table_governance import load_contract, CreateWriter
+from DKOps.table_governance import load_contract, TableWriter
 
 from data_generator import DataGenerator
 from transformations import (
@@ -120,17 +121,17 @@ _sep("FASE 1 — Bootstrap bronze (datos crudos sintéticos)")
 _sub("Generando órdenes de producción sucias (n=200)")
 df_b_ordenes = gen.ordenes_produccion(n=200)
 print(f"    Filas generadas (con duplicados intencionales): {df_b_ordenes.count()}")
-CreateWriter(ct_b_ordenes).write(df_b_ordenes)
+TableWriter(ct_b_ordenes).overwrite(df_b_ordenes)
 
 _sub("Generando lotes de producción (n=300)")
 df_b_lotes = gen.lotes_produccion(n=300)
 print(f"    Filas generadas: {df_b_lotes.count()}")
-CreateWriter(ct_b_lotes).write(df_b_lotes)
+TableWriter(ct_b_lotes).overwrite(df_b_lotes)
 
 _sub("Generando ventas (n=500)")
 df_b_ventas = gen.ventas(n=500)
 print(f"    Filas generadas: {df_b_ventas.count()}")
-CreateWriter(ct_b_ventas).write(df_b_ventas)
+TableWriter(ct_b_ventas).overwrite(df_b_ventas)
 
 # Releemos desde el catálogo — los DataFrames en memoria no tienen las columnas
 # con `default` (cargado_en, etc.) que los writers añaden internamente.
@@ -151,14 +152,14 @@ _sub("Órdenes producción → silver")
 df_s_ordenes = transformar_ordenes_silver(df_b_ordenes)
 print(f"    Bronze: {df_b_ordenes.count():>5} | Silver: {df_s_ordenes.count():>5} "
       f"(descartadas/dedupeadas: {df_b_ordenes.count() - df_s_ordenes.count()})")
-CreateWriter(ct_s_ordenes).write(df_s_ordenes)
+TableWriter(ct_s_ordenes).overwrite(df_s_ordenes)
 aplicar_dq(spark.read.table(ct_s_ordenes.effective_name), REGLAS_SILVER_ORDENES)
 
 # ── Lotes ─────────────────────────────────────────────────────────────────────
 _sub("Lotes producción → silver")
 df_s_lotes = transformar_lotes_silver(df_b_lotes)
 print(f"    Bronze: {df_b_lotes.count():>5} | Silver: {df_s_lotes.count():>5}")
-CreateWriter(ct_s_lotes).write(df_s_lotes)
+TableWriter(ct_s_lotes).overwrite(df_s_lotes)
 aplicar_dq(spark.read.table(ct_s_lotes.effective_name), REGLAS_SILVER_LOTES)
 
 # ── Ventas ────────────────────────────────────────────────────────────────────
@@ -166,7 +167,7 @@ _sub("Ventas → silver")
 df_s_ventas = transformar_ventas_silver(df_b_ventas)
 print(f"    Bronze: {df_b_ventas.count():>5} | Silver: {df_s_ventas.count():>5} "
       f"(descartadas: CANCELLED y PENDING)")
-CreateWriter(ct_s_ventas).write(df_s_ventas)
+TableWriter(ct_s_ventas).overwrite(df_s_ventas)
 aplicar_dq(spark.read.table(ct_s_ventas.effective_name), REGLAS_SILVER_VENTAS)
 
 
@@ -186,21 +187,21 @@ df_s_ventas_r  = spark.read.table(ct_s_ventas.effective_name)
 _sub("KPI eficiencia planta (diaria por línea)")
 df_g_eficiencia = kpi_eficiencia_planta(df_s_ordenes_r)
 print(f"    Filas KPI: {df_g_eficiencia.count()}")
-CreateWriter(ct_g_eficiencia).write(df_g_eficiencia)
+TableWriter(ct_g_eficiencia).overwrite(df_g_eficiencia)
 aplicar_dq(spark.read.table(ct_g_eficiencia.effective_name), REGLAS_GOLD_EFICIENCIA)
 
 # ── Calidad lotes ─────────────────────────────────────────────────────────────
 _sub("KPI calidad lotes (mensual por producto)")
 df_g_calidad = kpi_calidad_lotes(df_s_lotes_r)
 print(f"    Filas KPI: {df_g_calidad.count()}")
-CreateWriter(ct_g_calidad).write(df_g_calidad)
+TableWriter(ct_g_calidad).overwrite(df_g_calidad)
 aplicar_dq(spark.read.table(ct_g_calidad.effective_name), REGLAS_GOLD_CALIDAD)
 
 # ── Ventas producto ───────────────────────────────────────────────────────────
 _sub("KPI ventas por producto (mensual con ranking)")
 df_g_ventas = kpi_ventas_producto(df_s_ventas_r)
 print(f"    Filas KPI: {df_g_ventas.count()}")
-CreateWriter(ct_g_ventas).write(df_g_ventas)
+TableWriter(ct_g_ventas).overwrite(df_g_ventas)
 aplicar_dq(spark.read.table(ct_g_ventas.effective_name), REGLAS_GOLD_VENTAS)
 
 

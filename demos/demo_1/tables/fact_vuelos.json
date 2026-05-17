@@ -106,6 +106,7 @@
       "default": "current_timestamp()"
     }
   ],
+  "merge_schema": true,
   "partitions": ["fecha"],
   "properties": {
     "delta.autoOptimize.optimizeWrite": "true",

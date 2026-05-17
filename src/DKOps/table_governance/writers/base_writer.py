@@ -115,6 +115,8 @@ class BaseWriter(LoggableMixin, ABC):
 
         if overwrite_schema:
             writer = writer.option("overwriteSchema", "true")
+        elif self._contract.merge_schema:
+            writer = writer.option("mergeSchema", "true")
 
         # Particiones — crítico pasarlas aquí, no solo en el DDL
         if self._contract.partition_columns:
@@ -239,6 +241,40 @@ class BaseWriter(LoggableMixin, ABC):
                 self.log.warning(
                     "apply_column_comments",
                     f"No se pudo aplicar comentario en '{col.name}': {exc}",
+                )
+
+    def _apply_column_masks(self) -> None:
+        """
+        Aplica políticas de enmascaramiento de columna via ALTER TABLE.
+        Solo aplica en Databricks (Unity Catalog). Se ignora en local PC.
+        """
+        cols_with_mask = self._contract.masked_columns
+        if not cols_with_mask:
+            return
+        if not self._env._is_databricks:
+            self.log.debug("Column masks omitidas — solo aplican en Databricks Unity Catalog")
+            return
+        if self._dry_run:
+            self.log.info("dry_run=True → column masks no aplicadas")
+            return
+
+        self.log.debug(
+            f"Aplicando masks a {len(cols_with_mask)} columnas "
+            f"en '{self._table_name}'"
+        )
+        for col in cols_with_mask:
+            sql = (
+                f"ALTER TABLE {self._table_name} "
+                f"ALTER COLUMN `{col.name}` "
+                f"SET MASK {col.mask}"
+            )
+            self.log.debug(f"Mask SQL: {sql}")
+            try:
+                self._spark.sql(sql)
+            except Exception as exc:
+                self.log.warning(
+                    "apply_column_masks",
+                    f"No se pudo aplicar mask en '{col.name}': {exc}",
                 )
 
     def _apply_table_comment(self) -> None:
