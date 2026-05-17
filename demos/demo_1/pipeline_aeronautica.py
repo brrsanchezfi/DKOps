@@ -3,28 +3,27 @@ pipeline_aeronautica.py
 =======================
 Pipeline completo del dominio aeronáutico.
 
-Ejercita TODOS los writers y el migrador en un flujo realista:
+Ejercita TODOS los métodos de TableWriter y el migrador en un flujo realista:
 
   FASE 1 — Bootstrap (primera ejecución)
-    · CreateWriter  → dim_aeropuertos   (full load)
-    · CreateWriter  → dim_aerolineas    (full load)
-    · CreateWriter  → dim_tiempo        (rango completo)
-    · CreateWriter  → fact_vuelos       (primer día)
-    · AppendWriter  → fact_vuelos       (días restantes de la semana)
+    · writer.overwrite()           → dim_aeropuertos, dim_aerolineas, dim_tiempo
+    · writer.overwrite()           → fact_vuelos (primer día)
+    · writer.append()              → fact_vuelos (días restantes de la semana)
+      fact_vuelos tiene merge_schema: true → acepta columnas nuevas en el DF
 
   FASE 2 — Operación diaria (simula día nuevo)
-    · AppendWriter      → fact_vuelos   (vuelos del día nuevo)
-    · UpsertWriter      → fact_vuelos   (correcciones de vuelos anteriores)
-    · UpsertWriter      → dim_aerolineas (actualizar estado de aerolínea)
+    · writer.append()              → fact_vuelos (vuelos del día nuevo)
+    · writer.upsert(keys=[...])   → fact_vuelos (correcciones)
+    · writer.upsert(keys=[...])   → dim_aerolineas (actualizar estado)
 
   FASE 3 — Reprocesamiento
-    · PartitionWriter   → fact_vuelos   (reemplazar partición con datos corregidos)
+    · writer.overwrite_partition() → fact_vuelos (reemplazar partición)
 
   FASE 4 — Limpieza
-    · DeleteWriter      → fact_vuelos   (eliminar vuelos corruptos)
+    · writer.delete()              → fact_vuelos (eliminar vuelos corruptos)
 
   FASE 5 — Evolución de schema
-    · SafeMigrator      → fact_vuelos   (plan de migración en dry_run)
+    · SafeMigrator                 → fact_vuelos (plan de migración en dry_run)
 
   FASE 6 — Validación final
     · Queries de negocio para verificar integridad del lakehouse
@@ -44,11 +43,7 @@ from DKOps.launcher import Launcher
 from DKOps.table_governance import (
     load_contract,
     SchemaValidator,
-    CreateWriter,
-    AppendWriter,
-    UpsertWriter,
-    PartitionWriter,
-    DeleteWriter,
+    TableWriter,
     SafeMigrator,
 )
 from data_generator import DataGenerator
@@ -108,7 +103,7 @@ df_aeropuertos = gen.aeropuertos()
 result = SchemaValidator(ct_aeropuertos).validate(df_aeropuertos)
 print(f"    Validación: {result.summary()}")
 
-CreateWriter(ct_aeropuertos).write(df_aeropuertos)
+TableWriter(ct_aeropuertos).overwrite(df_aeropuertos)
 
 spark.sql(
     f"SELECT iata_code, ciudad, pais "
@@ -117,9 +112,9 @@ spark.sql(
 ).show(truncate=False)
 
 # ── dim_aerolineas ────────────────────────────────────────────────────────────
-_sub("dim_aerolineas → CREATE OR REPLACE (8 aerolíneas)")
+_sub("dim_aerolineas → overwrite (8 aerolíneas)")
 df_aerolineas = gen.aerolineas()
-CreateWriter(ct_aerolineas).write(df_aerolineas)
+TableWriter(ct_aerolineas).overwrite(df_aerolineas)
 
 spark.sql(
     f"SELECT iata_code, nombre, alianza, tipo "
@@ -127,9 +122,9 @@ spark.sql(
 ).show(truncate=False)
 
 # ── dim_tiempo ────────────────────────────────────────────────────────────────
-_sub(f"dim_tiempo → CREATE OR REPLACE ({FECHA_INICIO} → {FECHA_FIN_INIT})")
+_sub(f"dim_tiempo → overwrite ({FECHA_INICIO} → {FECHA_FIN_INIT})")
 df_tiempo = gen.tiempo(FECHA_INICIO, FECHA_FIN_INIT)
-CreateWriter(ct_tiempo).write(df_tiempo)
+TableWriter(ct_tiempo).overwrite(df_tiempo)
 
 spark.sql(
     f"SELECT fecha, dia_semana_nombre, es_fin_semana, es_festivo "
@@ -137,7 +132,9 @@ spark.sql(
 ).show(truncate=False)
 
 # ── fact_vuelos — semana inicial ──────────────────────────────────────────────
-_sub(f"fact_vuelos → CREATE + APPEND (vuelos del {FECHA_INICIO} al {FECHA_FIN_INIT})")
+_sub(f"fact_vuelos → overwrite + append (vuelos del {FECHA_INICIO} al {FECHA_FIN_INIT})")
+# fact_vuelos tiene merge_schema: true → los appends aceptan columnas nuevas en el DF
+writer_fact = TableWriter(ct_fact)
 
 fecha_actual = date.fromisoformat(FECHA_INICIO)
 fecha_limite = date.fromisoformat(FECHA_FIN_INIT)
@@ -148,10 +145,10 @@ while fecha_actual <= fecha_limite:
     df_dia    = gen.vuelos(fecha=fecha_str, n=80)
 
     if primer_dia:
-        CreateWriter(ct_fact).write(df_dia)
+        writer_fact.overwrite(df_dia)
         primer_dia = False
     else:
-        AppendWriter(ct_fact).write(df_dia)
+        writer_fact.append(df_dia)
 
     fecha_actual += timedelta(days=1)
 
@@ -173,9 +170,9 @@ print(f"\n    Bootstrap completado: {total.total_vuelos} vuelos | "
 _sep("FASE 2 — Operación diaria")
 
 # ── APPEND — vuelos del día 8 ─────────────────────────────────────────────────
-_sub(f"fact_vuelos → APPEND (vuelos nuevos {FECHA_DIA_8})")
+_sub(f"fact_vuelos → append (vuelos nuevos {FECHA_DIA_8})")
 df_dia8 = gen.vuelos_nueva_particion(fecha=FECHA_DIA_8, n=75)
-AppendWriter(ct_fact).write(df_dia8)
+writer_fact.append(df_dia8)
 
 spark.sql(f"""
     SELECT COUNT(*) AS vuelos_dia8
@@ -185,7 +182,7 @@ spark.sql(f"""
 
 # ── UPSERT — correcciones de vuelos del día 3 ─────────────────────────────────
 fecha_corr = "2024-01-03"
-_sub(f"fact_vuelos → UPSERT (correcciones de retrasos {fecha_corr})")
+_sub(f"fact_vuelos → upsert (correcciones de retrasos {fecha_corr})")
 df_corr = gen.vuelos_modificados(fecha=fecha_corr, n=15)
 
 print(f"    Retrasos ANTES de corrección ({fecha_corr}):")
@@ -199,9 +196,9 @@ spark.sql(f"""
     ORDER BY retraso_promedio DESC
 """).show()
 
-UpsertWriter(ct_fact).write(
+writer_fact.upsert(
     df_corr,
-    merge_keys=["vuelo_id", "fecha"],
+    keys=["vuelo_id", "fecha"],
     update_columns=[
         "retraso_salida_min", "retraso_llegada_min",
         "hora_salida_real", "hora_llegada_real",
@@ -221,7 +218,7 @@ spark.sql(f"""
 """).show()
 
 # ── UPSERT — actualizar estado de aerolínea en dim ───────────────────────────
-_sub("dim_aerolineas → UPSERT (Viva Air pasa a inactiva)")
+_sub("dim_aerolineas → upsert (Viva Air pasa a inactiva)")
 
 schema_al = StructType([
     StructField("iata_code",  StringType(),  False),
@@ -235,9 +232,9 @@ df_viva = spark.createDataFrame(
     [Row("VX", "Viva Air", "Colombia", "Ninguna", "low_cost", False)],
     schema_al,
 )
-UpsertWriter(ct_aerolineas).write(
+TableWriter(ct_aerolineas).upsert(
     df_viva,
-    merge_keys=["iata_code"],
+    keys=["iata_code"],
     update_columns=["activa"],
 )
 
@@ -253,7 +250,7 @@ spark.sql(f"""
 # ─────────────────────────────────────────────────────────────────────────────
 
 _sep("FASE 3 — Reprocesamiento de partición")
-_sub(f"fact_vuelos → OVERWRITE PARTITION ({FECHA_REPROC})")
+_sub(f"fact_vuelos → overwrite_partition ({FECHA_REPROC})")
 
 print(f"    Vuelos ANTES del reproceso ({FECHA_REPROC}):")
 spark.sql(f"""
@@ -264,10 +261,7 @@ spark.sql(f"""
 """).show()
 
 df_reproc = gen.vuelos(fecha=FECHA_REPROC, n=85)
-PartitionWriter(ct_fact).write(
-    df_reproc,
-    partition={"fecha": FECHA_REPROC},
-)
+writer_fact.overwrite_partition(df_reproc, partition={"fecha": FECHA_REPROC})
 
 print(f"    Vuelos DESPUÉS del reproceso ({FECHA_REPROC}):")
 spark.sql(f"""
@@ -283,16 +277,16 @@ spark.sql(f"""
 # ─────────────────────────────────────────────────────────────────────────────
 
 _sep("FASE 4 — Limpieza con DELETE")
-_sub("fact_vuelos → DELETE (vuelos con distancia_km = 0, datos corruptos)")
+_sub("fact_vuelos → delete (vuelos con distancia_km = 0, datos corruptos)")
 
-# Insertar vuelos corruptos para demostrar el DELETE
+# Insertar vuelos corruptos para demostrar el delete
 df_corrupto = spark.createDataFrame([
     ("ZZ-20240101-CORRUPT1", date(2024, 1, 1), "BOG", "BOG", "AV",
      "08:00", "08:00", "08:30", "08:30", 0, 0, 0, 0.0, 0, 0, "ON_TIME", None),
     ("ZZ-20240101-CORRUPT2", date(2024, 1, 1), "MDE", "MDE", "LA",
      "09:00", "09:00", "09:45", "09:45", 0, 0, 0, 0.0, 0, 0, "ON_TIME", None),
 ], gen._fact_schema())
-AppendWriter(ct_fact).write(df_corrupto)
+writer_fact.append(df_corrupto)
 
 print("    Vuelos corruptos insertados (distancia_km = 0):")
 spark.sql(f"""
@@ -301,7 +295,7 @@ spark.sql(f"""
     WHERE distancia_km = 0
 """).show(truncate=False)
 
-deleted = DeleteWriter(ct_fact).delete(
+deleted = writer_fact.delete(
     "distancia_km = 0 OR distancia_km IS NULL",
     preview=False,
 )

@@ -14,6 +14,7 @@ from DKOps.table_governance.contracts.validator import (
     ValidationError,
     Severity,
 )
+from DKOps.table_governance.writers.table_writer     import TableWriter
 from DKOps.table_governance.writers.create_writer    import CreateWriter
 from DKOps.table_governance.writers.append_writer    import AppendWriter
 from DKOps.table_governance.writers.upsert_writer    import UpsertWriter
@@ -25,6 +26,7 @@ __all__ = [
     "TableContract", "ColumnContract", "PermissionContract", "ClusteringContract",
     "ContractLoader", "load_contract", "load_schema_contracts", "DELTA_TYPE_ALIASES",
     "SchemaValidator", "ValidationResult", "ValidationError", "Severity",
+    "TableWriter",
     "CreateWriter", "AppendWriter", "UpsertWriter", "PartitionWriter", "DeleteWriter",
     "SafeMigrator", "MigrationPlan",
 ]

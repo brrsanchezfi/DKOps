@@ -149,10 +149,15 @@ class ColumnContract:
     nullable: bool        = True
     comment:  str         = ""
     default:  str | None  = None
+    mask:     str | None  = None  # función de masking UC, ej: "security.mask_email"
 
     @property
     def has_default(self) -> bool:
         return self.default is not None
+
+    @property
+    def has_mask(self) -> bool:
+        return self.mask is not None
 
     @property
     def spark_types(self) -> list[str]:
@@ -213,6 +218,9 @@ class TableContract:
     # Metadatos Delta
     properties:  dict[str, str]             = field(default_factory=dict)
     permissions: tuple[PermissionContract, ...] = field(default_factory=tuple)
+
+    # Comportamiento de escritura
+    merge_schema: bool = False  # si True, columnas nuevas del DF se agregan a la tabla
 
     # Origen para trazabilidad
     source_path: str = ""
@@ -276,6 +284,11 @@ class TableContract:
             if col.name == name:
                 return col
         return None
+
+    @property
+    def masked_columns(self) -> list[ColumnContract]:
+        """Columnas que tienen política de masking definida."""
+        return [c for c in self.columns if c.has_mask]
 
     def is_external(self) -> bool:
         return self.type.upper() == "EXTERNAL"
@@ -489,20 +502,21 @@ class ContractLoader(LoggableMixin):
                     )
 
         return TableContract(
-            catalog     = data["catalog"],
-            schema      = data["schema"],
-            name        = data["name"],
-            type        = data.get("type", "MANAGED").upper(),
-            format      = data.get("format", "DELTA").upper(),
-            comment     = data.get("comment", ""),
-            owner       = data.get("owner", ""),
-            location    = data.get("location", ""),
-            columns     = columns,
-            partitions  = partitions,
-            clustering  = clustering,
-            properties  = data.get("properties", {}),
-            permissions = permissions,
-            source_path = source_path,
+            catalog      = data["catalog"],
+            schema       = data["schema"],
+            name         = data["name"],
+            type         = data.get("type", "MANAGED").upper(),
+            format       = data.get("format", "DELTA").upper(),
+            comment      = data.get("comment", ""),
+            owner        = data.get("owner", ""),
+            location     = data.get("location", ""),
+            columns      = columns,
+            partitions   = partitions,
+            clustering   = clustering,
+            properties   = data.get("properties", {}),
+            permissions  = permissions,
+            merge_schema = bool(data.get("merge_schema", False)),
+            source_path  = source_path,
         )
 
     @staticmethod
@@ -562,6 +576,7 @@ class ContractLoader(LoggableMixin):
                 nullable = col.get("nullable", True),
                 comment  = col.get("comment", ""),
                 default  = col.get("default"),
+                mask     = col.get("mask") or None,
             ))
 
         return tuple(cols)
