@@ -57,15 +57,17 @@ rows_preview = writer.delete("estado = 'CANCELLED'", preview=True)  # no borra, 
 
 ## merge_schema — Evolución de schema
 
-Declara `"merge_schema": true` en el contrato para activar `mergeSchema=true` en operaciones append y partition overwrite. Permite añadir columnas nuevas sin recrear la tabla.
+Declara `"merge_schema": true` dentro de `properties` para activar `mergeSchema=true` en operaciones append y partition overwrite. Permite añadir columnas nuevas sin recrear la tabla.
 
 ```json
 {
   "catalog": "{catalog.silver}",
   "schema":  "ventas",
   "name":    "fact_ventas",
-  "merge_schema": true,
-  "columns": [...]
+  "columns": [...],
+  "properties": {
+    "merge_schema": true
+  }
 }
 ```
 

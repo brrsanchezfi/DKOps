@@ -61,6 +61,7 @@ nav:
     - Quickstart: guide/quickstart.md
     - Contratos de tabla: guide/contracts.md
     - Writers: guide/writers.md
+    - Readers: guide/readers.md
     - Migraciones: guide/migrations.md
     - Arquitectura: guide/architecture.md
   - API Reference:
@@ -79,5 +80,7 @@ nav:
       - upsert_writer: api/writers/upsert.md
       - partition_writer: api/writers/partition.md
       - delete_writer: api/writers/delete.md
+    - Readers:
+      - table_reader: api/readers/table_reader.md
     - Migrations:
       - safe_migrator: api/migrations/safe_migrator.md
