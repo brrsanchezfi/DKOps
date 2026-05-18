@@ -1,0 +1,29 @@
+{
+  "EXECUTION_ENVIRONMENT": "local",
+
+  "SPARK_APP_NAME":      "lecturaDelta",
+  "SPARK_WAREHOUSE_DIR": "/tmp/spark-warehouse",
+
+  "DELTA_VERSION": "3.2.0",
+
+  "LOG_LEVEL":     "INFO",
+  "LOG_DIR":       "/tmp/logs",
+  "LOG_FILENAME":  "lectura_delta.log",
+  "LOG_ROTATION":  "10 MB",
+  "LOG_RETENTION": "7 days",
+  "LOG_SERIALIZE": false,
+
+  "environments": {
+    "local": {
+      "env":       "dev",
+      "env_short": "d",
+      "catalogs": {
+        "bronze": "ct_bronze_dev",
+        "silver": "ct_silver_dev"
+      },
+      "paths": {
+        "bronze": "/tmp/bronze"
+      }
+    }
+  }
+}

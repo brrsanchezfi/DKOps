@@ -363,8 +363,11 @@ class BaseWriter(LoggableMixin, ABC):
             cols  = ", ".join(f"`{col}`" for col in c.clustering.columns)
             ddl  += f"\nCLUSTER BY ({cols})"
 
-        if c.properties and self._env._is_databricks:
-            props = ", ".join(f"'{k}' = '{v}'" for k, v in c.properties.items())
+        effective_props: dict[str, str] = dict(c.properties)
+        if c.change_data_feed:
+            effective_props["delta.enableChangeDataFeed"] = "true"
+        if effective_props:
+            props = ", ".join(f"'{k}' = '{v}'" for k, v in effective_props.items())
             ddl  += f"\nTBLPROPERTIES ({props})"
 
         if self._env._is_databricks and c.is_external() and c.location:

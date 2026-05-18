@@ -21,12 +21,14 @@ from DKOps.table_governance.writers.upsert_writer    import UpsertWriter
 from DKOps.table_governance.writers.partition_writer import PartitionWriter
 from DKOps.table_governance.writers.delete_writer    import DeleteWriter
 from DKOps.table_governance.migrations.safe_migrator import SafeMigrator, MigrationPlan
+from DKOps.table_governance.readers.table_reader    import TableReader
 
 __all__ = [
     "TableContract", "ColumnContract", "PermissionContract", "ClusteringContract",
     "ContractLoader", "load_contract", "load_schema_contracts", "DELTA_TYPE_ALIASES",
     "SchemaValidator", "ValidationResult", "ValidationError", "Severity",
     "TableWriter",
+    "TableReader",
     "CreateWriter", "AppendWriter", "UpsertWriter", "PartitionWriter", "DeleteWriter",
     "SafeMigrator", "MigrationPlan",
 ]
