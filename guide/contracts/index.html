@@ -570,10 +570,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#change_data_feed-captura-de-cambios" class="md-nav__link">
+  <a href="#deltaenablechangedatafeed-captura-de-cambios" class="md-nav__link">
     <span class="md-ellipsis">
       
-        change_data_feed — Captura de cambios
+        delta.enableChangeDataFeed — Captura de cambios
       
     </span>
   </a>
@@ -1485,10 +1485,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#change_data_feed-captura-de-cambios" class="md-nav__link">
+  <a href="#deltaenablechangedatafeed-captura-de-cambios" class="md-nav__link">
     <span class="md-ellipsis">
       
-        change_data_feed — Captura de cambios
+        delta.enableChangeDataFeed — Captura de cambios
       
     </span>
   </a>
@@ -1586,8 +1586,8 @@
 <a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">  </span><span class="nt">&quot;partitions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;fecha&quot;</span><span class="p">],</span>
 <a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="w">  </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="w">    </span><span class="nt">&quot;delta.autoOptimize.optimizeWrite&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;true&quot;</span><span class="p">,</span>
-<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="w">    </span><span class="nt">&quot;merge_schema&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="w">    </span><span class="nt">&quot;change_data_feed&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="w">    </span><span class="nt">&quot;delta.enableChangeDataFeed&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;true&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="w">    </span><span class="nt">&quot;merge_schema&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
 <a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="w">  </span><span class="p">},</span>
 <a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="w">  </span><span class="nt">&quot;permissions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="w">    </span><span class="p">{</span><span class="nt">&quot;action&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;SELECT&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;principal&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;analysts-group&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;operation&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;GRANT&quot;</span><span class="p">}</span>
@@ -1729,7 +1729,7 @@
 </tbody>
 </table>
 <h2 id="properties-todas-las-configuraciones-en-un-solo-lugar">properties — todas las configuraciones en un solo lugar<a class="headerlink" href="#properties-todas-las-configuraciones-en-un-solo-lugar" title="Permanent link">&para;</a></h2>
-<p>El objeto <code>properties</code> concentra tanto las <code>TBLPROPERTIES</code> nativas de Delta como los flags de comportamiento de DKOps. El loader los separa automáticamente:</p>
+<p>El objeto <code>properties</code> concentra tanto las <code>TBLPROPERTIES</code> nativas de Delta como el flag de comportamiento <code>merge_schema</code>. El loader extrae <code>merge_schema</code> del dict antes de construir el contrato — el resto se almacena tal cual y se pasa a <code>TBLPROPERTIES</code>.</p>
 <table>
 <thead>
 <tr>
@@ -1742,31 +1742,30 @@
 <tbody>
 <tr>
 <td><code>delta.autoOptimize.optimizeWrite</code></td>
-<td>string</td>
+<td><code>"true"/"false"</code></td>
 <td>—</td>
-<td>TBLPROPERTY de Delta</td>
+<td>TBLPROPERTY nativa de Delta</td>
 </tr>
 <tr>
 <td><code>delta.autoOptimize.autoCompact</code></td>
-<td>string</td>
+<td><code>"true"/"false"</code></td>
 <td>—</td>
-<td>TBLPROPERTY de Delta</td>
+<td>TBLPROPERTY nativa de Delta</td>
+</tr>
+<tr>
+<td><code>delta.enableChangeDataFeed</code></td>
+<td><code>"true"/"false"</code></td>
+<td>—</td>
+<td>Activa Change Data Feed — TBLPROPERTY nativa de Delta</td>
 </tr>
 <tr>
 <td><code>merge_schema</code></td>
-<td>bool</td>
+<td><code>true/false</code> (bool JSON)</td>
 <td><code>false</code></td>
-<td>Activa <code>mergeSchema=true</code> en <code>append</code> y <code>overwrite_partition</code></td>
-</tr>
-<tr>
-<td><code>change_data_feed</code></td>
-<td>bool</td>
-<td><code>false</code></td>
-<td>Activa <code>delta.enableChangeDataFeed</code> en TBLPROPERTIES</td>
+<td>Activa <code>mergeSchema=true</code> en <code>append</code> / <code>overwrite_partition</code> — <strong>extraído</strong>, no llega a Delta</td>
 </tr>
 </tbody>
 </table>
-<p>Los flags <code>merge_schema</code> y <code>change_data_feed</code> son <strong>extraídos del dict</strong> antes de pasarlos como TBLPROPERTIES — solo las claves reales de Delta llegan a <code>CREATE TABLE</code>.</p>
 <h3 id="merge_schema-evolucion-de-schema">merge_schema — Evolución de schema<a class="headerlink" href="#merge_schema-evolucion-de-schema" title="Permanent link">&para;</a></h3>
 <p>Cuando <code>"merge_schema": true</code>, los writes de tipo <code>append</code> y <code>overwrite_partition</code> activan la opción <code>mergeSchema=true</code> de Delta Lake. Esto permite añadir columnas nuevas en el DataFrame sin que la escritura falle.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">{</span>
@@ -1779,11 +1778,11 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">df_evolucionado</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&quot;nueva_col&quot;</span><span class="p">,</span> <span class="n">lit</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s2">&quot;STRING&quot;</span><span class="p">))</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">TableWriter</span><span class="p">(</span><span class="n">contract</span><span class="p">)</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df_evolucionado</span><span class="p">)</span>   <span class="c1"># OK — Delta añade la columna al schema</span>
 </code></pre></div>
-<h3 id="change_data_feed-captura-de-cambios">change_data_feed — Captura de cambios<a class="headerlink" href="#change_data_feed-captura-de-cambios" title="Permanent link">&para;</a></h3>
-<p>Cuando <code>"change_data_feed": true</code>, el <code>TableWriter</code> activa <code>delta.enableChangeDataFeed = true</code> en <code>TBLPROPERTIES</code> al crear la tabla. Esto permite leer el historial de cambios con <code>TableReader.read_cdf()</code>.</p>
+<h3 id="deltaenablechangedatafeed-captura-de-cambios">delta.enableChangeDataFeed — Captura de cambios<a class="headerlink" href="#deltaenablechangedatafeed-captura-de-cambios" title="Permanent link">&para;</a></h3>
+<p>Usar la clave nativa de Delta. El <code>TableWriter</code> la aplica como <code>TBLPROPERTY</code> al crear la tabla, y <code>TableReader.read_cdf()</code> puede entonces leer el historial de cambios.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">{</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="nt">&quot;change_data_feed&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="nt">&quot;delta.enableChangeDataFeed&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;true&quot;</span>
 <a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span><span class="p">}</span>
 <a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="p">}</span>
 </code></pre></div>

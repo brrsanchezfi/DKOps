@@ -1744,8 +1744,8 @@ Idempotente en ambos runtimes.</p>
 <a id="__codelineno-0-49" name="__codelineno-0-49"></a>        <span class="n">row_count</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
 <a id="__codelineno-0-50" name="__codelineno-0-50"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_write_df</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;overwrite&quot;</span><span class="p">,</span> <span class="n">overwrite_schema</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <a id="__codelineno-0-51" name="__codelineno-0-51"></a>
-<a id="__codelineno-0-52" name="__codelineno-0-52"></a>        <span class="c1"># Post-escritura — saveAsTable borra la metadata del DDL previo.</span>
-<a id="__codelineno-0-53" name="__codelineno-0-53"></a>        <span class="c1"># Hay que reaplicar comentarios, masks, owner y permisos después de escribir.</span>
+<a id="__codelineno-0-52" name="__codelineno-0-52"></a>        <span class="c1"># Post-escritura: reaplicar metadata que saveAsTable / overwriteSchema puede resetear.</span>
+<a id="__codelineno-0-53" name="__codelineno-0-53"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_apply_tblproperties</span><span class="p">()</span>
 <a id="__codelineno-0-54" name="__codelineno-0-54"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_apply_table_comment</span><span class="p">()</span>
 <a id="__codelineno-0-55" name="__codelineno-0-55"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_apply_column_comments</span><span class="p">()</span>
 <a id="__codelineno-0-56" name="__codelineno-0-56"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_apply_column_masks</span><span class="p">()</span>
@@ -1879,8 +1879,8 @@ Idempotente en ambos runtimes.</p>
 <a id="__codelineno-0-49" name="__codelineno-0-49"></a>    <span class="n">row_count</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
 <a id="__codelineno-0-50" name="__codelineno-0-50"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_write_df</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;overwrite&quot;</span><span class="p">,</span> <span class="n">overwrite_schema</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <a id="__codelineno-0-51" name="__codelineno-0-51"></a>
-<a id="__codelineno-0-52" name="__codelineno-0-52"></a>    <span class="c1"># Post-escritura — saveAsTable borra la metadata del DDL previo.</span>
-<a id="__codelineno-0-53" name="__codelineno-0-53"></a>    <span class="c1"># Hay que reaplicar comentarios, masks, owner y permisos después de escribir.</span>
+<a id="__codelineno-0-52" name="__codelineno-0-52"></a>    <span class="c1"># Post-escritura: reaplicar metadata que saveAsTable / overwriteSchema puede resetear.</span>
+<a id="__codelineno-0-53" name="__codelineno-0-53"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_apply_tblproperties</span><span class="p">()</span>
 <a id="__codelineno-0-54" name="__codelineno-0-54"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_apply_table_comment</span><span class="p">()</span>
 <a id="__codelineno-0-55" name="__codelineno-0-55"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_apply_column_comments</span><span class="p">()</span>
 <a id="__codelineno-0-56" name="__codelineno-0-56"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_apply_column_masks</span><span class="p">()</span>
