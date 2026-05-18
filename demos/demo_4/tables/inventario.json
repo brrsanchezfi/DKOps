@@ -1,0 +1,59 @@
+{
+  "_doc": "Inventario de productos — CDF habilitado para capturar cambios de stock",
+  "catalog": "{catalog.bronze}",
+  "schema":  "tienda",
+  "name":    "inventario",
+  "type":    "MANAGED",
+  "format":  "DELTA",
+  "comment": "Inventario de productos de la tienda con historial de cambios via CDF",
+  "merge_schema":     false,
+  "change_data_feed": true,
+  "columns": [
+    {
+      "name": "producto_id",
+      "type": "STRING",
+      "nullable": false,
+      "comment": "Identificador único del producto"
+    },
+    {
+      "name": "nombre",
+      "type": "STRING",
+      "nullable": false,
+      "comment": "Nombre del producto"
+    },
+    {
+      "name": "categoria",
+      "type": "STRING",
+      "nullable": false,
+      "comment": "Categoría: ELECTRONICA, ROPA, HOGAR, ALIMENTOS"
+    },
+    {
+      "name": "stock",
+      "type": "INTEGER",
+      "nullable": false,
+      "comment": "Unidades disponibles en bodega"
+    },
+    {
+      "name": "precio_usd",
+      "type": "DOUBLE",
+      "nullable": false,
+      "comment": "Precio de venta en USD"
+    },
+    {
+      "name": "activo",
+      "type": "BOOLEAN",
+      "nullable": false,
+      "comment": "Si el producto está disponible para venta"
+    },
+    {
+      "name": "actualizado_en",
+      "type": "TIMESTAMP",
+      "comment": "Timestamp de la última actualización",
+      "default": "current_timestamp()"
+    }
+  ],
+  "partitions": ["categoria"],
+  "properties": {
+    "delta.autoOptimize.optimizeWrite": "true"
+  }
+}

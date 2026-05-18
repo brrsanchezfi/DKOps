@@ -15,10 +15,15 @@ Uso
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from typing import TYPE_CHECKING
 
 from DKOps.launcher import Launcher
 from DKOps.logger_config import LoggableMixin, log_operation
 from DKOps.table_governance.contracts.loader import TableContract
+
+if TYPE_CHECKING:
+    from pyspark.sql import SparkSession
+    from DKOps.environment_config import EnvironmentConfig
 
 
 @dataclass
@@ -72,11 +77,11 @@ class SafeMigrator(LoggableMixin):
     ) -> None:
         launcher = Launcher.current()
 
-        self._spark      = launcher.spark
-        self._env        = launcher.env
-        self._contract   = contract
-        self._dry_run    = dry_run
-        self._table_name = (
+        self._spark:      SparkSession      = launcher.spark
+        self._env:        EnvironmentConfig = launcher.env
+        self._contract:   TableContract     = contract
+        self._dry_run:    bool              = dry_run
+        self._table_name: str               = (
             contract.full_name
             if self._env._is_databricks
             else f"{contract.schema}.{contract.name}"

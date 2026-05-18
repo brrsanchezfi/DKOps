@@ -220,7 +220,8 @@ class TableContract:
     permissions: tuple[PermissionContract, ...] = field(default_factory=tuple)
 
     # Comportamiento de escritura
-    merge_schema: bool = False  # si True, columnas nuevas del DF se agregan a la tabla
+    merge_schema:      bool = False  # si True, columnas nuevas del DF se agregan a la tabla
+    change_data_feed:  bool = False  # si True, activa delta.enableChangeDataFeed en TBLPROPERTIES
 
     # Origen para trazabilidad
     source_path: str = ""
@@ -502,21 +503,22 @@ class ContractLoader(LoggableMixin):
                     )
 
         return TableContract(
-            catalog      = data["catalog"],
-            schema       = data["schema"],
-            name         = data["name"],
-            type         = data.get("type", "MANAGED").upper(),
-            format       = data.get("format", "DELTA").upper(),
-            comment      = data.get("comment", ""),
-            owner        = data.get("owner", ""),
-            location     = data.get("location", ""),
-            columns      = columns,
-            partitions   = partitions,
-            clustering   = clustering,
-            properties   = data.get("properties", {}),
-            permissions  = permissions,
-            merge_schema = bool(data.get("merge_schema", False)),
-            source_path  = source_path,
+            catalog           = data["catalog"],
+            schema            = data["schema"],
+            name              = data["name"],
+            type              = data.get("type", "MANAGED").upper(),
+            format            = data.get("format", "DELTA").upper(),
+            comment           = data.get("comment", ""),
+            owner             = data.get("owner", ""),
+            location          = data.get("location", ""),
+            columns           = columns,
+            partitions        = partitions,
+            clustering        = clustering,
+            properties        = data.get("properties", {}),
+            permissions       = permissions,
+            merge_schema      = bool(data.get("merge_schema", False)),
+            change_data_feed  = bool(data.get("change_data_feed", False)),
+            source_path       = source_path,
         )
 
     @staticmethod

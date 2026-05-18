@@ -1,0 +1,46 @@
+{
+  "_doc": "Ventas diarias por producto — particionada por fecha, sin CDF",
+  "catalog": "{catalog.bronze}",
+  "schema":  "tienda",
+  "name":    "ventas_diarias",
+  "type":    "MANAGED",
+  "format":  "DELTA",
+  "comment": "Resumen de ventas diarias por producto y categoría",
+  "merge_schema":     false,
+  "change_data_feed": false,
+  "columns": [
+    {
+      "name": "fecha",
+      "type": "DATE",
+      "nullable": false,
+      "comment": "Fecha de la venta — clave de partición"
+    },
+    {
+      "name": "producto_id",
+      "type": "STRING",
+      "nullable": false,
+      "comment": "ID del producto vendido"
+    },
+    {
+      "name": "categoria",
+      "type": "STRING",
+      "nullable": false
+    },
+    {
+      "name": "unidades_vendidas",
+      "type": "INTEGER",
+      "nullable": false
+    },
+    {
+      "name": "ingresos_usd",
+      "type": "DOUBLE",
+      "nullable": false
+    },
+    {
+      "name": "cargado_en",
+      "type": "TIMESTAMP",
+      "default": "current_timestamp()"
+    }
+  ],
+  "partitions": ["fecha"]
+}
