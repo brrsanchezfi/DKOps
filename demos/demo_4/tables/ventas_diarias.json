@@ -6,8 +6,6 @@
   "type":    "MANAGED",
   "format":  "DELTA",
   "comment": "Resumen de ventas diarias por producto y categoría",
-  "merge_schema":     false,
-  "change_data_feed": false,
   "columns": [
     {
       "name": "fecha",

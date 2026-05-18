@@ -92,31 +92,33 @@ def test_merge_schema_default_false():
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# TC-C02  merge_schema: true se parsea correctamente
+# TC-C02  merge_schema: true dentro de properties
 # ─────────────────────────────────────────────────────────────────────────────
 
 def test_merge_schema_true():
     with tempfile.TemporaryDirectory() as tmp:
         loader = _make_loader(tmp)
-        data   = _minimal_contract_dict(merge_schema=True)
+        data   = _minimal_contract_dict(properties={"merge_schema": True})
         path   = _write_json(tmp, data)
         ct     = loader.load(path)
 
     assert ct.merge_schema is True
+    assert "merge_schema" not in ct.properties  # extraído, no almacenado como TBLPROPERTY
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# TC-C03  merge_schema: false explícito
+# TC-C03  merge_schema: false explícito dentro de properties
 # ─────────────────────────────────────────────────────────────────────────────
 
 def test_merge_schema_false_explicit():
     with tempfile.TemporaryDirectory() as tmp:
         loader = _make_loader(tmp)
-        data   = _minimal_contract_dict(merge_schema=False)
+        data   = _minimal_contract_dict(properties={"merge_schema": False})
         path   = _write_json(tmp, data)
         ct     = loader.load(path)
 
     assert ct.merge_schema is False
+    assert "merge_schema" not in ct.properties
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -213,7 +215,7 @@ def test_column_mask_empty_string_normalized_to_none():
 def test_table_contract_is_frozen():
     with tempfile.TemporaryDirectory() as tmp:
         loader = _make_loader(tmp)
-        data   = _minimal_contract_dict(merge_schema=True)
+        data   = _minimal_contract_dict(properties={"merge_schema": True})
         path   = _write_json(tmp, data)
         ct     = loader.load(path)
 
@@ -226,7 +228,7 @@ def test_table_contract_is_frozen():
 # ─────────────────────────────────────────────────────────────────────────────
 
 def test_merge_schema_and_mask_together():
-    data = _minimal_contract_dict(merge_schema=True)
+    data = _minimal_contract_dict(properties={"merge_schema": True})
     data["columns"] = [
         {"name": "id",    "type": "STRING"},
         {"name": "email", "type": "STRING", "mask": "sec.mask_email"},
@@ -240,3 +242,39 @@ def test_merge_schema_and_mask_together():
     assert ct.merge_schema is True
     assert ct.get_column("email").mask == "sec.mask_email"
     assert len(ct.masked_columns) == 1
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# TC-C10  change_data_feed dentro de properties
+# ─────────────────────────────────────────────────────────────────────────────
+
+def test_change_data_feed_in_properties():
+    with tempfile.TemporaryDirectory() as tmp:
+        loader = _make_loader(tmp)
+        data   = _minimal_contract_dict(properties={"change_data_feed": True})
+        path   = _write_json(tmp, data)
+        ct     = loader.load(path)
+
+    assert ct.change_data_feed is True
+    assert "change_data_feed" not in ct.properties  # extraído, no almacenado como TBLPROPERTY
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# TC-C11  merge_schema y change_data_feed junto con otras properties
+# ─────────────────────────────────────────────────────────────────────────────
+
+def test_behavioral_flags_extracted_from_properties():
+    with tempfile.TemporaryDirectory() as tmp:
+        loader = _make_loader(tmp)
+        data   = _minimal_contract_dict(properties={
+            "delta.autoOptimize.optimizeWrite": "true",
+            "merge_schema": True,
+            "change_data_feed": True,
+        })
+        path = _write_json(tmp, data)
+        ct   = loader.load(path)
+
+    assert ct.merge_schema is True
+    assert ct.change_data_feed is True
+    # Solo la property Delta real permanece en el dict
+    assert ct.properties == {"delta.autoOptimize.optimizeWrite": "true"}

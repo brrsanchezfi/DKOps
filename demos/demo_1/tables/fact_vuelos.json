@@ -106,13 +106,13 @@
       "default": "current_timestamp()"
     }
   ],
-  "merge_schema": true,
   "partitions": ["fecha"],
   "properties": {
     "delta.autoOptimize.optimizeWrite": "true",
     "delta.autoOptimize.autoCompact": "true",
     "quality": "fact",
-    "owner_team": "data-engineering"
+    "owner_team": "data-engineering",
+    "merge_schema": true
   },
   "permissions": [
     {

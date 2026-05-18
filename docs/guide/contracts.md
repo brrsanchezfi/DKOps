@@ -14,7 +14,6 @@ Un contrato de tabla es un archivo JSON que define el estado deseado de una tabl
   "comment":  "Hechos de vuelos operacionales",
   "owner":    "data-engineers",
   "location": "{path.raw}/aeronautica/fact_vuelos",
-  "merge_schema": false,
   "columns": [
     {"name": "vuelo_id",   "type": "STRING",    "nullable": false},
     {"name": "fecha",      "type": "DATE",      "nullable": false},
@@ -23,7 +22,11 @@ Un contrato de tabla es un archivo JSON que define el estado deseado de una tabl
     {"name": "cargado_en", "type": "TIMESTAMP", "default": "current_timestamp()"}
   ],
   "partitions": ["fecha"],
-  "properties": {"delta.autoOptimize.optimizeWrite": "true"},
+  "properties": {
+    "delta.autoOptimize.optimizeWrite": "true",
+    "merge_schema": true,
+    "change_data_feed": true
+  },
   "permissions": [
     {"action": "SELECT", "principal": "analysts-group", "operation": "GRANT"}
   ]
@@ -42,10 +45,9 @@ Un contrato de tabla es un archivo JSON que define el estado deseado de una tabl
 | `comment` | string | `null` | Descripción de la tabla |
 | `owner` | string | `null` | Propietario en Unity Catalog |
 | `location` | string | `null` | Ruta para tablas `EXTERNAL` |
-| `merge_schema` | bool | `false` | Activa `mergeSchema=true` en append/partition |
 | `columns` | array | — | Definición de columnas (ver abajo) |
 | `partitions` | array | `[]` | Columnas de partición |
-| `properties` | object | `{}` | `TBLPROPERTIES` de Delta |
+| `properties` | object | `{}` | Propiedades Delta + flags de comportamiento DKOps |
 | `permissions` | array | `[]` | Permisos Unity Catalog |
 
 ## Campos de columna
@@ -59,23 +61,52 @@ Un contrato de tabla es un archivo JSON que define el estado deseado de una tabl
 | `default` | string | `null` | Expresión SQL como valor por defecto |
 | `mask` | string | `null` | Función de máscara Unity Catalog (solo Databricks) |
 
-## merge_schema — Evolución de schema
+## properties — todas las configuraciones en un solo lugar
+
+El objeto `properties` concentra tanto las `TBLPROPERTIES` nativas de Delta como los flags de comportamiento de DKOps. El loader los separa automáticamente:
+
+| Clave en `properties` | Tipo | Default | Comportamiento |
+|---|---|---|---|
+| `delta.autoOptimize.optimizeWrite` | string | — | TBLPROPERTY de Delta |
+| `delta.autoOptimize.autoCompact` | string | — | TBLPROPERTY de Delta |
+| `merge_schema` | bool | `false` | Activa `mergeSchema=true` en `append` y `overwrite_partition` |
+| `change_data_feed` | bool | `false` | Activa `delta.enableChangeDataFeed` en TBLPROPERTIES |
+
+Los flags `merge_schema` y `change_data_feed` son **extraídos del dict** antes de pasarlos como TBLPROPERTIES — solo las claves reales de Delta llegan a `CREATE TABLE`.
+
+### merge_schema — Evolución de schema
 
 Cuando `"merge_schema": true`, los writes de tipo `append` y `overwrite_partition` activan la opción `mergeSchema=true` de Delta Lake. Esto permite añadir columnas nuevas en el DataFrame sin que la escritura falle.
 
 ```json
 {
-  "merge_schema": true,
-  "columns": [
-    {"name": "id",    "type": "STRING"},
-    {"name": "valor", "type": "DOUBLE"}
-  ]
+  "properties": {
+    "delta.autoOptimize.optimizeWrite": "true",
+    "merge_schema": true
+  }
 }
 ```
 
 ```python
 df_evolucionado = df.withColumn("nueva_col", lit(None).cast("STRING"))
 TableWriter(contract).append(df_evolucionado)   # OK — Delta añade la columna al schema
+```
+
+### change_data_feed — Captura de cambios
+
+Cuando `"change_data_feed": true`, el `TableWriter` activa `delta.enableChangeDataFeed = true` en `TBLPROPERTIES` al crear la tabla. Esto permite leer el historial de cambios con `TableReader.read_cdf()`.
+
+```json
+{
+  "properties": {
+    "change_data_feed": true
+  }
+}
+```
+
+```python
+df_cambios = TableReader(contract).read_cdf(starting_version=1)
+df_cambios.select("producto_id", "_change_type", "_commit_version").show()
 ```
 
 ## Enmascaramiento de columnas (mask)

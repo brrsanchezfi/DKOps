@@ -6,7 +6,6 @@
   "type":    "MANAGED",
   "format":  "DELTA",
   "comment": "Pedidos de la plataforma e-commerce",
-  "merge_schema": true,
   "columns": [
     {
       "name": "pedido_id",
@@ -54,6 +53,7 @@
   ],
   "partitions": ["fecha_pedido"],
   "properties": {
-    "delta.autoOptimize.optimizeWrite": "true"
+    "delta.autoOptimize.optimizeWrite": "true",
+    "merge_schema": true
   }
 }

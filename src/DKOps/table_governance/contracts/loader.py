@@ -43,12 +43,22 @@ Ejemplo de contrato JSON
       "partitions": ["fecha"],
       "properties": {
         "delta.autoOptimize.optimizeWrite": "true",
-        "quality": "raw"
+        "quality": "raw",
+        "merge_schema": true,
+        "change_data_feed": true
       },
       "permissions": [
         {"action": "SELECT", "principal": "analysts-group", "operation": "GRANT"}
       ]
     }
+
+Flags especiales en ``properties``
+-------------------------------------
+  ``merge_schema``      (bool) — activa ``mergeSchema=true`` en append/overwrite_partition.
+  ``change_data_feed``  (bool) — inyecta ``delta.enableChangeDataFeed=true`` en TBLPROPERTIES.
+
+  Estos flags son **extraídos** del dict antes de construir el ``TableContract``.
+  No llegan como TBLPROPERTIES al motor Delta.
 
 Uso
 ---
@@ -502,6 +512,11 @@ class ContractLoader(LoggableMixin):
                         f"(contrato: {source_path})"
                     )
 
+        # Extract behavioral flags from properties (fallback to top-level for compat)
+        raw_props        = dict(data.get("properties", {}))
+        merge_schema     = bool(raw_props.pop("merge_schema",     data.get("merge_schema",     False)))
+        change_data_feed = bool(raw_props.pop("change_data_feed", data.get("change_data_feed", False)))
+
         return TableContract(
             catalog           = data["catalog"],
             schema            = data["schema"],
@@ -514,10 +529,10 @@ class ContractLoader(LoggableMixin):
             columns           = columns,
             partitions        = partitions,
             clustering        = clustering,
-            properties        = data.get("properties", {}),
+            properties        = raw_props,
             permissions       = permissions,
-            merge_schema      = bool(data.get("merge_schema", False)),
-            change_data_feed  = bool(data.get("change_data_feed", False)),
+            merge_schema      = merge_schema,
+            change_data_feed  = change_data_feed,
             source_path       = source_path,
         )
 
