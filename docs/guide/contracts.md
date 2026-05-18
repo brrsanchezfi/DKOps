@@ -24,8 +24,8 @@ Un contrato de tabla es un archivo JSON que define el estado deseado de una tabl
   "partitions": ["fecha"],
   "properties": {
     "delta.autoOptimize.optimizeWrite": "true",
-    "merge_schema": true,
-    "change_data_feed": true
+    "delta.enableChangeDataFeed": "true",
+    "merge_schema": true
   },
   "permissions": [
     {"action": "SELECT", "principal": "analysts-group", "operation": "GRANT"}
@@ -63,16 +63,14 @@ Un contrato de tabla es un archivo JSON que define el estado deseado de una tabl
 
 ## properties — todas las configuraciones en un solo lugar
 
-El objeto `properties` concentra tanto las `TBLPROPERTIES` nativas de Delta como los flags de comportamiento de DKOps. El loader los separa automáticamente:
+El objeto `properties` concentra tanto las `TBLPROPERTIES` nativas de Delta como el flag de comportamiento `merge_schema`. El loader extrae `merge_schema` del dict antes de construir el contrato — el resto se almacena tal cual y se pasa a `TBLPROPERTIES`.
 
 | Clave en `properties` | Tipo | Default | Comportamiento |
 |---|---|---|---|
-| `delta.autoOptimize.optimizeWrite` | string | — | TBLPROPERTY de Delta |
-| `delta.autoOptimize.autoCompact` | string | — | TBLPROPERTY de Delta |
-| `merge_schema` | bool | `false` | Activa `mergeSchema=true` en `append` y `overwrite_partition` |
-| `change_data_feed` | bool | `false` | Activa `delta.enableChangeDataFeed` en TBLPROPERTIES |
-
-Los flags `merge_schema` y `change_data_feed` son **extraídos del dict** antes de pasarlos como TBLPROPERTIES — solo las claves reales de Delta llegan a `CREATE TABLE`.
+| `delta.autoOptimize.optimizeWrite` | `"true"/"false"` | — | TBLPROPERTY nativa de Delta |
+| `delta.autoOptimize.autoCompact` | `"true"/"false"` | — | TBLPROPERTY nativa de Delta |
+| `delta.enableChangeDataFeed` | `"true"/"false"` | — | Activa Change Data Feed — TBLPROPERTY nativa de Delta |
+| `merge_schema` | `true/false` (bool JSON) | `false` | Activa `mergeSchema=true` en `append` / `overwrite_partition` — **extraído**, no llega a Delta |
 
 ### merge_schema — Evolución de schema
 
@@ -92,14 +90,14 @@ df_evolucionado = df.withColumn("nueva_col", lit(None).cast("STRING"))
 TableWriter(contract).append(df_evolucionado)   # OK — Delta añade la columna al schema
 ```
 
-### change_data_feed — Captura de cambios
+### delta.enableChangeDataFeed — Captura de cambios
 
-Cuando `"change_data_feed": true`, el `TableWriter` activa `delta.enableChangeDataFeed = true` en `TBLPROPERTIES` al crear la tabla. Esto permite leer el historial de cambios con `TableReader.read_cdf()`.
+Usar la clave nativa de Delta. El `TableWriter` la aplica como `TBLPROPERTY` al crear la tabla, y `TableReader.read_cdf()` puede entonces leer el historial de cambios.
 
 ```json
 {
   "properties": {
-    "change_data_feed": true
+    "delta.enableChangeDataFeed": "true"
   }
 }
 ```

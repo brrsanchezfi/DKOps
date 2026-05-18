@@ -52,13 +52,14 @@ Ejemplo de contrato JSON
       ]
     }
 
-Flags especiales en ``properties``
--------------------------------------
-  ``merge_schema``      (bool) — activa ``mergeSchema=true`` en append/overwrite_partition.
-  ``change_data_feed``  (bool) — inyecta ``delta.enableChangeDataFeed=true`` en TBLPROPERTIES.
+Flag especial en ``properties``
+----------------------------------
+  ``merge_schema``  (bool) — activa ``mergeSchema=true`` en append/overwrite_partition.
+                             Extraído del dict; no llega como TBLPROPERTY al motor Delta.
 
-  Estos flags son **extraídos** del dict antes de construir el ``TableContract``.
-  No llegan como TBLPROPERTIES al motor Delta.
+  Para Change Data Feed usa la clave nativa de Delta:
+  ``"delta.enableChangeDataFeed": "true"`` — se almacena como TBLPROPERTY real
+  y ``TableContract.change_data_feed`` la lee como propiedad computada.
 
 Uso
 ---
@@ -230,8 +231,7 @@ class TableContract:
     permissions: tuple[PermissionContract, ...] = field(default_factory=tuple)
 
     # Comportamiento de escritura
-    merge_schema:      bool = False  # si True, columnas nuevas del DF se agregan a la tabla
-    change_data_feed:  bool = False  # si True, activa delta.enableChangeDataFeed en TBLPROPERTIES
+    merge_schema: bool = False  # si True, columnas nuevas del DF se agregan a la tabla
 
     # Origen para trazabilidad
     source_path: str = ""
@@ -300,6 +300,11 @@ class TableContract:
     def masked_columns(self) -> list[ColumnContract]:
         """Columnas que tienen política de masking definida."""
         return [c for c in self.columns if c.has_mask]
+
+    @property
+    def change_data_feed(self) -> bool:
+        """True si delta.enableChangeDataFeed=true está declarado en properties."""
+        return self.properties.get("delta.enableChangeDataFeed", "").lower() == "true"
 
     def is_external(self) -> bool:
         return self.type.upper() == "EXTERNAL"
@@ -512,28 +517,26 @@ class ContractLoader(LoggableMixin):
                         f"(contrato: {source_path})"
                     )
 
-        # Extract behavioral flags from properties (fallback to top-level for compat)
-        raw_props        = dict(data.get("properties", {}))
-        merge_schema     = bool(raw_props.pop("merge_schema",     data.get("merge_schema",     False)))
-        change_data_feed = bool(raw_props.pop("change_data_feed", data.get("change_data_feed", False)))
+        # Extraer merge_schema de properties (fallback a nivel raíz para compat)
+        raw_props    = dict(data.get("properties", {}))
+        merge_schema = bool(raw_props.pop("merge_schema", data.get("merge_schema", False)))
 
         return TableContract(
-            catalog           = data["catalog"],
-            schema            = data["schema"],
-            name              = data["name"],
-            type              = data.get("type", "MANAGED").upper(),
-            format            = data.get("format", "DELTA").upper(),
-            comment           = data.get("comment", ""),
-            owner             = data.get("owner", ""),
-            location          = data.get("location", ""),
-            columns           = columns,
-            partitions        = partitions,
-            clustering        = clustering,
-            properties        = raw_props,
-            permissions       = permissions,
-            merge_schema      = merge_schema,
-            change_data_feed  = change_data_feed,
-            source_path       = source_path,
+            catalog      = data["catalog"],
+            schema       = data["schema"],
+            name         = data["name"],
+            type         = data.get("type", "MANAGED").upper(),
+            format       = data.get("format", "DELTA").upper(),
+            comment      = data.get("comment", ""),
+            owner        = data.get("owner", ""),
+            location     = data.get("location", ""),
+            columns      = columns,
+            partitions   = partitions,
+            clustering   = clustering,
+            properties   = raw_props,
+            permissions  = permissions,
+            merge_schema = merge_schema,
+            source_path  = source_path,
         )
 
     @staticmethod

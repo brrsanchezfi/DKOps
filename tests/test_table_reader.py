@@ -39,20 +39,21 @@ def _make_contract(
     change_data_feed: bool = False,
     partitions: tuple[str, ...] = (),
 ) -> TableContract:
+    props = {"delta.enableChangeDataFeed": "true"} if change_data_feed else {}
     return TableContract(
-        catalog  = "ct_bronze_dev",
-        schema   = "ecommerce",
-        name     = "pedidos",
-        type     = "MANAGED",
-        format   = "DELTA",
-        columns  = (
-            ColumnContract(name="pedido_id",   type="STRING", nullable=False),
+        catalog    = "ct_bronze_dev",
+        schema     = "ecommerce",
+        name       = "pedidos",
+        type       = "MANAGED",
+        format     = "DELTA",
+        columns    = (
+            ColumnContract(name="pedido_id",    type="STRING", nullable=False),
             ColumnContract(name="fecha_pedido", type="DATE",   nullable=False),
-            ColumnContract(name="total_usd",   type="DOUBLE", nullable=True),
-            ColumnContract(name="estado",      type="STRING", nullable=True),
+            ColumnContract(name="total_usd",    type="DOUBLE", nullable=True),
+            ColumnContract(name="estado",       type="STRING", nullable=True),
         ),
-        partitions       = partitions,
-        change_data_feed = change_data_feed,
+        partitions = partitions,
+        properties = props,
     )
 
 

@@ -53,6 +53,6 @@
   "partitions": ["categoria"],
   "properties": {
     "delta.autoOptimize.optimizeWrite": "true",
-    "change_data_feed": true
+    "delta.enableChangeDataFeed": "true"
   }
 }

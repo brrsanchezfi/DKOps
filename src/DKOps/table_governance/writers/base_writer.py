@@ -363,17 +363,32 @@ class BaseWriter(LoggableMixin, ABC):
             cols  = ", ".join(f"`{col}`" for col in c.clustering.columns)
             ddl  += f"\nCLUSTER BY ({cols})"
 
-        effective_props: dict[str, str] = dict(c.properties)
-        if c.change_data_feed:
-            effective_props["delta.enableChangeDataFeed"] = "true"
-        if effective_props:
-            props = ", ".join(f"'{k}' = '{v}'" for k, v in effective_props.items())
+        if c.properties:
+            props = ", ".join(f"'{k}' = '{v}'" for k, v in c.properties.items())
             ddl  += f"\nTBLPROPERTIES ({props})"
 
         if self._env._is_databricks and c.is_external() and c.location:
             ddl += f"\nLOCATION '{c.location}'"
 
         return ddl
+
+    def _apply_tblproperties(self) -> None:
+        """
+        Re-aplica TBLPROPERTIES después de escrituras que puedan resetearlas.
+
+        En local PC, _register_local_table() crea la tabla sin TBLPROPERTIES.
+        La opción overwriteSchema=true también puede resetearlas en Delta Lake.
+        Este método garantiza que las propiedades del contrato estén siempre activas.
+        """
+        if not self._contract.properties:
+            return
+        props = ", ".join(f"'{k}' = '{v}'" for k, v in self._contract.properties.items())
+        sql   = f"ALTER TABLE {self._table_name} SET TBLPROPERTIES ({props})"
+        self.log.debug(f"Aplicando TBLPROPERTIES: {sql}")
+        try:
+            self._spark.sql(sql)
+        except Exception as exc:
+            self.log.warning("apply_tblproperties", f"No se pudieron aplicar TBLPROPERTIES: {exc}")
 
     # ── dry_run guard ─────────────────────────────────────────────────────
 

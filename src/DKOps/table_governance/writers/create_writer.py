@@ -49,8 +49,8 @@ class CreateWriter(BaseWriter):
         row_count = df.count()
         self._write_df(df, mode="overwrite", overwrite_schema=True)
 
-        # Post-escritura — saveAsTable borra la metadata del DDL previo.
-        # Hay que reaplicar comentarios, masks, owner y permisos después de escribir.
+        # Post-escritura: reaplicar metadata que saveAsTable / overwriteSchema puede resetear.
+        self._apply_tblproperties()
         self._apply_table_comment()
         self._apply_column_comments()
         self._apply_column_masks()

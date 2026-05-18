@@ -245,36 +245,50 @@ def test_merge_schema_and_mask_together():
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# TC-C10  change_data_feed dentro de properties
+# TC-C10  change_data_feed via delta.enableChangeDataFeed en properties
 # ─────────────────────────────────────────────────────────────────────────────
 
 def test_change_data_feed_in_properties():
     with tempfile.TemporaryDirectory() as tmp:
         loader = _make_loader(tmp)
-        data   = _minimal_contract_dict(properties={"change_data_feed": True})
+        data   = _minimal_contract_dict(properties={"delta.enableChangeDataFeed": "true"})
         path   = _write_json(tmp, data)
         ct     = loader.load(path)
 
     assert ct.change_data_feed is True
-    assert "change_data_feed" not in ct.properties  # extraído, no almacenado como TBLPROPERTY
+    # La property permanece en el dict — es una TBLPROPERTY real de Delta
+    assert ct.properties.get("delta.enableChangeDataFeed") == "true"
+
+
+def test_change_data_feed_default_false():
+    with tempfile.TemporaryDirectory() as tmp:
+        loader = _make_loader(tmp)
+        path   = _write_json(tmp, _minimal_contract_dict())
+        ct     = loader.load(path)
+
+    assert ct.change_data_feed is False
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# TC-C11  merge_schema y change_data_feed junto con otras properties
+# TC-C11  merge_schema extraído + change_data_feed como property Delta
 # ─────────────────────────────────────────────────────────────────────────────
 
-def test_behavioral_flags_extracted_from_properties():
+def test_behavioral_flags_in_properties():
     with tempfile.TemporaryDirectory() as tmp:
         loader = _make_loader(tmp)
         data   = _minimal_contract_dict(properties={
             "delta.autoOptimize.optimizeWrite": "true",
+            "delta.enableChangeDataFeed": "true",
             "merge_schema": True,
-            "change_data_feed": True,
         })
         path = _write_json(tmp, data)
         ct   = loader.load(path)
 
     assert ct.merge_schema is True
     assert ct.change_data_feed is True
-    # Solo la property Delta real permanece en el dict
-    assert ct.properties == {"delta.autoOptimize.optimizeWrite": "true"}
+    # merge_schema extraído (no es TBLPROPERTY); enableChangeDataFeed permanece
+    assert "merge_schema" not in ct.properties
+    assert ct.properties == {
+        "delta.autoOptimize.optimizeWrite": "true",
+        "delta.enableChangeDataFeed": "true",
+    }
