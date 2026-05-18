@@ -68,9 +68,9 @@ dev = [
 # pip install "DKOps[local,dev]"
 
 [project.urls]
-Homepage      = "https://github.com/brrsanchezfi/BigDataFrameworkSpark"
-Documentation = "https://github.com/brrsanchezfi/BigDataFrameworkSpark"
-Repository    = "https://github.com/brrsanchezfi/BigDataFrameworkSpark"
+Homepage      = "https://github.com/brrsanchezfi/DKOps"
+Documentation = "https://github.com/brrsanchezfi/DKOps"
+Repository    = "https://github.com/brrsanchezfi/DKOps"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
