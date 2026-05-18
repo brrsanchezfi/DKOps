@@ -13,26 +13,28 @@
       
       
       
+        <link rel="prev" href="../migrations/">
       
-        <link rel="next" href="guide/quickstart/">
+      
+        <link rel="next" href="../../api/launcher/">
       
       
         
       
       
-      <link rel="icon" href="assets/images/favicon.png">
+      <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
-        <title>DKOps</title>
+        <title>Arquitectura - DKOps</title>
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
       
         
-        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -51,9 +53,9 @@
       
     
     
-      <link rel="stylesheet" href="assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
     
-    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -78,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#caracteristicas" class="md-skip">
+        <a href="#arquitectura" class="md-skip">
           Saltar a contenido
         </a>
       
@@ -92,7 +94,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Cabecera">
-    <a href="." title="DKOps" class="md-header__button md-logo" aria-label="DKOps" data-md-component="logo">
+    <a href="../.." title="DKOps" class="md-header__button md-logo" aria-label="DKOps" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -112,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Inicio
+              Arquitectura
             
           </span>
         </div>
@@ -221,11 +223,9 @@
   
   
   
-    
   
-  
-    <li class="md-tabs__item md-tabs__item--active">
-      <a href="." class="md-tabs__link">
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
         
   
   
@@ -242,11 +242,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="guide/quickstart/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../quickstart/" class="md-tabs__link">
           
   
   
@@ -273,7 +275,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="api/launcher/" class="md-tabs__link">
+        <a href="../../api/launcher/" class="md-tabs__link">
           
   
   
@@ -310,7 +312,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navegación" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="." title="DKOps" class="md-nav__button md-logo" aria-label="DKOps" data-md-component="logo">
+    <a href="../.." title="DKOps" class="md-nav__button md-logo" aria-label="DKOps" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -337,35 +339,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Inicio
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="." class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
         
   
   
@@ -381,57 +358,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Tabla de contenidos
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#caracteristicas" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Características
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#quickstart" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Quickstart
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#arquitectura" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Arquitectura
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -440,28 +366,31 @@
       
   
   
+    
   
   
+  
     
     
     
     
+      
+        
+        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
         
           
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
-        
-          
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
             
   
   
@@ -479,7 +408,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             
@@ -497,7 +426,7 @@
   
   
     <li class="md-nav__item">
-      <a href="guide/quickstart/" class="md-nav__link">
+      <a href="../quickstart/" class="md-nav__link">
         
   
   
@@ -525,7 +454,7 @@
   
   
     <li class="md-nav__item">
-      <a href="guide/contracts/" class="md-nav__link">
+      <a href="../contracts/" class="md-nav__link">
         
   
   
@@ -553,7 +482,7 @@
   
   
     <li class="md-nav__item">
-      <a href="guide/writers/" class="md-nav__link">
+      <a href="../writers/" class="md-nav__link">
         
   
   
@@ -581,7 +510,7 @@
   
   
     <li class="md-nav__item">
-      <a href="guide/migrations/" class="md-nav__link">
+      <a href="../migrations/" class="md-nav__link">
         
   
   
@@ -606,10 +535,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="guide/architecture/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitectura
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -625,6 +581,109 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#diagrama-de-paquetes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Diagrama de paquetes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#diagrama-de-clases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Diagrama de clases
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#descripcion-de-componentes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Descripción de componentes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Descripción de componentes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#table_governance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        table_governance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#flujo-de-una-escritura" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Flujo de una escritura
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#singleton-launcher" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Singleton Launcher
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -752,7 +811,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/launcher/" class="md-nav__link">
+      <a href="../../api/launcher/" class="md-nav__link">
         
   
   
@@ -780,7 +839,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/environment_config/" class="md-nav__link">
+      <a href="../../api/environment_config/" class="md-nav__link">
         
   
   
@@ -808,7 +867,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/logger_config/" class="md-nav__link">
+      <a href="../../api/logger_config/" class="md-nav__link">
         
   
   
@@ -898,7 +957,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/contracts/loader/" class="md-nav__link">
+      <a href="../../api/contracts/loader/" class="md-nav__link">
         
   
   
@@ -926,7 +985,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/contracts/validator/" class="md-nav__link">
+      <a href="../../api/contracts/validator/" class="md-nav__link">
         
   
   
@@ -1016,7 +1075,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/writers/table_writer/" class="md-nav__link">
+      <a href="../../api/writers/table_writer/" class="md-nav__link">
         
   
   
@@ -1044,7 +1103,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/writers/base/" class="md-nav__link">
+      <a href="../../api/writers/base/" class="md-nav__link">
         
   
   
@@ -1072,7 +1131,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/writers/create/" class="md-nav__link">
+      <a href="../../api/writers/create/" class="md-nav__link">
         
   
   
@@ -1100,7 +1159,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/writers/append/" class="md-nav__link">
+      <a href="../../api/writers/append/" class="md-nav__link">
         
   
   
@@ -1128,7 +1187,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/writers/upsert/" class="md-nav__link">
+      <a href="../../api/writers/upsert/" class="md-nav__link">
         
   
   
@@ -1156,7 +1215,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/writers/partition/" class="md-nav__link">
+      <a href="../../api/writers/partition/" class="md-nav__link">
         
   
   
@@ -1184,7 +1243,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/writers/delete/" class="md-nav__link">
+      <a href="../../api/writers/delete/" class="md-nav__link">
         
   
   
@@ -1274,7 +1333,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/migrations/safe_migrator/" class="md-nav__link">
+      <a href="../../api/migrations/safe_migrator/" class="md-nav__link">
         
   
   
@@ -1327,6 +1386,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -1335,10 +1396,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#caracteristicas" class="md-nav__link">
+  <a href="#diagrama-de-paquetes" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Características
+        Diagrama de paquetes
       
     </span>
   </a>
@@ -1346,10 +1407,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#quickstart" class="md-nav__link">
+  <a href="#diagrama-de-clases" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Quickstart
+        Diagrama de clases
       
     </span>
   </a>
@@ -1357,13 +1418,63 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#arquitectura" class="md-nav__link">
+  <a href="#descripcion-de-componentes" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Arquitectura
+        Descripción de componentes
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Descripción de componentes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#table_governance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        table_governance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#flujo-de-una-escritura" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Flujo de una escritura
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#singleton-launcher" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Singleton Launcher
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1387,38 +1498,70 @@
   
 
 
-  <h1>Inicio</h1>
-
-<p><strong>Lakehouse automation framework para DataOps, DevOps y arquitectura Medallion en Databricks.</strong></p>
-<h2 id="caracteristicas">Características<a class="headerlink" href="#caracteristicas" title="Permanent link">&para;</a></h2>
-<ul>
-<li><strong>Contratos de tabla</strong> — define schema, tipos, particiones, permisos y reglas de gobernanza en JSON versionado</li>
-<li><strong>Validación automática</strong> — verifica tipos y nulabilidad antes de escribir</li>
-<li><strong><code>TableWriter</code></strong> — API unificada: <code>overwrite</code>, <code>append</code>, <code>upsert</code>, <code>overwrite_partition</code>, <code>delete</code></li>
-<li><strong>merge_schema</strong> — evolución de schema automática: declara <code>"merge_schema": true</code> en el contrato y Delta añade columnas nuevas sin recrear la tabla</li>
-<li><strong>Enmascaramiento de columnas</strong> — declara <code>"mask": "security.fn"</code> en una columna y el framework aplica <code>SET MASK</code> post-escritura en Unity Catalog</li>
-<li><strong>Dual runtime</strong> — mismo código en PC local y en Databricks</li>
-<li><strong>Migraciones seguras</strong> — <code>SafeMigrator</code> compara contrato vs estado real y genera plan sin pérdida de datos</li>
-<li><strong>Logging estructurado</strong> — cada operación loguea inicio, fin y duración</li>
-</ul>
-<h2 id="quickstart">Quickstart<a class="headerlink" href="#quickstart" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">DKOps.launcher</span><span class="w"> </span><span class="kn">import</span> <span class="n">Launcher</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">DKOps.table_governance</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_contract</span><span class="p">,</span> <span class="n">TableWriter</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">launcher</span> <span class="o">=</span> <span class="n">Launcher</span><span class="p">(</span><span class="s2">&quot;config/config.json&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">contract</span> <span class="o">=</span> <span class="n">load_contract</span><span class="p">(</span><span class="s2">&quot;tables/fact_ventas.json&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="c1"># Carga full</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="n">TableWriter</span><span class="p">(</span><span class="n">contract</span><span class="p">)</span><span class="o">.</span><span class="n">overwrite</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="c1"># Incremental — upsert por clave</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="n">TableWriter</span><span class="p">(</span><span class="n">contract</span><span class="p">)</span><span class="o">.</span><span class="n">upsert</span><span class="p">(</span><span class="n">df_delta</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;venta_id&quot;</span><span class="p">,</span> <span class="s2">&quot;fecha&quot;</span><span class="p">])</span>
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="c1"># Schema evolution — nuevas columnas sin recrear la tabla</span>
-<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="c1"># (requiere &quot;merge_schema&quot;: true en el contrato)</span>
-<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="n">TableWriter</span><span class="p">(</span><span class="n">contract</span><span class="p">)</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df_con_cols_nuevas</span><span class="p">)</span>
+<h1 id="arquitectura">Arquitectura<a class="headerlink" href="#arquitectura" title="Permanent link">&para;</a></h1>
+<h2 id="diagrama-de-paquetes">Diagrama de paquetes<a class="headerlink" href="#diagrama-de-paquetes" title="Permanent link">&para;</a></h2>
+<p><img alt="Paquetes DKOps" src="../../assets/packages_DKOps.png" /></p>
+<h2 id="diagrama-de-clases">Diagrama de clases<a class="headerlink" href="#diagrama-de-clases" title="Permanent link">&para;</a></h2>
+<p><img alt="Clases DKOps" src="../../assets/classes_DKOps.png" /></p>
+<h2 id="descripcion-de-componentes">Descripción de componentes<a class="headerlink" href="#descripcion-de-componentes" title="Permanent link">&para;</a></h2>
+<h3 id="core">Core<a class="headerlink" href="#core" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Módulo</th>
+<th>Responsabilidad</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Launcher</code></td>
+<td>Punto de entrada único. Detecta el runtime (local / Databricks), crea la <code>SparkSession</code> y se registra como singleton.</td>
+</tr>
+<tr>
+<td><code>EnvironmentConfig</code></td>
+<td>Resuelve placeholders <code>{catalog.bronze}</code>, <code>{path.raw}</code> según el workspace activo.</td>
+</tr>
+<tr>
+<td><code>LoggerConfig</code></td>
+<td>Logging estructurado con <code>loguru</code>. Mixin <code>LoggableMixin</code> para inyectar <code>self.log</code> en cualquier clase.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="table_governance">table_governance<a class="headerlink" href="#table_governance" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>table_governance/
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>├── contracts/
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>│   ├── loader.py     # JSON → TableContract / ColumnContract (inmutable, frozen dataclass)
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>│   └── validator.py  # valida tipos y nullabilidad de un DataFrame contra el contrato
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>├── writers/
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>│   ├── table_writer.py     # ★ fachada pública
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>│   ├── base_writer.py      # bridge local ↔ Databricks + merge_schema + masks
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>│   ├── create_writer.py    # CREATE OR REPLACE TABLE + SET MASK
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>│   ├── append_writer.py    # INSERT INTO (soporta mergeSchema)
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>│   ├── upsert_writer.py    # MERGE INTO (SCD1)
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>│   ├── partition_writer.py # overwrite_partition (soporta mergeSchema)
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>│   └── delete_writer.py    # DELETE WHERE
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>└── migrations/
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>    └── safe_migrator.py    # compara contrato vs estado real → plan de ALTER TABLE
 </code></pre></div>
-<h2 id="arquitectura">Arquitectura<a class="headerlink" href="#arquitectura" title="Permanent link">&para;</a></h2>
+<h3 id="flujo-de-una-escritura">Flujo de una escritura<a class="headerlink" href="#flujo-de-una-escritura" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>TableWriter.overwrite(df)
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    └── CreateWriter(contract, **kwargs).write(df)
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>            ├── BaseWriter.__init__()          → Launcher.current() para spark/env
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>            ├── SchemaValidator.validate(df)   → verifica tipos y nulls
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>            ├── BaseWriter._write_df(df, &quot;overwrite&quot;)
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>            │       ├── DataFrameWriter.format(&quot;delta&quot;).mode(&quot;overwrite&quot;)
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>            │       └── .option(&quot;overwriteSchema&quot;,&quot;true&quot;) si procede
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>            └── CreateWriter._post_write()
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>                    ├── _apply_column_comments()  → ALTER COLUMN COMMENT
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>                    ├── _apply_tblproperties()    → SET TBLPROPERTIES
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>                    ├── _apply_permissions()      → GRANT (solo Databricks)
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>                    └── _apply_column_masks()     → SET MASK (solo Databricks)
+</code></pre></div>
+<h3 id="singleton-launcher">Singleton Launcher<a class="headerlink" href="#singleton-launcher" title="Permanent link">&para;</a></h3>
+<p>Todos los writers y el <code>SafeMigrator</code> llaman <code>Launcher.current()</code> en lugar de recibir <code>spark</code> / <code>env</code> como parámetros. Esto mantiene la API mínima:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">TableWriter</span><span class="p">(</span><span class="n">contract</span><span class="p">)</span><span class="o">.</span><span class="n">overwrite</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>   <span class="c1"># ← sin spark, sin env, sin config</span>
+</code></pre></div>
+<p>El Launcher se instancia <strong>una vez</strong> al inicio del pipeline y queda disponible para el resto del proceso.</p>
 
 
 
@@ -1474,10 +1617,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "content.code.copy"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
     
     
-      <script src="assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
   </body>

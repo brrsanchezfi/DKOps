@@ -13,14 +13,17 @@
       
       
       
-        <link rel="prev" href="../../guide/migrations/">
+        <link rel="prev" href="../../guide/architecture/">
       
       
         <link rel="next" href="../environment_config/">
       
       
+        
+      
+      
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.50">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
@@ -28,10 +31,10 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.a40c8224.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -56,7 +59,6 @@
     
       
 
-    
     
     
   </head>
@@ -150,11 +152,13 @@
     
     
     
-      <label class="md-header__button md-icon" for="__search">
-        
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
-      </label>
-      <div class="md-search" data-md-component="search" role="dialog">
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
@@ -186,13 +190,14 @@
     </div>
   </div>
 </div>
+      
     
     
       <div class="md-header__source">
         <a href="https://github.com/brrsanchezfi/BigDataFrameworkSpark" title="Ir al repositorio" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
   </div>
   <div class="md-source__repository">
     brrsanchezfi/DKOps
@@ -218,9 +223,11 @@
   
   
   
+  
     <li class="md-tabs__item">
       <a href="../.." class="md-tabs__link">
         
+  
   
     
   
@@ -235,11 +242,13 @@
   
   
   
+  
     
     
       <li class="md-tabs__item">
         <a href="../../guide/quickstart/" class="md-tabs__link">
           
+  
   
   Guía de uso
 
@@ -252,12 +261,14 @@
         
   
   
+  
     
   
   
     
     
       
+  
   
   
     
@@ -268,6 +279,7 @@
       <li class="md-tabs__item md-tabs__item--active">
         <a href="./" class="md-tabs__link">
           
+  
   
   API Reference
 
@@ -315,7 +327,7 @@
       <a href="https://github.com/brrsanchezfi/BigDataFrameworkSpark" title="Ir al repositorio" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
   </div>
   <div class="md-source__repository">
     brrsanchezfi/DKOps
@@ -335,9 +347,16 @@
       <a href="../.." class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
+    
+  
     Inicio
+  
+
+    
   </span>
+  
   
 
       </a>
@@ -351,6 +370,7 @@
   
   
   
+    
     
     
     
@@ -372,9 +392,16 @@
           <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
             
   
+  
   <span class="md-ellipsis">
+    
+  
     Guía de uso
+  
+
+    
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -383,7 +410,11 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
-            Guía de uso
+            
+  
+    Guía de uso
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -397,9 +428,16 @@
       <a href="../../guide/quickstart/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
+    
+  
     Quickstart
+  
+
+    
   </span>
+  
   
 
       </a>
@@ -418,9 +456,16 @@
       <a href="../../guide/contracts/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
+    
+  
     Contratos de tabla
+  
+
+    
   </span>
+  
   
 
       </a>
@@ -439,9 +484,16 @@
       <a href="../../guide/writers/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
+    
+  
     Writers
+  
+
+    
   </span>
+  
   
 
       </a>
@@ -460,9 +512,44 @@
       <a href="../../guide/migrations/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
+    
+  
     Migraciones
+  
+
+    
   </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guide/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitectura
+  
+
+    
+  </span>
+  
   
 
       </a>
@@ -489,6 +576,7 @@
     
     
     
+    
       
         
         
@@ -508,9 +596,16 @@
           <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
             
   
+  
   <span class="md-ellipsis">
+    
+  
     API Reference
+  
+
+    
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -519,7 +614,11 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
-            API Reference
+            
+  
+    API Reference
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -531,6 +630,7 @@
   
   
   
+    
     
     
     
@@ -553,9 +653,16 @@
           <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="">
             
   
+  
   <span class="md-ellipsis">
+    
+  
     Core
+  
+
+    
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -564,7 +671,11 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3_1">
             <span class="md-nav__icon md-icon"></span>
-            Core
+            
+  
+    Core
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -587,9 +698,16 @@
         <label class="md-nav__link md-nav__link--active" for="__toc">
           
   
+  
   <span class="md-ellipsis">
+    
+  
     Launcher
+  
+
+    
   </span>
+  
   
 
           <span class="md-nav__icon md-icon"></span>
@@ -598,9 +716,16 @@
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
+  
   <span class="md-ellipsis">
+    
+  
     Launcher
+  
+
+    
   </span>
+  
   
 
       </a>
@@ -623,7 +748,9 @@
         <li class="md-nav__item">
   <a href="#DKOps.launcher" class="md-nav__link">
     <span class="md-ellipsis">
-      launcher
+      
+        launcher
+      
     </span>
   </a>
   
@@ -633,7 +760,9 @@
           <li class="md-nav__item">
   <a href="#DKOps.launcher--launcherpy" class="md-nav__link">
     <span class="md-ellipsis">
-      launcher.py
+      
+        launcher.py
+      
     </span>
   </a>
   
@@ -643,7 +772,9 @@
           <li class="md-nav__item">
   <a href="#DKOps.launcher--resolucion-de-configjson-prioridad" class="md-nav__link">
     <span class="md-ellipsis">
-      Resolución de config.json (prioridad)
+      
+        Resolución de config.json (prioridad)
+      
     </span>
   </a>
   
@@ -652,7 +783,20 @@
           <li class="md-nav__item">
   <a href="#DKOps.launcher--runtimes-soportados" class="md-nav__link">
     <span class="md-ellipsis">
-      Runtimes soportados
+      
+        Runtimes soportados
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#DKOps.launcher--singleton-implicito" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Singleton implícito
+      
     </span>
   </a>
   
@@ -661,7 +805,9 @@
           <li class="md-nav__item">
   <a href="#DKOps.launcher--campos-relevantes-de-configjson" class="md-nav__link">
     <span class="md-ellipsis">
-      Campos relevantes de config.json
+      
+        Campos relevantes de config.json
+      
     </span>
   </a>
   
@@ -675,7 +821,9 @@
           <li class="md-nav__item">
   <a href="#DKOps.launcher-attributes" class="md-nav__link">
     <span class="md-ellipsis">
-      Attributes
+      
+        Attributes
+      
     </span>
   </a>
   
@@ -685,7 +833,9 @@
           <li class="md-nav__item">
   <a href="#DKOps.launcher.ENV_VAR_CONFIG" class="md-nav__link">
     <span class="md-ellipsis">
-      ENV_VAR_CONFIG
+      
+        ENV_VAR_CONFIG
+      
     </span>
   </a>
   
@@ -694,7 +844,9 @@
           <li class="md-nav__item">
   <a href="#DKOps.launcher.DEFAULT_WAREHOUSE_DIR" class="md-nav__link">
     <span class="md-ellipsis">
-      DEFAULT_WAREHOUSE_DIR
+      
+        DEFAULT_WAREHOUSE_DIR
+      
     </span>
   </a>
   
@@ -703,7 +855,9 @@
           <li class="md-nav__item">
   <a href="#DKOps.launcher.DEFAULT_DELTA_VERSION" class="md-nav__link">
     <span class="md-ellipsis">
-      DEFAULT_DELTA_VERSION
+      
+        DEFAULT_DELTA_VERSION
+      
     </span>
   </a>
   
@@ -717,7 +871,9 @@
           <li class="md-nav__item">
   <a href="#DKOps.launcher-classes" class="md-nav__link">
     <span class="md-ellipsis">
-      Classes
+      
+        Classes
+      
     </span>
   </a>
   
@@ -727,7 +883,9 @@
           <li class="md-nav__item">
   <a href="#DKOps.launcher.Launcher" class="md-nav__link">
     <span class="md-ellipsis">
-      Launcher
+      
+        Launcher
+      
     </span>
   </a>
   
@@ -737,7 +895,9 @@
           <li class="md-nav__item">
   <a href="#DKOps.launcher.Launcher--tres-runtimes-posibles" class="md-nav__link">
     <span class="md-ellipsis">
-      Tres runtimes posibles
+      
+        Tres runtimes posibles
+      
     </span>
   </a>
   
@@ -746,7 +906,9 @@
           <li class="md-nav__item">
   <a href="#DKOps.launcher.Launcher--uso" class="md-nav__link">
     <span class="md-ellipsis">
-      Uso
+      
+        Uso
+      
     </span>
   </a>
   
@@ -755,7 +917,9 @@
           <li class="md-nav__item">
   <a href="#DKOps.launcher.Launcher-attributes" class="md-nav__link">
     <span class="md-ellipsis">
-      Attributes
+      
+        Attributes
+      
     </span>
   </a>
   
@@ -765,7 +929,9 @@
           <li class="md-nav__item">
   <a href="#DKOps.launcher.Launcher.config" class="md-nav__link">
     <span class="md-ellipsis">
-      config
+      
+        config
+      
     </span>
   </a>
   
@@ -774,7 +940,9 @@
           <li class="md-nav__item">
   <a href="#DKOps.launcher.Launcher.spark" class="md-nav__link">
     <span class="md-ellipsis">
-      spark
+      
+        spark
+      
     </span>
   </a>
   
@@ -783,7 +951,9 @@
           <li class="md-nav__item">
   <a href="#DKOps.launcher.Launcher.env" class="md-nav__link">
     <span class="md-ellipsis">
-      env
+      
+        env
+      
     </span>
   </a>
   
@@ -797,7 +967,9 @@
           <li class="md-nav__item">
   <a href="#DKOps.launcher.Launcher-functions" class="md-nav__link">
     <span class="md-ellipsis">
-      Functions
+      
+        Functions
+      
     </span>
   </a>
   
@@ -807,7 +979,20 @@
           <li class="md-nav__item">
   <a href="#DKOps.launcher.Launcher.__init__" class="md-nav__link">
     <span class="md-ellipsis">
-      __init__
+      
+        __init__
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#DKOps.launcher.Launcher.current" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        current
+      
     </span>
   </a>
   
@@ -831,7 +1016,9 @@
           <li class="md-nav__item">
   <a href="#DKOps.launcher-functions" class="md-nav__link">
     <span class="md-ellipsis">
-      Functions
+      
+        Functions
+      
     </span>
   </a>
   
@@ -861,9 +1048,16 @@
       <a href="../environment_config/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
+    
+  
     EnvironmentConfig
+  
+
+    
   </span>
+  
   
 
       </a>
@@ -882,9 +1076,16 @@
       <a href="../logger_config/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
+    
+  
     LoggerConfig
+  
+
+    
   </span>
+  
   
 
       </a>
@@ -907,6 +1108,7 @@
   
   
   
+    
     
     
     
@@ -931,9 +1133,16 @@
           <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="">
             
   
+  
   <span class="md-ellipsis">
+    
+  
     Contracts
+  
+
+    
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -942,7 +1151,11 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3_2">
             <span class="md-nav__icon md-icon"></span>
-            Contracts
+            
+  
+    Contracts
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -956,9 +1169,16 @@
       <a href="../contracts/loader/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
+    
+  
     loader
+  
+
+    
   </span>
+  
   
 
       </a>
@@ -977,9 +1197,16 @@
       <a href="../contracts/validator/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
+    
+  
     validator
+  
+
+    
   </span>
+  
   
 
       </a>
@@ -1002,6 +1229,7 @@
   
   
   
+    
     
     
     
@@ -1026,9 +1254,16 @@
           <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="">
             
   
+  
   <span class="md-ellipsis">
+    
+  
     Writers
+  
+
+    
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -1037,9 +1272,41 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3_3">
             <span class="md-nav__icon md-icon"></span>
-            Writers
+            
+  
+    Writers
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../writers/table_writer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    table_writer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -1051,9 +1318,16 @@
       <a href="../writers/base/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
+    
+  
     base_writer
+  
+
+    
   </span>
+  
   
 
       </a>
@@ -1072,9 +1346,16 @@
       <a href="../writers/create/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
+    
+  
     create_writer
+  
+
+    
   </span>
+  
   
 
       </a>
@@ -1093,9 +1374,16 @@
       <a href="../writers/append/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
+    
+  
     append_writer
+  
+
+    
   </span>
+  
   
 
       </a>
@@ -1114,9 +1402,16 @@
       <a href="../writers/upsert/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
+    
+  
     upsert_writer
+  
+
+    
   </span>
+  
   
 
       </a>
@@ -1135,9 +1430,16 @@
       <a href="../writers/partition/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
+    
+  
     partition_writer
+  
+
+    
   </span>
+  
   
 
       </a>
@@ -1156,9 +1458,16 @@
       <a href="../writers/delete/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
+    
+  
     delete_writer
+  
+
+    
   </span>
+  
   
 
       </a>
@@ -1184,6 +1493,7 @@
     
     
     
+    
       
       
         
@@ -1205,9 +1515,16 @@
           <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="">
             
   
+  
   <span class="md-ellipsis">
+    
+  
     Migrations
+  
+
+    
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -1216,7 +1533,11 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3_4">
             <span class="md-nav__icon md-icon"></span>
-            Migrations
+            
+  
+    Migrations
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -1230,9 +1551,16 @@
       <a href="../migrations/safe_migrator/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
+    
+  
     safe_migrator
+  
+
+    
   </span>
+  
   
 
       </a>
@@ -1285,7 +1613,9 @@
         <li class="md-nav__item">
   <a href="#DKOps.launcher" class="md-nav__link">
     <span class="md-ellipsis">
-      launcher
+      
+        launcher
+      
     </span>
   </a>
   
@@ -1295,7 +1625,9 @@
           <li class="md-nav__item">
   <a href="#DKOps.launcher--launcherpy" class="md-nav__link">
     <span class="md-ellipsis">
-      launcher.py
+      
+        launcher.py
+      
     </span>
   </a>
   
@@ -1305,7 +1637,9 @@
           <li class="md-nav__item">
   <a href="#DKOps.launcher--resolucion-de-configjson-prioridad" class="md-nav__link">
     <span class="md-ellipsis">
-      Resolución de config.json (prioridad)
+      
+        Resolución de config.json (prioridad)
+      
     </span>
   </a>
   
@@ -1314,7 +1648,20 @@
           <li class="md-nav__item">
   <a href="#DKOps.launcher--runtimes-soportados" class="md-nav__link">
     <span class="md-ellipsis">
-      Runtimes soportados
+      
+        Runtimes soportados
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#DKOps.launcher--singleton-implicito" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Singleton implícito
+      
     </span>
   </a>
   
@@ -1323,7 +1670,9 @@
           <li class="md-nav__item">
   <a href="#DKOps.launcher--campos-relevantes-de-configjson" class="md-nav__link">
     <span class="md-ellipsis">
-      Campos relevantes de config.json
+      
+        Campos relevantes de config.json
+      
     </span>
   </a>
   
@@ -1337,7 +1686,9 @@
           <li class="md-nav__item">
   <a href="#DKOps.launcher-attributes" class="md-nav__link">
     <span class="md-ellipsis">
-      Attributes
+      
+        Attributes
+      
     </span>
   </a>
   
@@ -1347,7 +1698,9 @@
           <li class="md-nav__item">
   <a href="#DKOps.launcher.ENV_VAR_CONFIG" class="md-nav__link">
     <span class="md-ellipsis">
-      ENV_VAR_CONFIG
+      
+        ENV_VAR_CONFIG
+      
     </span>
   </a>
   
@@ -1356,7 +1709,9 @@
           <li class="md-nav__item">
   <a href="#DKOps.launcher.DEFAULT_WAREHOUSE_DIR" class="md-nav__link">
     <span class="md-ellipsis">
-      DEFAULT_WAREHOUSE_DIR
+      
+        DEFAULT_WAREHOUSE_DIR
+      
     </span>
   </a>
   
@@ -1365,7 +1720,9 @@
           <li class="md-nav__item">
   <a href="#DKOps.launcher.DEFAULT_DELTA_VERSION" class="md-nav__link">
     <span class="md-ellipsis">
-      DEFAULT_DELTA_VERSION
+      
+        DEFAULT_DELTA_VERSION
+      
     </span>
   </a>
   
@@ -1379,7 +1736,9 @@
           <li class="md-nav__item">
   <a href="#DKOps.launcher-classes" class="md-nav__link">
     <span class="md-ellipsis">
-      Classes
+      
+        Classes
+      
     </span>
   </a>
   
@@ -1389,7 +1748,9 @@
           <li class="md-nav__item">
   <a href="#DKOps.launcher.Launcher" class="md-nav__link">
     <span class="md-ellipsis">
-      Launcher
+      
+        Launcher
+      
     </span>
   </a>
   
@@ -1399,7 +1760,9 @@
           <li class="md-nav__item">
   <a href="#DKOps.launcher.Launcher--tres-runtimes-posibles" class="md-nav__link">
     <span class="md-ellipsis">
-      Tres runtimes posibles
+      
+        Tres runtimes posibles
+      
     </span>
   </a>
   
@@ -1408,7 +1771,9 @@
           <li class="md-nav__item">
   <a href="#DKOps.launcher.Launcher--uso" class="md-nav__link">
     <span class="md-ellipsis">
-      Uso
+      
+        Uso
+      
     </span>
   </a>
   
@@ -1417,7 +1782,9 @@
           <li class="md-nav__item">
   <a href="#DKOps.launcher.Launcher-attributes" class="md-nav__link">
     <span class="md-ellipsis">
-      Attributes
+      
+        Attributes
+      
     </span>
   </a>
   
@@ -1427,7 +1794,9 @@
           <li class="md-nav__item">
   <a href="#DKOps.launcher.Launcher.config" class="md-nav__link">
     <span class="md-ellipsis">
-      config
+      
+        config
+      
     </span>
   </a>
   
@@ -1436,7 +1805,9 @@
           <li class="md-nav__item">
   <a href="#DKOps.launcher.Launcher.spark" class="md-nav__link">
     <span class="md-ellipsis">
-      spark
+      
+        spark
+      
     </span>
   </a>
   
@@ -1445,7 +1816,9 @@
           <li class="md-nav__item">
   <a href="#DKOps.launcher.Launcher.env" class="md-nav__link">
     <span class="md-ellipsis">
-      env
+      
+        env
+      
     </span>
   </a>
   
@@ -1459,7 +1832,9 @@
           <li class="md-nav__item">
   <a href="#DKOps.launcher.Launcher-functions" class="md-nav__link">
     <span class="md-ellipsis">
-      Functions
+      
+        Functions
+      
     </span>
   </a>
   
@@ -1469,7 +1844,20 @@
           <li class="md-nav__item">
   <a href="#DKOps.launcher.Launcher.__init__" class="md-nav__link">
     <span class="md-ellipsis">
-      __init__
+      
+        __init__
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#DKOps.launcher.Launcher.current" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        current
+      
     </span>
   </a>
   
@@ -1493,7 +1881,9 @@
           <li class="md-nav__item">
   <a href="#DKOps.launcher-functions" class="md-nav__link">
     <span class="md-ellipsis">
-      Functions
+      
+        Functions
+      
     </span>
   </a>
   
@@ -1514,9 +1904,11 @@
           
           
             <div class="md-content" data-md-component="content">
+              
               <article class="md-content__inner md-typeset">
                 
                   
+
 
   
   
@@ -1557,6 +1949,11 @@ Hereda LoggableMixin para que todos sus logs aparezcan con contexto "Launcher".<
 <p>EXECUTION_ENVIRONMENT = "databricks"
     └─ Databricks Connect  → SparkSession remota vía databricks-connect
                               is_databricks = True</p>
+<h4 id="DKOps.launcher--singleton-implicito">Singleton implícito<a class="headerlink" href="#DKOps.launcher--singleton-implicito" title="Permanent link">&para;</a></h4>
+<p>La instancia más reciente de Launcher se registra como <code>Launcher._current</code>.
+Otros componentes (writers, loaders, etc.) la obtienen vía <code>Launcher.current()</code>
+sin necesidad de pasar <code>spark</code> y <code>env</code> explícitamente. Asume un único
+Launcher activo por proceso.</p>
 <h4 id="DKOps.launcher--campos-relevantes-de-configjson">Campos relevantes de config.json<a class="headerlink" href="#DKOps.launcher--campos-relevantes-de-configjson" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span><code>&quot;EXECUTION_ENVIRONMENT&quot;: &quot;local&quot; | &quot;databricks&quot;
 
@@ -1581,7 +1978,9 @@ Hereda LoggableMixin para que todos sus logs aparezcan con contexto "Launcher".<
 
 
 
-  <div class="doc doc-children">
+
+
+<div class="doc doc-children">
 
 
 
@@ -1604,6 +2003,7 @@ Hereda LoggableMixin para que todos sus logs aparezcan con contexto "Launcher".<
 
 
     <div class="doc doc-contents ">
+
     </div>
 
 </div>
@@ -1623,6 +2023,7 @@ Hereda LoggableMixin para que todos sus logs aparezcan con contexto "Launcher".<
 
 
     <div class="doc doc-contents ">
+
     </div>
 
 </div>
@@ -1642,9 +2043,11 @@ Hereda LoggableMixin para que todos sus logs aparezcan con contexto "Launcher".<
 
 
     <div class="doc doc-contents ">
+
     </div>
 
 </div>
+
 <h3 id="DKOps.launcher-classes">Classes<a href="#DKOps.launcher-classes" class="headerlink" title="Permanent link">&para;</a></h3>
 
 <div class="doc doc-object doc-class">
@@ -1660,7 +2063,8 @@ Hereda LoggableMixin para que todos sus logs aparezcan con contexto "Launcher".<
 
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
-              Bases: <code><a class="autorefs autorefs-internal" title="DKOps.logger_config.LoggableMixin" href="../logger_config/#DKOps.logger_config.LoggableMixin">LoggableMixin</a></code></p>
+              Bases: <code><a class="autorefs autorefs-internal" title="LoggableMixin (DKOps.logger_config.LoggableMixin)" href="../logger_config/#DKOps.logger_config.LoggableMixin">LoggableMixin</a></code></p>
+
 
 
         <p>Inicializa la SparkSession correcta según el entorno definido en config.json.</p>
@@ -1676,6 +2080,9 @@ Hereda LoggableMixin para que todos sus logs aparezcan con contexto "Launcher".<
 <div class="highlight"><pre><span></span><code>launcher = Launcher(&quot;config/config.json&quot;)
 spark    = launcher.spark   # SparkSession lista
 env      = launcher.env     # EnvironmentConfig
+
+# Otros componentes acceden via singleton:
+Launcher.current().spark
 </code></pre></div>
 
 
@@ -1683,18 +2090,11 @@ env      = launcher.env     # EnvironmentConfig
 
 
 
-              <details class="quote">
-                <summary>Source code in <code>src/DKOps/launcher.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-58"> 58</a></span>
-<span class="normal"><a href="#__codelineno-0-59"> 59</a></span>
-<span class="normal"><a href="#__codelineno-0-60"> 60</a></span>
-<span class="normal"><a href="#__codelineno-0-61"> 61</a></span>
-<span class="normal"><a href="#__codelineno-0-62"> 62</a></span>
-<span class="normal"><a href="#__codelineno-0-63"> 63</a></span>
-<span class="normal"><a href="#__codelineno-0-64"> 64</a></span>
-<span class="normal"><a href="#__codelineno-0-65"> 65</a></span>
-<span class="normal"><a href="#__codelineno-0-66"> 66</a></span>
-<span class="normal"><a href="#__codelineno-0-67"> 67</a></span>
+
+
+              <details class="mkdocstrings-source">
+                <summary>Source code in <code>src\DKOps\launcher.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-67"> 67</a></span>
 <span class="normal"><a href="#__codelineno-0-68"> 68</a></span>
 <span class="normal"><a href="#__codelineno-0-69"> 69</a></span>
 <span class="normal"><a href="#__codelineno-0-70"> 70</a></span>
@@ -1955,283 +2355,354 @@ env      = launcher.env     # EnvironmentConfig
 <span class="normal"><a href="#__codelineno-0-325">325</a></span>
 <span class="normal"><a href="#__codelineno-0-326">326</a></span>
 <span class="normal"><a href="#__codelineno-0-327">327</a></span>
-<span class="normal"><a href="#__codelineno-0-328">328</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-58" name="__codelineno-0-58"></a><span class="k">class</span><span class="w"> </span><span class="nc">Launcher</span><span class="p">(</span><span class="n">LoggableMixin</span><span class="p">):</span>
-<a id="__codelineno-0-59" name="__codelineno-0-59"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<a id="__codelineno-0-60" name="__codelineno-0-60"></a><span class="sd">    Inicializa la SparkSession correcta según el entorno definido en config.json.</span>
-<a id="__codelineno-0-61" name="__codelineno-0-61"></a>
-<a id="__codelineno-0-62" name="__codelineno-0-62"></a><span class="sd">    Tres runtimes posibles</span>
-<a id="__codelineno-0-63" name="__codelineno-0-63"></a><span class="sd">    ----------------------</span>
-<a id="__codelineno-0-64" name="__codelineno-0-64"></a><span class="sd">    1. local-pc         → tu máquina, Spark + Delta configurados desde cero</span>
-<a id="__codelineno-0-65" name="__codelineno-0-65"></a><span class="sd">    2. local-databricks → notebook/job dentro del workspace Databricks,</span>
-<a id="__codelineno-0-66" name="__codelineno-0-66"></a><span class="sd">                          SparkSession ya existe con Delta nativo</span>
-<a id="__codelineno-0-67" name="__codelineno-0-67"></a><span class="sd">    3. databricks       → Databricks Connect desde tu PC hacia un cluster remoto</span>
-<a id="__codelineno-0-68" name="__codelineno-0-68"></a>
-<a id="__codelineno-0-69" name="__codelineno-0-69"></a><span class="sd">    El runtime 2 se detecta automáticamente aunque EXECUTION_ENVIRONMENT=&#39;local&#39;.</span>
+<span class="normal"><a href="#__codelineno-0-328">328</a></span>
+<span class="normal"><a href="#__codelineno-0-329">329</a></span>
+<span class="normal"><a href="#__codelineno-0-330">330</a></span>
+<span class="normal"><a href="#__codelineno-0-331">331</a></span>
+<span class="normal"><a href="#__codelineno-0-332">332</a></span>
+<span class="normal"><a href="#__codelineno-0-333">333</a></span>
+<span class="normal"><a href="#__codelineno-0-334">334</a></span>
+<span class="normal"><a href="#__codelineno-0-335">335</a></span>
+<span class="normal"><a href="#__codelineno-0-336">336</a></span>
+<span class="normal"><a href="#__codelineno-0-337">337</a></span>
+<span class="normal"><a href="#__codelineno-0-338">338</a></span>
+<span class="normal"><a href="#__codelineno-0-339">339</a></span>
+<span class="normal"><a href="#__codelineno-0-340">340</a></span>
+<span class="normal"><a href="#__codelineno-0-341">341</a></span>
+<span class="normal"><a href="#__codelineno-0-342">342</a></span>
+<span class="normal"><a href="#__codelineno-0-343">343</a></span>
+<span class="normal"><a href="#__codelineno-0-344">344</a></span>
+<span class="normal"><a href="#__codelineno-0-345">345</a></span>
+<span class="normal"><a href="#__codelineno-0-346">346</a></span>
+<span class="normal"><a href="#__codelineno-0-347">347</a></span>
+<span class="normal"><a href="#__codelineno-0-348">348</a></span>
+<span class="normal"><a href="#__codelineno-0-349">349</a></span>
+<span class="normal"><a href="#__codelineno-0-350">350</a></span>
+<span class="normal"><a href="#__codelineno-0-351">351</a></span>
+<span class="normal"><a href="#__codelineno-0-352">352</a></span>
+<span class="normal"><a href="#__codelineno-0-353">353</a></span>
+<span class="normal"><a href="#__codelineno-0-354">354</a></span>
+<span class="normal"><a href="#__codelineno-0-355">355</a></span>
+<span class="normal"><a href="#__codelineno-0-356">356</a></span>
+<span class="normal"><a href="#__codelineno-0-357">357</a></span>
+<span class="normal"><a href="#__codelineno-0-358">358</a></span>
+<span class="normal"><a href="#__codelineno-0-359">359</a></span>
+<span class="normal"><a href="#__codelineno-0-360">360</a></span>
+<span class="normal"><a href="#__codelineno-0-361">361</a></span>
+<span class="normal"><a href="#__codelineno-0-362">362</a></span>
+<span class="normal"><a href="#__codelineno-0-363">363</a></span>
+<span class="normal"><a href="#__codelineno-0-364">364</a></span>
+<span class="normal"><a href="#__codelineno-0-365">365</a></span>
+<span class="normal"><a href="#__codelineno-0-366">366</a></span>
+<span class="normal"><a href="#__codelineno-0-367">367</a></span>
+<span class="normal"><a href="#__codelineno-0-368">368</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-67" name="__codelineno-0-67"></a><span class="k">class</span><span class="w"> </span><span class="nc">Launcher</span><span class="p">(</span><span class="n">LoggableMixin</span><span class="p">):</span>
+<a id="__codelineno-0-68" name="__codelineno-0-68"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<a id="__codelineno-0-69" name="__codelineno-0-69"></a><span class="sd">    Inicializa la SparkSession correcta según el entorno definido en config.json.</span>
 <a id="__codelineno-0-70" name="__codelineno-0-70"></a>
-<a id="__codelineno-0-71" name="__codelineno-0-71"></a><span class="sd">    Uso</span>
-<a id="__codelineno-0-72" name="__codelineno-0-72"></a><span class="sd">    ---</span>
-<a id="__codelineno-0-73" name="__codelineno-0-73"></a><span class="sd">        launcher = Launcher(&quot;config/config.json&quot;)</span>
-<a id="__codelineno-0-74" name="__codelineno-0-74"></a><span class="sd">        spark    = launcher.spark   # SparkSession lista</span>
-<a id="__codelineno-0-75" name="__codelineno-0-75"></a><span class="sd">        env      = launcher.env     # EnvironmentConfig</span>
-<a id="__codelineno-0-76" name="__codelineno-0-76"></a><span class="sd">    &quot;&quot;&quot;</span>
+<a id="__codelineno-0-71" name="__codelineno-0-71"></a><span class="sd">    Tres runtimes posibles</span>
+<a id="__codelineno-0-72" name="__codelineno-0-72"></a><span class="sd">    ----------------------</span>
+<a id="__codelineno-0-73" name="__codelineno-0-73"></a><span class="sd">    1. local-pc         → tu máquina, Spark + Delta configurados desde cero</span>
+<a id="__codelineno-0-74" name="__codelineno-0-74"></a><span class="sd">    2. local-databricks → notebook/job dentro del workspace Databricks,</span>
+<a id="__codelineno-0-75" name="__codelineno-0-75"></a><span class="sd">                          SparkSession ya existe con Delta nativo</span>
+<a id="__codelineno-0-76" name="__codelineno-0-76"></a><span class="sd">    3. databricks       → Databricks Connect desde tu PC hacia un cluster remoto</span>
 <a id="__codelineno-0-77" name="__codelineno-0-77"></a>
-<a id="__codelineno-0-78" name="__codelineno-0-78"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_file</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-0-79" name="__codelineno-0-79"></a>        <span class="n">config_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_config_path</span><span class="p">(</span><span class="n">config_file</span><span class="p">)</span>
-<a id="__codelineno-0-80" name="__codelineno-0-80"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_config</span><span class="p">(</span><span class="n">config_path</span><span class="p">)</span>
-<a id="__codelineno-0-81" name="__codelineno-0-81"></a>
-<a id="__codelineno-0-82" name="__codelineno-0-82"></a>        <span class="n">AppLogger</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
-<a id="__codelineno-0-83" name="__codelineno-0-83"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Configuración cargada desde: </span><span class="si">{</span><span class="n">config_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-84" name="__codelineno-0-84"></a>
-<a id="__codelineno-0-85" name="__codelineno-0-85"></a>        <span class="n">execution_env</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;EXECUTION_ENVIRONMENT&quot;</span><span class="p">,</span> <span class="s2">&quot;local&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-<a id="__codelineno-0-86" name="__codelineno-0-86"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;EXECUTION_ENVIRONMENT=&#39;</span><span class="si">{</span><span class="n">execution_env</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-87" name="__codelineno-0-87"></a>
-<a id="__codelineno-0-88" name="__codelineno-0-88"></a>        <span class="c1"># Detectar si corremos DENTRO de un cluster Databricks</span>
-<a id="__codelineno-0-89" name="__codelineno-0-89"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_native_databricks</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_detect_native_databricks</span><span class="p">()</span>
-<a id="__codelineno-0-90" name="__codelineno-0-90"></a>
-<a id="__codelineno-0-91" name="__codelineno-0-91"></a>        <span class="k">if</span> <span class="n">execution_env</span> <span class="o">==</span> <span class="s2">&quot;databricks&quot;</span><span class="p">:</span>
-<a id="__codelineno-0-92" name="__codelineno-0-92"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">spark</span>    <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_databricks</span><span class="p">()</span>
-<a id="__codelineno-0-93" name="__codelineno-0-93"></a>            <span class="n">is_databricks</span> <span class="o">=</span> <span class="kc">True</span>
-<a id="__codelineno-0-94" name="__codelineno-0-94"></a>
-<a id="__codelineno-0-95" name="__codelineno-0-95"></a>        <span class="k">elif</span> <span class="n">execution_env</span> <span class="o">==</span> <span class="s2">&quot;local&quot;</span><span class="p">:</span>
-<a id="__codelineno-0-96" name="__codelineno-0-96"></a>            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_native_databricks</span><span class="p">:</span>
-<a id="__codelineno-0-97" name="__codelineno-0-97"></a>                <span class="bp">self</span><span class="o">.</span><span class="n">spark</span>    <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_local_databricks</span><span class="p">()</span>
-<a id="__codelineno-0-98" name="__codelineno-0-98"></a>                <span class="n">is_databricks</span> <span class="o">=</span> <span class="kc">True</span>
-<a id="__codelineno-0-99" name="__codelineno-0-99"></a>            <span class="k">else</span><span class="p">:</span>
-<a id="__codelineno-0-100" name="__codelineno-0-100"></a>                <span class="bp">self</span><span class="o">.</span><span class="n">spark</span>    <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_local_pc</span><span class="p">()</span>
-<a id="__codelineno-0-101" name="__codelineno-0-101"></a>                <span class="n">is_databricks</span> <span class="o">=</span> <span class="kc">False</span>
-<a id="__codelineno-0-102" name="__codelineno-0-102"></a>        <span class="k">else</span><span class="p">:</span>
-<a id="__codelineno-0-103" name="__codelineno-0-103"></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-<a id="__codelineno-0-104" name="__codelineno-0-104"></a>                <span class="sa">f</span><span class="s2">&quot;EXECUTION_ENVIRONMENT=&#39;</span><span class="si">{</span><span class="n">execution_env</span><span class="si">}</span><span class="s2">&#39; no reconocido. &quot;</span>
-<a id="__codelineno-0-105" name="__codelineno-0-105"></a>                <span class="s2">&quot;Valores válidos: &#39;local&#39;, &#39;databricks&#39;.&quot;</span>
-<a id="__codelineno-0-106" name="__codelineno-0-106"></a>            <span class="p">)</span>
-<a id="__codelineno-0-107" name="__codelineno-0-107"></a>
-<a id="__codelineno-0-108" name="__codelineno-0-108"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">success</span><span class="p">(</span>
-<a id="__codelineno-0-109" name="__codelineno-0-109"></a>            <span class="sa">f</span><span class="s2">&quot;SparkSession lista ✔ | &quot;</span>
-<a id="__codelineno-0-110" name="__codelineno-0-110"></a>            <span class="sa">f</span><span class="s2">&quot;runtime=&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_resolve_runtime_label</span><span class="p">(</span><span class="n">execution_env</span><span class="p">,</span><span class="w"> </span><span class="n">is_databricks</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
-<a id="__codelineno-0-111" name="__codelineno-0-111"></a>        <span class="p">)</span>
-<a id="__codelineno-0-112" name="__codelineno-0-112"></a>
-<a id="__codelineno-0-113" name="__codelineno-0-113"></a>        <span class="k">if</span> <span class="s2">&quot;environments&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">:</span>
-<a id="__codelineno-0-114" name="__codelineno-0-114"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">env</span> <span class="o">=</span> <span class="n">EnvironmentConfig</span><span class="p">(</span>
-<a id="__codelineno-0-115" name="__codelineno-0-115"></a>                <span class="n">config</span>        <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span>
-<a id="__codelineno-0-116" name="__codelineno-0-116"></a>                <span class="n">is_databricks</span> <span class="o">=</span> <span class="n">is_databricks</span><span class="p">,</span>
-<a id="__codelineno-0-117" name="__codelineno-0-117"></a>            <span class="p">)</span>
-<a id="__codelineno-0-118" name="__codelineno-0-118"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Ambiente activo: &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">env</span><span class="si">}</span><span class="s2">&#39; ✔&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-119" name="__codelineno-0-119"></a>        <span class="k">else</span><span class="p">:</span>
-<a id="__codelineno-0-120" name="__codelineno-0-120"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">env</span> <span class="o">=</span> <span class="kc">None</span>
-<a id="__codelineno-0-121" name="__codelineno-0-121"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Sección &#39;environments&#39; no encontrada — env=None&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-78" name="__codelineno-0-78"></a><span class="sd">    El runtime 2 se detecta automáticamente aunque EXECUTION_ENVIRONMENT=&#39;local&#39;.</span>
+<a id="__codelineno-0-79" name="__codelineno-0-79"></a>
+<a id="__codelineno-0-80" name="__codelineno-0-80"></a><span class="sd">    Uso</span>
+<a id="__codelineno-0-81" name="__codelineno-0-81"></a><span class="sd">    ---</span>
+<a id="__codelineno-0-82" name="__codelineno-0-82"></a><span class="sd">        launcher = Launcher(&quot;config/config.json&quot;)</span>
+<a id="__codelineno-0-83" name="__codelineno-0-83"></a><span class="sd">        spark    = launcher.spark   # SparkSession lista</span>
+<a id="__codelineno-0-84" name="__codelineno-0-84"></a><span class="sd">        env      = launcher.env     # EnvironmentConfig</span>
+<a id="__codelineno-0-85" name="__codelineno-0-85"></a>
+<a id="__codelineno-0-86" name="__codelineno-0-86"></a><span class="sd">        # Otros componentes acceden via singleton:</span>
+<a id="__codelineno-0-87" name="__codelineno-0-87"></a><span class="sd">        Launcher.current().spark</span>
+<a id="__codelineno-0-88" name="__codelineno-0-88"></a><span class="sd">    &quot;&quot;&quot;</span>
+<a id="__codelineno-0-89" name="__codelineno-0-89"></a>
+<a id="__codelineno-0-90" name="__codelineno-0-90"></a>    <span class="c1"># Instancia activa del proceso — la consume Launcher.current()</span>
+<a id="__codelineno-0-91" name="__codelineno-0-91"></a>    <span class="n">_current</span><span class="p">:</span> <span class="s2">&quot;Launcher | None&quot;</span> <span class="o">=</span> <span class="kc">None</span>
+<a id="__codelineno-0-92" name="__codelineno-0-92"></a>
+<a id="__codelineno-0-93" name="__codelineno-0-93"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_file</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-0-94" name="__codelineno-0-94"></a>        <span class="n">config_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_config_path</span><span class="p">(</span><span class="n">config_file</span><span class="p">)</span>
+<a id="__codelineno-0-95" name="__codelineno-0-95"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_config</span><span class="p">(</span><span class="n">config_path</span><span class="p">)</span>
+<a id="__codelineno-0-96" name="__codelineno-0-96"></a>
+<a id="__codelineno-0-97" name="__codelineno-0-97"></a>        <span class="n">AppLogger</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+<a id="__codelineno-0-98" name="__codelineno-0-98"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Configuración cargada desde: </span><span class="si">{</span><span class="n">config_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-99" name="__codelineno-0-99"></a>
+<a id="__codelineno-0-100" name="__codelineno-0-100"></a>        <span class="n">execution_env</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;EXECUTION_ENVIRONMENT&quot;</span><span class="p">,</span> <span class="s2">&quot;local&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+<a id="__codelineno-0-101" name="__codelineno-0-101"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;EXECUTION_ENVIRONMENT=&#39;</span><span class="si">{</span><span class="n">execution_env</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-102" name="__codelineno-0-102"></a>
+<a id="__codelineno-0-103" name="__codelineno-0-103"></a>        <span class="c1"># Detectar si corremos DENTRO de un cluster Databricks</span>
+<a id="__codelineno-0-104" name="__codelineno-0-104"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_native_databricks</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_detect_native_databricks</span><span class="p">()</span>
+<a id="__codelineno-0-105" name="__codelineno-0-105"></a>
+<a id="__codelineno-0-106" name="__codelineno-0-106"></a>        <span class="k">if</span> <span class="n">execution_env</span> <span class="o">==</span> <span class="s2">&quot;databricks&quot;</span><span class="p">:</span>
+<a id="__codelineno-0-107" name="__codelineno-0-107"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">spark</span>    <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_databricks</span><span class="p">()</span>
+<a id="__codelineno-0-108" name="__codelineno-0-108"></a>            <span class="n">is_databricks</span> <span class="o">=</span> <span class="kc">True</span>
+<a id="__codelineno-0-109" name="__codelineno-0-109"></a>
+<a id="__codelineno-0-110" name="__codelineno-0-110"></a>        <span class="k">elif</span> <span class="n">execution_env</span> <span class="o">==</span> <span class="s2">&quot;local&quot;</span><span class="p">:</span>
+<a id="__codelineno-0-111" name="__codelineno-0-111"></a>            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_native_databricks</span><span class="p">:</span>
+<a id="__codelineno-0-112" name="__codelineno-0-112"></a>                <span class="bp">self</span><span class="o">.</span><span class="n">spark</span>    <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_local_databricks</span><span class="p">()</span>
+<a id="__codelineno-0-113" name="__codelineno-0-113"></a>                <span class="n">is_databricks</span> <span class="o">=</span> <span class="kc">True</span>
+<a id="__codelineno-0-114" name="__codelineno-0-114"></a>            <span class="k">else</span><span class="p">:</span>
+<a id="__codelineno-0-115" name="__codelineno-0-115"></a>                <span class="bp">self</span><span class="o">.</span><span class="n">spark</span>    <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_local_pc</span><span class="p">()</span>
+<a id="__codelineno-0-116" name="__codelineno-0-116"></a>                <span class="n">is_databricks</span> <span class="o">=</span> <span class="kc">False</span>
+<a id="__codelineno-0-117" name="__codelineno-0-117"></a>        <span class="k">else</span><span class="p">:</span>
+<a id="__codelineno-0-118" name="__codelineno-0-118"></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+<a id="__codelineno-0-119" name="__codelineno-0-119"></a>                <span class="sa">f</span><span class="s2">&quot;EXECUTION_ENVIRONMENT=&#39;</span><span class="si">{</span><span class="n">execution_env</span><span class="si">}</span><span class="s2">&#39; no reconocido. &quot;</span>
+<a id="__codelineno-0-120" name="__codelineno-0-120"></a>                <span class="s2">&quot;Valores válidos: &#39;local&#39;, &#39;databricks&#39;.&quot;</span>
+<a id="__codelineno-0-121" name="__codelineno-0-121"></a>            <span class="p">)</span>
 <a id="__codelineno-0-122" name="__codelineno-0-122"></a>
-<a id="__codelineno-0-123" name="__codelineno-0-123"></a>    <span class="c1"># ── Detección de runtime ──────────────────────────────────────────────</span>
-<a id="__codelineno-0-124" name="__codelineno-0-124"></a>
-<a id="__codelineno-0-125" name="__codelineno-0-125"></a>    <span class="nd">@staticmethod</span>
-<a id="__codelineno-0-126" name="__codelineno-0-126"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_detect_native_databricks</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<a id="__codelineno-0-127" name="__codelineno-0-127"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<a id="__codelineno-0-128" name="__codelineno-0-128"></a><span class="sd">        True si corremos DENTRO de un cluster Databricks</span>
-<a id="__codelineno-0-129" name="__codelineno-0-129"></a><span class="sd">        (notebook, job, workflow). En PC local siempre False.</span>
-<a id="__codelineno-0-130" name="__codelineno-0-130"></a><span class="sd">        &quot;&quot;&quot;</span>
-<a id="__codelineno-0-131" name="__codelineno-0-131"></a>        <span class="k">try</span><span class="p">:</span>
-<a id="__codelineno-0-132" name="__codelineno-0-132"></a>            <span class="kn">from</span><span class="w"> </span><span class="nn">dbruntime.databricks_repl_context</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_context</span>
-<a id="__codelineno-0-133" name="__codelineno-0-133"></a>            <span class="n">get_context</span><span class="p">()</span>
-<a id="__codelineno-0-134" name="__codelineno-0-134"></a>            <span class="k">return</span> <span class="kc">True</span>
-<a id="__codelineno-0-135" name="__codelineno-0-135"></a>        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-<a id="__codelineno-0-136" name="__codelineno-0-136"></a>            <span class="k">return</span> <span class="kc">False</span>
+<a id="__codelineno-0-123" name="__codelineno-0-123"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">success</span><span class="p">(</span>
+<a id="__codelineno-0-124" name="__codelineno-0-124"></a>            <span class="sa">f</span><span class="s2">&quot;SparkSession lista ✔ | &quot;</span>
+<a id="__codelineno-0-125" name="__codelineno-0-125"></a>            <span class="sa">f</span><span class="s2">&quot;runtime=&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_resolve_runtime_label</span><span class="p">(</span><span class="n">execution_env</span><span class="p">,</span><span class="w"> </span><span class="n">is_databricks</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+<a id="__codelineno-0-126" name="__codelineno-0-126"></a>        <span class="p">)</span>
+<a id="__codelineno-0-127" name="__codelineno-0-127"></a>
+<a id="__codelineno-0-128" name="__codelineno-0-128"></a>        <span class="k">if</span> <span class="s2">&quot;environments&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">:</span>
+<a id="__codelineno-0-129" name="__codelineno-0-129"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">env</span> <span class="o">=</span> <span class="n">EnvironmentConfig</span><span class="p">(</span>
+<a id="__codelineno-0-130" name="__codelineno-0-130"></a>                <span class="n">config</span>        <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span>
+<a id="__codelineno-0-131" name="__codelineno-0-131"></a>                <span class="n">is_databricks</span> <span class="o">=</span> <span class="n">is_databricks</span><span class="p">,</span>
+<a id="__codelineno-0-132" name="__codelineno-0-132"></a>            <span class="p">)</span>
+<a id="__codelineno-0-133" name="__codelineno-0-133"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Ambiente activo: &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">env</span><span class="si">}</span><span class="s2">&#39; ✔&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-134" name="__codelineno-0-134"></a>        <span class="k">else</span><span class="p">:</span>
+<a id="__codelineno-0-135" name="__codelineno-0-135"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">env</span> <span class="o">=</span> <span class="kc">None</span>
+<a id="__codelineno-0-136" name="__codelineno-0-136"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Sección &#39;environments&#39; no encontrada — env=None&quot;</span><span class="p">)</span>
 <a id="__codelineno-0-137" name="__codelineno-0-137"></a>
-<a id="__codelineno-0-138" name="__codelineno-0-138"></a>    <span class="nd">@staticmethod</span>
-<a id="__codelineno-0-139" name="__codelineno-0-139"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_runtime_label</span><span class="p">(</span><span class="n">execution_env</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">is_databricks</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<a id="__codelineno-0-140" name="__codelineno-0-140"></a>        <span class="k">if</span> <span class="n">execution_env</span> <span class="o">==</span> <span class="s2">&quot;databricks&quot;</span><span class="p">:</span>
-<a id="__codelineno-0-141" name="__codelineno-0-141"></a>            <span class="k">return</span> <span class="s2">&quot;databricks-connect&quot;</span>
-<a id="__codelineno-0-142" name="__codelineno-0-142"></a>        <span class="k">return</span> <span class="s2">&quot;local-databricks&quot;</span> <span class="k">if</span> <span class="n">is_databricks</span> <span class="k">else</span> <span class="s2">&quot;local-pc&quot;</span>
-<a id="__codelineno-0-143" name="__codelineno-0-143"></a>
-<a id="__codelineno-0-144" name="__codelineno-0-144"></a>    <span class="c1"># ── SparkSession local PC ─────────────────────────────────────────────</span>
-<a id="__codelineno-0-145" name="__codelineno-0-145"></a>
-<a id="__codelineno-0-146" name="__codelineno-0-146"></a>    <span class="nd">@log_operation</span><span class="p">(</span><span class="s2">&quot;inicializar Spark local PC&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-147" name="__codelineno-0-147"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_init_local_pc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<a id="__codelineno-0-148" name="__codelineno-0-148"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<a id="__codelineno-0-149" name="__codelineno-0-149"></a><span class="sd">        PC local: Spark + Delta Lake desde cero.</span>
-<a id="__codelineno-0-150" name="__codelineno-0-150"></a>
-<a id="__codelineno-0-151" name="__codelineno-0-151"></a><span class="sd">        NO usa enableHiveSupport() — en local no hay metastore Hive disponible.</span>
-<a id="__codelineno-0-152" name="__codelineno-0-152"></a><span class="sd">        Las tablas se registran usando LOCATION con el catálogo nativo de Spark.</span>
-<a id="__codelineno-0-153" name="__codelineno-0-153"></a>
-<a id="__codelineno-0-154" name="__codelineno-0-154"></a><span class="sd">        Compatibilidad Delta:</span>
-<a id="__codelineno-0-155" name="__codelineno-0-155"></a><span class="sd">          pyspark 3.3.x → DELTA_VERSION = 2.3.0</span>
-<a id="__codelineno-0-156" name="__codelineno-0-156"></a><span class="sd">          pyspark 3.4.x → DELTA_VERSION = 2.4.0</span>
-<a id="__codelineno-0-157" name="__codelineno-0-157"></a><span class="sd">          pyspark 3.5.x → DELTA_VERSION = 3.2.0  ← recomendado</span>
-<a id="__codelineno-0-158" name="__codelineno-0-158"></a><span class="sd">        &quot;&quot;&quot;</span>
-<a id="__codelineno-0-159" name="__codelineno-0-159"></a>        <span class="kn">from</span><span class="w"> </span><span class="nn">pyspark.sql</span><span class="w"> </span><span class="kn">import</span> <span class="n">SparkSession</span>
-<a id="__codelineno-0-160" name="__codelineno-0-160"></a>        <span class="kn">import</span><span class="w"> </span><span class="nn">pyspark</span>
-<a id="__codelineno-0-161" name="__codelineno-0-161"></a>
-<a id="__codelineno-0-162" name="__codelineno-0-162"></a>        <span class="n">warehouse_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;SPARK_WAREHOUSE_DIR&quot;</span><span class="p">,</span> <span class="n">DEFAULT_WAREHOUSE_DIR</span><span class="p">)</span>
-<a id="__codelineno-0-163" name="__codelineno-0-163"></a>        <span class="n">app_name</span>      <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;SPARK_APP_NAME&quot;</span><span class="p">,</span> <span class="s2">&quot;DKOps&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-164" name="__codelineno-0-164"></a>        <span class="n">delta_version</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;DELTA_VERSION&quot;</span><span class="p">,</span> <span class="n">DEFAULT_DELTA_VERSION</span><span class="p">)</span>
-<a id="__codelineno-0-165" name="__codelineno-0-165"></a>
-<a id="__codelineno-0-166" name="__codelineno-0-166"></a>        <span class="n">Path</span><span class="p">(</span><span class="n">warehouse_dir</span><span class="p">)</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<a id="__codelineno-0-167" name="__codelineno-0-167"></a>
-<a id="__codelineno-0-168" name="__codelineno-0-168"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-<a id="__codelineno-0-169" name="__codelineno-0-169"></a>            <span class="sa">f</span><span class="s2">&quot;warehouse_dir=&#39;</span><span class="si">{</span><span class="n">warehouse_dir</span><span class="si">}</span><span class="s2">&#39; | app=&#39;</span><span class="si">{</span><span class="n">app_name</span><span class="si">}</span><span class="s2">&#39; | &quot;</span>
-<a id="__codelineno-0-170" name="__codelineno-0-170"></a>            <span class="sa">f</span><span class="s2">&quot;pyspark=</span><span class="si">{</span><span class="n">pyspark</span><span class="o">.</span><span class="n">__version__</span><span class="si">}</span><span class="s2"> | delta=</span><span class="si">{</span><span class="n">delta_version</span><span class="si">}</span><span class="s2">&quot;</span>
-<a id="__codelineno-0-171" name="__codelineno-0-171"></a>        <span class="p">)</span>
-<a id="__codelineno-0-172" name="__codelineno-0-172"></a>
-<a id="__codelineno-0-173" name="__codelineno-0-173"></a>        <span class="n">spark</span> <span class="o">=</span> <span class="p">(</span>
-<a id="__codelineno-0-174" name="__codelineno-0-174"></a>            <span class="n">SparkSession</span><span class="o">.</span><span class="n">builder</span>
-<a id="__codelineno-0-175" name="__codelineno-0-175"></a>            <span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="n">app_name</span><span class="p">)</span>
-<a id="__codelineno-0-176" name="__codelineno-0-176"></a>            <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.sql.warehouse.dir&quot;</span><span class="p">,</span> <span class="n">warehouse_dir</span><span class="p">)</span>
-<a id="__codelineno-0-177" name="__codelineno-0-177"></a>            <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.sql.shuffle.partitions&quot;</span><span class="p">,</span> <span class="s2">&quot;4&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-178" name="__codelineno-0-178"></a>            <span class="o">.</span><span class="n">config</span><span class="p">(</span>
-<a id="__codelineno-0-179" name="__codelineno-0-179"></a>                <span class="s2">&quot;spark.jars.packages&quot;</span><span class="p">,</span>
-<a id="__codelineno-0-180" name="__codelineno-0-180"></a>                <span class="sa">f</span><span class="s2">&quot;io.delta:delta-spark_2.12:</span><span class="si">{</span><span class="n">delta_version</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-<a id="__codelineno-0-181" name="__codelineno-0-181"></a>            <span class="p">)</span>
-<a id="__codelineno-0-182" name="__codelineno-0-182"></a>            <span class="o">.</span><span class="n">config</span><span class="p">(</span>
-<a id="__codelineno-0-183" name="__codelineno-0-183"></a>                <span class="s2">&quot;spark.sql.extensions&quot;</span><span class="p">,</span>
-<a id="__codelineno-0-184" name="__codelineno-0-184"></a>                <span class="s2">&quot;io.delta.sql.DeltaSparkSessionExtension&quot;</span><span class="p">,</span>
-<a id="__codelineno-0-185" name="__codelineno-0-185"></a>            <span class="p">)</span>
-<a id="__codelineno-0-186" name="__codelineno-0-186"></a>            <span class="o">.</span><span class="n">config</span><span class="p">(</span>
-<a id="__codelineno-0-187" name="__codelineno-0-187"></a>                <span class="s2">&quot;spark.sql.catalog.spark_catalog&quot;</span><span class="p">,</span>
-<a id="__codelineno-0-188" name="__codelineno-0-188"></a>                <span class="s2">&quot;org.apache.spark.sql.delta.catalog.DeltaCatalog&quot;</span><span class="p">,</span>
-<a id="__codelineno-0-189" name="__codelineno-0-189"></a>            <span class="p">)</span>
-<a id="__codelineno-0-190" name="__codelineno-0-190"></a>            <span class="c1"># SIN enableHiveSupport() — no hay metastore en PC local</span>
-<a id="__codelineno-0-191" name="__codelineno-0-191"></a>            <span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
-<a id="__codelineno-0-192" name="__codelineno-0-192"></a>        <span class="p">)</span>
+<a id="__codelineno-0-138" name="__codelineno-0-138"></a>        <span class="c1"># Registrar como Launcher activo del proceso.</span>
+<a id="__codelineno-0-139" name="__codelineno-0-139"></a>        <span class="c1"># Se hace al FINAL para que solo quede registrado si todo se inicializó OK.</span>
+<a id="__codelineno-0-140" name="__codelineno-0-140"></a>        <span class="n">Launcher</span><span class="o">.</span><span class="n">_current</span> <span class="o">=</span> <span class="bp">self</span>
+<a id="__codelineno-0-141" name="__codelineno-0-141"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Launcher registrado como activo (Launcher.current())&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-142" name="__codelineno-0-142"></a>
+<a id="__codelineno-0-143" name="__codelineno-0-143"></a>    <span class="c1"># ── Singleton accessor ────────────────────────────────────────────────</span>
+<a id="__codelineno-0-144" name="__codelineno-0-144"></a>
+<a id="__codelineno-0-145" name="__codelineno-0-145"></a>    <span class="nd">@classmethod</span>
+<a id="__codelineno-0-146" name="__codelineno-0-146"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">current</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Launcher&quot;</span><span class="p">:</span>
+<a id="__codelineno-0-147" name="__codelineno-0-147"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<a id="__codelineno-0-148" name="__codelineno-0-148"></a><span class="sd">        Devuelve el Launcher activo del proceso.</span>
+<a id="__codelineno-0-149" name="__codelineno-0-149"></a>
+<a id="__codelineno-0-150" name="__codelineno-0-150"></a><span class="sd">        Lanza RuntimeError si nadie ha instanciado un Launcher todavía —</span>
+<a id="__codelineno-0-151" name="__codelineno-0-151"></a><span class="sd">        eso significa que algún componente (writer, loader, etc.) se está</span>
+<a id="__codelineno-0-152" name="__codelineno-0-152"></a><span class="sd">        usando antes de inicializar la app, lo cual es siempre un error</span>
+<a id="__codelineno-0-153" name="__codelineno-0-153"></a><span class="sd">        de orden de imports/instanciación.</span>
+<a id="__codelineno-0-154" name="__codelineno-0-154"></a><span class="sd">        &quot;&quot;&quot;</span>
+<a id="__codelineno-0-155" name="__codelineno-0-155"></a>        <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_current</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-0-156" name="__codelineno-0-156"></a>            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+<a id="__codelineno-0-157" name="__codelineno-0-157"></a>                <span class="s2">&quot;No hay Launcher activo. Instancia Launcher(...) &quot;</span>
+<a id="__codelineno-0-158" name="__codelineno-0-158"></a>                <span class="s2">&quot;antes de usar writers, contracts u otros componentes &quot;</span>
+<a id="__codelineno-0-159" name="__codelineno-0-159"></a>                <span class="s2">&quot;que dependan de spark/env.&quot;</span>
+<a id="__codelineno-0-160" name="__codelineno-0-160"></a>            <span class="p">)</span>
+<a id="__codelineno-0-161" name="__codelineno-0-161"></a>        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_current</span>
+<a id="__codelineno-0-162" name="__codelineno-0-162"></a>
+<a id="__codelineno-0-163" name="__codelineno-0-163"></a>    <span class="c1"># ── Detección de runtime ──────────────────────────────────────────────</span>
+<a id="__codelineno-0-164" name="__codelineno-0-164"></a>
+<a id="__codelineno-0-165" name="__codelineno-0-165"></a>    <span class="nd">@staticmethod</span>
+<a id="__codelineno-0-166" name="__codelineno-0-166"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_detect_native_databricks</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<a id="__codelineno-0-167" name="__codelineno-0-167"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<a id="__codelineno-0-168" name="__codelineno-0-168"></a><span class="sd">        True si corremos DENTRO de un cluster Databricks</span>
+<a id="__codelineno-0-169" name="__codelineno-0-169"></a><span class="sd">        (notebook, job, workflow). En PC local siempre False.</span>
+<a id="__codelineno-0-170" name="__codelineno-0-170"></a><span class="sd">        &quot;&quot;&quot;</span>
+<a id="__codelineno-0-171" name="__codelineno-0-171"></a>        <span class="k">try</span><span class="p">:</span>
+<a id="__codelineno-0-172" name="__codelineno-0-172"></a>            <span class="kn">from</span><span class="w"> </span><span class="nn">dbruntime.databricks_repl_context</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_context</span>
+<a id="__codelineno-0-173" name="__codelineno-0-173"></a>            <span class="n">get_context</span><span class="p">()</span>
+<a id="__codelineno-0-174" name="__codelineno-0-174"></a>            <span class="k">return</span> <span class="kc">True</span>
+<a id="__codelineno-0-175" name="__codelineno-0-175"></a>        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+<a id="__codelineno-0-176" name="__codelineno-0-176"></a>            <span class="k">return</span> <span class="kc">False</span>
+<a id="__codelineno-0-177" name="__codelineno-0-177"></a>
+<a id="__codelineno-0-178" name="__codelineno-0-178"></a>    <span class="nd">@staticmethod</span>
+<a id="__codelineno-0-179" name="__codelineno-0-179"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_runtime_label</span><span class="p">(</span><span class="n">execution_env</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">is_databricks</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<a id="__codelineno-0-180" name="__codelineno-0-180"></a>        <span class="k">if</span> <span class="n">execution_env</span> <span class="o">==</span> <span class="s2">&quot;databricks&quot;</span><span class="p">:</span>
+<a id="__codelineno-0-181" name="__codelineno-0-181"></a>            <span class="k">return</span> <span class="s2">&quot;databricks-connect&quot;</span>
+<a id="__codelineno-0-182" name="__codelineno-0-182"></a>        <span class="k">return</span> <span class="s2">&quot;local-databricks&quot;</span> <span class="k">if</span> <span class="n">is_databricks</span> <span class="k">else</span> <span class="s2">&quot;local-pc&quot;</span>
+<a id="__codelineno-0-183" name="__codelineno-0-183"></a>
+<a id="__codelineno-0-184" name="__codelineno-0-184"></a>    <span class="c1"># ── SparkSession local PC ─────────────────────────────────────────────</span>
+<a id="__codelineno-0-185" name="__codelineno-0-185"></a>
+<a id="__codelineno-0-186" name="__codelineno-0-186"></a>    <span class="nd">@log_operation</span><span class="p">(</span><span class="s2">&quot;inicializar Spark local PC&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-187" name="__codelineno-0-187"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_init_local_pc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a id="__codelineno-0-188" name="__codelineno-0-188"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<a id="__codelineno-0-189" name="__codelineno-0-189"></a><span class="sd">        PC local: Spark + Delta Lake desde cero.</span>
+<a id="__codelineno-0-190" name="__codelineno-0-190"></a>
+<a id="__codelineno-0-191" name="__codelineno-0-191"></a><span class="sd">        NO usa enableHiveSupport() — en local no hay metastore Hive disponible.</span>
+<a id="__codelineno-0-192" name="__codelineno-0-192"></a><span class="sd">        Las tablas se registran usando LOCATION con el catálogo nativo de Spark.</span>
 <a id="__codelineno-0-193" name="__codelineno-0-193"></a>
-<a id="__codelineno-0-194" name="__codelineno-0-194"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Spark versión: </span><span class="si">{</span><span class="n">spark</span><span class="o">.</span><span class="n">version</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-195" name="__codelineno-0-195"></a>        <span class="k">return</span> <span class="n">spark</span>
-<a id="__codelineno-0-196" name="__codelineno-0-196"></a>
-<a id="__codelineno-0-197" name="__codelineno-0-197"></a>    <span class="c1"># ── SparkSession local dentro de Databricks ───────────────────────────</span>
-<a id="__codelineno-0-198" name="__codelineno-0-198"></a>
-<a id="__codelineno-0-199" name="__codelineno-0-199"></a>    <span class="nd">@log_operation</span><span class="p">(</span><span class="s2">&quot;inicializar Spark local Databricks&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-200" name="__codelineno-0-200"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_init_local_databricks</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<a id="__codelineno-0-201" name="__codelineno-0-201"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<a id="__codelineno-0-202" name="__codelineno-0-202"></a><span class="sd">        Notebook o job corriendo en el workspace Databricks.</span>
-<a id="__codelineno-0-203" name="__codelineno-0-203"></a><span class="sd">        SparkSession ya existe con Delta nativo — solo la obtenemos.</span>
-<a id="__codelineno-0-204" name="__codelineno-0-204"></a><span class="sd">        &quot;&quot;&quot;</span>
-<a id="__codelineno-0-205" name="__codelineno-0-205"></a>        <span class="kn">from</span><span class="w"> </span><span class="nn">pyspark.sql</span><span class="w"> </span><span class="kn">import</span> <span class="n">SparkSession</span>
-<a id="__codelineno-0-206" name="__codelineno-0-206"></a>
-<a id="__codelineno-0-207" name="__codelineno-0-207"></a>        <span class="n">app_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;SPARK_APP_NAME&quot;</span><span class="p">,</span> <span class="s2">&quot;DKOps&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-208" name="__codelineno-0-208"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Runtime nativo Databricks — usando SparkSession existente&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-209" name="__codelineno-0-209"></a>
-<a id="__codelineno-0-210" name="__codelineno-0-210"></a>        <span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="o">.</span><span class="n">builder</span><span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="n">app_name</span><span class="p">)</span><span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
-<a id="__codelineno-0-211" name="__codelineno-0-211"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Spark versión: </span><span class="si">{</span><span class="n">spark</span><span class="o">.</span><span class="n">version</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-212" name="__codelineno-0-212"></a>        <span class="k">return</span> <span class="n">spark</span>
-<a id="__codelineno-0-213" name="__codelineno-0-213"></a>
-<a id="__codelineno-0-214" name="__codelineno-0-214"></a>    <span class="c1"># ── SparkSession Databricks Connect ──────────────────────────────────</span>
-<a id="__codelineno-0-215" name="__codelineno-0-215"></a>
-<a id="__codelineno-0-216" name="__codelineno-0-216"></a>    <span class="nd">@log_operation</span><span class="p">(</span><span class="s2">&quot;inicializar Databricks Connect&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-217" name="__codelineno-0-217"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_init_databricks</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<a id="__codelineno-0-218" name="__codelineno-0-218"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<a id="__codelineno-0-219" name="__codelineno-0-219"></a><span class="sd">        Databricks Connect: SparkSession remota hacia un cluster desde la PC.</span>
-<a id="__codelineno-0-220" name="__codelineno-0-220"></a><span class="sd">        &quot;&quot;&quot;</span>
-<a id="__codelineno-0-221" name="__codelineno-0-221"></a>        <span class="k">try</span><span class="p">:</span>
-<a id="__codelineno-0-222" name="__codelineno-0-222"></a>            <span class="kn">from</span><span class="w"> </span><span class="nn">databricks.connect</span><span class="w"> </span><span class="kn">import</span> <span class="n">DatabricksSession</span>
-<a id="__codelineno-0-223" name="__codelineno-0-223"></a>        <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
-<a id="__codelineno-0-224" name="__codelineno-0-224"></a>            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
-<a id="__codelineno-0-225" name="__codelineno-0-225"></a>                <span class="sa">f</span><span class="s2">&quot;No se pudo importar &#39;databricks-connect&#39;. Causa: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
-<a id="__codelineno-0-226" name="__codelineno-0-226"></a>                <span class="s2">&quot;Instala: pip install databricks-connect zstandard&quot;</span>
-<a id="__codelineno-0-227" name="__codelineno-0-227"></a>            <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
-<a id="__codelineno-0-228" name="__codelineno-0-228"></a>
-<a id="__codelineno-0-229" name="__codelineno-0-229"></a>        <span class="n">cluster_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;CLUSTER_ID&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-230" name="__codelineno-0-230"></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">cluster_id</span><span class="p">:</span>
-<a id="__codelineno-0-231" name="__codelineno-0-231"></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-<a id="__codelineno-0-232" name="__codelineno-0-232"></a>                <span class="s2">&quot;CLUSTER_ID es obligatorio cuando EXECUTION_ENVIRONMENT=&#39;databricks&#39;.&quot;</span>
-<a id="__codelineno-0-233" name="__codelineno-0-233"></a>            <span class="p">)</span>
-<a id="__codelineno-0-234" name="__codelineno-0-234"></a>
-<a id="__codelineno-0-235" name="__codelineno-0-235"></a>        <span class="n">auth_method</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_detect_auth_method</span><span class="p">()</span>
-<a id="__codelineno-0-236" name="__codelineno-0-236"></a>        <span class="k">if</span> <span class="n">auth_method</span> <span class="o">==</span> <span class="s2">&quot;token&quot;</span><span class="p">:</span>
-<a id="__codelineno-0-237" name="__codelineno-0-237"></a>            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_databricks_via_token</span><span class="p">(</span><span class="n">DatabricksSession</span><span class="p">,</span> <span class="n">cluster_id</span><span class="p">)</span>
-<a id="__codelineno-0-238" name="__codelineno-0-238"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_databricks_via_login</span><span class="p">(</span><span class="n">DatabricksSession</span><span class="p">,</span> <span class="n">cluster_id</span><span class="p">)</span>
-<a id="__codelineno-0-239" name="__codelineno-0-239"></a>
-<a id="__codelineno-0-240" name="__codelineno-0-240"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_detect_auth_method</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<a id="__codelineno-0-241" name="__codelineno-0-241"></a>        <span class="n">token</span> <span class="o">=</span> <span class="p">(</span>
-<a id="__codelineno-0-242" name="__codelineno-0-242"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;DATABRICKS_TOKEN&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-243" name="__codelineno-0-243"></a>            <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;DATABRICKS_TOKEN&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-244" name="__codelineno-0-244"></a>        <span class="p">)</span>
-<a id="__codelineno-0-245" name="__codelineno-0-245"></a>        <span class="k">if</span> <span class="n">token</span><span class="p">:</span>
-<a id="__codelineno-0-246" name="__codelineno-0-246"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Autenticación: Personal Access Token (PAT)&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-247" name="__codelineno-0-247"></a>            <span class="k">return</span> <span class="s2">&quot;token&quot;</span>
-<a id="__codelineno-0-248" name="__codelineno-0-248"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Autenticación: OAuth/CLI (`databricks auth login`)&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-249" name="__codelineno-0-249"></a>        <span class="k">return</span> <span class="s2">&quot;login&quot;</span>
-<a id="__codelineno-0-250" name="__codelineno-0-250"></a>
-<a id="__codelineno-0-251" name="__codelineno-0-251"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_databricks_via_token</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">DatabricksSession</span><span class="p">,</span> <span class="n">cluster_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-<a id="__codelineno-0-252" name="__codelineno-0-252"></a>        <span class="n">host</span> <span class="o">=</span> <span class="p">(</span>
-<a id="__codelineno-0-253" name="__codelineno-0-253"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;DATABRICKS_HOST&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-254" name="__codelineno-0-254"></a>            <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;DATABRICKS_HOST&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-255" name="__codelineno-0-255"></a>        <span class="p">)</span>
-<a id="__codelineno-0-256" name="__codelineno-0-256"></a>        <span class="n">token</span> <span class="o">=</span> <span class="p">(</span>
-<a id="__codelineno-0-257" name="__codelineno-0-257"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;DATABRICKS_TOKEN&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-258" name="__codelineno-0-258"></a>            <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;DATABRICKS_TOKEN&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-259" name="__codelineno-0-259"></a>        <span class="p">)</span>
-<a id="__codelineno-0-260" name="__codelineno-0-260"></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">host</span><span class="p">:</span>
-<a id="__codelineno-0-261" name="__codelineno-0-261"></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-<a id="__codelineno-0-262" name="__codelineno-0-262"></a>                <span class="s2">&quot;DATABRICKS_HOST es obligatorio para autenticación con PAT.&quot;</span>
-<a id="__codelineno-0-263" name="__codelineno-0-263"></a>            <span class="p">)</span>
-<a id="__codelineno-0-264" name="__codelineno-0-264"></a>
-<a id="__codelineno-0-265" name="__codelineno-0-265"></a>        <span class="n">preview</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">token</span><span class="p">[:</span><span class="mi">6</span><span class="p">]</span><span class="si">}</span><span class="s2">…</span><span class="si">{</span><span class="n">token</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:]</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">token</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">10</span> <span class="k">else</span> <span class="s2">&quot;***&quot;</span>
-<a id="__codelineno-0-266" name="__codelineno-0-266"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-<a id="__codelineno-0-267" name="__codelineno-0-267"></a>            <span class="sa">f</span><span class="s2">&quot;Conectando | host=&#39;</span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">&#39; | cluster=&#39;</span><span class="si">{</span><span class="n">cluster_id</span><span class="si">}</span><span class="s2">&#39; | token=&#39;</span><span class="si">{</span><span class="n">preview</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
-<a id="__codelineno-0-268" name="__codelineno-0-268"></a>        <span class="p">)</span>
-<a id="__codelineno-0-269" name="__codelineno-0-269"></a>
-<a id="__codelineno-0-270" name="__codelineno-0-270"></a>        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;DATABRICKS_HOST&quot;</span><span class="p">]</span>  <span class="o">=</span> <span class="n">host</span>
-<a id="__codelineno-0-271" name="__codelineno-0-271"></a>        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;DATABRICKS_TOKEN&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">token</span>
-<a id="__codelineno-0-272" name="__codelineno-0-272"></a>
-<a id="__codelineno-0-273" name="__codelineno-0-273"></a>        <span class="n">spark</span>    <span class="o">=</span> <span class="n">DatabricksSession</span><span class="o">.</span><span class="n">builder</span><span class="o">.</span><span class="n">clusterId</span><span class="p">(</span><span class="n">cluster_id</span><span class="p">)</span><span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
-<a id="__codelineno-0-274" name="__codelineno-0-274"></a>        <span class="n">app_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;SPARK_APP_NAME&quot;</span><span class="p">,</span> <span class="s2">&quot;DKOps&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-275" name="__codelineno-0-275"></a>        <span class="n">spark</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;spark.app.name&quot;</span><span class="p">,</span> <span class="n">app_name</span><span class="p">)</span>
-<a id="__codelineno-0-276" name="__codelineno-0-276"></a>        <span class="n">spark</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;spark.databricks.app.name&quot;</span><span class="p">,</span> <span class="n">app_name</span><span class="p">)</span>
-<a id="__codelineno-0-277" name="__codelineno-0-277"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Conexión PAT establecida ✔&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-278" name="__codelineno-0-278"></a>        <span class="k">return</span> <span class="n">spark</span>
+<a id="__codelineno-0-194" name="__codelineno-0-194"></a><span class="sd">        Compatibilidad Delta:</span>
+<a id="__codelineno-0-195" name="__codelineno-0-195"></a><span class="sd">          pyspark 3.3.x → DELTA_VERSION = 2.3.0</span>
+<a id="__codelineno-0-196" name="__codelineno-0-196"></a><span class="sd">          pyspark 3.4.x → DELTA_VERSION = 2.4.0</span>
+<a id="__codelineno-0-197" name="__codelineno-0-197"></a><span class="sd">          pyspark 3.5.x → DELTA_VERSION = 3.2.0  ← recomendado</span>
+<a id="__codelineno-0-198" name="__codelineno-0-198"></a><span class="sd">        &quot;&quot;&quot;</span>
+<a id="__codelineno-0-199" name="__codelineno-0-199"></a>        <span class="kn">from</span><span class="w"> </span><span class="nn">pyspark.sql</span><span class="w"> </span><span class="kn">import</span> <span class="n">SparkSession</span>
+<a id="__codelineno-0-200" name="__codelineno-0-200"></a>        <span class="kn">import</span><span class="w"> </span><span class="nn">pyspark</span>
+<a id="__codelineno-0-201" name="__codelineno-0-201"></a>
+<a id="__codelineno-0-202" name="__codelineno-0-202"></a>        <span class="n">warehouse_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;SPARK_WAREHOUSE_DIR&quot;</span><span class="p">,</span> <span class="n">DEFAULT_WAREHOUSE_DIR</span><span class="p">)</span>
+<a id="__codelineno-0-203" name="__codelineno-0-203"></a>        <span class="n">app_name</span>      <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;SPARK_APP_NAME&quot;</span><span class="p">,</span> <span class="s2">&quot;DKOps&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-204" name="__codelineno-0-204"></a>        <span class="n">delta_version</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;DELTA_VERSION&quot;</span><span class="p">,</span> <span class="n">DEFAULT_DELTA_VERSION</span><span class="p">)</span>
+<a id="__codelineno-0-205" name="__codelineno-0-205"></a>
+<a id="__codelineno-0-206" name="__codelineno-0-206"></a>        <span class="n">Path</span><span class="p">(</span><span class="n">warehouse_dir</span><span class="p">)</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<a id="__codelineno-0-207" name="__codelineno-0-207"></a>
+<a id="__codelineno-0-208" name="__codelineno-0-208"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+<a id="__codelineno-0-209" name="__codelineno-0-209"></a>            <span class="sa">f</span><span class="s2">&quot;warehouse_dir=&#39;</span><span class="si">{</span><span class="n">warehouse_dir</span><span class="si">}</span><span class="s2">&#39; | app=&#39;</span><span class="si">{</span><span class="n">app_name</span><span class="si">}</span><span class="s2">&#39; | &quot;</span>
+<a id="__codelineno-0-210" name="__codelineno-0-210"></a>            <span class="sa">f</span><span class="s2">&quot;pyspark=</span><span class="si">{</span><span class="n">pyspark</span><span class="o">.</span><span class="n">__version__</span><span class="si">}</span><span class="s2"> | delta=</span><span class="si">{</span><span class="n">delta_version</span><span class="si">}</span><span class="s2">&quot;</span>
+<a id="__codelineno-0-211" name="__codelineno-0-211"></a>        <span class="p">)</span>
+<a id="__codelineno-0-212" name="__codelineno-0-212"></a>
+<a id="__codelineno-0-213" name="__codelineno-0-213"></a>        <span class="n">spark</span> <span class="o">=</span> <span class="p">(</span>
+<a id="__codelineno-0-214" name="__codelineno-0-214"></a>            <span class="n">SparkSession</span><span class="o">.</span><span class="n">builder</span>
+<a id="__codelineno-0-215" name="__codelineno-0-215"></a>            <span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="n">app_name</span><span class="p">)</span>
+<a id="__codelineno-0-216" name="__codelineno-0-216"></a>            <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.sql.warehouse.dir&quot;</span><span class="p">,</span> <span class="n">warehouse_dir</span><span class="p">)</span>
+<a id="__codelineno-0-217" name="__codelineno-0-217"></a>            <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.sql.shuffle.partitions&quot;</span><span class="p">,</span> <span class="s2">&quot;4&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-218" name="__codelineno-0-218"></a>            <span class="o">.</span><span class="n">config</span><span class="p">(</span>
+<a id="__codelineno-0-219" name="__codelineno-0-219"></a>                <span class="s2">&quot;spark.jars.packages&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-220" name="__codelineno-0-220"></a>                <span class="sa">f</span><span class="s2">&quot;io.delta:delta-spark_2.12:</span><span class="si">{</span><span class="n">delta_version</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-221" name="__codelineno-0-221"></a>            <span class="p">)</span>
+<a id="__codelineno-0-222" name="__codelineno-0-222"></a>            <span class="o">.</span><span class="n">config</span><span class="p">(</span>
+<a id="__codelineno-0-223" name="__codelineno-0-223"></a>                <span class="s2">&quot;spark.sql.extensions&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-224" name="__codelineno-0-224"></a>                <span class="s2">&quot;io.delta.sql.DeltaSparkSessionExtension&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-225" name="__codelineno-0-225"></a>            <span class="p">)</span>
+<a id="__codelineno-0-226" name="__codelineno-0-226"></a>            <span class="o">.</span><span class="n">config</span><span class="p">(</span>
+<a id="__codelineno-0-227" name="__codelineno-0-227"></a>                <span class="s2">&quot;spark.sql.catalog.spark_catalog&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-228" name="__codelineno-0-228"></a>                <span class="s2">&quot;org.apache.spark.sql.delta.catalog.DeltaCatalog&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-229" name="__codelineno-0-229"></a>            <span class="p">)</span>
+<a id="__codelineno-0-230" name="__codelineno-0-230"></a>            <span class="c1"># SIN enableHiveSupport() — no hay metastore en PC local</span>
+<a id="__codelineno-0-231" name="__codelineno-0-231"></a>            <span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+<a id="__codelineno-0-232" name="__codelineno-0-232"></a>        <span class="p">)</span>
+<a id="__codelineno-0-233" name="__codelineno-0-233"></a>
+<a id="__codelineno-0-234" name="__codelineno-0-234"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Spark versión: </span><span class="si">{</span><span class="n">spark</span><span class="o">.</span><span class="n">version</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-235" name="__codelineno-0-235"></a>        <span class="k">return</span> <span class="n">spark</span>
+<a id="__codelineno-0-236" name="__codelineno-0-236"></a>
+<a id="__codelineno-0-237" name="__codelineno-0-237"></a>    <span class="c1"># ── SparkSession local dentro de Databricks ───────────────────────────</span>
+<a id="__codelineno-0-238" name="__codelineno-0-238"></a>
+<a id="__codelineno-0-239" name="__codelineno-0-239"></a>    <span class="nd">@log_operation</span><span class="p">(</span><span class="s2">&quot;inicializar Spark local Databricks&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-240" name="__codelineno-0-240"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_init_local_databricks</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a id="__codelineno-0-241" name="__codelineno-0-241"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<a id="__codelineno-0-242" name="__codelineno-0-242"></a><span class="sd">        Notebook o job corriendo en el workspace Databricks.</span>
+<a id="__codelineno-0-243" name="__codelineno-0-243"></a><span class="sd">        SparkSession ya existe con Delta nativo — solo la obtenemos.</span>
+<a id="__codelineno-0-244" name="__codelineno-0-244"></a><span class="sd">        &quot;&quot;&quot;</span>
+<a id="__codelineno-0-245" name="__codelineno-0-245"></a>        <span class="kn">from</span><span class="w"> </span><span class="nn">pyspark.sql</span><span class="w"> </span><span class="kn">import</span> <span class="n">SparkSession</span>
+<a id="__codelineno-0-246" name="__codelineno-0-246"></a>
+<a id="__codelineno-0-247" name="__codelineno-0-247"></a>        <span class="n">app_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;SPARK_APP_NAME&quot;</span><span class="p">,</span> <span class="s2">&quot;DKOps&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-248" name="__codelineno-0-248"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Runtime nativo Databricks — usando SparkSession existente&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-249" name="__codelineno-0-249"></a>
+<a id="__codelineno-0-250" name="__codelineno-0-250"></a>        <span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="o">.</span><span class="n">builder</span><span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="n">app_name</span><span class="p">)</span><span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+<a id="__codelineno-0-251" name="__codelineno-0-251"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Spark versión: </span><span class="si">{</span><span class="n">spark</span><span class="o">.</span><span class="n">version</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-252" name="__codelineno-0-252"></a>        <span class="k">return</span> <span class="n">spark</span>
+<a id="__codelineno-0-253" name="__codelineno-0-253"></a>
+<a id="__codelineno-0-254" name="__codelineno-0-254"></a>    <span class="c1"># ── SparkSession Databricks Connect ──────────────────────────────────</span>
+<a id="__codelineno-0-255" name="__codelineno-0-255"></a>
+<a id="__codelineno-0-256" name="__codelineno-0-256"></a>    <span class="nd">@log_operation</span><span class="p">(</span><span class="s2">&quot;inicializar Databricks Connect&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-257" name="__codelineno-0-257"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_init_databricks</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a id="__codelineno-0-258" name="__codelineno-0-258"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<a id="__codelineno-0-259" name="__codelineno-0-259"></a><span class="sd">        Databricks Connect: SparkSession remota hacia un cluster desde la PC.</span>
+<a id="__codelineno-0-260" name="__codelineno-0-260"></a><span class="sd">        &quot;&quot;&quot;</span>
+<a id="__codelineno-0-261" name="__codelineno-0-261"></a>        <span class="k">try</span><span class="p">:</span>
+<a id="__codelineno-0-262" name="__codelineno-0-262"></a>            <span class="kn">from</span><span class="w"> </span><span class="nn">databricks.connect</span><span class="w"> </span><span class="kn">import</span> <span class="n">DatabricksSession</span>
+<a id="__codelineno-0-263" name="__codelineno-0-263"></a>        <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+<a id="__codelineno-0-264" name="__codelineno-0-264"></a>            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+<a id="__codelineno-0-265" name="__codelineno-0-265"></a>                <span class="sa">f</span><span class="s2">&quot;No se pudo importar &#39;databricks-connect&#39;. Causa: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+<a id="__codelineno-0-266" name="__codelineno-0-266"></a>                <span class="s2">&quot;Instala: pip install databricks-connect zstandard&quot;</span>
+<a id="__codelineno-0-267" name="__codelineno-0-267"></a>            <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
+<a id="__codelineno-0-268" name="__codelineno-0-268"></a>
+<a id="__codelineno-0-269" name="__codelineno-0-269"></a>        <span class="n">cluster_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;CLUSTER_ID&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-270" name="__codelineno-0-270"></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">cluster_id</span><span class="p">:</span>
+<a id="__codelineno-0-271" name="__codelineno-0-271"></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+<a id="__codelineno-0-272" name="__codelineno-0-272"></a>                <span class="s2">&quot;CLUSTER_ID es obligatorio cuando EXECUTION_ENVIRONMENT=&#39;databricks&#39;.&quot;</span>
+<a id="__codelineno-0-273" name="__codelineno-0-273"></a>            <span class="p">)</span>
+<a id="__codelineno-0-274" name="__codelineno-0-274"></a>
+<a id="__codelineno-0-275" name="__codelineno-0-275"></a>        <span class="n">auth_method</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_detect_auth_method</span><span class="p">()</span>
+<a id="__codelineno-0-276" name="__codelineno-0-276"></a>        <span class="k">if</span> <span class="n">auth_method</span> <span class="o">==</span> <span class="s2">&quot;token&quot;</span><span class="p">:</span>
+<a id="__codelineno-0-277" name="__codelineno-0-277"></a>            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_databricks_via_token</span><span class="p">(</span><span class="n">DatabricksSession</span><span class="p">,</span> <span class="n">cluster_id</span><span class="p">)</span>
+<a id="__codelineno-0-278" name="__codelineno-0-278"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_databricks_via_login</span><span class="p">(</span><span class="n">DatabricksSession</span><span class="p">,</span> <span class="n">cluster_id</span><span class="p">)</span>
 <a id="__codelineno-0-279" name="__codelineno-0-279"></a>
-<a id="__codelineno-0-280" name="__codelineno-0-280"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_databricks_via_login</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">DatabricksSession</span><span class="p">,</span> <span class="n">cluster_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-<a id="__codelineno-0-281" name="__codelineno-0-281"></a>        <span class="n">profile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;DATABRICKS_PROFILE&quot;</span><span class="p">,</span> <span class="s2">&quot;DEFAULT&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-282" name="__codelineno-0-282"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-<a id="__codelineno-0-283" name="__codelineno-0-283"></a>            <span class="sa">f</span><span class="s2">&quot;Conectando via OAuth/CLI | cluster=&#39;</span><span class="si">{</span><span class="n">cluster_id</span><span class="si">}</span><span class="s2">&#39; | profile=&#39;</span><span class="si">{</span><span class="n">profile</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+<a id="__codelineno-0-280" name="__codelineno-0-280"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_detect_auth_method</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<a id="__codelineno-0-281" name="__codelineno-0-281"></a>        <span class="n">token</span> <span class="o">=</span> <span class="p">(</span>
+<a id="__codelineno-0-282" name="__codelineno-0-282"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;DATABRICKS_TOKEN&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-283" name="__codelineno-0-283"></a>            <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;DATABRICKS_TOKEN&quot;</span><span class="p">)</span>
 <a id="__codelineno-0-284" name="__codelineno-0-284"></a>        <span class="p">)</span>
-<a id="__codelineno-0-285" name="__codelineno-0-285"></a>        <span class="k">if</span> <span class="n">profile</span> <span class="ow">and</span> <span class="n">profile</span> <span class="o">!=</span> <span class="s2">&quot;DEFAULT&quot;</span><span class="p">:</span>
-<a id="__codelineno-0-286" name="__codelineno-0-286"></a>            <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;DATABRICKS_CONFIG_PROFILE&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">profile</span>
-<a id="__codelineno-0-287" name="__codelineno-0-287"></a>
-<a id="__codelineno-0-288" name="__codelineno-0-288"></a>        <span class="n">spark</span>    <span class="o">=</span> <span class="n">DatabricksSession</span><span class="o">.</span><span class="n">builder</span><span class="o">.</span><span class="n">clusterId</span><span class="p">(</span><span class="n">cluster_id</span><span class="p">)</span><span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
-<a id="__codelineno-0-289" name="__codelineno-0-289"></a>        <span class="n">app_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;SPARK_APP_NAME&quot;</span><span class="p">,</span> <span class="s2">&quot;DKOps&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-290" name="__codelineno-0-290"></a>        <span class="n">spark</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;spark.app.name&quot;</span><span class="p">,</span> <span class="n">app_name</span><span class="p">)</span>
-<a id="__codelineno-0-291" name="__codelineno-0-291"></a>        <span class="n">spark</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;spark.databricks.app.name&quot;</span><span class="p">,</span> <span class="n">app_name</span><span class="p">)</span>
-<a id="__codelineno-0-292" name="__codelineno-0-292"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Conexión OAuth/CLI establecida ✔&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-293" name="__codelineno-0-293"></a>        <span class="k">return</span> <span class="n">spark</span>
-<a id="__codelineno-0-294" name="__codelineno-0-294"></a>
-<a id="__codelineno-0-295" name="__codelineno-0-295"></a>    <span class="c1"># ── Config ────────────────────────────────────────────────────────────</span>
-<a id="__codelineno-0-296" name="__codelineno-0-296"></a>
-<a id="__codelineno-0-297" name="__codelineno-0-297"></a>    <span class="nd">@staticmethod</span>
-<a id="__codelineno-0-298" name="__codelineno-0-298"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_config_path</span><span class="p">(</span><span class="n">config_file</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
-<a id="__codelineno-0-299" name="__codelineno-0-299"></a>        <span class="k">if</span> <span class="n">config_file</span><span class="p">:</span>
-<a id="__codelineno-0-300" name="__codelineno-0-300"></a>            <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">config_file</span><span class="p">)</span>
-<a id="__codelineno-0-301" name="__codelineno-0-301"></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[Launcher] Ruta de config (argumento): </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-302" name="__codelineno-0-302"></a>        <span class="k">else</span><span class="p">:</span>
-<a id="__codelineno-0-303" name="__codelineno-0-303"></a>            <span class="n">env_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ENV_VAR_CONFIG</span><span class="p">)</span>
-<a id="__codelineno-0-304" name="__codelineno-0-304"></a>            <span class="k">if</span> <span class="n">env_path</span><span class="p">:</span>
-<a id="__codelineno-0-305" name="__codelineno-0-305"></a>                <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">env_path</span><span class="p">)</span>
-<a id="__codelineno-0-306" name="__codelineno-0-306"></a>                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[Launcher] Ruta de config (env &#39;</span><span class="si">{</span><span class="n">ENV_VAR_CONFIG</span><span class="si">}</span><span class="s2">&#39;): </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-307" name="__codelineno-0-307"></a>            <span class="k">else</span><span class="p">:</span>
-<a id="__codelineno-0-308" name="__codelineno-0-308"></a>                <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span>
-<a id="__codelineno-0-309" name="__codelineno-0-309"></a>                    <span class="s2">&quot;No se encontró la ruta del archivo de configuración.</span><span class="se">\n</span><span class="s2">&quot;</span>
-<a id="__codelineno-0-310" name="__codelineno-0-310"></a>                    <span class="sa">f</span><span class="s2">&quot;  • Pásala como argumento: Launcher(&#39;ruta/config.json&#39;)</span><span class="se">\n</span><span class="s2">&quot;</span>
-<a id="__codelineno-0-311" name="__codelineno-0-311"></a>                    <span class="sa">f</span><span class="s2">&quot;  • O define: </span><span class="si">{</span><span class="n">ENV_VAR_CONFIG</span><span class="si">}</span><span class="s2">=ruta/config.json&quot;</span>
-<a id="__codelineno-0-312" name="__codelineno-0-312"></a>                <span class="p">)</span>
-<a id="__codelineno-0-313" name="__codelineno-0-313"></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-<a id="__codelineno-0-314" name="__codelineno-0-314"></a>            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;El archivo de configuración no existe: </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-315" name="__codelineno-0-315"></a>        <span class="k">return</span> <span class="n">path</span>
-<a id="__codelineno-0-316" name="__codelineno-0-316"></a>
-<a id="__codelineno-0-317" name="__codelineno-0-317"></a>    <span class="nd">@staticmethod</span>
-<a id="__codelineno-0-318" name="__codelineno-0-318"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_load_config</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-<a id="__codelineno-0-319" name="__codelineno-0-319"></a>        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-<a id="__codelineno-0-320" name="__codelineno-0-320"></a>            <span class="k">try</span><span class="p">:</span>
-<a id="__codelineno-0-321" name="__codelineno-0-321"></a>                <span class="n">config</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-<a id="__codelineno-0-322" name="__codelineno-0-322"></a>            <span class="k">except</span> <span class="n">json</span><span class="o">.</span><span class="n">JSONDecodeError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
-<a id="__codelineno-0-323" name="__codelineno-0-323"></a>                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-<a id="__codelineno-0-324" name="__codelineno-0-324"></a>                    <span class="sa">f</span><span class="s2">&quot;JSON inválido en config: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">&quot;</span>
-<a id="__codelineno-0-325" name="__codelineno-0-325"></a>                <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
-<a id="__codelineno-0-326" name="__codelineno-0-326"></a>        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-<a id="__codelineno-0-327" name="__codelineno-0-327"></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;El archivo de configuración debe ser un objeto JSON.&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-328" name="__codelineno-0-328"></a>        <span class="k">return</span> <span class="n">config</span>
+<a id="__codelineno-0-285" name="__codelineno-0-285"></a>        <span class="k">if</span> <span class="n">token</span><span class="p">:</span>
+<a id="__codelineno-0-286" name="__codelineno-0-286"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Autenticación: Personal Access Token (PAT)&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-287" name="__codelineno-0-287"></a>            <span class="k">return</span> <span class="s2">&quot;token&quot;</span>
+<a id="__codelineno-0-288" name="__codelineno-0-288"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Autenticación: OAuth/CLI (`databricks auth login`)&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-289" name="__codelineno-0-289"></a>        <span class="k">return</span> <span class="s2">&quot;login&quot;</span>
+<a id="__codelineno-0-290" name="__codelineno-0-290"></a>
+<a id="__codelineno-0-291" name="__codelineno-0-291"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_databricks_via_token</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">DatabricksSession</span><span class="p">,</span> <span class="n">cluster_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<a id="__codelineno-0-292" name="__codelineno-0-292"></a>        <span class="n">host</span> <span class="o">=</span> <span class="p">(</span>
+<a id="__codelineno-0-293" name="__codelineno-0-293"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;DATABRICKS_HOST&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-294" name="__codelineno-0-294"></a>            <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;DATABRICKS_HOST&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-295" name="__codelineno-0-295"></a>        <span class="p">)</span>
+<a id="__codelineno-0-296" name="__codelineno-0-296"></a>        <span class="n">token</span> <span class="o">=</span> <span class="p">(</span>
+<a id="__codelineno-0-297" name="__codelineno-0-297"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;DATABRICKS_TOKEN&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-298" name="__codelineno-0-298"></a>            <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;DATABRICKS_TOKEN&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-299" name="__codelineno-0-299"></a>        <span class="p">)</span>
+<a id="__codelineno-0-300" name="__codelineno-0-300"></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">host</span><span class="p">:</span>
+<a id="__codelineno-0-301" name="__codelineno-0-301"></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+<a id="__codelineno-0-302" name="__codelineno-0-302"></a>                <span class="s2">&quot;DATABRICKS_HOST es obligatorio para autenticación con PAT.&quot;</span>
+<a id="__codelineno-0-303" name="__codelineno-0-303"></a>            <span class="p">)</span>
+<a id="__codelineno-0-304" name="__codelineno-0-304"></a>
+<a id="__codelineno-0-305" name="__codelineno-0-305"></a>        <span class="n">preview</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">token</span><span class="p">[:</span><span class="mi">6</span><span class="p">]</span><span class="si">}</span><span class="s2">…</span><span class="si">{</span><span class="n">token</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:]</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">token</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">10</span> <span class="k">else</span> <span class="s2">&quot;***&quot;</span>
+<a id="__codelineno-0-306" name="__codelineno-0-306"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+<a id="__codelineno-0-307" name="__codelineno-0-307"></a>            <span class="sa">f</span><span class="s2">&quot;Conectando | host=&#39;</span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">&#39; | cluster=&#39;</span><span class="si">{</span><span class="n">cluster_id</span><span class="si">}</span><span class="s2">&#39; | token=&#39;</span><span class="si">{</span><span class="n">preview</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+<a id="__codelineno-0-308" name="__codelineno-0-308"></a>        <span class="p">)</span>
+<a id="__codelineno-0-309" name="__codelineno-0-309"></a>
+<a id="__codelineno-0-310" name="__codelineno-0-310"></a>        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;DATABRICKS_HOST&quot;</span><span class="p">]</span>  <span class="o">=</span> <span class="n">host</span>
+<a id="__codelineno-0-311" name="__codelineno-0-311"></a>        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;DATABRICKS_TOKEN&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">token</span>
+<a id="__codelineno-0-312" name="__codelineno-0-312"></a>
+<a id="__codelineno-0-313" name="__codelineno-0-313"></a>        <span class="n">spark</span>    <span class="o">=</span> <span class="n">DatabricksSession</span><span class="o">.</span><span class="n">builder</span><span class="o">.</span><span class="n">clusterId</span><span class="p">(</span><span class="n">cluster_id</span><span class="p">)</span><span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+<a id="__codelineno-0-314" name="__codelineno-0-314"></a>        <span class="n">app_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;SPARK_APP_NAME&quot;</span><span class="p">,</span> <span class="s2">&quot;DKOps&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-315" name="__codelineno-0-315"></a>        <span class="n">spark</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;spark.app.name&quot;</span><span class="p">,</span> <span class="n">app_name</span><span class="p">)</span>
+<a id="__codelineno-0-316" name="__codelineno-0-316"></a>        <span class="n">spark</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;spark.databricks.app.name&quot;</span><span class="p">,</span> <span class="n">app_name</span><span class="p">)</span>
+<a id="__codelineno-0-317" name="__codelineno-0-317"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Conexión PAT establecida ✔&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-318" name="__codelineno-0-318"></a>        <span class="k">return</span> <span class="n">spark</span>
+<a id="__codelineno-0-319" name="__codelineno-0-319"></a>
+<a id="__codelineno-0-320" name="__codelineno-0-320"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_databricks_via_login</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">DatabricksSession</span><span class="p">,</span> <span class="n">cluster_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<a id="__codelineno-0-321" name="__codelineno-0-321"></a>        <span class="n">profile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;DATABRICKS_PROFILE&quot;</span><span class="p">,</span> <span class="s2">&quot;DEFAULT&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-322" name="__codelineno-0-322"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+<a id="__codelineno-0-323" name="__codelineno-0-323"></a>            <span class="sa">f</span><span class="s2">&quot;Conectando via OAuth/CLI | cluster=&#39;</span><span class="si">{</span><span class="n">cluster_id</span><span class="si">}</span><span class="s2">&#39; | profile=&#39;</span><span class="si">{</span><span class="n">profile</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+<a id="__codelineno-0-324" name="__codelineno-0-324"></a>        <span class="p">)</span>
+<a id="__codelineno-0-325" name="__codelineno-0-325"></a>        <span class="k">if</span> <span class="n">profile</span> <span class="ow">and</span> <span class="n">profile</span> <span class="o">!=</span> <span class="s2">&quot;DEFAULT&quot;</span><span class="p">:</span>
+<a id="__codelineno-0-326" name="__codelineno-0-326"></a>            <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;DATABRICKS_CONFIG_PROFILE&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">profile</span>
+<a id="__codelineno-0-327" name="__codelineno-0-327"></a>
+<a id="__codelineno-0-328" name="__codelineno-0-328"></a>        <span class="n">spark</span>    <span class="o">=</span> <span class="n">DatabricksSession</span><span class="o">.</span><span class="n">builder</span><span class="o">.</span><span class="n">clusterId</span><span class="p">(</span><span class="n">cluster_id</span><span class="p">)</span><span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+<a id="__codelineno-0-329" name="__codelineno-0-329"></a>        <span class="n">app_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;SPARK_APP_NAME&quot;</span><span class="p">,</span> <span class="s2">&quot;DKOps&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-330" name="__codelineno-0-330"></a>        <span class="n">spark</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;spark.app.name&quot;</span><span class="p">,</span> <span class="n">app_name</span><span class="p">)</span>
+<a id="__codelineno-0-331" name="__codelineno-0-331"></a>        <span class="n">spark</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;spark.databricks.app.name&quot;</span><span class="p">,</span> <span class="n">app_name</span><span class="p">)</span>
+<a id="__codelineno-0-332" name="__codelineno-0-332"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Conexión OAuth/CLI establecida ✔&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-333" name="__codelineno-0-333"></a>        <span class="k">return</span> <span class="n">spark</span>
+<a id="__codelineno-0-334" name="__codelineno-0-334"></a>
+<a id="__codelineno-0-335" name="__codelineno-0-335"></a>    <span class="c1"># ── Config ────────────────────────────────────────────────────────────</span>
+<a id="__codelineno-0-336" name="__codelineno-0-336"></a>
+<a id="__codelineno-0-337" name="__codelineno-0-337"></a>    <span class="nd">@staticmethod</span>
+<a id="__codelineno-0-338" name="__codelineno-0-338"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_config_path</span><span class="p">(</span><span class="n">config_file</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+<a id="__codelineno-0-339" name="__codelineno-0-339"></a>        <span class="k">if</span> <span class="n">config_file</span><span class="p">:</span>
+<a id="__codelineno-0-340" name="__codelineno-0-340"></a>            <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">config_file</span><span class="p">)</span>
+<a id="__codelineno-0-341" name="__codelineno-0-341"></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[Launcher] Ruta de config (argumento): </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-342" name="__codelineno-0-342"></a>        <span class="k">else</span><span class="p">:</span>
+<a id="__codelineno-0-343" name="__codelineno-0-343"></a>            <span class="n">env_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ENV_VAR_CONFIG</span><span class="p">)</span>
+<a id="__codelineno-0-344" name="__codelineno-0-344"></a>            <span class="k">if</span> <span class="n">env_path</span><span class="p">:</span>
+<a id="__codelineno-0-345" name="__codelineno-0-345"></a>                <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">env_path</span><span class="p">)</span>
+<a id="__codelineno-0-346" name="__codelineno-0-346"></a>                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[Launcher] Ruta de config (env &#39;</span><span class="si">{</span><span class="n">ENV_VAR_CONFIG</span><span class="si">}</span><span class="s2">&#39;): </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-347" name="__codelineno-0-347"></a>            <span class="k">else</span><span class="p">:</span>
+<a id="__codelineno-0-348" name="__codelineno-0-348"></a>                <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span>
+<a id="__codelineno-0-349" name="__codelineno-0-349"></a>                    <span class="s2">&quot;No se encontró la ruta del archivo de configuración.</span><span class="se">\n</span><span class="s2">&quot;</span>
+<a id="__codelineno-0-350" name="__codelineno-0-350"></a>                    <span class="sa">f</span><span class="s2">&quot;  • Pásala como argumento: Launcher(&#39;ruta/config.json&#39;)</span><span class="se">\n</span><span class="s2">&quot;</span>
+<a id="__codelineno-0-351" name="__codelineno-0-351"></a>                    <span class="sa">f</span><span class="s2">&quot;  • O define: </span><span class="si">{</span><span class="n">ENV_VAR_CONFIG</span><span class="si">}</span><span class="s2">=ruta/config.json&quot;</span>
+<a id="__codelineno-0-352" name="__codelineno-0-352"></a>                <span class="p">)</span>
+<a id="__codelineno-0-353" name="__codelineno-0-353"></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+<a id="__codelineno-0-354" name="__codelineno-0-354"></a>            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;El archivo de configuración no existe: </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-355" name="__codelineno-0-355"></a>        <span class="k">return</span> <span class="n">path</span>
+<a id="__codelineno-0-356" name="__codelineno-0-356"></a>
+<a id="__codelineno-0-357" name="__codelineno-0-357"></a>    <span class="nd">@staticmethod</span>
+<a id="__codelineno-0-358" name="__codelineno-0-358"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_load_config</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<a id="__codelineno-0-359" name="__codelineno-0-359"></a>        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<a id="__codelineno-0-360" name="__codelineno-0-360"></a>            <span class="k">try</span><span class="p">:</span>
+<a id="__codelineno-0-361" name="__codelineno-0-361"></a>                <span class="n">config</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<a id="__codelineno-0-362" name="__codelineno-0-362"></a>            <span class="k">except</span> <span class="n">json</span><span class="o">.</span><span class="n">JSONDecodeError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+<a id="__codelineno-0-363" name="__codelineno-0-363"></a>                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+<a id="__codelineno-0-364" name="__codelineno-0-364"></a>                    <span class="sa">f</span><span class="s2">&quot;JSON inválido en config: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">&quot;</span>
+<a id="__codelineno-0-365" name="__codelineno-0-365"></a>                <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
+<a id="__codelineno-0-366" name="__codelineno-0-366"></a>        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+<a id="__codelineno-0-367" name="__codelineno-0-367"></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;El archivo de configuración debe ser un objeto JSON.&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-368" name="__codelineno-0-368"></a>        <span class="k">return</span> <span class="n">config</span>
 </code></pre></div></td></tr></table></div>
               </details>
 
 
 
-  <div class="doc doc-children">
+<div class="doc doc-children">
 
 
 
@@ -2254,6 +2725,7 @@ env      = launcher.env     # EnvironmentConfig
 
 
     <div class="doc doc-contents ">
+
     </div>
 
 </div>
@@ -2273,6 +2745,7 @@ env      = launcher.env     # EnvironmentConfig
 
 
     <div class="doc doc-contents ">
+
     </div>
 
 </div>
@@ -2292,9 +2765,11 @@ env      = launcher.env     # EnvironmentConfig
 
 
     <div class="doc doc-contents ">
+
     </div>
 
 </div>
+
 
 <h5 id="DKOps.launcher.Launcher-functions">Functions<a href="#DKOps.launcher.Launcher-functions" class="headerlink" title="Permanent link">&para;</a></h5>
 
@@ -2309,24 +2784,10 @@ env      = launcher.env     # EnvironmentConfig
 
     <div class="doc doc-contents ">
 
-            <details class="quote">
-              <summary>Source code in <code>src/DKOps/launcher.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-78"> 78</a></span>
-<span class="normal"><a href="#__codelineno-0-79"> 79</a></span>
-<span class="normal"><a href="#__codelineno-0-80"> 80</a></span>
-<span class="normal"><a href="#__codelineno-0-81"> 81</a></span>
-<span class="normal"><a href="#__codelineno-0-82"> 82</a></span>
-<span class="normal"><a href="#__codelineno-0-83"> 83</a></span>
-<span class="normal"><a href="#__codelineno-0-84"> 84</a></span>
-<span class="normal"><a href="#__codelineno-0-85"> 85</a></span>
-<span class="normal"><a href="#__codelineno-0-86"> 86</a></span>
-<span class="normal"><a href="#__codelineno-0-87"> 87</a></span>
-<span class="normal"><a href="#__codelineno-0-88"> 88</a></span>
-<span class="normal"><a href="#__codelineno-0-89"> 89</a></span>
-<span class="normal"><a href="#__codelineno-0-90"> 90</a></span>
-<span class="normal"><a href="#__codelineno-0-91"> 91</a></span>
-<span class="normal"><a href="#__codelineno-0-92"> 92</a></span>
-<span class="normal"><a href="#__codelineno-0-93"> 93</a></span>
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src\DKOps\launcher.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-93"> 93</a></span>
 <span class="normal"><a href="#__codelineno-0-94"> 94</a></span>
 <span class="normal"><a href="#__codelineno-0-95"> 95</a></span>
 <span class="normal"><a href="#__codelineno-0-96"> 96</a></span>
@@ -2354,50 +2815,138 @@ env      = launcher.env     # EnvironmentConfig
 <span class="normal"><a href="#__codelineno-0-118">118</a></span>
 <span class="normal"><a href="#__codelineno-0-119">119</a></span>
 <span class="normal"><a href="#__codelineno-0-120">120</a></span>
-<span class="normal"><a href="#__codelineno-0-121">121</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-78" name="__codelineno-0-78"></a><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_file</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-0-79" name="__codelineno-0-79"></a>    <span class="n">config_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_config_path</span><span class="p">(</span><span class="n">config_file</span><span class="p">)</span>
-<a id="__codelineno-0-80" name="__codelineno-0-80"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_config</span><span class="p">(</span><span class="n">config_path</span><span class="p">)</span>
-<a id="__codelineno-0-81" name="__codelineno-0-81"></a>
-<a id="__codelineno-0-82" name="__codelineno-0-82"></a>    <span class="n">AppLogger</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
-<a id="__codelineno-0-83" name="__codelineno-0-83"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Configuración cargada desde: </span><span class="si">{</span><span class="n">config_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-84" name="__codelineno-0-84"></a>
-<a id="__codelineno-0-85" name="__codelineno-0-85"></a>    <span class="n">execution_env</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;EXECUTION_ENVIRONMENT&quot;</span><span class="p">,</span> <span class="s2">&quot;local&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-<a id="__codelineno-0-86" name="__codelineno-0-86"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;EXECUTION_ENVIRONMENT=&#39;</span><span class="si">{</span><span class="n">execution_env</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-87" name="__codelineno-0-87"></a>
-<a id="__codelineno-0-88" name="__codelineno-0-88"></a>    <span class="c1"># Detectar si corremos DENTRO de un cluster Databricks</span>
-<a id="__codelineno-0-89" name="__codelineno-0-89"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_native_databricks</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_detect_native_databricks</span><span class="p">()</span>
-<a id="__codelineno-0-90" name="__codelineno-0-90"></a>
-<a id="__codelineno-0-91" name="__codelineno-0-91"></a>    <span class="k">if</span> <span class="n">execution_env</span> <span class="o">==</span> <span class="s2">&quot;databricks&quot;</span><span class="p">:</span>
-<a id="__codelineno-0-92" name="__codelineno-0-92"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">spark</span>    <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_databricks</span><span class="p">()</span>
-<a id="__codelineno-0-93" name="__codelineno-0-93"></a>        <span class="n">is_databricks</span> <span class="o">=</span> <span class="kc">True</span>
-<a id="__codelineno-0-94" name="__codelineno-0-94"></a>
-<a id="__codelineno-0-95" name="__codelineno-0-95"></a>    <span class="k">elif</span> <span class="n">execution_env</span> <span class="o">==</span> <span class="s2">&quot;local&quot;</span><span class="p">:</span>
-<a id="__codelineno-0-96" name="__codelineno-0-96"></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_native_databricks</span><span class="p">:</span>
-<a id="__codelineno-0-97" name="__codelineno-0-97"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">spark</span>    <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_local_databricks</span><span class="p">()</span>
-<a id="__codelineno-0-98" name="__codelineno-0-98"></a>            <span class="n">is_databricks</span> <span class="o">=</span> <span class="kc">True</span>
-<a id="__codelineno-0-99" name="__codelineno-0-99"></a>        <span class="k">else</span><span class="p">:</span>
-<a id="__codelineno-0-100" name="__codelineno-0-100"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">spark</span>    <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_local_pc</span><span class="p">()</span>
-<a id="__codelineno-0-101" name="__codelineno-0-101"></a>            <span class="n">is_databricks</span> <span class="o">=</span> <span class="kc">False</span>
-<a id="__codelineno-0-102" name="__codelineno-0-102"></a>    <span class="k">else</span><span class="p">:</span>
-<a id="__codelineno-0-103" name="__codelineno-0-103"></a>        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-<a id="__codelineno-0-104" name="__codelineno-0-104"></a>            <span class="sa">f</span><span class="s2">&quot;EXECUTION_ENVIRONMENT=&#39;</span><span class="si">{</span><span class="n">execution_env</span><span class="si">}</span><span class="s2">&#39; no reconocido. &quot;</span>
-<a id="__codelineno-0-105" name="__codelineno-0-105"></a>            <span class="s2">&quot;Valores válidos: &#39;local&#39;, &#39;databricks&#39;.&quot;</span>
-<a id="__codelineno-0-106" name="__codelineno-0-106"></a>        <span class="p">)</span>
-<a id="__codelineno-0-107" name="__codelineno-0-107"></a>
-<a id="__codelineno-0-108" name="__codelineno-0-108"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">success</span><span class="p">(</span>
-<a id="__codelineno-0-109" name="__codelineno-0-109"></a>        <span class="sa">f</span><span class="s2">&quot;SparkSession lista ✔ | &quot;</span>
-<a id="__codelineno-0-110" name="__codelineno-0-110"></a>        <span class="sa">f</span><span class="s2">&quot;runtime=&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_resolve_runtime_label</span><span class="p">(</span><span class="n">execution_env</span><span class="p">,</span><span class="w"> </span><span class="n">is_databricks</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
-<a id="__codelineno-0-111" name="__codelineno-0-111"></a>    <span class="p">)</span>
-<a id="__codelineno-0-112" name="__codelineno-0-112"></a>
-<a id="__codelineno-0-113" name="__codelineno-0-113"></a>    <span class="k">if</span> <span class="s2">&quot;environments&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">:</span>
-<a id="__codelineno-0-114" name="__codelineno-0-114"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">env</span> <span class="o">=</span> <span class="n">EnvironmentConfig</span><span class="p">(</span>
-<a id="__codelineno-0-115" name="__codelineno-0-115"></a>            <span class="n">config</span>        <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span>
-<a id="__codelineno-0-116" name="__codelineno-0-116"></a>            <span class="n">is_databricks</span> <span class="o">=</span> <span class="n">is_databricks</span><span class="p">,</span>
-<a id="__codelineno-0-117" name="__codelineno-0-117"></a>        <span class="p">)</span>
-<a id="__codelineno-0-118" name="__codelineno-0-118"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Ambiente activo: &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">env</span><span class="si">}</span><span class="s2">&#39; ✔&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-119" name="__codelineno-0-119"></a>    <span class="k">else</span><span class="p">:</span>
-<a id="__codelineno-0-120" name="__codelineno-0-120"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">env</span> <span class="o">=</span> <span class="kc">None</span>
-<a id="__codelineno-0-121" name="__codelineno-0-121"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Sección &#39;environments&#39; no encontrada — env=None&quot;</span><span class="p">)</span>
+<span class="normal"><a href="#__codelineno-0-121">121</a></span>
+<span class="normal"><a href="#__codelineno-0-122">122</a></span>
+<span class="normal"><a href="#__codelineno-0-123">123</a></span>
+<span class="normal"><a href="#__codelineno-0-124">124</a></span>
+<span class="normal"><a href="#__codelineno-0-125">125</a></span>
+<span class="normal"><a href="#__codelineno-0-126">126</a></span>
+<span class="normal"><a href="#__codelineno-0-127">127</a></span>
+<span class="normal"><a href="#__codelineno-0-128">128</a></span>
+<span class="normal"><a href="#__codelineno-0-129">129</a></span>
+<span class="normal"><a href="#__codelineno-0-130">130</a></span>
+<span class="normal"><a href="#__codelineno-0-131">131</a></span>
+<span class="normal"><a href="#__codelineno-0-132">132</a></span>
+<span class="normal"><a href="#__codelineno-0-133">133</a></span>
+<span class="normal"><a href="#__codelineno-0-134">134</a></span>
+<span class="normal"><a href="#__codelineno-0-135">135</a></span>
+<span class="normal"><a href="#__codelineno-0-136">136</a></span>
+<span class="normal"><a href="#__codelineno-0-137">137</a></span>
+<span class="normal"><a href="#__codelineno-0-138">138</a></span>
+<span class="normal"><a href="#__codelineno-0-139">139</a></span>
+<span class="normal"><a href="#__codelineno-0-140">140</a></span>
+<span class="normal"><a href="#__codelineno-0-141">141</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-93" name="__codelineno-0-93"></a><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_file</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-0-94" name="__codelineno-0-94"></a>    <span class="n">config_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_config_path</span><span class="p">(</span><span class="n">config_file</span><span class="p">)</span>
+<a id="__codelineno-0-95" name="__codelineno-0-95"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_config</span><span class="p">(</span><span class="n">config_path</span><span class="p">)</span>
+<a id="__codelineno-0-96" name="__codelineno-0-96"></a>
+<a id="__codelineno-0-97" name="__codelineno-0-97"></a>    <span class="n">AppLogger</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+<a id="__codelineno-0-98" name="__codelineno-0-98"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Configuración cargada desde: </span><span class="si">{</span><span class="n">config_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-99" name="__codelineno-0-99"></a>
+<a id="__codelineno-0-100" name="__codelineno-0-100"></a>    <span class="n">execution_env</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;EXECUTION_ENVIRONMENT&quot;</span><span class="p">,</span> <span class="s2">&quot;local&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+<a id="__codelineno-0-101" name="__codelineno-0-101"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;EXECUTION_ENVIRONMENT=&#39;</span><span class="si">{</span><span class="n">execution_env</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-102" name="__codelineno-0-102"></a>
+<a id="__codelineno-0-103" name="__codelineno-0-103"></a>    <span class="c1"># Detectar si corremos DENTRO de un cluster Databricks</span>
+<a id="__codelineno-0-104" name="__codelineno-0-104"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_native_databricks</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_detect_native_databricks</span><span class="p">()</span>
+<a id="__codelineno-0-105" name="__codelineno-0-105"></a>
+<a id="__codelineno-0-106" name="__codelineno-0-106"></a>    <span class="k">if</span> <span class="n">execution_env</span> <span class="o">==</span> <span class="s2">&quot;databricks&quot;</span><span class="p">:</span>
+<a id="__codelineno-0-107" name="__codelineno-0-107"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">spark</span>    <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_databricks</span><span class="p">()</span>
+<a id="__codelineno-0-108" name="__codelineno-0-108"></a>        <span class="n">is_databricks</span> <span class="o">=</span> <span class="kc">True</span>
+<a id="__codelineno-0-109" name="__codelineno-0-109"></a>
+<a id="__codelineno-0-110" name="__codelineno-0-110"></a>    <span class="k">elif</span> <span class="n">execution_env</span> <span class="o">==</span> <span class="s2">&quot;local&quot;</span><span class="p">:</span>
+<a id="__codelineno-0-111" name="__codelineno-0-111"></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_native_databricks</span><span class="p">:</span>
+<a id="__codelineno-0-112" name="__codelineno-0-112"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">spark</span>    <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_local_databricks</span><span class="p">()</span>
+<a id="__codelineno-0-113" name="__codelineno-0-113"></a>            <span class="n">is_databricks</span> <span class="o">=</span> <span class="kc">True</span>
+<a id="__codelineno-0-114" name="__codelineno-0-114"></a>        <span class="k">else</span><span class="p">:</span>
+<a id="__codelineno-0-115" name="__codelineno-0-115"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">spark</span>    <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_local_pc</span><span class="p">()</span>
+<a id="__codelineno-0-116" name="__codelineno-0-116"></a>            <span class="n">is_databricks</span> <span class="o">=</span> <span class="kc">False</span>
+<a id="__codelineno-0-117" name="__codelineno-0-117"></a>    <span class="k">else</span><span class="p">:</span>
+<a id="__codelineno-0-118" name="__codelineno-0-118"></a>        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+<a id="__codelineno-0-119" name="__codelineno-0-119"></a>            <span class="sa">f</span><span class="s2">&quot;EXECUTION_ENVIRONMENT=&#39;</span><span class="si">{</span><span class="n">execution_env</span><span class="si">}</span><span class="s2">&#39; no reconocido. &quot;</span>
+<a id="__codelineno-0-120" name="__codelineno-0-120"></a>            <span class="s2">&quot;Valores válidos: &#39;local&#39;, &#39;databricks&#39;.&quot;</span>
+<a id="__codelineno-0-121" name="__codelineno-0-121"></a>        <span class="p">)</span>
+<a id="__codelineno-0-122" name="__codelineno-0-122"></a>
+<a id="__codelineno-0-123" name="__codelineno-0-123"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">success</span><span class="p">(</span>
+<a id="__codelineno-0-124" name="__codelineno-0-124"></a>        <span class="sa">f</span><span class="s2">&quot;SparkSession lista ✔ | &quot;</span>
+<a id="__codelineno-0-125" name="__codelineno-0-125"></a>        <span class="sa">f</span><span class="s2">&quot;runtime=&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_resolve_runtime_label</span><span class="p">(</span><span class="n">execution_env</span><span class="p">,</span><span class="w"> </span><span class="n">is_databricks</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+<a id="__codelineno-0-126" name="__codelineno-0-126"></a>    <span class="p">)</span>
+<a id="__codelineno-0-127" name="__codelineno-0-127"></a>
+<a id="__codelineno-0-128" name="__codelineno-0-128"></a>    <span class="k">if</span> <span class="s2">&quot;environments&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">:</span>
+<a id="__codelineno-0-129" name="__codelineno-0-129"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">env</span> <span class="o">=</span> <span class="n">EnvironmentConfig</span><span class="p">(</span>
+<a id="__codelineno-0-130" name="__codelineno-0-130"></a>            <span class="n">config</span>        <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span>
+<a id="__codelineno-0-131" name="__codelineno-0-131"></a>            <span class="n">is_databricks</span> <span class="o">=</span> <span class="n">is_databricks</span><span class="p">,</span>
+<a id="__codelineno-0-132" name="__codelineno-0-132"></a>        <span class="p">)</span>
+<a id="__codelineno-0-133" name="__codelineno-0-133"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Ambiente activo: &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">env</span><span class="si">}</span><span class="s2">&#39; ✔&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-134" name="__codelineno-0-134"></a>    <span class="k">else</span><span class="p">:</span>
+<a id="__codelineno-0-135" name="__codelineno-0-135"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">env</span> <span class="o">=</span> <span class="kc">None</span>
+<a id="__codelineno-0-136" name="__codelineno-0-136"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Sección &#39;environments&#39; no encontrada — env=None&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-137" name="__codelineno-0-137"></a>
+<a id="__codelineno-0-138" name="__codelineno-0-138"></a>    <span class="c1"># Registrar como Launcher activo del proceso.</span>
+<a id="__codelineno-0-139" name="__codelineno-0-139"></a>    <span class="c1"># Se hace al FINAL para que solo quede registrado si todo se inicializó OK.</span>
+<a id="__codelineno-0-140" name="__codelineno-0-140"></a>    <span class="n">Launcher</span><span class="o">.</span><span class="n">_current</span> <span class="o">=</span> <span class="bp">self</span>
+<a id="__codelineno-0-141" name="__codelineno-0-141"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Launcher registrado como activo (Launcher.current())&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h6 id="DKOps.launcher.Launcher.current" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">current</span><span class="p">()</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#DKOps.launcher.Launcher.current" class="headerlink" title="Permanent link">&para;</a></h6>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Devuelve el Launcher activo del proceso.</p>
+<p>Lanza RuntimeError si nadie ha instanciado un Launcher todavía —
+eso significa que algún componente (writer, loader, etc.) se está
+usando antes de inicializar la app, lo cual es siempre un error
+de orden de imports/instanciación.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src\DKOps\launcher.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-145">145</a></span>
+<span class="normal"><a href="#__codelineno-0-146">146</a></span>
+<span class="normal"><a href="#__codelineno-0-147">147</a></span>
+<span class="normal"><a href="#__codelineno-0-148">148</a></span>
+<span class="normal"><a href="#__codelineno-0-149">149</a></span>
+<span class="normal"><a href="#__codelineno-0-150">150</a></span>
+<span class="normal"><a href="#__codelineno-0-151">151</a></span>
+<span class="normal"><a href="#__codelineno-0-152">152</a></span>
+<span class="normal"><a href="#__codelineno-0-153">153</a></span>
+<span class="normal"><a href="#__codelineno-0-154">154</a></span>
+<span class="normal"><a href="#__codelineno-0-155">155</a></span>
+<span class="normal"><a href="#__codelineno-0-156">156</a></span>
+<span class="normal"><a href="#__codelineno-0-157">157</a></span>
+<span class="normal"><a href="#__codelineno-0-158">158</a></span>
+<span class="normal"><a href="#__codelineno-0-159">159</a></span>
+<span class="normal"><a href="#__codelineno-0-160">160</a></span>
+<span class="normal"><a href="#__codelineno-0-161">161</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-145" name="__codelineno-0-145"></a><span class="nd">@classmethod</span>
+<a id="__codelineno-0-146" name="__codelineno-0-146"></a><span class="k">def</span><span class="w"> </span><span class="nf">current</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Launcher&quot;</span><span class="p">:</span>
+<a id="__codelineno-0-147" name="__codelineno-0-147"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<a id="__codelineno-0-148" name="__codelineno-0-148"></a><span class="sd">    Devuelve el Launcher activo del proceso.</span>
+<a id="__codelineno-0-149" name="__codelineno-0-149"></a>
+<a id="__codelineno-0-150" name="__codelineno-0-150"></a><span class="sd">    Lanza RuntimeError si nadie ha instanciado un Launcher todavía —</span>
+<a id="__codelineno-0-151" name="__codelineno-0-151"></a><span class="sd">    eso significa que algún componente (writer, loader, etc.) se está</span>
+<a id="__codelineno-0-152" name="__codelineno-0-152"></a><span class="sd">    usando antes de inicializar la app, lo cual es siempre un error</span>
+<a id="__codelineno-0-153" name="__codelineno-0-153"></a><span class="sd">    de orden de imports/instanciación.</span>
+<a id="__codelineno-0-154" name="__codelineno-0-154"></a><span class="sd">    &quot;&quot;&quot;</span>
+<a id="__codelineno-0-155" name="__codelineno-0-155"></a>    <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_current</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-0-156" name="__codelineno-0-156"></a>        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+<a id="__codelineno-0-157" name="__codelineno-0-157"></a>            <span class="s2">&quot;No hay Launcher activo. Instancia Launcher(...) &quot;</span>
+<a id="__codelineno-0-158" name="__codelineno-0-158"></a>            <span class="s2">&quot;antes de usar writers, contracts u otros componentes &quot;</span>
+<a id="__codelineno-0-159" name="__codelineno-0-159"></a>            <span class="s2">&quot;que dependan de spark/env.&quot;</span>
+<a id="__codelineno-0-160" name="__codelineno-0-160"></a>        <span class="p">)</span>
+<a id="__codelineno-0-161" name="__codelineno-0-161"></a>    <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_current</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -2472,10 +3021,13 @@ env      = launcher.env     # EnvironmentConfig
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}}</script>
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.60a45f97.min.js"></script>
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
   </body>
