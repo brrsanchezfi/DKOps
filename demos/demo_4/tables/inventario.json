@@ -6,8 +6,6 @@
   "type":    "MANAGED",
   "format":  "DELTA",
   "comment": "Inventario de productos de la tienda con historial de cambios via CDF",
-  "merge_schema":     false,
-  "change_data_feed": true,
   "columns": [
     {
       "name": "producto_id",
@@ -54,6 +52,7 @@
   ],
   "partitions": ["categoria"],
   "properties": {
-    "delta.autoOptimize.optimizeWrite": "true"
+    "delta.autoOptimize.optimizeWrite": "true",
+    "change_data_feed": true
   }
 }

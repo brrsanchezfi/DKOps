@@ -6,7 +6,6 @@
   "type":    "MANAGED",
   "format":  "DELTA",
   "comment": "Dimensión de clientes del e-commerce",
-  "merge_schema": false,
   "columns": [
     {
       "name": "cliente_id",
