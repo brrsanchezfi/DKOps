@@ -1,4 +1,0 @@
-medallion
-readers
-table_manager
-writes
