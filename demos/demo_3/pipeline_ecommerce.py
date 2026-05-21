@@ -54,7 +54,7 @@ def _schema_cols(df) -> list[str]:
 # Inicialización
 # ─────────────────────────────────────────────────────────────────────────────
 
-launcher = Launcher("config/config.json")
+launcher = Launcher("config/config.json", log_filename="ecommercePipeline")
 spark    = launcher.spark
 gen      = DataGenerator(spark)
 

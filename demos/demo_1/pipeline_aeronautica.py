@@ -73,7 +73,7 @@ def _sub(titulo: str) -> None:
 # Inicialización
 # ─────────────────────────────────────────────────────────────────────────────
 
-launcher = Launcher("config/config.json")
+launcher = Launcher("config/config.json", log_filename="vuelosDiarios")
 spark    = launcher.spark
 gen      = DataGenerator(spark)
 

@@ -56,7 +56,7 @@ def _sub(titulo: str) -> None:
 # Inicialización
 # ─────────────────────────────────────────────────────────────────────────────
 
-launcher = Launcher("config/config.json")
+launcher = Launcher("config/config.json", log_filename="lecturaDelta")
 spark    = launcher.spark
 gen      = DataGenerator(spark)
 

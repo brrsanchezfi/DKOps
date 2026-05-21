@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "DKOps"
-version = "0.1.0"
+version = "0.2.0"
 description = "Lakehouse automation framework for DataOps, DevOps, QA, and Medallion architecture on Databricks"
 readme = "README.md"
 authors = [
