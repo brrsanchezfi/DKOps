@@ -8,7 +8,6 @@
 
   "LOG_LEVEL":     "INFO",
   "LOG_DIR":       "/tmp/logs",
-  "LOG_FILENAME":  "ecommerce.log",
   "LOG_ROTATION":  "10 MB",
   "LOG_RETENTION": "7 days",
   "LOG_SERIALIZE": false,

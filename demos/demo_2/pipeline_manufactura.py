@@ -80,7 +80,7 @@ def aplicar_dq(df, reglas_dict, fail_on_error: bool = True) -> None:
 # Inicialización
 # ─────────────────────────────────────────────────────────────────────────────
 
-launcher = Launcher("config/config.json")
+launcher = Launcher("config/config.json", log_filename="manufacturaAseo")
 spark    = launcher.spark
 gen      = DataGenerator(spark)
 

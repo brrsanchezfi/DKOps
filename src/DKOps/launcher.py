@@ -24,6 +24,19 @@ Runtimes soportados
     └─ Databricks Connect  → SparkSession remota vía databricks-connect
                               is_databricks = True
 
+Logging en dos fases
+--------------------
+El logger se inicializa en dos momentos:
+
+  Fase 1 (antes de Spark) → solo consola activa.
+  Fase 2 (después de Spark) → se agrega el handler de archivo.
+
+Esto permite que ``LOG_DIR`` soporte rutas de Lakehouse (``abfss://``, ``dbfs:/``)
+que requieren una SparkSession para escribir, además de rutas locales.
+
+``LOG_FILENAME`` ya NO va en config.json. Se pasa como ``log_filename`` al
+constructor. Si se omite, se auto-genera desde ``SPARK_APP_NAME``.
+
 Singleton implícito
 -------------------
 La instancia más reciente de Launcher se registra como `Launcher._current`.
@@ -41,6 +54,13 @@ Campos relevantes de config.json
     "DELTA_VERSION"       : "3.2.0"     // Spark 3.5.x → Delta 3.2.0
                                          // Spark 3.4.x → Delta 2.4.0
                                          // Spark 3.3.x → Delta 2.3.0
+
+    // Logging (LOG_FILENAME se pasa como parámetro al Launcher, no aquí)
+    "LOG_LEVEL"    : "INFO"             // DEBUG | INFO | WARNING | ERROR | CRITICAL
+    "LOG_DIR"      : "/tmp/logs"        // local, /dbfs/..., dbfs:/..., abfss://...
+    "LOG_ROTATION" : "10 MB"
+    "LOG_RETENTION": "7 days"
+    "LOG_SERIALIZE": false
 
     // Databricks Connect
     "CLUSTER_ID"          : "<cluster-id>"
@@ -90,11 +110,36 @@ class Launcher(LoggableMixin):
     # Instancia activa del proceso — la consume Launcher.current()
     _current: "Launcher | None" = None
 
-    def __init__(self, config_file: str | None = None) -> None:
+    def __init__(
+        self,
+        config_file:  str | None = None,
+        log_filename: str | None = None,
+    ) -> None:
+        """
+        Inicializa el Launcher.
+
+        Parámetros
+        ----------
+        config_file  : ruta al config.json del ETL. Si se omite, se lee la
+                       variable de entorno ``PATH_CONFIG_LAUNCHER``.
+        log_filename : nombre base del archivo de log para esta ejecución,
+                       sin extensión (ej. ``"vuelosDiarios"``).
+                       Si se omite, se auto-genera desde ``SPARK_APP_NAME``.
+        """
         config_path = self._resolve_config_path(config_file)
         self.config = self._load_config(config_path)
 
-        AppLogger.setup(self.config)
+        # Resuelve el nombre del archivo de log:
+        #   1. Argumento explícito log_filename
+        #   2. SPARK_APP_NAME del config
+        #   3. "dkops" como fallback
+        _log_filename = (
+            log_filename
+            or self.config.get("SPARK_APP_NAME", "dkops")
+        )
+
+        # ── Fase 1: logger de consola (antes de Spark) ────────────────────
+        AppLogger.setup(self.config, log_filename=_log_filename)
         self.log.info(f"Configuración cargada desde: {config_path}")
 
         execution_env = self.config.get("EXECUTION_ENVIRONMENT", "local").lower()
@@ -124,6 +169,10 @@ class Launcher(LoggableMixin):
             f"SparkSession lista ✔ | "
             f"runtime='{self._resolve_runtime_label(execution_env, is_databricks)}'"
         )
+
+        # ── Fase 2: logger de archivo (después de Spark) ──────────────────
+        log_dir = self.config.get("LOG_DIR", "/tmp/logs")
+        AppLogger.add_file_handler(self.spark, log_dir=log_dir, log_filename=_log_filename)
 
         if "environments" in self.config:
             self.env = EnvironmentConfig(
