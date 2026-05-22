@@ -261,16 +261,52 @@ class AppLogger:
                 "probando escritura vía DBFS local..."
             )
 
-        # ── Intento 2: DBFS montado como path local (/dbfs/tmp/) ─────────────
-        # En Databricks, /dbfs/ está disponible como filesystem local incluso
-        # con Spark Connect. El archivo queda en dbfs:/tmp/dkops_logs/<filename>.
+        # ── Intento 2: fsspec / adlfs (Databricks Connect y serverless) ─────────
+        # fsspec + adlfs están pre-instalados en Databricks (DBR 11+).
+        # Usa las credenciales del cluster (OAuth, service principal, etc.)
+        # sin necesitar JVM ni /dbfs/ montado.
+        # Requiere que el storage account tenga HNS (Hierarchical Namespace)
+        # habilitado para soportar append nativo.
+        try:
+            import fsspec  # noqa: PLC0415
+
+            cloud_full_path = f"{log_dir.rstrip('/')}/{filename}"
+            out = fsspec.open(cloud_full_path, "ab").open()
+
+            def _fsspec_sink(message: str) -> None:
+                try:
+                    out.write(message.encode("utf-8"))
+                    out.flush()
+                except Exception:
+                    pass
+
+            handler_id = logger.add(
+                _fsspec_sink,
+                level=cls._level,
+                serialize=cls._serialize,
+                format=cls._FMT_FILE if not cls._serialize else "{message}",
+            )
+            _log.success(
+                f"Logger archivo cloud activo (fsspec) | path='{cloud_full_path}'"
+            )
+            return handler_id
+
+        except Exception as exc:
+            _log.debug(
+                f"fsspec no disponible ({type(exc).__name__}) — "
+                "probando escritura vía DBFS local..."
+            )
+
+        # ── Intento 3: DBFS montado como path local (/dbfs/tmp/) ─────────────
+        # Disponible en clusters clásicos de Databricks (no serverless).
+        # El archivo queda accesible en dbfs:/tmp/dkops_logs/<filename>.
         try:
             dbfs_fallback = "/dbfs/tmp/dkops_logs"
             Path(dbfs_fallback).mkdir(parents=True, exist_ok=True)
 
             handler_id = cls._add_local_handler(dbfs_fallback, filename, _log)
             _log.warning(
-                f"LOG_DIR cloud ('{log_dir}') no compatible con Spark Connect. "
+                f"LOG_DIR cloud ('{log_dir}') sin soporte de append en este runtime. "
                 f"Logs escritos en DBFS: 'dbfs:/tmp/dkops_logs/{filename}'"
             )
             return handler_id
@@ -278,7 +314,7 @@ class AppLogger:
         except Exception as exc:
             _log.debug(f"DBFS local no disponible ({type(exc).__name__}) — usando /tmp/")
 
-        # ── Intento 3: /tmp/ del driver (último recurso) ──────────────────────
+        # ── Intento 4: /tmp/ del driver (último recurso) ──────────────────────
         try:
             handler_id = cls._add_local_handler("/tmp", filename, _log)
             _log.warning(
