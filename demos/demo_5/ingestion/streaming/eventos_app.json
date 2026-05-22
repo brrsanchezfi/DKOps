@@ -1,0 +1,32 @@
+{
+  "_doc": "Ingesta streaming de eventos de app — file stream local / Kafka en prod",
+  "name":        "eventos_app",
+  "description": "Streaming de clickstream desde Landing. Local: file stream. Databricks: Auto Loader o Kafka.",
+  "ingest_type": "streaming",
+  "trigger":     "available_now",
+  "enabled":     true,
+
+  "source": {
+    "format": "json",
+    "path":   "{path.landing}/eventos_app",
+    "options": {},
+    "schema": [
+      { "name": "evento_id",   "type": "string"    },
+      { "name": "cliente_id",  "type": "string"    },
+      { "name": "tipo_evento", "type": "string"    },
+      { "name": "producto_id", "type": "string"    },
+      { "name": "canal",       "type": "string"    },
+      { "name": "evento_ts",   "type": "timestamp" }
+    ]
+  },
+
+  "destination_contract": "../../tables/bronze/eventos_stream_raw.json",
+
+  "metadata": {
+    "add_ingested_at":   true,
+    "add_ingested_date": true,
+    "add_source_file":   true
+  },
+
+  "checkpoint_suffix": "streaming/eventos_app"
+}

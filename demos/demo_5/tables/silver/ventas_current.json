@@ -1,0 +1,32 @@
+{
+  "_doc": "Tabla Silver — estado actual de ventas (sin duplicados, sin deletes)",
+  "catalog":  "{catalog.silver}",
+  "schema":   "ecommerce",
+  "name":     "ventas_current",
+  "type":     "MANAGED",
+  "format":   "DELTA",
+  "comment":  "Ventas activas — resultado de aplicar CDC desde Bronze",
+  "owner":    "data-engineering",
+
+  "columns": [
+    { "name": "venta_id",             "type": "STRING",    "nullable": false, "comment": "ID único de venta" },
+    { "name": "cliente_id",           "type": "STRING",    "nullable": false },
+    { "name": "producto_id",          "type": "STRING",    "nullable": false },
+    { "name": "cantidad",             "type": "INTEGER",   "nullable": true  },
+    { "name": "precio_total",         "type": "DOUBLE",    "nullable": true  },
+    { "name": "canal",                "type": "STRING",    "nullable": true  },
+    { "name": "estado",               "type": "STRING",    "nullable": true  },
+    { "name": "is_deleted",           "type": "BOOLEAN",   "nullable": true,  "comment": "Soft delete de eventos D" },
+    { "name": "fecha_venta",          "type": "TIMESTAMP", "nullable": true  },
+    { "name": "_silver_modified_at",  "type": "TIMESTAMP", "nullable": true,  "comment": "Última actualización en Silver" }
+  ],
+
+  "partitions": ["canal"],
+
+  "properties": {
+    "quality": "curated",
+    "layer":   "silver",
+    "delta.autoOptimize.optimizeWrite": "true",
+    "delta.autoOptimize.autoCompact":   "true"
+  }
+}

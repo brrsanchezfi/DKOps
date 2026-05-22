@@ -1,0 +1,35 @@
+{
+  "_doc": "Tabla Bronze — eventos de ventas con CDC (Insert/Update/Delete)",
+  "catalog":  "{catalog.bronze}",
+  "schema":   "ecommerce",
+  "name":     "ventas_raw",
+  "type":     "MANAGED",
+  "format":   "DELTA",
+  "comment":  "Raw CDC de ventas — preserva todos los eventos de la fuente",
+  "owner":    "data-engineering",
+
+  "columns": [
+    { "name": "venta_id",       "type": "STRING",    "nullable": false, "comment": "ID único de venta" },
+    { "name": "cliente_id",     "type": "STRING",    "nullable": false, "comment": "FK al cliente" },
+    { "name": "producto_id",    "type": "STRING",    "nullable": false, "comment": "FK al producto" },
+    { "name": "cantidad",       "type": "INTEGER",   "nullable": true,  "comment": "Unidades vendidas" },
+    { "name": "precio_total",   "type": "DOUBLE",    "nullable": true,  "comment": "Valor total de la venta" },
+    { "name": "canal",          "type": "STRING",    "nullable": true,  "comment": "web | app | tienda" },
+    { "name": "estado",         "type": "STRING",    "nullable": true,  "comment": "pendiente | pagado | cancelado" },
+    { "name": "op_type",        "type": "STRING",    "nullable": true,  "comment": "CDC: I=Insert, U=Update, D=Delete" },
+    { "name": "fecha_venta",    "type": "TIMESTAMP", "nullable": true,  "comment": "Timestamp del evento" },
+    { "name": "_ingested_at",   "type": "TIMESTAMP", "nullable": true,  "comment": "Timestamp de ingesta" },
+    { "name": "_ingested_date", "type": "DATE",      "nullable": true,  "comment": "Fecha de ingesta (partición)" },
+    { "name": "_source_file",   "type": "STRING",    "nullable": true,  "comment": "Archivo fuente" }
+  ],
+
+  "partitions": ["_ingested_date"],
+
+  "properties": {
+    "merge_schema":       true,
+    "change_data_feed":   true,
+    "quality":            "raw",
+    "layer":              "bronze",
+    "delta.autoOptimize.optimizeWrite": "true"
+  }
+}

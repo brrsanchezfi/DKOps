@@ -1,0 +1,20 @@
+{
+  "_doc": "Promoción Silver — ventas_current: aplica CDC desde Bronze",
+  "name":        "ventas_current",
+  "description": "CDC Merge de ventas_raw (Bronze) hacia ventas_current (Silver)",
+  "ingest_type": "batch",
+  "strategy":    "cdc_merge",
+  "enabled":     true,
+
+  "source": { "format": "delta" },
+
+  "source_contract":      "../../tables/bronze/ventas_raw.json",
+  "destination_contract": "../../tables/silver/ventas_current.json",
+
+  "merge_keys":    ["venta_id"],
+  "watermark_col": "fecha_venta",
+
+  "metadata": {
+    "add_silver_timestamps": true
+  }
+}

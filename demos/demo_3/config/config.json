@@ -3,6 +3,7 @@
 
   "SPARK_APP_NAME":      "ecommercePipeline",
   "SPARK_WAREHOUSE_DIR": "/tmp/spark-warehouse",
+  "DATABRICKS_TARGET": "dev",
 
   "DELTA_VERSION": "3.2.0",
 

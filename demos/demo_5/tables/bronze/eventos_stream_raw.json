@@ -1,0 +1,31 @@
+{
+  "_doc": "Tabla Bronze — eventos de app en streaming (clickstream, búsquedas, etc.)",
+  "catalog":  "{catalog.bronze}",
+  "schema":   "ecommerce",
+  "name":     "eventos_stream_raw",
+  "type":     "MANAGED",
+  "format":   "DELTA",
+  "comment":  "Eventos de aplicación ingestados vía streaming (file stream local / Kafka en prod)",
+  "owner":    "data-engineering",
+
+  "columns": [
+    { "name": "evento_id",      "type": "STRING",    "nullable": false, "comment": "UUID del evento" },
+    { "name": "cliente_id",     "type": "STRING",    "nullable": true,  "comment": "ID del cliente (puede ser anónimo)" },
+    { "name": "tipo_evento",    "type": "STRING",    "nullable": true,  "comment": "page_view | add_to_cart | purchase | search" },
+    { "name": "producto_id",    "type": "STRING",    "nullable": true,  "comment": "Producto relacionado al evento" },
+    { "name": "canal",          "type": "STRING",    "nullable": true,  "comment": "web | app | mobile" },
+    { "name": "evento_ts",      "type": "TIMESTAMP", "nullable": true,  "comment": "Timestamp original del evento" },
+    { "name": "_ingested_at",   "type": "TIMESTAMP", "nullable": true,  "comment": "Timestamp de ingesta streaming" },
+    { "name": "_ingested_date", "type": "DATE",      "nullable": true,  "comment": "Fecha de ingesta (partición)" },
+    { "name": "_source_file",   "type": "STRING",    "nullable": true,  "comment": "Archivo fuente (file stream local)" }
+  ],
+
+  "partitions": ["_ingested_date"],
+
+  "properties": {
+    "merge_schema": true,
+    "quality":      "raw",
+    "layer":        "bronze",
+    "delta.autoOptimize.optimizeWrite": "true"
+  }
+}

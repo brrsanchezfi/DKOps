@@ -242,6 +242,14 @@ class EnvironmentConfig(LoggableMixin):
     def has_catalog(self, name: str) -> bool:
         return name in self._vars.get("catalogs", {})
 
+    def has_path(self, name: str) -> bool:
+        return name in self._vars.get("paths", {})
+
+    @property
+    def is_databricks(self) -> bool:
+        """True si el runtime activo es Databricks (workspace o Connect)."""
+        return self._is_databricks
+
     def get_storage_account(self, name: str = "default") -> str:
         """
         Nombre de la cuenta de storage para este ambiente.

@@ -1,0 +1,30 @@
+{
+  "_doc": "Tabla Silver — catálogo vigente de clientes (SCD1 full merge)",
+  "catalog":  "{catalog.silver}",
+  "schema":   "ecommerce",
+  "name":     "clientes_current",
+  "type":     "MANAGED",
+  "format":   "DELTA",
+  "comment":  "Clientes activos — estado actual tras full merge desde Bronze",
+  "owner":    "data-engineering",
+
+  "columns": [
+    { "name": "cliente_id",           "type": "STRING",    "nullable": false },
+    { "name": "nombre",               "type": "STRING",    "nullable": true  },
+    { "name": "email",                "type": "STRING",    "nullable": true  },
+    { "name": "ciudad",               "type": "STRING",    "nullable": true  },
+    { "name": "pais",                 "type": "STRING",    "nullable": true  },
+    { "name": "segmento",             "type": "STRING",    "nullable": true  },
+    { "name": "activo",               "type": "BOOLEAN",   "nullable": true  },
+    { "name": "fecha_registro",       "type": "TIMESTAMP", "nullable": true  },
+    { "name": "_silver_modified_at",  "type": "TIMESTAMP", "nullable": true,  "comment": "Última actualización en Silver" }
+  ],
+
+  "partitions": ["segmento"],
+
+  "properties": {
+    "quality": "curated",
+    "layer":   "silver",
+    "delta.autoOptimize.optimizeWrite": "true"
+  }
+}
