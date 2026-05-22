@@ -1,0 +1,20 @@
+{
+  "_doc": "Promoción Silver — clientes_current: SCD1 full merge desde Bronze",
+  "name":        "clientes_current",
+  "description": "Full Merge de clientes_raw (Bronze) hacia clientes_current (Silver)",
+  "ingest_type": "batch",
+  "strategy":    "full_merge",
+  "enabled":     true,
+
+  "source": { "format": "delta" },
+
+  "source_contract":      "../../tables/bronze/clientes_raw.json",
+  "destination_contract": "../../tables/silver/clientes_current.json",
+
+  "merge_keys":    ["cliente_id"],
+  "watermark_col": "fecha_registro",
+
+  "metadata": {
+    "add_silver_timestamps": true
+  }
+}

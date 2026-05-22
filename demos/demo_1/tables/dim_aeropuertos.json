@@ -14,7 +14,7 @@
       "type": "STRING",
       "nullable": false,
       "comment": "Código IATA del aeropuerto (3 letras)"
-    },
+    },  
     {
       "name": "nombre",
       "type": "STRING",

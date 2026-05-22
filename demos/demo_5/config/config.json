@@ -1,0 +1,73 @@
+{
+  "_doc": "Demo 5 — Motor de Ingesta DKOps: Landing → Bronze → Silver",
+
+  "EXECUTION_ENVIRONMENT": "local",
+  "DATABRICKS_TARGET": "local",
+
+  "SPARK_APP_NAME":      "DKOps-Demo5-Ingestion",
+  "SPARK_WAREHOUSE_DIR": "/tmp/dkops_demo5/warehouse",
+  "DELTA_VERSION":       "3.2.0",
+
+  "LOG_LEVEL":    "INFO",
+  "LOG_DIR":      "/tmp/dkops_demo5/logs",
+  "LOG_FILENAME": "demo5.log",
+  "LOG_ROTATION": "10 MB",
+  "LOG_RETENTION": "7 days",
+  "LOG_SERIALIZE": false,
+
+  "environments": {
+    "local": {
+      "env":       "local",
+      "env_short": "l",
+
+      "catalogs": {
+        "bronze": "bronze",
+        "silver": "silver",
+        "ops":    "ops"
+      },
+
+      "paths": {
+        "landing":    "/tmp/dkops_demo5/landing",
+        "bronze":     "/tmp/dkops_demo5/warehouse/bronze",
+        "silver":     "/tmp/dkops_demo5/warehouse/silver",
+        "checkpoint": "/tmp/dkops_demo5/checkpoints",
+        "ops":        "/tmp/dkops_demo5/ops"
+      },
+
+      "tags": {
+        "environment": "local",
+        "team":        "data-engineering",
+        "demo":        "5"
+      }
+    },
+
+    "WORKSPACE_ID_DEV": {
+      "_doc": "Reemplaza WORKSPACE_ID_DEV con el ID real de tu workspace",
+      "env":            "dev",
+      "env_short":      "d",
+      "workspace_host": "https://adb-XXXX.azuredatabricks.net",
+
+      "catalogs": {
+        "bronze": "bronze",
+        "silver": "silver",
+        "ops":    "lakehouse"
+      },
+
+      "paths": {
+        "landing":    "abfss://landing@<storage>.dfs.core.windows.net",
+        "bronze":     "abfss://bronze@<storage>.dfs.core.windows.net",
+        "silver":     "abfss://silver@<storage>.dfs.core.windows.net",
+        "checkpoint": "abfss://lakehouse@<storage>.dfs.core.windows.net/_checkpoints",
+        "ops":        "abfss://lakehouse@<storage>.dfs.core.windows.net/_ops"
+      },
+
+      "secrets": { "scope": "kv-dev" },
+
+      "tags": {
+        "environment": "dev",
+        "cost_center": "CC-1001",
+        "team":        "data-engineering"
+      }
+    }
+  }
+}

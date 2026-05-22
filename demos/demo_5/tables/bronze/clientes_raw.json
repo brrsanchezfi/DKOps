@@ -1,0 +1,33 @@
+{
+  "_doc": "Tabla Bronze — catálogo de clientes (full load diario)",
+  "catalog":  "{catalog.bronze}",
+  "schema":   "ecommerce",
+  "name":     "clientes_raw",
+  "type":     "MANAGED",
+  "format":   "DELTA",
+  "comment":  "Raw snapshot diario del catálogo de clientes",
+  "owner":    "data-engineering",
+
+  "columns": [
+    { "name": "cliente_id",     "type": "STRING",    "nullable": false, "comment": "ID único de cliente" },
+    { "name": "nombre",         "type": "STRING",    "nullable": true,  "comment": "Nombre completo" },
+    { "name": "email",          "type": "STRING",    "nullable": true,  "comment": "Email de contacto" },
+    { "name": "ciudad",         "type": "STRING",    "nullable": true,  "comment": "Ciudad de residencia" },
+    { "name": "pais",           "type": "STRING",    "nullable": true,  "comment": "País ISO-2" },
+    { "name": "segmento",       "type": "STRING",    "nullable": true,  "comment": "PREMIUM | STANDARD | BASICO" },
+    { "name": "activo",         "type": "BOOLEAN",   "nullable": true,  "comment": "Cliente activo" },
+    { "name": "fecha_registro", "type": "TIMESTAMP", "nullable": true,  "comment": "Fecha de alta" },
+    { "name": "_ingested_at",   "type": "TIMESTAMP", "nullable": true,  "comment": "Timestamp de ingesta" },
+    { "name": "_ingested_date", "type": "DATE",      "nullable": true,  "comment": "Fecha de ingesta (partición)" },
+    { "name": "_source_file",   "type": "STRING",    "nullable": true,  "comment": "Archivo fuente" }
+  ],
+
+  "partitions": ["_ingested_date"],
+
+  "properties": {
+    "merge_schema": true,
+    "quality":      "raw",
+    "layer":        "bronze",
+    "delta.autoOptimize.optimizeWrite": "true"
+  }
+}
