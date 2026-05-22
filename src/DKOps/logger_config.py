@@ -261,16 +261,99 @@ class AppLogger:
                 "probando escritura vía DBFS local..."
             )
 
-        # ── Intento 2: DBFS montado como path local (/dbfs/tmp/) ─────────────
-        # En Databricks, /dbfs/ está disponible como filesystem local incluso
-        # con Spark Connect. El archivo queda en dbfs:/tmp/dkops_logs/<filename>.
+        # ── Intento 2: dbutils staging local → cloud ─────────────────────────────
+        # Funciona en todos los clusters Databricks (Spark Connect, Shared,
+        # Single User, DBR 13+/14+). Escribe en /tmp/ local y sincroniza
+        # a cloud cada SYNC_EVERY mensajes y al finalizar el proceso (atexit).
+        # dbutils usa las credenciales del cluster internamente, sin necesitar JVM.
+        try:
+            _dbutils = cls._get_dbutils(spark)
+            cloud_full_path = f"{log_dir.rstrip('/')}/{filename}"
+            local_staging   = f"/tmp/_dkops_{filename}"
+            _SYNC_EVERY     = 20
+            _msg_count      = [0]
+
+            def _sync_to_cloud() -> None:
+                try:
+                    _dbutils.fs.cp(f"file:{local_staging}", cloud_full_path)
+                except Exception:
+                    pass
+
+            def _staged_sink(message: str) -> None:
+                try:
+                    with open(local_staging, "a", encoding="utf-8") as f:
+                        f.write(message)
+                except Exception:
+                    return
+                _msg_count[0] += 1
+                if _msg_count[0] % _SYNC_EVERY == 0:
+                    _sync_to_cloud()
+
+            import atexit
+            atexit.register(_sync_to_cloud)
+
+            handler_id = logger.add(
+                _staged_sink,
+                level=cls._level,
+                serialize=cls._serialize,
+                format=cls._FMT_FILE if not cls._serialize else "{message}",
+            )
+            _log.success(
+                f"Logger cloud activo (dbutils staging) | "
+                f"local='/tmp/_dkops_{filename}' → cloud='{cloud_full_path}' "
+                f"(sync cada {_SYNC_EVERY} mensajes + al finalizar)"
+            )
+            return handler_id
+
+        except Exception as exc:
+            _log.debug(
+                f"dbutils no disponible ({type(exc).__name__}) — "
+                "probando fsspec..."
+            )
+
+        # ── Intento 3: fsspec / adlfs ─────────────────────────────────────────
+        # Databricks Connect desde PC o entornos con adlfs instalado.
+        # Requiere credenciales accesibles por el proveedor de fsspec.
+        try:
+            import fsspec  # noqa: PLC0415
+
+            cloud_full_path = f"{log_dir.rstrip('/')}/{filename}"
+            out = fsspec.open(cloud_full_path, "ab").open()
+
+            def _fsspec_sink(message: str) -> None:
+                try:
+                    out.write(message.encode("utf-8"))
+                    out.flush()
+                except Exception:
+                    pass
+
+            handler_id = logger.add(
+                _fsspec_sink,
+                level=cls._level,
+                serialize=cls._serialize,
+                format=cls._FMT_FILE if not cls._serialize else "{message}",
+            )
+            _log.success(
+                f"Logger archivo cloud activo (fsspec) | path='{cloud_full_path}'"
+            )
+            return handler_id
+
+        except Exception as exc:
+            _log.debug(
+                f"fsspec no disponible ({type(exc).__name__}) — "
+                "probando DBFS local..."
+            )
+
+        # ── Intento 3: DBFS montado como path local (/dbfs/tmp/) ─────────────
+        # Disponible en clusters clásicos de Databricks (no serverless).
+        # El archivo queda accesible en dbfs:/tmp/dkops_logs/<filename>.
         try:
             dbfs_fallback = "/dbfs/tmp/dkops_logs"
             Path(dbfs_fallback).mkdir(parents=True, exist_ok=True)
 
             handler_id = cls._add_local_handler(dbfs_fallback, filename, _log)
             _log.warning(
-                f"LOG_DIR cloud ('{log_dir}') no compatible con Spark Connect. "
+                f"LOG_DIR cloud ('{log_dir}') sin soporte de append en este runtime. "
                 f"Logs escritos en DBFS: 'dbfs:/tmp/dkops_logs/{filename}'"
             )
             return handler_id
@@ -278,7 +361,7 @@ class AppLogger:
         except Exception as exc:
             _log.debug(f"DBFS local no disponible ({type(exc).__name__}) — usando /tmp/")
 
-        # ── Intento 3: /tmp/ del driver (último recurso) ──────────────────────
+        # ── Intento 4: /tmp/ del driver (último recurso) ──────────────────────
         try:
             handler_id = cls._add_local_handler("/tmp", filename, _log)
             _log.warning(
@@ -293,6 +376,39 @@ class AppLogger:
                 "Los logs continuarán solo en consola."
             )
             return None
+
+    @classmethod
+    def _get_dbutils(cls, spark: Any) -> Any:
+        """
+        Obtiene dbutils de Databricks probando tres fuentes en cascada:
+
+        1. Variable global ``dbutils`` inyectada en notebooks Databricks.
+        2. ``pyspark.dbutils.DBUtils(spark)`` — clusters clásicos.
+        3. ``databricks.sdk.runtime.dbutils`` — Databricks SDK (Connect).
+
+        Lanza ``RuntimeError`` si ninguna está disponible.
+        """
+        # 1. Global de notebook
+        import builtins
+        _dbutils = getattr(builtins, "dbutils", None)
+        if _dbutils is not None:
+            return _dbutils
+
+        # 2. DBUtils via PySpark
+        try:
+            from pyspark.dbutils import DBUtils  # noqa: PLC0415
+            return DBUtils(spark)
+        except Exception:
+            pass
+
+        # 3. Databricks SDK
+        try:
+            from databricks.sdk.runtime import dbutils as _sdk_dbutils  # noqa: PLC0415
+            return _sdk_dbutils
+        except Exception:
+            pass
+
+        raise RuntimeError("dbutils no disponible en este entorno.")
 
     @classmethod
     def reset(cls) -> None:
