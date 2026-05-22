@@ -261,30 +261,31 @@ class AppLogger:
                 "probando escritura vía DBFS local..."
             )
 
-        # ── Intento 2: dbutils staging local → cloud ─────────────────────────────
-        # Funciona en todos los clusters Databricks (Spark Connect, Shared,
-        # Single User, DBR 13+/14+). Escribe en /tmp/ local y sincroniza
-        # a cloud cada SYNC_EVERY mensajes y al finalizar el proceso (atexit).
-        # dbutils usa las credenciales del cluster internamente, sin necesitar JVM.
+        # ── Intento 2: dbutils.fs.put con buffer en memoria ──────────────────────
+        # dbutils.fs.put() funciona en TODOS los clusters Databricks (Shared,
+        # Single User, Spark Connect, DBR 13+/14+) porque usa las credenciales
+        # del cluster internamente sin necesitar JVM ni acceso local al filesystem.
+        # El buffer acumula el contenido completo y lo sobreescribe en cloud cada
+        # SYNC_EVERY mensajes y al finalizar el proceso (atexit).
+        # Los errores de sync se imprimen a stderr para no pasar desapercibidos.
         try:
-            _dbutils = cls._get_dbutils(spark)
+            _dbutils    = cls._get_dbutils(spark)
             cloud_full_path = f"{log_dir.rstrip('/')}/{filename}"
-            local_staging   = f"/tmp/_dkops_{filename}"
-            _SYNC_EVERY     = 20
-            _msg_count      = [0]
+            _content    = [""]   # buffer acumulado completo
+            _msg_count  = [0]
+            _SYNC_EVERY = 5      # frecuencia de sync (cada 5 mensajes)
 
             def _sync_to_cloud() -> None:
-                try:
-                    _dbutils.fs.cp(f"file:{local_staging}", cloud_full_path)
-                except Exception:
-                    pass
-
-            def _staged_sink(message: str) -> None:
-                try:
-                    with open(local_staging, "a", encoding="utf-8") as f:
-                        f.write(message)
-                except Exception:
+                if not _content[0]:
                     return
+                try:
+                    _dbutils.fs.put(cloud_full_path, _content[0], True)
+                except Exception as e:
+                    import sys
+                    print(f"[DKOps] sync cloud log falló: {e}", file=sys.stderr)
+
+            def _dbutils_sink(message: str) -> None:
+                _content[0] += message
                 _msg_count[0] += 1
                 if _msg_count[0] % _SYNC_EVERY == 0:
                     _sync_to_cloud()
@@ -293,15 +294,14 @@ class AppLogger:
             atexit.register(_sync_to_cloud)
 
             handler_id = logger.add(
-                _staged_sink,
+                _dbutils_sink,
                 level=cls._level,
                 serialize=cls._serialize,
                 format=cls._FMT_FILE if not cls._serialize else "{message}",
             )
             _log.success(
-                f"Logger cloud activo (dbutils staging) | "
-                f"local='/tmp/_dkops_{filename}' → cloud='{cloud_full_path}' "
-                f"(sync cada {_SYNC_EVERY} mensajes + al finalizar)"
+                f"Logger cloud activo (dbutils.fs.put) | "
+                f"path='{cloud_full_path}' | sync cada {_SYNC_EVERY} mensajes"
             )
             return handler_id
 
