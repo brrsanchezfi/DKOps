@@ -1,0 +1,38 @@
+name: Deploy Docs
+
+on:
+  push:
+    branches: [main]
+  release:
+    types: [published]
+  workflow_dispatch:  # permite lanzarlo manualmente desde GitHub Actions
+
+permissions:
+  contents: write  # necesario para gh-deploy (push a gh-pages)
+
+jobs:
+  deploy:
+    name: Build & deploy MkDocs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # historial completo para git-committers plugin
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install MkDocs and dependencies
+        run: |
+          pip install \
+            mkdocs-material \
+            mkdocstrings[python] \
+            mkdocs-autorefs
+
+      - name: Install DKOps (para que mkdocstrings pueda importarlo)
+        run: pip install -e ".[dev]"
+
+      - name: Build & deploy to GitHub Pages
+        run: mkdocs gh-deploy --force
