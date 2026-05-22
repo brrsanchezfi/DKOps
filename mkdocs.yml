@@ -1,7 +1,7 @@
 site_name: DKOps
 site_description: Lakehouse automation framework for DataOps on Databricks
 site_author: Roberto
-repo_url: https://github.com/brrsanchezfi/BigDataFrameworkSpark
+repo_url: https://github.com/brrsanchezfi/DKOps
 repo_name: brrsanchezfi/DKOps
 
 theme:
