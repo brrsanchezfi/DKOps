@@ -212,28 +212,37 @@ class AppLogger:
         """
         Handler para rutas cloud (abfss://, gs://, s3://).
 
-        Usa un sink en memoria que escribe cada mensaje al archivo cloud
-        vía la API Hadoop FileSystem de Spark (jvm bridge).
+        Intenta tres estrategias en cascada:
+
+        1. **JVM bridge** — Hadoop FileSystem API vía ``spark.sparkContext._jvm``.
+           Funciona en Spark clásico (Databricks clusters sin Spark Connect).
+
+        2. **DBFS local** — escribe en ``/dbfs/tmp/dkops_logs/`` usando el
+           sistema de ficheros local. Funciona en Databricks con Spark Connect
+           porque ``/dbfs/`` está montado como path local en el driver.
+           El archivo queda accesible desde ``dbfs:/tmp/dkops_logs/``.
+
+        3. **``/tmp/`` del driver** — último recurso. El archivo existe solo
+           durante la vida del cluster/sesión.
         """
+        cloud_full_path = f"{log_dir.rstrip('/')}/{filename}"
+
+        # ── Intento 1: JVM bridge (Spark clásico) ────────────────────────────
         try:
             jvm   = spark.sparkContext._jvm
             jconf = spark.sparkContext._jsc.hadoopConfiguration()
             uri   = jvm.java.net.URI(log_dir)
             fs    = jvm.org.apache.hadoop.fs.FileSystem.get(uri, jconf)
-            cloud_path = jvm.org.apache.hadoop.fs.Path(f"{log_dir.rstrip('/')}/{filename}")
+            cloud_path = jvm.org.apache.hadoop.fs.Path(cloud_full_path)
 
-            # Crea o abre el archivo en modo append
-            if fs.exists(cloud_path):
-                out_stream = fs.append(cloud_path)
-            else:
-                out_stream = fs.create(cloud_path)
+            out_stream = fs.append(cloud_path) if fs.exists(cloud_path) else fs.create(cloud_path)
 
             def _cloud_sink(message: str) -> None:
                 try:
                     out_stream.write(message.encode("utf-8"))
                     out_stream.flush()
                 except Exception:
-                    pass  # silencia errores de escritura para no romper el pipeline
+                    pass
 
             handler_id = logger.add(
                 _cloud_sink,
@@ -242,14 +251,45 @@ class AppLogger:
                 format=cls._FMT_FILE if not cls._serialize else "{message}",
             )
             _log.success(
-                f"Logger archivo cloud activo | path='{log_dir}/{filename}' | "
-                f"rotación='{cls._rotation}' (rotación manual en cloud)"
+                f"Logger archivo cloud activo (JVM) | path='{cloud_full_path}'"
+            )
+            return handler_id
+
+        except Exception as exc:
+            _log.debug(
+                f"JVM bridge no disponible ({type(exc).__name__}) — "
+                "probando escritura vía DBFS local..."
+            )
+
+        # ── Intento 2: DBFS montado como path local (/dbfs/tmp/) ─────────────
+        # En Databricks, /dbfs/ está disponible como filesystem local incluso
+        # con Spark Connect. El archivo queda en dbfs:/tmp/dkops_logs/<filename>.
+        try:
+            dbfs_fallback = "/dbfs/tmp/dkops_logs"
+            Path(dbfs_fallback).mkdir(parents=True, exist_ok=True)
+
+            handler_id = cls._add_local_handler(dbfs_fallback, filename, _log)
+            _log.warning(
+                f"LOG_DIR cloud ('{log_dir}') no compatible con Spark Connect. "
+                f"Logs escritos en DBFS: 'dbfs:/tmp/dkops_logs/{filename}'"
+            )
+            return handler_id
+
+        except Exception as exc:
+            _log.debug(f"DBFS local no disponible ({type(exc).__name__}) — usando /tmp/")
+
+        # ── Intento 3: /tmp/ del driver (último recurso) ──────────────────────
+        try:
+            handler_id = cls._add_local_handler("/tmp", filename, _log)
+            _log.warning(
+                f"LOG_DIR cloud ('{log_dir}') no compatible con este runtime. "
+                f"Logs escritos en driver local: '/tmp/{filename}'"
             )
             return handler_id
 
         except Exception as exc:
             _log.warning(
-                f"No se pudo crear el handler cloud en '{log_dir}': {exc}. "
+                f"No se pudo crear ningún handler de archivo: {exc}. "
                 "Los logs continuarán solo en consola."
             )
             return None
