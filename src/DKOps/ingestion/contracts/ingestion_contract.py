@@ -60,6 +60,7 @@ class LoadType(str, Enum):
     FULL        = "full"
     INCREMENTAL = "incremental"
     CDC         = "cdc"
+    STREAMING   = "streaming"   # alias semántico para contratos streaming
 
 
 class StreamTrigger(str, Enum):

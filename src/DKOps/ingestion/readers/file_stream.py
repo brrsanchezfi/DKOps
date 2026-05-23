@@ -43,7 +43,13 @@ class FileStreamReader(BaseSourceReader):
         if src.schema:
             reader = reader.schema(build_spark_schema(list(src.schema)))
         else:
-            # Sin schema explícito: inferir del primer archivo (requiere al menos uno)
-            reader = reader.option("inferSchema", "true")
+            # Streaming requiere schema explícito — inferirlo de archivos ya existentes.
+            # spark.read (estático) es compatible con inferSchema; readStream no lo es.
+            self.log.info(
+                f"[{self.contract.name}] Sin schema explícito — "
+                f"infiriendo desde archivos existentes en {src.path}"
+            )
+            inferred = self._spark.read.format(src.format).load(src.path).schema
+            reader = reader.schema(inferred)
 
         return reader.load(src.path)

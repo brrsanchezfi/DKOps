@@ -16,7 +16,7 @@
     { "name": "pais",           "type": "STRING",    "nullable": true,  "comment": "País ISO-2" },
     { "name": "segmento",       "type": "STRING",    "nullable": true,  "comment": "PREMIUM | STANDARD | BASICO" },
     { "name": "activo",         "type": "BOOLEAN",   "nullable": true,  "comment": "Cliente activo" },
-    { "name": "fecha_registro", "type": "TIMESTAMP", "nullable": true,  "comment": "Fecha de alta" },
+    { "name": "fecha_registro", "type": "STRING",    "nullable": true,  "comment": "Fecha de alta (ISO string)" },
     { "name": "_ingested_at",   "type": "TIMESTAMP", "nullable": true,  "comment": "Timestamp de ingesta" },
     { "name": "_ingested_date", "type": "DATE",      "nullable": true,  "comment": "Fecha de ingesta (partición)" },
     { "name": "_source_file",   "type": "STRING",    "nullable": true,  "comment": "Archivo fuente" }

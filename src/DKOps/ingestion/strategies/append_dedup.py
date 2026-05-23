@@ -33,15 +33,31 @@ class AppendDedupStrategy(BasePromotionStrategy):
         )
 
         bronze_df = self._read_bronze()
-        silver_df = self._reader.read()  # lectura del destino para anti-join
 
-        new_records = self._filter_new(bronze_df, silver_df, keys)
-        count       = new_records.count()
+        # Leer Silver (destino) para el anti-join.
+        # En el primer run la tabla aún no existe → todos los registros de Bronze son nuevos.
+        try:
+            silver_df   = self._dst_reader.read()
+            new_records = self._filter_new(bronze_df, silver_df, keys)
+        except Exception:
+            self.log.info(
+                f"[{self._contract.name}] Silver aún no existe — "
+                f"insertando todos los registros de Bronze como registros nuevos"
+            )
+            new_records = bronze_df
+
+        count = new_records.count()
 
         if count == 0:
             self.log.info(f"[{self._contract.name}] AppendDedup: sin registros nuevos")
             return 0
 
+        # Añadir timestamps Silver antes de filtrar columnas
+        if self._contract.metadata.add_silver_timestamps:
+            new_records = new_records.withColumn("_silver_modified_at", F.current_timestamp())
+
+        # Seleccionar solo columnas Silver (excluir metadata Bronze)
+        new_records = self._select_for_silver(new_records)
         self._writer.append(new_records)
         self.log.info(f"[{self._contract.name}] AppendDedup completado | new_rows={count:,}")
         return count

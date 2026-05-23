@@ -17,7 +17,7 @@
     { "name": "longitud",                   "type": "DOUBLE",  "nullable": true,  "comment": "Longitud geografica" },
     { "name": "tipo",                       "type": "STRING",  "nullable": true,  "comment": "Internacional | Domestico" },
     { "name": "capacidad_anual_pasajeros",  "type": "INTEGER", "nullable": true,  "comment": "Capacidad anual estimada" },
-    { "name": "activo",                     "type": "STRING",  "nullable": true,  "comment": "true/false como string (CSV)" },
+    { "name": "activo",                     "type": "BOOLEAN", "nullable": true,  "comment": "Indicador de vigencia del aeropuerto" },
     { "name": "_ingested_at",               "type": "TIMESTAMP","nullable": true, "comment": "Timestamp de ingesta" },
     { "name": "_ingested_date",             "type": "DATE",    "nullable": true,  "comment": "Fecha de ingesta (particion)" },
     { "name": "_source_file",               "type": "STRING",  "nullable": true,  "comment": "Archivo fuente" }

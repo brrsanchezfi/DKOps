@@ -7,9 +7,13 @@
 [![Python](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/)
 [![PySpark](https://img.shields.io/badge/pyspark-3.5+-orange.svg)](https://spark.apache.org/)
 [![Delta Lake](https://img.shields.io/badge/delta--lake-3.2+-00ADD4.svg)](https://delta.io/)
+[![Tests](https://img.shields.io/badge/tests-147%20passing-brightgreen.svg)](#tests)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Version](https://img.shields.io/badge/version-0.3.0-blue.svg)](CHANGELOG.md)
 
 *El mismo codigo corre en tu PC y en Databricks — sin cambios.*
+
+📖 **[Documentacion completa](https://brrsanchezfi.github.io/DKOps/)**
 
 </div>
 
@@ -165,8 +169,8 @@ Los placeholders `{catalog.bronze}`, `{path.landing}`, `{env}`, `{env_short}` se
 
 ```bash
 # Clonar el repositorio
-git clone https://github.com/brrsanchezfi/BigDataFrameworkSpark
-cd BigDataFrameworkSpark
+git clone https://github.com/brrsanchezfi/DKOps
+cd DKOps
 
 # Instalacion para desarrollo local (incluye PySpark + Delta)
 pip install -e ".[local]"
@@ -364,25 +368,27 @@ Contrato de promocion Silver (Bronze -> Silver):
 
 ---
 
-## Estado del proyecto
+## Estado del proyecto — v0.3.0
 
-| Modulo                | Estado      | Descripcion                                     |
-|-----------------------|-------------|-------------------------------------------------|
-| `table_governance`    | Estable     | TableWriter, TableReader, SafeMigrator          |
-| `ingestion`           | Estable     | IngestionEngine, BronzeIngestor, SilverPromoter |
-| Demo 1 — Aeronautica  | Completo    | Landing -> Bronze -> Silver -> Gold             |
-| Demo 2 — Manufactura  | Completo    | Landing -> Bronze -> Silver -> Gold + DQ        |
-| Demo 3 — E-commerce   | Completo    | Landing -> Bronze -> Silver -> Gold + streaming |
-| Demo 4 — Inventario   | Completo    | Landing -> Bronze -> Silver -> Gold + CDF       |
-| Demo 5 — Marketplace  | Completo    | Landing -> Bronze -> Silver -> Gold             |
-| Tests unitarios       | 147 tests   | 0 fallos                                        |
+| Modulo                | Estado      | Descripcion                                             |
+|-----------------------|-------------|---------------------------------------------------------|
+| `table_governance`    | Estable     | TableWriter, TableReader, SafeMigrator, ContractLoader  |
+| `ingestion`           | Estable     | IngestionEngine, BronzeIngestor, SilverPromoter         |
+| Estrategias Silver    | Estable     | full_merge, cdc_merge, incremental_replace, append_dedup|
+| Streaming             | Estable     | FileStreamReader, auto-schema inference, availableNow   |
+| Demo 1 — Aeronautica  | Completo    | Writers gobernados + SafeMigrator                       |
+| Demo 2 — Manufactura  | Completo    | IngestionEngine + DQ declarativo + tests pytest         |
+| Demo 3 — E-commerce   | Completo    | merge_schema + column masking + streaming               |
+| Demo 4 — Inventario   | Completo    | read_cdf() + read_stream() + SafeMigrator               |
+| Demo 5 — Marketplace  | Completo    | cdc_merge + full_merge + Gold revenue/engagement        |
+| Tests unitarios       | 147 tests   | 0 fallos                                                |
 
 ---
 
 ## Tests
 
 ```bash
-# Ejecutar suite completa (excluye test_luncher que requiere cluster)
+# Suite completa (excluye test_luncher que requiere cluster Databricks)
 python -m pytest tests/ --ignore=tests/test_luncher.py -v
 
 # Solo tests de contratos
@@ -390,6 +396,9 @@ python -m pytest tests/test_contracts.py -v
 
 # Tests del motor de ingesta
 python -m pytest tests/ingestion/ -v
+
+# Tests del demo 2 (sin Delta, DataFrames en memoria)
+cd demos/demo_2 && pytest tests/ -v
 ```
 
 ---

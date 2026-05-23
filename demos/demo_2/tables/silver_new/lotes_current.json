@@ -21,6 +21,8 @@
     { "name": "_silver_modified_at",  "type": "TIMESTAMP", "nullable": true, "comment": "Ultima actualizacion en Silver" }
   ],
 
+  "partitions": ["fecha_produccion"],
+
   "properties": {
     "quality": "curated",
     "layer":   "silver"

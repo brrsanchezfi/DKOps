@@ -10,7 +10,7 @@
 
   "columns": [
     { "name": "venta_id",           "type": "STRING",    "nullable": false },
-    { "name": "fecha",              "type": "STRING",    "nullable": true  },
+    { "name": "fecha",              "type": "DATE",      "nullable": true  },
     { "name": "distribuidor_id",    "type": "STRING",    "nullable": true  },
     { "name": "producto_id",        "type": "STRING",    "nullable": true  },
     { "name": "cantidad",           "type": "INTEGER",   "nullable": true  },

@@ -17,7 +17,7 @@
     { "name": "longitud",                  "type": "DOUBLE",    "nullable": true  },
     { "name": "tipo",                      "type": "STRING",    "nullable": true  },
     { "name": "capacidad_anual_pasajeros", "type": "INTEGER",   "nullable": true  },
-    { "name": "activo",                    "type": "STRING",    "nullable": true  },
+    { "name": "activo",                    "type": "BOOLEAN",   "nullable": true  },
     { "name": "_silver_modified_at",       "type": "TIMESTAMP", "nullable": true, "comment": "Ultima actualizacion en Silver" }
   ],
 

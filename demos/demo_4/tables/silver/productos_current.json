@@ -14,7 +14,7 @@
     { "name": "categoria",     "type": "STRING",    "nullable": true  },
     { "name": "precio_usd",    "type": "DOUBLE",    "nullable": true  },
     { "name": "stock_inicial", "type": "INTEGER",   "nullable": true  },
-    { "name": "activo",        "type": "STRING",    "nullable": true  },
+    { "name": "activo",        "type": "BOOLEAN",   "nullable": true  },
     { "name": "proveedor_id",  "type": "STRING",    "nullable": true  },
     { "name": "_silver_modified_at", "type": "TIMESTAMP", "nullable": true }
   ],

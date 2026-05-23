@@ -91,8 +91,8 @@ DELTA_TYPE_ALIASES: dict[str, list[str]] = {
     "STRING":    ["StringType"],
     "INTEGER":   ["IntegerType", "LongType"],     # LongType es widening seguro
     "LONG":      ["LongType"],
-    "DOUBLE":    ["DoubleType", "FloatType"],
-    "FLOAT":     ["FloatType"],
+    "DOUBLE":    ["DoubleType", "FloatType", "DecimalType"],  # ROUND/AVG en SQL producen DecimalType
+    "FLOAT":     ["FloatType", "DecimalType"],
     "BOOLEAN":   ["BooleanType"],
     "DATE":      ["DateType"],
     "TIMESTAMP": ["TimestampType", "TimestampNTZType"],
@@ -106,7 +106,8 @@ DELTA_TYPE_ALIASES: dict[str, list[str]] = {
 # Tipos que permiten widening sin pérdida de datos
 WIDENING_ALLOWED: dict[str, set[str]] = {
     "INTEGER": {"LongType"},
-    "FLOAT":   {"DoubleType"},
+    "FLOAT":   {"DoubleType", "DecimalType"},
+    "DOUBLE":  {"DecimalType"},    # ROUND()/AVG() en Spark SQL producen DecimalType
     "DATE":    {"TimestampType"},
 }
 
