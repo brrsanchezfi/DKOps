@@ -1,0 +1,22 @@
+{
+  "_doc": "Ingesta batch del catalogo de productos — full load (CSV)",
+  "name":        "productos",
+  "description": "Snapshot diario del catalogo de productos desde Landing",
+  "ingest_type": "batch",
+  "load_type":   "full",
+  "enabled":     true,
+
+  "source": {
+    "format": "csv",
+    "path":   "{path.landing}/productos",
+    "options": { "header": "true", "inferSchema": "true" }
+  },
+
+  "destination_contract": "../../tables/bronze/productos_raw.json",
+
+  "metadata": {
+    "add_ingested_at":   true,
+    "add_ingested_date": true,
+    "add_source_file":   true
+  }
+}

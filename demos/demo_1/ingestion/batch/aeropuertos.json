@@ -1,0 +1,25 @@
+{
+  "_doc": "Ingesta batch del catalogo de aeropuertos — full load (CSV)",
+  "name":        "aeropuertos",
+  "description": "Snapshot diario del catalogo de aeropuertos desde Landing hacia Bronze",
+  "ingest_type": "batch",
+  "load_type":   "full",
+  "enabled":     true,
+
+  "source": {
+    "format": "csv",
+    "path":   "{path.landing}/aeropuertos",
+    "options": {
+      "header": "true",
+      "inferSchema": "true"
+    }
+  },
+
+  "destination_contract": "../../tables/bronze/aeropuertos_raw.json",
+
+  "metadata": {
+    "add_ingested_at":   true,
+    "add_ingested_date": true,
+    "add_source_file":   true
+  }
+}

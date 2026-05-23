@@ -1,0 +1,27 @@
+{
+  "_doc": "Gold — KPI calidad de lotes por producto",
+  "catalog":  "{catalog.gold}",
+  "schema":   "manufactura_kpi",
+  "name":     "calidad_lotes",
+  "type":     "MANAGED",
+  "format":   "DELTA",
+  "comment":  "Metricas de calidad agregadas por producto — calculadas desde Silver lotes",
+  "owner":    "data-engineering",
+
+  "columns": [
+    { "name": "producto_id",       "type": "STRING",    "nullable": false, "comment": "SKU producto" },
+    { "name": "total_lotes",       "type": "INTEGER",   "nullable": false, "comment": "Numero de lotes" },
+    { "name": "lotes_aprobados",   "type": "INTEGER",   "nullable": false, "comment": "Lotes con QC=APPROVED" },
+    { "name": "lotes_rechazados",  "type": "INTEGER",   "nullable": false, "comment": "Lotes con QC=REJECTED" },
+    { "name": "lotes_retest",      "type": "INTEGER",   "nullable": false, "comment": "Lotes con QC=RETEST" },
+    { "name": "tasa_aprobacion",   "type": "DOUBLE",    "nullable": true,  "comment": "Aprobados / total * 100" },
+    { "name": "merma_pct_prom",    "type": "DOUBLE",    "nullable": true,  "comment": "Merma promedio en porcentaje" },
+    { "name": "ph_prom",           "type": "DOUBLE",    "nullable": true,  "comment": "pH promedio medido" },
+    { "name": "fecha_proceso",     "type": "TIMESTAMP", "nullable": true,  "default": "current_timestamp()" }
+  ],
+
+  "properties": {
+    "quality": "gold",
+    "layer":   "gold"
+  }
+}

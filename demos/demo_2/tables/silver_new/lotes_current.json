@@ -1,0 +1,28 @@
+{
+  "_doc": "Silver — lotes de produccion curados (incremental_replace)",
+  "catalog":  "{catalog.silver}",
+  "schema":   "manufactura",
+  "name":     "lotes_current",
+  "type":     "MANAGED",
+  "format":   "DELTA",
+  "comment":  "Lotes producidos curados — resultado de incremental_replace desde Bronze",
+  "owner":    "data-engineering",
+
+  "columns": [
+    { "name": "lote_id",              "type": "STRING",    "nullable": false },
+    { "name": "orden_id",             "type": "STRING",    "nullable": true  },
+    { "name": "producto_id",          "type": "STRING",    "nullable": true  },
+    { "name": "fecha_produccion",     "type": "STRING",    "nullable": true  },
+    { "name": "cantidad_producida",   "type": "INTEGER",   "nullable": true  },
+    { "name": "cantidad_defectuosa",  "type": "INTEGER",   "nullable": true  },
+    { "name": "resultado_qc",         "type": "STRING",    "nullable": true  },
+    { "name": "ph_medido",            "type": "DOUBLE",    "nullable": true  },
+    { "name": "viscosidad_cp",        "type": "DOUBLE",    "nullable": true  },
+    { "name": "_silver_modified_at",  "type": "TIMESTAMP", "nullable": true, "comment": "Ultima actualizacion en Silver" }
+  ],
+
+  "properties": {
+    "quality": "curated",
+    "layer":   "silver"
+  }
+}

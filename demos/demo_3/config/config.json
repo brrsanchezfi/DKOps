@@ -1,30 +1,44 @@
 {
+  "_doc": "Demo 3 — E-commerce: Landing -> Bronze -> Silver -> Gold",
+
   "EXECUTION_ENVIRONMENT": "local",
+  "DATABRICKS_TARGET": "local",
 
-  "SPARK_APP_NAME":      "ecommercePipeline",
-  "SPARK_WAREHOUSE_DIR": "/tmp/spark-warehouse",
-  "DATABRICKS_TARGET": "dev",
-
-  "DELTA_VERSION": "3.2.0",
+  "SPARK_APP_NAME":      "DKOps-Demo3-Ecommerce",
+  "SPARK_WAREHOUSE_DIR": "/tmp/dkops_demo3/warehouse",
+  "DELTA_VERSION":       "3.2.0",
 
   "LOG_LEVEL":     "INFO",
-  "LOG_DIR":       "/tmp/logs",
+  "LOG_DIR":       "/tmp/dkops_demo3/logs",
+  "LOG_FILENAME":  "demo3.log",
   "LOG_ROTATION":  "10 MB",
   "LOG_RETENTION": "7 days",
   "LOG_SERIALIZE": false,
 
   "environments": {
     "local": {
-      "env":       "dev",
-      "env_short": "d",
+      "env":       "local",
+      "env_short": "l",
+
       "catalogs": {
-        "bronze": "ct_bronze_dev",
-        "silver": "ct_silver_dev",
-        "gold":   "ct_gold_dev"
+        "bronze": "bronze",
+        "silver": "silver",
+        "gold":   "gold"
       },
+
       "paths": {
-        "bronze": "/tmp/bronze",
-        "silver": "/tmp/silver"
+        "landing":    "/tmp/dkops_demo3/landing",
+        "bronze":     "/tmp/dkops_demo3/bronze",
+        "silver":     "/tmp/dkops_demo3/silver",
+        "gold":       "/tmp/dkops_demo3/gold",
+        "checkpoint": "/tmp/dkops_demo3/checkpoints",
+        "ops":        "/tmp/dkops_demo3/ops"
+      },
+
+      "tags": {
+        "environment": "local",
+        "team":        "data-engineering",
+        "demo":        "3"
       }
     }
   }

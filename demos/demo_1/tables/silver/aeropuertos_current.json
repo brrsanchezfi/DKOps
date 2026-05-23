@@ -1,0 +1,28 @@
+{
+  "_doc": "Silver — catalogo de aeropuertos actualizado (full_merge desde Bronze)",
+  "catalog":  "{catalog.silver}",
+  "schema":   "aeronautica",
+  "name":     "aeropuertos_current",
+  "type":     "MANAGED",
+  "format":   "DELTA",
+  "comment":  "Catalogo de aeropuertos curado — resultado de full_merge desde Bronze",
+  "owner":    "data-engineering",
+
+  "columns": [
+    { "name": "aeropuerto_id",             "type": "STRING",    "nullable": false, "comment": "Codigo IATA" },
+    { "name": "nombre",                    "type": "STRING",    "nullable": true  },
+    { "name": "ciudad",                    "type": "STRING",    "nullable": true  },
+    { "name": "pais",                      "type": "STRING",    "nullable": true  },
+    { "name": "latitud",                   "type": "DOUBLE",    "nullable": true  },
+    { "name": "longitud",                  "type": "DOUBLE",    "nullable": true  },
+    { "name": "tipo",                      "type": "STRING",    "nullable": true  },
+    { "name": "capacidad_anual_pasajeros", "type": "INTEGER",   "nullable": true  },
+    { "name": "activo",                    "type": "STRING",    "nullable": true  },
+    { "name": "_silver_modified_at",       "type": "TIMESTAMP", "nullable": true, "comment": "Ultima actualizacion en Silver" }
+  ],
+
+  "properties": {
+    "quality": "curated",
+    "layer":   "silver"
+  }
+}

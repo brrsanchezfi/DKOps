@@ -1,0 +1,24 @@
+{
+  "_doc": "Gold — engagement de clientes desde Silver clientes + eventos streaming",
+  "catalog":  "{catalog.gold}",
+  "schema":   "ecommerce",
+  "name":     "engagement_clientes",
+  "type":     "MANAGED",
+  "format":   "DELTA",
+  "comment":  "Metricas de engagement de clientes — JOIN entre clientes y eventos Silver",
+  "owner":    "data-engineering",
+
+  "columns": [
+    { "name": "cliente_id",         "type": "STRING",    "nullable": false },
+    { "name": "total_ventas",       "type": "INTEGER",   "nullable": true,  "comment": "Ventas del cliente" },
+    { "name": "revenue_cliente",    "type": "DOUBLE",    "nullable": true,  "comment": "Revenue total del cliente" },
+    { "name": "total_eventos",      "type": "INTEGER",   "nullable": true,  "comment": "Eventos de app" },
+    { "name": "canal_preferido",    "type": "STRING",    "nullable": true,  "comment": "Canal con mas ventas" },
+    { "name": "fecha_proceso",      "type": "TIMESTAMP", "nullable": true, "default": "current_timestamp()" }
+  ],
+
+  "properties": {
+    "quality": "gold",
+    "layer":   "gold"
+  }
+}

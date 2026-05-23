@@ -1,0 +1,26 @@
+{
+  "_doc": "Gold — top rutas por volumen de vuelos",
+  "catalog":  "{catalog.gold}",
+  "schema":   "aeronautica_kpi",
+  "name":     "rutas_top",
+  "type":     "MANAGED",
+  "format":   "DELTA",
+  "comment":  "Ranking de rutas por volumen y pasajeros transportados",
+  "owner":    "data-engineering",
+
+  "columns": [
+    { "name": "iata_origen",          "type": "STRING",    "nullable": false, "comment": "Aeropuerto origen" },
+    { "name": "iata_destino",         "type": "STRING",    "nullable": false, "comment": "Aeropuerto destino" },
+    { "name": "total_vuelos",         "type": "INTEGER",   "nullable": false, "comment": "Numero de vuelos en la ruta" },
+    { "name": "total_pasajeros",      "type": "INTEGER",   "nullable": false, "comment": "Pasajeros transportados" },
+    { "name": "distancia_km",         "type": "INTEGER",   "nullable": true,  "comment": "Distancia de la ruta" },
+    { "name": "retraso_prom_min",     "type": "DOUBLE",    "nullable": true,  "comment": "Retraso promedio en minutos" },
+    { "name": "ocupacion_prom_pct",   "type": "DOUBLE",    "nullable": true,  "comment": "Ocupacion promedio porcentual" },
+    { "name": "fecha_proceso",        "type": "TIMESTAMP", "nullable": true,  "default": "current_timestamp()" }
+  ],
+
+  "properties": {
+    "quality": "gold",
+    "layer":   "gold"
+  }
+}

@@ -1,29 +1,44 @@
 {
+  "_doc": "Demo 4 — Retail/Inventario: Landing -> Bronze -> Silver -> Gold",
+
   "EXECUTION_ENVIRONMENT": "local",
+  "DATABRICKS_TARGET": "local",
 
-  "SPARK_APP_NAME":      "lecturaDelta",
-  "SPARK_WAREHOUSE_DIR": "/tmp/spark-warehouse",
-  "DATABRICKS_TARGET": "dev",
-
-
-  "DELTA_VERSION": "3.2.0",
+  "SPARK_APP_NAME":      "DKOps-Demo4-Inventario",
+  "SPARK_WAREHOUSE_DIR": "/tmp/dkops_demo4/warehouse",
+  "DELTA_VERSION":       "3.2.0",
 
   "LOG_LEVEL":     "INFO",
-  "LOG_DIR":       "/tmp/logs",
+  "LOG_DIR":       "/tmp/dkops_demo4/logs",
+  "LOG_FILENAME":  "demo4.log",
   "LOG_ROTATION":  "10 MB",
   "LOG_RETENTION": "7 days",
   "LOG_SERIALIZE": false,
 
   "environments": {
     "local": {
-      "env":       "dev",
-      "env_short": "d",
+      "env":       "local",
+      "env_short": "l",
+
       "catalogs": {
-        "bronze": "ct_bronze_dev",
-        "silver": "ct_silver_dev"
+        "bronze": "bronze",
+        "silver": "silver",
+        "gold":   "gold"
       },
+
       "paths": {
-        "bronze": "/tmp/bronze"
+        "landing":    "/tmp/dkops_demo4/landing",
+        "bronze":     "/tmp/dkops_demo4/bronze",
+        "silver":     "/tmp/dkops_demo4/silver",
+        "gold":       "/tmp/dkops_demo4/gold",
+        "checkpoint": "/tmp/dkops_demo4/checkpoints",
+        "ops":        "/tmp/dkops_demo4/ops"
+      },
+
+      "tags": {
+        "environment": "local",
+        "team":        "data-engineering",
+        "demo":        "4"
       }
     }
   }

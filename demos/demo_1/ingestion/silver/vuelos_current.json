@@ -1,0 +1,20 @@
+{
+  "_doc": "Promocion Silver — vuelos_current: full_merge desde Bronze",
+  "name":        "vuelos_current",
+  "description": "Full Merge de vuelos_raw (Bronze) hacia vuelos_current (Silver)",
+  "ingest_type": "batch",
+  "strategy":    "full_merge",
+  "enabled":     true,
+
+  "source": { "format": "delta" },
+
+  "source_contract":      "../../tables/bronze/vuelos_raw.json",
+  "destination_contract": "../../tables/silver/vuelos_current.json",
+
+  "merge_keys":    ["vuelo_id"],
+  "watermark_col": "updated_at",
+
+  "metadata": {
+    "add_silver_timestamps": true
+  }
+}

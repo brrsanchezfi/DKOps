@@ -1,0 +1,26 @@
+{
+  "_doc": "Gold — metricas de clientes activos por segmento y pais",
+  "catalog":  "{catalog.gold}",
+  "schema":   "ecommerce_kpi",
+  "name":     "clientes_activos",
+  "type":     "MANAGED",
+  "format":   "DELTA",
+  "comment":  "Metricas de clientes activos por pais y segmento",
+  "owner":    "data-engineering",
+
+  "columns": [
+    { "name": "pais",               "type": "STRING",    "nullable": false },
+    { "name": "segmento",           "type": "STRING",    "nullable": false },
+    { "name": "total_clientes",     "type": "INTEGER",   "nullable": false },
+    { "name": "clientes_activos",   "type": "INTEGER",   "nullable": false },
+    { "name": "pct_activos",        "type": "DOUBLE",    "nullable": true  },
+    { "name": "total_eventos",      "type": "INTEGER",   "nullable": true, "comment": "Eventos de clickstream" },
+    { "name": "duracion_prom_seg",  "type": "DOUBLE",    "nullable": true, "comment": "Duracion promedio sesion" },
+    { "name": "fecha_proceso",      "type": "TIMESTAMP", "nullable": true, "default": "current_timestamp()" }
+  ],
+
+  "properties": {
+    "quality": "gold",
+    "layer":   "gold"
+  }
+}

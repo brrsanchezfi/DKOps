@@ -1,0 +1,29 @@
+{
+  "_doc": "Silver — catalogo de clientes curado con masking en email",
+  "catalog":  "{catalog.silver}",
+  "schema":   "ecommerce",
+  "name":     "clientes_current",
+  "type":     "MANAGED",
+  "format":   "DELTA",
+  "comment":  "Clientes activos curados — full_merge desde Bronze",
+  "owner":    "data-engineering",
+
+  "columns": [
+    { "name": "cliente_id",      "type": "STRING",    "nullable": false },
+    { "name": "nombre",          "type": "STRING",    "nullable": true  },
+    { "name": "email",           "type": "STRING",    "nullable": true, "mask": "security.mask_email" },
+    { "name": "telefono",        "type": "STRING",    "nullable": true  },
+    { "name": "pais",            "type": "STRING",    "nullable": true  },
+    { "name": "segmento",        "type": "STRING",    "nullable": true  },
+    { "name": "fecha_registro",  "type": "STRING",    "nullable": true  },
+    { "name": "activo",          "type": "BOOLEAN",   "nullable": true  },
+    { "name": "_silver_modified_at", "type": "TIMESTAMP", "nullable": true }
+  ],
+
+  "partitions": ["pais"],
+
+  "properties": {
+    "quality": "curated",
+    "layer":   "silver"
+  }
+}

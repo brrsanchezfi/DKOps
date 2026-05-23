@@ -1,0 +1,22 @@
+{
+  "_doc": "Ingesta batch de pedidos CDC — con merge_schema para schema evolution",
+  "name":        "pedidos",
+  "description": "Carga incremental CDC de pedidos desde Landing hacia Bronze (merge_schema: true)",
+  "ingest_type": "batch",
+  "load_type":   "cdc",
+  "enabled":     true,
+
+  "source": {
+    "format": "json",
+    "path":   "{path.landing}/pedidos",
+    "options": { "multiLine": "false" }
+  },
+
+  "destination_contract": "../../tables/bronze/pedidos_raw.json",
+
+  "metadata": {
+    "add_ingested_at":   true,
+    "add_ingested_date": true,
+    "add_source_file":   true
+  }
+}

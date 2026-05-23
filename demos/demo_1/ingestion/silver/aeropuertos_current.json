@@ -1,0 +1,19 @@
+{
+  "_doc": "Promocion Silver — aeropuertos_current: full_merge desde Bronze",
+  "name":        "aeropuertos_current",
+  "description": "Full Merge de aeropuertos_raw (Bronze) hacia aeropuertos_current (Silver)",
+  "ingest_type": "batch",
+  "strategy":    "full_merge",
+  "enabled":     true,
+
+  "source": { "format": "delta" },
+
+  "source_contract":      "../../tables/bronze/aeropuertos_raw.json",
+  "destination_contract": "../../tables/silver/aeropuertos_current.json",
+
+  "merge_keys":    ["aeropuerto_id"],
+
+  "metadata": {
+    "add_silver_timestamps": true
+  }
+}

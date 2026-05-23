@@ -1,0 +1,33 @@
+{
+  "_doc": "Bronze — movimientos de inventario (JSON, INCREMENTAL, CDF habilitado)",
+  "catalog":  "{catalog.bronze}",
+  "schema":   "inventario",
+  "name":     "movimientos_raw",
+  "type":     "MANAGED",
+  "format":   "DELTA",
+  "comment":  "Movimientos de stock desde Landing — CDF habilitado para detectar cambios",
+  "owner":    "data-engineering",
+
+  "columns": [
+    { "name": "movimiento_id",   "type": "STRING",    "nullable": false },
+    { "name": "producto_id",     "type": "STRING",    "nullable": true  },
+    { "name": "almacen_id",      "type": "STRING",    "nullable": true  },
+    { "name": "tipo_movimiento", "type": "STRING",    "nullable": true  },
+    { "name": "cantidad",        "type": "INTEGER",   "nullable": true  },
+    { "name": "costo_unitario",  "type": "DOUBLE",    "nullable": true  },
+    { "name": "referencia",      "type": "STRING",    "nullable": true  },
+    { "name": "timestamp",       "type": "STRING",    "nullable": true  },
+    { "name": "_ingested_at",    "type": "TIMESTAMP", "nullable": true, "comment": "Timestamp de ingesta" },
+    { "name": "_ingested_date",  "type": "DATE",      "nullable": true, "comment": "Fecha de ingesta (particion)" },
+    { "name": "_source_file",    "type": "STRING",    "nullable": true, "comment": "Archivo fuente" }
+  ],
+
+  "partitions": ["_ingested_date"],
+
+  "properties": {
+    "merge_schema":     true,
+    "change_data_feed": true,
+    "quality":          "raw",
+    "layer":            "bronze"
+  }
+}

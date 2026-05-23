@@ -1,0 +1,20 @@
+{
+  "_doc": "Promocion Silver — lotes_current: incremental_replace desde Bronze",
+  "name":        "lotes_current",
+  "description": "Incremental replace de lotes_produccion_raw hacia lotes_current",
+  "ingest_type": "batch",
+  "strategy":    "incremental_replace",
+  "enabled":     true,
+
+  "source": { "format": "delta" },
+
+  "source_contract":      "../../tables/bronze_new/lotes_produccion_raw.json",
+  "destination_contract": "../../tables/silver_new/lotes_current.json",
+
+  "merge_keys":    ["lote_id"],
+  "watermark_col": "fecha_produccion",
+
+  "metadata": {
+    "add_silver_timestamps": true
+  }
+}

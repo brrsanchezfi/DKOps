@@ -1,0 +1,24 @@
+{
+  "_doc": "Ingesta batch de lotes de produccion — incremental (JSON)",
+  "name":        "lotes_produccion",
+  "description": "Carga incremental diaria de lotes desde Landing hacia Bronze",
+  "ingest_type": "batch",
+  "load_type":   "incremental",
+  "enabled":     true,
+
+  "source": {
+    "format": "json",
+    "path":   "{path.landing}/lotes_produccion",
+    "options": {
+      "multiLine": "false"
+    }
+  },
+
+  "destination_contract": "../../tables/bronze_new/lotes_produccion_raw.json",
+
+  "metadata": {
+    "add_ingested_at":   true,
+    "add_ingested_date": true,
+    "add_source_file":   true
+  }
+}

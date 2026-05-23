@@ -1,0 +1,20 @@
+{
+  "_doc": "Promocion Silver — ordenes_current: cdc_merge desde Bronze",
+  "name":        "ordenes_current",
+  "description": "CDC Merge de ordenes_produccion_raw hacia ordenes_current",
+  "ingest_type": "batch",
+  "strategy":    "cdc_merge",
+  "enabled":     true,
+
+  "source": { "format": "delta" },
+
+  "source_contract":      "../../tables/bronze_new/ordenes_produccion_raw.json",
+  "destination_contract": "../../tables/silver_new/ordenes_current.json",
+
+  "merge_keys":    ["orden_id"],
+  "watermark_col": "updated_at",
+
+  "metadata": {
+    "add_silver_timestamps": true
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "_doc": "Ingesta streaming de eventos web (availableNow trigger)",
+  "name":        "eventos_web",
+  "description": "Clickstream web desde Landing hacia Bronze via streaming",
+  "ingest_type": "streaming",
+  "load_type":   "streaming",
+  "enabled":     true,
+
+  "source": {
+    "format": "json",
+    "path":   "{path.landing}/eventos_web"
+  },
+
+  "destination_contract": "../../tables/bronze/eventos_raw.json",
+
+  "metadata": {
+    "add_ingested_at":   true,
+    "add_ingested_date": true,
+    "add_source_file":   true
+  }
+}

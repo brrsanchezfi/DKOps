@@ -1,0 +1,31 @@
+{
+  "_doc": "Bronze — ventas de manufactura (CSV, INCREMENTAL, particionado por _ingested_date)",
+  "catalog":  "{catalog.bronze}",
+  "schema":   "manufactura",
+  "name":     "ventas_manufactura_raw",
+  "type":     "MANAGED",
+  "format":   "DELTA",
+  "comment":  "Ventas de distribuidores desde Landing — carga incremental CSV",
+  "owner":    "data-engineering",
+
+  "columns": [
+    { "name": "venta_id",        "type": "STRING",    "nullable": false },
+    { "name": "fecha",           "type": "STRING",    "nullable": true  },
+    { "name": "distribuidor_id", "type": "STRING",    "nullable": true  },
+    { "name": "producto_id",     "type": "STRING",    "nullable": true  },
+    { "name": "cantidad",        "type": "INTEGER",   "nullable": true  },
+    { "name": "precio_unitario", "type": "DOUBLE",    "nullable": true  },
+    { "name": "estado_venta",    "type": "STRING",    "nullable": true  },
+    { "name": "_ingested_at",    "type": "TIMESTAMP", "nullable": true, "comment": "Timestamp de ingesta" },
+    { "name": "_ingested_date",  "type": "DATE",      "nullable": true, "comment": "Fecha de ingesta (particion)" },
+    { "name": "_source_file",    "type": "STRING",    "nullable": true, "comment": "Archivo fuente" }
+  ],
+
+  "partitions": ["_ingested_date"],
+
+  "properties": {
+    "merge_schema": true,
+    "quality":      "raw",
+    "layer":        "bronze"
+  }
+}

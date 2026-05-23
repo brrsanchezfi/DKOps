@@ -1,0 +1,28 @@
+{
+  "_doc": "Gold — KPI eficiencia de planta por linea y producto",
+  "catalog":  "{catalog.gold}",
+  "schema":   "manufactura_kpi",
+  "name":     "eficiencia_planta",
+  "type":     "MANAGED",
+  "format":   "DELTA",
+  "comment":  "Metricas de eficiencia productiva por linea — calculadas desde Silver ordenes",
+  "owner":    "data-engineering",
+
+  "columns": [
+    { "name": "linea_id",            "type": "STRING",    "nullable": false, "comment": "Linea de produccion" },
+    { "name": "total_ordenes",       "type": "INTEGER",   "nullable": false, "comment": "Total ordenes en el periodo" },
+    { "name": "ordenes_completadas", "type": "INTEGER",   "nullable": false, "comment": "Ordenes en estado COMPLETED" },
+    { "name": "ordenes_canceladas",  "type": "INTEGER",   "nullable": false, "comment": "Ordenes canceladas" },
+    { "name": "ordenes_en_curso",    "type": "INTEGER",   "nullable": false, "comment": "Ordenes IN_PROGRESS" },
+    { "name": "tasa_cumplimiento",   "type": "DOUBLE",    "nullable": true,  "comment": "Ordenes completadas / total * 100" },
+    { "name": "unidades_planeadas",  "type": "INTEGER",   "nullable": true,  "comment": "Total unidades planeadas" },
+    { "name": "unidades_producidas", "type": "INTEGER",   "nullable": true,  "comment": "Total unidades reales" },
+    { "name": "eficiencia_pct",      "type": "DOUBLE",    "nullable": true,  "comment": "Unidades producidas / planeadas * 100" },
+    { "name": "fecha_proceso",       "type": "TIMESTAMP", "nullable": true,  "default": "current_timestamp()" }
+  ],
+
+  "properties": {
+    "quality": "gold",
+    "layer":   "gold"
+  }
+}
