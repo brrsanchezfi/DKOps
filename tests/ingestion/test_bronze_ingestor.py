@@ -53,6 +53,7 @@ def _make_ingestion_contract(
 
 
 def _make_table_contract(name: str = "test") -> TableContract:
+    """Sin particiones — activa el path de fallback a append."""
     return TableContract(
         catalog  = "bronze",
         schema   = "raw",
@@ -67,6 +68,26 @@ def _make_table_contract(name: str = "test") -> TableContract:
             ColumnContract(name="_source_file",   type="STRING"),
         ),
         partitions  = (),
+        permissions = (),
+    )
+
+
+def _make_partitioned_table_contract(name: str = "test") -> TableContract:
+    """Particionado por _ingested_date — activa el path de partition overwrite."""
+    return TableContract(
+        catalog  = "bronze",
+        schema   = "raw",
+        name     = name,
+        type     = "MANAGED",
+        format   = "DELTA",
+        columns  = (
+            ColumnContract(name="id",   type="STRING"),
+            ColumnContract(name="data", type="STRING"),
+            ColumnContract(name="_ingested_at",   type="TIMESTAMP"),
+            ColumnContract(name="_ingested_date", type="DATE"),
+            ColumnContract(name="_source_file",   type="STRING"),
+        ),
+        partitions  = ("_ingested_date",),
         permissions = (),
     )
 
@@ -237,6 +258,61 @@ class TestBronzeIngestor:
         c1 = _make_ingestion_contract("huerfano")
         failed = ingestor.ingest_all([c1], dst_contracts={})
         assert "huerfano" not in failed
+
+    # ── Partition overwrite ────────────────────────────────────────────────
+
+    def test_ingest_uses_partition_overwrite_when_partitioned(self, ingestor):
+        """Si el TableContract tiene _ingested_date como partición → overwrite_partition."""
+        contract     = _make_ingestion_contract()
+        dst_contract = _make_partitioned_table_contract()
+        mock_df      = _mock_batch_df()
+        mock_df.columns = ["id", "data", "_ingested_date"]  # columna presente en df
+
+        with patch("DKOps.ingestion.bronze_ingestor.SourceReaderFactory") as MockFactory, \
+             patch("DKOps.ingestion.bronze_ingestor.SchemaValidator")     as MockVal, \
+             patch("DKOps.ingestion.bronze_ingestor.TableWriter")         as MockWriter:
+
+            mock_reader = MagicMock()
+            mock_reader.read.return_value = mock_df
+            MockFactory.create.return_value = mock_reader
+            MockVal.return_value.validate.return_value.raise_if_critical = MagicMock()
+
+            ingestor.ingest(contract, dst_contract)
+
+        MockWriter.return_value.overwrite_partition.assert_called_once()
+        MockWriter.return_value.append.assert_not_called()
+
+    def test_ingest_falls_back_to_append_when_no_ingestion_partition(self, ingestor):
+        """Si el TableContract no tiene _ingested_date como partición → append."""
+        contract     = _make_ingestion_contract()
+        dst_contract = _make_table_contract()  # partitions=()
+        mock_df      = _mock_batch_df()
+
+        with patch("DKOps.ingestion.bronze_ingestor.SourceReaderFactory") as MockFactory, \
+             patch("DKOps.ingestion.bronze_ingestor.SchemaValidator")     as MockVal, \
+             patch("DKOps.ingestion.bronze_ingestor.TableWriter")         as MockWriter:
+
+            mock_reader = MagicMock()
+            mock_reader.read.return_value = mock_df
+            MockFactory.create.return_value = mock_reader
+            MockVal.return_value.validate.return_value.raise_if_critical = MagicMock()
+
+            ingestor.ingest(contract, dst_contract)
+
+        MockWriter.return_value.append.assert_called_once()
+        MockWriter.return_value.overwrite_partition.assert_not_called()
+
+    def test_find_ingestion_partition_returns_ingested_date(self):
+        """_find_ingestion_partition detecta _ingested_date correctamente."""
+        dst = _make_partitioned_table_contract()
+        result = BronzeIngestor._find_ingestion_partition(dst)
+        assert result == "_ingested_date"
+
+    def test_find_ingestion_partition_returns_none_when_no_partition(self):
+        """_find_ingestion_partition devuelve None si no hay partición de ingesta."""
+        dst = _make_table_contract()  # partitions=()
+        result = BronzeIngestor._find_ingestion_partition(dst)
+        assert result is None
 
 
 class TestOpsLogger:

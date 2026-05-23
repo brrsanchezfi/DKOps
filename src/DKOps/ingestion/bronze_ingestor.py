@@ -16,6 +16,7 @@ Separación batch/streaming:
 from __future__ import annotations
 
 import os
+from datetime import date as _date
 from pathlib import Path
 
 from pyspark.sql import DataFrame, SparkSession
@@ -142,20 +143,63 @@ class BronzeIngestor(LoggableMixin):
         contract:     IngestionContract,
         dst_contract: TableContract,
     ) -> int:
-        # Validar schema contra contrato Bronze
-        validator = SchemaValidator(dst_contract)
-        result    = validator.validate(df)
-        result.raise_if_critical()
+        """
+        Escribe en Bronze usando *partition overwrite* sobre la columna de
+        ingesta declarada en el contrato (por defecto ``_ingested_date``).
 
-        writer = TableWriter(dst_contract, strict_columns=False)
-        writer.append(df)
+        Patrón: cada corrida sobreescribe únicamente la partición del día
+        actual, dejando el histórico de otras particiones intacto. Esto
+        garantiza idempotencia: ejecutar el motor N veces al día siempre
+        deja la versión más reciente de los datos en esa partición.
+
+        Si la tabla Bronze no declara ninguna columna de partición de ingesta,
+        se usa ``append`` como fallback (con advertencia).
+
+        El ``load_type`` del contrato (FULL / INCREMENTAL / CDC) es una
+        etiqueta semántica para Silver — no afecta el mecanismo de escritura
+        en Bronze.
+        """
+        validator = SchemaValidator(dst_contract)
+        validator.validate(df).raise_if_critical()
+
+        writer         = TableWriter(dst_contract, strict_columns=False)
+        partition_col  = self._find_ingestion_partition(dst_contract)
+
+        if partition_col and partition_col in df.columns:
+            # Partition overwrite idempotente — solo la ventana de hoy
+            today = str(_date.today())
+            writer.overwrite_partition(df, {partition_col: today})
+            self.log.info(
+                f"[{contract.name}] partition overwrite OK | "
+                f"table={dst_contract.full_name} | "
+                f"{partition_col}={today} | load_type={contract.load_type.value}"
+            )
+        else:
+            self.log.warning(
+                f"[{contract.name}] Sin columna de partición de ingesta en el "
+                f"TableContract → usando append. Considera añadir '_ingested_date' "
+                f"a partition_columns en {dst_contract.name}.json"
+            )
+            writer.append(df)
 
         count = df.count()
         self.log.info(
-            f"[{contract.name}] batch write OK | "
-            f"table={dst_contract.full_name} | rows={count:,}"
+            f"[{contract.name}] rows={count:,} | table={dst_contract.full_name}"
         )
         return count
+
+    @staticmethod
+    def _find_ingestion_partition(dst_contract: TableContract) -> str | None:
+        """
+        Devuelve la columna de partición de ingesta del contrato Bronze.
+
+        Busca en orden: ``_ingested_date`` → ``_ingested_at``.
+        Si ninguna está declarada como columna de partición, devuelve None.
+        """
+        for candidate in ("_ingested_date", "_ingested_at"):
+            if candidate in dst_contract.partition_columns:
+                return candidate
+        return None
 
     # ── Escritura streaming ───────────────────────────────────────────────
 
