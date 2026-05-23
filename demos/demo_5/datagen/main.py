@@ -16,7 +16,7 @@ import argparse
 from datetime import datetime, timezone
 from pathlib import Path
 
-from demos.demo_5.datagen import generate_ventas, generate_clientes, generate_eventos
+from datagen import generate_ventas, generate_clientes, generate_eventos
 
 DEFAULT_LANDING = "/tmp/dkops_demo5/landing"
 
