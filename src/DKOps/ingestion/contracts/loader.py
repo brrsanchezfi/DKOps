@@ -93,16 +93,18 @@ class IngestionContractLoader(LoggableMixin):
         return contracts
 
     def load_destination(self, contract: IngestionContract) -> TableContract:
-        """Carga el TableContract destino referenciado por el IngestionContract."""
-        dest_path = (self._base_dir / contract.destination_contract_path).resolve()
-        return self._table_loader.load(dest_path)
+        """Carga el TableContract destino referenciado por el IngestionContract.
+
+        El path ya fue resuelto a absoluto en el momento de parsear el contrato
+        (ver _build_contract), por lo que se usa directamente.
+        """
+        return self._table_loader.load(Path(contract.destination_contract_path))
 
     def load_source(self, contract: IngestionContract) -> TableContract | None:
         """Carga el TableContract fuente (solo para Silver promotion)."""
         if not contract.source_contract_path:
             return None
-        src_path = (self._base_dir / contract.source_contract_path).resolve()
-        return self._table_loader.load(src_path)
+        return self._table_loader.load(Path(contract.source_contract_path))
 
     # ── Lectura JSON ──────────────────────────────────────────────────────
 
@@ -181,9 +183,11 @@ class IngestionContractLoader(LoggableMixin):
             add_silver_timestamps = meta_raw.get("add_silver_timestamps", False),
         )
 
-        dest_path = data.get("destination_contract", "")
-        if not dest_path:
+        dest_path_raw = data.get("destination_contract", "")
+        if not dest_path_raw:
             raise ValueError(f"Campo 'destination_contract' obligatorio en {source_path}")
+        # Resolver relativo al directorio del JSON de ingesta (no al base_dir)
+        dest_path = str((source_path.parent / dest_path_raw).resolve())
 
         raw_strategy = data.get("strategy")
         strategy = SilverStrategy(raw_strategy) if raw_strategy else None
@@ -206,7 +210,10 @@ class IngestionContractLoader(LoggableMixin):
             checkpoint_suffix         = data.get("checkpoint_suffix", default_suffix),
             enabled                   = data.get("enabled", True),
             strategy                  = strategy,
-            source_contract_path      = data.get("source_contract"),
+            source_contract_path      = (
+                str((source_path.parent / data["source_contract"]).resolve())
+                if data.get("source_contract") else None
+            ),
             merge_keys                = tuple(data.get("merge_keys", [])),
             watermark_col             = data.get("watermark_col"),
             data_filter               = data.get("filter"),
