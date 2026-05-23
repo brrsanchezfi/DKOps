@@ -25,13 +25,14 @@ import os
 import sys
 from pathlib import Path
 
-# Asegurar que src/ esté en el path cuando se ejecuta desde la raíz
-ROOT = Path(__file__).resolve().parents[2]
-SRC  = ROOT / "src"
+# Asegurar que src/ y el directorio del demo estén en el path
+ROOT     = Path(__file__).resolve().parents[2]
+SRC      = ROOT / "src"
+DEMO_DIR = Path(__file__).resolve().parent  # demos/demo_5/
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
-
-DEMO_DIR    = Path(__file__).resolve().parent
+if str(DEMO_DIR) not in sys.path:           # permite "from datagen.main import ..."
+    sys.path.insert(0, str(DEMO_DIR))
 CONFIG_PATH = DEMO_DIR / "config" / "config.json"
 LANDING     = "/tmp/dkops_demo5/landing"
 OPS_PATH    = "/tmp/dkops_demo5/ops/control"
@@ -44,7 +45,7 @@ def main() -> None:
 
     # ── 0. Generar datos sintéticos ───────────────────────────────────
     print("\n[0/5] Generando datos en Landing...")
-    from demos.demo_5.datagen.main import run as datagen_run
+    from datagen.main import run as datagen_run
     datagen_run(landing_path=LANDING, n_batches=2)
 
     # ── 1. Inicializar Spark ──────────────────────────────────────────
@@ -57,7 +58,7 @@ def main() -> None:
 
     # ── 2. Crear IngestionEngine ──────────────────────────────────────
     print("\n[2/5] Construyendo IngestionEngine...")
-    from DKOps.ingestion import IngestionEngine
+    from DKOps.ingestion.engine import IngestionEngine
 
     engine = IngestionEngine.from_spark(
         spark                   = spark,
