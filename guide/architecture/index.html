@@ -6,17 +6,17 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Lakehouse automation framework for DataOps on Databricks">
+        <meta name="description" content="Framework de gobierno Delta y orquestación de pipelines Spark — local y Databricks">
       
       
-        <meta name="author" content="Roberto">
+        <meta name="author" content="Roberto Sánchez">
       
       
       
         <link rel="prev" href="../migrations/">
       
       
-        <link rel="next" href="../../api/launcher/">
+        <link rel="next" href="../../demos/demo_1/">
       
       
         
@@ -267,6 +267,26 @@
   
     
     
+      <li class="md-tabs__item">
+        <a href="../../demos/demo_1/" class="md-tabs__link">
+          
+  
+  
+  Demos
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
       
   
   
@@ -454,6 +474,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../ingestion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ingesta (Landing → Silver)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../contracts/" class="md-nav__link">
         
   
@@ -598,10 +646,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#diagrama-de-paquetes" class="md-nav__link">
+  <a href="#vision-general" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Diagrama de paquetes
+        Visión general
       
     </span>
   </a>
@@ -609,10 +657,99 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#diagrama-de-clases" class="md-nav__link">
+  <a href="#modulos-del-framework" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Diagrama de clases
+        Módulos del framework
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Módulos del framework">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#modulo-1-ingestion-landing-silver" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Módulo 1: ingestion (Landing → Silver)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Módulo 1: ingestion (Landing → Silver)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bronzeingestor-landing-bronze" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BronzeIngestor — Landing → Bronze
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#silverpromoter-bronze-silver" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SilverPromoter — Bronze → Silver
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modulo-2-table_governance-silver-gold" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Módulo 2: table_governance (Silver → Gold)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#flujo-de-una-escritura" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Flujo de una escritura
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#flujo-de-promocion-silver-estrategia-cdc_merge" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Flujo de promoción Silver (estrategia cdc_merge)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#runtime-agnostico-local-databricks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Runtime-agnóstico: local ↔ Databricks
       
     </span>
   </a>
@@ -643,10 +780,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#table_governance" class="md-nav__link">
+  <a href="#ingestion" class="md-nav__link">
     <span class="md-ellipsis">
       
-        table_governance
+        Ingestion
       
     </span>
   </a>
@@ -654,21 +791,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#flujo-de-una-escritura" class="md-nav__link">
+  <a href="#table-governance" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Flujo de una escritura
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#singleton-launcher" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Singleton Launcher
+        Table Governance
       
     </span>
   </a>
@@ -728,7 +854,7 @@
   <span class="md-ellipsis">
     
   
-    API Reference
+    Demos
   
 
     
@@ -741,6 +867,207 @@
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Demos
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../demos/demo_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Demo 1 — Aeronáutica
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../demos/demo_2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Demo 2 — Manufactura
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../demos/demo_3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Demo 3 — E-commerce
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../demos/demo_4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Demo 4 — Retail / Inventario
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../demos/demo_5/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Demo 5 — Marketplace
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -772,10 +1099,10 @@
         
           
         
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_1" >
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_1" >
         
           
-          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="0">
             
   
   
@@ -793,8 +1120,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_1">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_1">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -918,10 +1245,184 @@
         
           
         
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_2" >
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_2" >
         
           
-          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ingestion
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Ingestion
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/ingestion/engine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IngestionEngine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/ingestion/bronze_ingestor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BronzeIngestor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/ingestion/silver_promoter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SilverPromoter
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/ingestion/strategies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estrategias
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
             
   
   
@@ -939,8 +1440,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_2">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1036,10 +1537,10 @@
         
           
         
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_3" >
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_4" >
         
           
-          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="0">
             
   
   
@@ -1057,8 +1558,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_3">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1294,10 +1795,10 @@
         
           
         
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_4" >
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_5" >
         
           
-          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_4_5" id="__nav_4_5_label" tabindex="0">
             
   
   
@@ -1315,8 +1816,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_4">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_5">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1396,10 +1897,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#diagrama-de-paquetes" class="md-nav__link">
+  <a href="#vision-general" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Diagrama de paquetes
+        Visión general
       
     </span>
   </a>
@@ -1407,10 +1908,99 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#diagrama-de-clases" class="md-nav__link">
+  <a href="#modulos-del-framework" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Diagrama de clases
+        Módulos del framework
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Módulos del framework">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#modulo-1-ingestion-landing-silver" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Módulo 1: ingestion (Landing → Silver)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Módulo 1: ingestion (Landing → Silver)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bronzeingestor-landing-bronze" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BronzeIngestor — Landing → Bronze
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#silverpromoter-bronze-silver" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SilverPromoter — Bronze → Silver
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modulo-2-table_governance-silver-gold" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Módulo 2: table_governance (Silver → Gold)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#flujo-de-una-escritura" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Flujo de una escritura
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#flujo-de-promocion-silver-estrategia-cdc_merge" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Flujo de promoción Silver (estrategia cdc_merge)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#runtime-agnostico-local-databricks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Runtime-agnóstico: local ↔ Databricks
       
     </span>
   </a>
@@ -1441,10 +2031,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#table_governance" class="md-nav__link">
+  <a href="#ingestion" class="md-nav__link">
     <span class="md-ellipsis">
       
-        table_governance
+        Ingestion
       
     </span>
   </a>
@@ -1452,21 +2042,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#flujo-de-una-escritura" class="md-nav__link">
+  <a href="#table-governance" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Flujo de una escritura
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#singleton-launcher" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Singleton Launcher
+        Table Governance
       
     </span>
   </a>
@@ -1499,10 +2078,153 @@
 
 
 <h1 id="arquitectura">Arquitectura<a class="headerlink" href="#arquitectura" title="Permanent link">&para;</a></h1>
-<h2 id="diagrama-de-paquetes">Diagrama de paquetes<a class="headerlink" href="#diagrama-de-paquetes" title="Permanent link">&para;</a></h2>
-<p><img alt="Paquetes DKOps" src="../../assets/packages_DKOps.png" /></p>
-<h2 id="diagrama-de-clases">Diagrama de clases<a class="headerlink" href="#diagrama-de-clases" title="Permanent link">&para;</a></h2>
-<p><img alt="Clases DKOps" src="../../assets/classes_DKOps.png" /></p>
+<h2 id="vision-general">Visión general<a class="headerlink" href="#vision-general" title="Permanent link">&para;</a></h2>
+<p>DKOps implementa la <strong>arquitectura Medallion</strong> (Landing → Bronze → Silver → Gold) con un motor de orquestación declarativo que separa la configuración del comportamiento.</p>
+<pre class="mermaid"><code>flowchart TB
+    subgraph src["Fuentes externas"]
+        F1["JSON / CSV\nParquet / Avro"]
+        F2["Kafka / Event Hub\nStreaming"]
+    end
+
+    subgraph landing["☁ Landing Zone"]
+        L["Archivos crudos\nDepositados por Data Factory\nKafka Connector, FTP, etc."]
+    end
+
+    subgraph bronze["🥉 Bronze — Raw + metadata"]
+        B1["ventas_raw\n_ingested_at · _ingested_date\n_source_file"]
+        B2["clientes_raw\nop_type: I/U/D"]
+        B3["eventos_raw\nStreaming → Batch"]
+    end
+
+    subgraph silver["🥈 Silver — Estado actual"]
+        S1["ventas_current\ncdc_merge"]
+        S2["clientes_current\nfull_merge"]
+        S3["eventos_current\nappend_dedup"]
+    end
+
+    subgraph gold["🥇 Gold — KPIs y agregados"]
+        G1["revenue_diario"]
+        G2["engagement_clientes"]
+        G3["alertas_criticas"]
+    end
+
+    F1 --&gt; L
+    F2 --&gt; L
+    L --&gt;|"ingest_bronze()\nPartition overwrite idempotente"| B1
+    L --&gt;|"run_streaming()\navailableNow"| B3
+    L --&gt; B2
+    B1 --&gt;|"cdc_merge"| S1
+    B2 --&gt;|"full_merge"| S2
+    B3 --&gt;|"append_dedup"| S3
+    S1 &amp; S2 &amp; S3 --&gt;|"TableWriter SQL"| G1 &amp; G2 &amp; G3</code></pre>
+<hr />
+<h2 id="modulos-del-framework">Módulos del framework<a class="headerlink" href="#modulos-del-framework" title="Permanent link">&para;</a></h2>
+<h3 id="modulo-1-ingestion-landing-silver">Módulo 1: <code>ingestion</code> (Landing → Silver)<a class="headerlink" href="#modulo-1-ingestion-landing-silver" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>flowchart LR
+    subgraph contracts["Contratos JSON"]
+        BC["ingestion/batch/\n*.json"]
+        SC["ingestion/streaming/\n*.json"]
+        SV["ingestion/silver/\n*.json"]
+    end
+
+    subgraph engine["IngestionEngine"]
+        IE["from_spark()"]
+        BI["BronzeIngestor\ningest_bronze()"]
+        SS["run_streaming()\navailableNow"]
+        SP["SilverPromoter\npromote_silver()"]
+    end
+
+    subgraph strategies["Estrategias Silver"]
+        FM["full_merge\nMERGE INTO\nSCD1 completo"]
+        CM["cdc_merge\nI/U/D + soft delete\nis_deleted"]
+        IR["incremental_replace\nReemplaza por watermark"]
+        AD["append_dedup\nAnti-join append"]
+    end
+
+    BC --&gt; BI
+    SC --&gt; SS
+    SV --&gt; SP
+    IE --&gt; BI &amp; SS &amp; SP
+    SP --&gt; FM &amp; CM &amp; IR &amp; AD</code></pre>
+<h4 id="bronzeingestor-landing-bronze">BronzeIngestor — Landing → Bronze<a class="headerlink" href="#bronzeingestor-landing-bronze" title="Permanent link">&para;</a></h4>
+<ol>
+<li>Lee archivos del directorio <code>source.path</code> del contrato</li>
+<li>Añade metadatos: <code>_ingested_at</code>, <code>_ingested_date</code>, <code>_source_file</code></li>
+<li>Escribe con <strong>partition overwrite</strong> por <code>_ingested_date</code> → idempotente</li>
+</ol>
+<h4 id="silverpromoter-bronze-silver">SilverPromoter — Bronze → Silver<a class="headerlink" href="#silverpromoter-bronze-silver" title="Permanent link">&para;</a></h4>
+<ol>
+<li>Lee Bronze completo (o filtrado)</li>
+<li>Deduplica por <code>merge_keys</code> según <code>watermark_col</code></li>
+<li>Aplica la estrategia declarada en el contrato</li>
+<li>Filtra columnas con <code>_select_for_silver()</code> — Bronze metadata no pasa a Silver</li>
+<li>Añade <code>_silver_modified_at</code> si el contrato lo pide</li>
+</ol>
+<hr />
+<h3 id="modulo-2-table_governance-silver-gold">Módulo 2: <code>table_governance</code> (Silver → Gold)<a class="headerlink" href="#modulo-2-table_governance-silver-gold" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>table_governance/
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>├── contracts/
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>│   ├── loader.py          # JSON → TableContract (frozen dataclass)
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>│   └── validator.py       # SchemaValidator — tipos y nulabilidad
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>├── writers/
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>│   ├── table_writer.py    # ★ Fachada pública
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>│   ├── base_writer.py     # Bridge local ↔ Databricks + merge_schema + masks
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>│   ├── create_writer.py   # CREATE OR REPLACE TABLE + SET MASK
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>│   ├── append_writer.py   # INSERT INTO (soporta mergeSchema)
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>│   ├── upsert_writer.py   # MERGE INTO (SCD1)
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>│   ├── partition_writer.py# overwrite_partition (soporta mergeSchema)
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>│   └── delete_writer.py   # DELETE WHERE
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>└── migrations/
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>    └── safe_migrator.py   # Compara contrato vs estado real → ALTER TABLE
+</code></pre></div>
+<hr />
+<h2 id="flujo-de-una-escritura">Flujo de una escritura<a class="headerlink" href="#flujo-de-una-escritura" title="Permanent link">&para;</a></h2>
+<pre class="mermaid"><code>sequenceDiagram
+    participant P as Pipeline
+    participant TW as TableWriter
+    participant SV as SchemaValidator
+    participant BW as BaseWriter
+    participant D as Delta Lake
+
+    P-&gt;&gt;TW: overwrite(df)
+    TW-&gt;&gt;SV: validate(df, contract)
+    SV--&gt;&gt;TW: OK / ValidationError
+    TW-&gt;&gt;BW: _write_df(df, "overwrite")
+    BW-&gt;&gt;D: DataFrameWriter.format("delta").mode("overwrite")
+    D--&gt;&gt;BW: commit
+    BW-&gt;&gt;D: ALTER COLUMN COMMENT
+    BW-&gt;&gt;D: SET TBLPROPERTIES
+    BW-&gt;&gt;D: SET MASK (solo Databricks)
+    D--&gt;&gt;P: done</code></pre>
+<hr />
+<h2 id="flujo-de-promocion-silver-estrategia-cdc_merge">Flujo de promoción Silver (estrategia cdc_merge)<a class="headerlink" href="#flujo-de-promocion-silver-estrategia-cdc_merge" title="Permanent link">&para;</a></h2>
+<pre class="mermaid"><code>sequenceDiagram
+    participant SP as SilverPromoter
+    participant CM as CdcMergeStrategy
+    participant B as Bronze (Delta)
+    participant S as Silver (Delta)
+
+    SP-&gt;&gt;CM: execute()
+    CM-&gt;&gt;B: read() — lee todos los eventos
+    CM-&gt;&gt;CM: filter op_type IN (I, U) → upserts
+    CM-&gt;&gt;CM: filter op_type = D → deletes
+    CM-&gt;&gt;CM: withColumn("is_deleted", False)
+    CM-&gt;&gt;CM: withColumn("_silver_modified_at", now())
+    CM-&gt;&gt;CM: _select_for_silver() — excluye _ingested_at, _source_file
+    CM-&gt;&gt;S: MERGE INTO (upserts)
+    CM-&gt;&gt;CM: withColumn("is_deleted", True) — soft delete
+    CM-&gt;&gt;S: MERGE INTO (soft deletes)
+    S--&gt;&gt;SP: filas en Silver</code></pre>
+<hr />
+<h2 id="runtime-agnostico-local-databricks">Runtime-agnóstico: local ↔ Databricks<a class="headerlink" href="#runtime-agnostico-local-databricks" title="Permanent link">&para;</a></h2>
+<pre class="mermaid"><code>flowchart LR
+    CF["config.json\nEXECUTION_ENVIRONMENT"] --&gt; L["Launcher"]
+    L --&gt; E{{"is_databricks?"}}
+    E --&gt;|"false"| LC["SparkSession local\ncatalog = schema.name\npaths = /tmp/..."]
+    E --&gt;|"true"| DC["Databricks Connect\ncatalog = catalog.schema.name\npaths = abfss://..."]
+    LC &amp; DC --&gt; TW["TableWriter / IngestionEngine\n(mismo código)"]</code></pre>
+<p>El <code>Launcher</code> se instancia <strong>una vez</strong> como singleton del proceso. Todos los writers, readers, ingestors y el <code>SafeMigrator</code> obtienen <code>spark</code> y <code>env</code> internamente vía <code>Launcher.current()</code>.</p>
+<hr />
 <h2 id="descripcion-de-componentes">Descripción de componentes<a class="headerlink" href="#descripcion-de-componentes" title="Permanent link">&para;</a></h2>
 <h3 id="core">Core<a class="headerlink" href="#core" title="Permanent link">&para;</a></h3>
 <table>
@@ -1515,53 +2237,96 @@
 <tbody>
 <tr>
 <td><code>Launcher</code></td>
-<td>Punto de entrada único. Detecta el runtime (local / Databricks), crea la <code>SparkSession</code> y se registra como singleton.</td>
+<td>Punto de entrada único. Detecta runtime, crea <code>SparkSession</code>, se registra como singleton.</td>
 </tr>
 <tr>
 <td><code>EnvironmentConfig</code></td>
-<td>Resuelve placeholders <code>{catalog.bronze}</code>, <code>{path.raw}</code> según el workspace activo.</td>
+<td>Resuelve placeholders <code>{catalog.bronze}</code>, <code>{path.silver}</code> según el ambiente activo.</td>
 </tr>
 <tr>
 <td><code>LoggerConfig</code></td>
-<td>Logging estructurado con <code>loguru</code>. Mixin <code>LoggableMixin</code> para inyectar <code>self.log</code> en cualquier clase.</td>
+<td>Logging estructurado con <code>loguru</code>. Mixin <code>LoggableMixin</code> inyecta <code>self.log</code> en cualquier clase.</td>
 </tr>
 </tbody>
 </table>
-<h3 id="table_governance">table_governance<a class="headerlink" href="#table_governance" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>table_governance/
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>├── contracts/
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>│   ├── loader.py     # JSON → TableContract / ColumnContract (inmutable, frozen dataclass)
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>│   └── validator.py  # valida tipos y nullabilidad de un DataFrame contra el contrato
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>├── writers/
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>│   ├── table_writer.py     # ★ fachada pública
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>│   ├── base_writer.py      # bridge local ↔ Databricks + merge_schema + masks
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>│   ├── create_writer.py    # CREATE OR REPLACE TABLE + SET MASK
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>│   ├── append_writer.py    # INSERT INTO (soporta mergeSchema)
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>│   ├── upsert_writer.py    # MERGE INTO (SCD1)
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>│   ├── partition_writer.py # overwrite_partition (soporta mergeSchema)
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>│   └── delete_writer.py    # DELETE WHERE
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>└── migrations/
-<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>    └── safe_migrator.py    # compara contrato vs estado real → plan de ALTER TABLE
-</code></pre></div>
-<h3 id="flujo-de-una-escritura">Flujo de una escritura<a class="headerlink" href="#flujo-de-una-escritura" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>TableWriter.overwrite(df)
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    └── CreateWriter(contract, **kwargs).write(df)
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>            ├── BaseWriter.__init__()          → Launcher.current() para spark/env
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>            ├── SchemaValidator.validate(df)   → verifica tipos y nulls
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>            ├── BaseWriter._write_df(df, &quot;overwrite&quot;)
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>            │       ├── DataFrameWriter.format(&quot;delta&quot;).mode(&quot;overwrite&quot;)
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>            │       └── .option(&quot;overwriteSchema&quot;,&quot;true&quot;) si procede
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>            └── CreateWriter._post_write()
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>                    ├── _apply_column_comments()  → ALTER COLUMN COMMENT
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>                    ├── _apply_tblproperties()    → SET TBLPROPERTIES
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>                    ├── _apply_permissions()      → GRANT (solo Databricks)
-<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>                    └── _apply_column_masks()     → SET MASK (solo Databricks)
-</code></pre></div>
-<h3 id="singleton-launcher">Singleton Launcher<a class="headerlink" href="#singleton-launcher" title="Permanent link">&para;</a></h3>
-<p>Todos los writers y el <code>SafeMigrator</code> llaman <code>Launcher.current()</code> en lugar de recibir <code>spark</code> / <code>env</code> como parámetros. Esto mantiene la API mínima:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">TableWriter</span><span class="p">(</span><span class="n">contract</span><span class="p">)</span><span class="o">.</span><span class="n">overwrite</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>   <span class="c1"># ← sin spark, sin env, sin config</span>
-</code></pre></div>
-<p>El Launcher se instancia <strong>una vez</strong> al inicio del pipeline y queda disponible para el resto del proceso.</p>
+<h3 id="ingestion">Ingestion<a class="headerlink" href="#ingestion" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Módulo</th>
+<th>Responsabilidad</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>IngestionEngine</code></td>
+<td>Orquestador. Factory <code>from_spark()</code>. Métodos <code>ingest_bronze()</code>, <code>run_streaming()</code>, <code>promote_silver()</code>, <code>status()</code>.</td>
+</tr>
+<tr>
+<td><code>BronzeIngestor</code></td>
+<td>Lee archivos Landing, añade metadata, escribe Bronze con partition overwrite.</td>
+</tr>
+<tr>
+<td><code>SilverPromoter</code></td>
+<td>Aplica la estrategia declarada en el contrato Silver.</td>
+</tr>
+<tr>
+<td><code>FileReader</code></td>
+<td>Lectura batch de archivos (JSON, CSV, Parquet, Delta).</td>
+</tr>
+<tr>
+<td><code>FileStreamReader</code></td>
+<td>Lectura streaming — infiere schema desde archivos existentes si no se declara uno.</td>
+</tr>
+<tr>
+<td><code>FullMergeStrategy</code></td>
+<td>MERGE INTO Silver con dedup por watermark. SCD Type 1.</td>
+</tr>
+<tr>
+<td><code>CdcMergeStrategy</code></td>
+<td>Aplica I/U/D desde Bronze. Soft delete via <code>is_deleted</code>.</td>
+</tr>
+<tr>
+<td><code>IncrementalReplaceStrategy</code></td>
+<td>Filtra la partición más reciente del Bronze y hace upsert.</td>
+</tr>
+<tr>
+<td><code>AppendDedupStrategy</code></td>
+<td>Anti-join: solo inserta registros que no existen en Silver.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="table-governance">Table Governance<a class="headerlink" href="#table-governance" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Módulo</th>
+<th>Responsabilidad</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>TableContract</code></td>
+<td>Dataclass inmutable (frozen). Representa el estado deseado de una tabla.</td>
+</tr>
+<tr>
+<td><code>SchemaValidator</code></td>
+<td>Compara tipos Spark del DataFrame contra el contrato. Soporta widening.</td>
+</tr>
+<tr>
+<td><code>TableWriter</code></td>
+<td>Fachada pública: <code>overwrite</code>, <code>append</code>, <code>upsert</code>, <code>overwrite_partition</code>, <code>delete</code>.</td>
+</tr>
+<tr>
+<td><code>TableReader</code></td>
+<td>Lectura gobernada: <code>read()</code>, <code>read_partition()</code>, <code>read_stream()</code>, <code>read_cdf()</code>.</td>
+</tr>
+<tr>
+<td><code>SafeMigrator</code></td>
+<td>Compara contrato vs. tabla real. Genera plan <code>ALTER TABLE</code> sin pérdida de datos.</td>
+</tr>
+</tbody>
+</table>
 
 
 
@@ -1579,6 +2344,8 @@
             </div>
           
           
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
         
@@ -1617,10 +2384,12 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "content.code.copy", "content.tabs.link"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
     
     
       <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
       
     
   </body>

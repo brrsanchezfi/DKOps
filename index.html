@@ -6,10 +6,10 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Lakehouse automation framework for DataOps on Databricks">
+        <meta name="description" content="Framework de gobierno Delta y orquestación de pipelines Spark — local y Databricks">
       
       
-        <meta name="author" content="Roberto">
+        <meta name="author" content="Roberto Sánchez">
       
       
       
@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#caracteristicas" class="md-skip">
+        <a href="#dkops" class="md-skip">
           Saltar a contenido
         </a>
       
@@ -265,6 +265,26 @@
   
     
     
+      <li class="md-tabs__item">
+        <a href="demos/demo_1/" class="md-tabs__link">
+          
+  
+  
+  Demos
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
       
   
   
@@ -346,6 +366,8 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
           
@@ -388,6 +410,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -396,32 +420,65 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#que-es-dkops" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Qué es DKOps?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#flujo-completo-landing-bronze-silver-gold" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Flujo completo: Landing → Bronze → Silver → Gold
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quickstart-ingestionengine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quickstart — IngestionEngine
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quickstart-tablewriter-tablereader" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quickstart — TableWriter / TableReader
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#modulos-principales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Módulos principales
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#caracteristicas" class="md-nav__link">
     <span class="md-ellipsis">
       
         Características
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#quickstart" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Quickstart
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#arquitectura" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Arquitectura
       
     </span>
   </a>
@@ -505,6 +562,34 @@
     
   
     Quickstart
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="guide/ingestion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ingesta (Landing → Silver)
   
 
     
@@ -669,7 +754,7 @@
   <span class="md-ellipsis">
     
   
-    API Reference
+    Demos
   
 
     
@@ -682,6 +767,207 @@
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Demos
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="demos/demo_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Demo 1 — Aeronáutica
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="demos/demo_2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Demo 2 — Manufactura
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="demos/demo_3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Demo 3 — E-commerce
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="demos/demo_4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Demo 4 — Retail / Inventario
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="demos/demo_5/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Demo 5 — Marketplace
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -713,10 +999,10 @@
         
           
         
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_1" >
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_1" >
         
           
-          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="0">
             
   
   
@@ -734,8 +1020,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_1">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_1">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -859,10 +1145,184 @@
         
           
         
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_2" >
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_2" >
         
           
-          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ingestion
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Ingestion
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="api/ingestion/engine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IngestionEngine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="api/ingestion/bronze_ingestor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BronzeIngestor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="api/ingestion/silver_promoter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SilverPromoter
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="api/ingestion/strategies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estrategias
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
             
   
   
@@ -880,8 +1340,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_2">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -977,10 +1437,10 @@
         
           
         
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_3" >
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_4" >
         
           
-          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="0">
             
   
   
@@ -998,8 +1458,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_3">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1235,10 +1695,10 @@
         
           
         
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_4" >
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_5" >
         
           
-          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_4_5" id="__nav_4_5_label" tabindex="0">
             
   
   
@@ -1256,8 +1716,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_4">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_5">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1327,6 +1787,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -1335,32 +1797,65 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#que-es-dkops" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Qué es DKOps?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#flujo-completo-landing-bronze-silver-gold" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Flujo completo: Landing → Bronze → Silver → Gold
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quickstart-ingestionengine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quickstart — IngestionEngine
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quickstart-tablewriter-tablereader" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quickstart — TableWriter / TableReader
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#modulos-principales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Módulos principales
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#caracteristicas" class="md-nav__link">
     <span class="md-ellipsis">
       
         Características
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#quickstart" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Quickstart
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#arquitectura" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Arquitectura
       
     </span>
   </a>
@@ -1387,38 +1882,169 @@
   
 
 
-  <h1>Inicio</h1>
+<h1 id="dkops">DKOps<a class="headerlink" href="#dkops" title="Permanent link">&para;</a></h1>
+<p><strong>Framework de gobierno Delta y orquestación de pipelines Spark — el mismo código corre en local y en Databricks.</strong></p>
+<hr />
+<h2 id="que-es-dkops">¿Qué es DKOps?<a class="headerlink" href="#que-es-dkops" title="Permanent link">&para;</a></h2>
+<p>DKOps profesionaliza la construcción de pipelines de datos sobre <strong>Apache Spark + Delta Lake</strong> siguiendo la arquitectura Lakehouse Medallion.</p>
+<p>Resuelve los problemas que aparecen cuando un equipo crece más allá de los "scripts sueltos":</p>
+<table>
+<thead>
+<tr>
+<th>Problema</th>
+<th>Solución DKOps</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Schema enterrado en código</td>
+<td>Contratos JSON versionados con validación automática</td>
+</tr>
+<tr>
+<td>Pipelines frágiles ante cambios de schema</td>
+<td><code>SafeMigrator</code> + <code>merge_schema</code></td>
+</tr>
+<tr>
+<td>Lógica de ingesta duplicada por dataset</td>
+<td><code>IngestionEngine</code> con estrategias declarativas</td>
+</tr>
+<tr>
+<td>Código diferente para local y Databricks</td>
+<td>Runtime detector — mismo código, sin <code>if env:</code></td>
+</tr>
+<tr>
+<td>Falta de visibilidad operativa</td>
+<td>Tabla de control operativo + <code>status()</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="flujo-completo-landing-bronze-silver-gold">Flujo completo: Landing → Bronze → Silver → Gold<a class="headerlink" href="#flujo-completo-landing-bronze-silver-gold" title="Permanent link">&para;</a></h2>
+<pre class="mermaid"><code>flowchart LR
+    L[("☁ Landing\nJSON · CSV · Parquet")]
+    B[("🥉 Bronze\nRaw + metadata\n_ingested_at")]
+    S[("🥈 Silver\nLimpio · dedup\nclave de negocio")]
+    G[("🥇 Gold\nKPIs · agregados\nlisto para BI")]
 
-<p><strong>Lakehouse automation framework para DataOps, DevOps y arquitectura Medallion en Databricks.</strong></p>
-<h2 id="caracteristicas">Características<a class="headerlink" href="#caracteristicas" title="Permanent link">&para;</a></h2>
-<ul>
-<li><strong>Contratos de tabla</strong> — define schema, tipos, particiones, permisos y reglas de gobernanza en JSON versionado</li>
-<li><strong>Validación automática</strong> — verifica tipos y nulabilidad antes de escribir</li>
-<li><strong><code>TableWriter</code></strong> — API unificada: <code>overwrite</code>, <code>append</code>, <code>upsert</code>, <code>overwrite_partition</code>, <code>delete</code></li>
-<li><strong>merge_schema</strong> — evolución de schema automática: declara <code>"merge_schema": true</code> en el contrato y Delta añade columnas nuevas sin recrear la tabla</li>
-<li><strong>Enmascaramiento de columnas</strong> — declara <code>"mask": "security.fn"</code> en una columna y el framework aplica <code>SET MASK</code> post-escritura en Unity Catalog</li>
-<li><strong>Dual runtime</strong> — mismo código en PC local y en Databricks</li>
-<li><strong>Migraciones seguras</strong> — <code>SafeMigrator</code> compara contrato vs estado real y genera plan sin pérdida de datos</li>
-<li><strong>Logging estructurado</strong> — cada operación loguea inicio, fin y duración</li>
-</ul>
-<h2 id="quickstart">Quickstart<a class="headerlink" href="#quickstart" title="Permanent link">&para;</a></h2>
+    L --&gt;|IngestionEngine\ningest_bronze| B
+    L --&gt;|run_streaming| B
+    B --&gt;|promote_silver\nfull_merge · cdc_merge\nincremental_replace · append_dedup| S
+    S --&gt;|TableWriter\nSQL agregaciones| G</code></pre>
+<hr />
+<h2 id="quickstart-ingestionengine">Quickstart — IngestionEngine<a class="headerlink" href="#quickstart-ingestionengine" title="Permanent link">&para;</a></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Batch (diario)</label><label for="__tabbed_1_2">Streaming (continuo)</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">DKOps.launcher</span><span class="w"> </span><span class="kn">import</span> <span class="n">Launcher</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">DKOps.table_governance</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_contract</span><span class="p">,</span> <span class="n">TableWriter</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">DKOps.ingestion.engine</span><span class="w"> </span><span class="kn">import</span> <span class="n">IngestionEngine</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">launcher</span> <span class="o">=</span> <span class="n">Launcher</span><span class="p">(</span><span class="s2">&quot;config/config.json&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">contract</span> <span class="o">=</span> <span class="n">load_contract</span><span class="p">(</span><span class="s2">&quot;tables/fact_ventas.json&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="c1"># Carga full</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="n">TableWriter</span><span class="p">(</span><span class="n">contract</span><span class="p">)</span><span class="o">.</span><span class="n">overwrite</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="c1"># Incremental — upsert por clave</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="n">TableWriter</span><span class="p">(</span><span class="n">contract</span><span class="p">)</span><span class="o">.</span><span class="n">upsert</span><span class="p">(</span><span class="n">df_delta</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;venta_id&quot;</span><span class="p">,</span> <span class="s2">&quot;fecha&quot;</span><span class="p">])</span>
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="c1"># Schema evolution — nuevas columnas sin recrear la tabla</span>
-<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="c1"># (requiere &quot;merge_schema&quot;: true en el contrato)</span>
-<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="n">TableWriter</span><span class="p">(</span><span class="n">contract</span><span class="p">)</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df_con_cols_nuevas</span><span class="p">)</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="n">engine</span> <span class="o">=</span> <span class="n">IngestionEngine</span><span class="o">.</span><span class="n">from_spark</span><span class="p">(</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">spark</span>                <span class="o">=</span> <span class="n">launcher</span><span class="o">.</span><span class="n">spark</span><span class="p">,</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">env</span>                  <span class="o">=</span> <span class="n">launcher</span><span class="o">.</span><span class="n">env</span><span class="p">,</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">bronze_contracts_dir</span> <span class="o">=</span> <span class="s2">&quot;ingestion/batch&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="n">silver_contracts_dir</span> <span class="o">=</span> <span class="s2">&quot;ingestion/silver&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="n">tables_base_dir</span>      <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    <span class="n">ops_path</span>             <span class="o">=</span> <span class="s2">&quot;/tmp/ops/control&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="p">)</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="n">engine</span><span class="o">.</span><span class="n">ingest_bronze</span><span class="p">()</span>    <span class="c1"># Landing  → Bronze</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="n">engine</span><span class="o">.</span><span class="n">promote_silver</span><span class="p">()</span>   <span class="c1"># Bronze   → Silver</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="n">engine</span><span class="o">.</span><span class="n">status</span><span class="p">()</span>           <span class="c1"># Resumen del lakehouse</span>
 </code></pre></div>
-<h2 id="arquitectura">Arquitectura<a class="headerlink" href="#arquitectura" title="Permanent link">&para;</a></h2>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">DKOps.launcher</span><span class="w"> </span><span class="kn">import</span> <span class="n">Launcher</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">DKOps.ingestion.engine</span><span class="w"> </span><span class="kn">import</span> <span class="n">IngestionEngine</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">launcher</span> <span class="o">=</span> <span class="n">Launcher</span><span class="p">(</span><span class="s2">&quot;config/config.json&quot;</span><span class="p">)</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="n">engine</span> <span class="o">=</span> <span class="n">IngestionEngine</span><span class="o">.</span><span class="n">from_spark</span><span class="p">(</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    <span class="n">spark</span>                   <span class="o">=</span> <span class="n">launcher</span><span class="o">.</span><span class="n">spark</span><span class="p">,</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>    <span class="n">env</span>                     <span class="o">=</span> <span class="n">launcher</span><span class="o">.</span><span class="n">env</span><span class="p">,</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>    <span class="n">streaming_contracts_dir</span> <span class="o">=</span> <span class="s2">&quot;ingestion/streaming&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>    <span class="n">silver_contracts_dir</span>    <span class="o">=</span> <span class="s2">&quot;ingestion/silver&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>    <span class="n">tables_base_dir</span>         <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>    <span class="n">ops_path</span>                <span class="o">=</span> <span class="s2">&quot;/tmp/ops/control&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="p">)</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="n">engine</span><span class="o">.</span><span class="n">run_streaming</span><span class="p">()</span>    <span class="c1"># Structured Streaming — availableNow</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="n">engine</span><span class="o">.</span><span class="n">promote_silver</span><span class="p">()</span>   <span class="c1"># Bronze → Silver</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<hr />
+<h2 id="quickstart-tablewriter-tablereader">Quickstart — TableWriter / TableReader<a class="headerlink" href="#quickstart-tablewriter-tablereader" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">DKOps.launcher</span><span class="w"> </span><span class="kn">import</span> <span class="n">Launcher</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">DKOps.table_governance</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_contract</span><span class="p">,</span> <span class="n">TableWriter</span><span class="p">,</span> <span class="n">TableReader</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">launcher</span> <span class="o">=</span> <span class="n">Launcher</span><span class="p">(</span><span class="s2">&quot;config/config.json&quot;</span><span class="p">)</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">contract</span> <span class="o">=</span> <span class="n">load_contract</span><span class="p">(</span><span class="s2">&quot;tables/silver/ventas_current.json&quot;</span><span class="p">)</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1"># Escribir</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="n">TableWriter</span><span class="p">(</span><span class="n">contract</span><span class="p">)</span><span class="o">.</span><span class="n">overwrite</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>                       <span class="c1"># CREATE OR REPLACE</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="n">TableWriter</span><span class="p">(</span><span class="n">contract</span><span class="p">)</span><span class="o">.</span><span class="n">upsert</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;venta_id&quot;</span><span class="p">])</span>       <span class="c1"># MERGE INTO</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="n">TableWriter</span><span class="p">(</span><span class="n">contract</span><span class="p">)</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df_nuevos</span><span class="p">)</span>                   <span class="c1"># INSERT INTO</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="c1"># Leer</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="n">df</span> <span class="o">=</span> <span class="n">TableReader</span><span class="p">(</span><span class="n">contract</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>                         <span class="c1"># Tabla completa</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="n">df</span> <span class="o">=</span> <span class="n">TableReader</span><span class="p">(</span><span class="n">contract</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="nb">filter</span><span class="o">=</span><span class="s2">&quot;estado = &#39;activo&#39;&quot;</span><span class="p">)</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="n">df</span> <span class="o">=</span> <span class="n">TableReader</span><span class="p">(</span><span class="n">contract</span><span class="p">)</span><span class="o">.</span><span class="n">read_cdf</span><span class="p">(</span><span class="n">starting_version</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>   <span class="c1"># Change Data Feed</span>
+</code></pre></div>
+<hr />
+<h2 id="modulos-principales">Módulos principales<a class="headerlink" href="#modulos-principales" title="Permanent link">&para;</a></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Ingesta (Landing → Silver)</label><label for="__tabbed_2_2">Gobierno de tablas (Silver → Gold)</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>DKOps/ingestion/
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>├── engine.py              # IngestionEngine — orquestador principal
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>├── ingestors/
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>│   ├── bronze_ingestor.py # Landing → Bronze (batch)
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>│   └── silver_promoter.py # Bronze  → Silver (4 estrategias)
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>├── readers/
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>│   ├── file_reader.py     # Lectura batch de archivos
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>│   └── file_stream.py     # Lectura streaming (auto-schema inference)
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>├── strategies/
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>│   ├── full_merge.py      # MERGE INTO — snapshot completo
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>│   ├── cdc_merge.py       # CDC I/U/D con soft delete
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>│   ├── incremental_replace.py  # Reemplaza por watermark
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>│   └── append_dedup.py    # Anti-join append
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>└── contracts/
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>    └── ingestion_contract.py   # Modelo de contrato de ingesta
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>DKOps/table_governance/
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>├── contracts/
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>│   ├── loader.py          # JSON → TableContract (frozen dataclass)
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>│   └── validator.py       # Validación de tipos y nulabilidad
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>├── writers/
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>│   ├── table_writer.py    # ★ Fachada pública
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>│   ├── create_writer.py   # CREATE OR REPLACE TABLE
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>│   ├── append_writer.py   # INSERT INTO (mergeSchema)
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>│   ├── upsert_writer.py   # MERGE INTO
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>│   ├── partition_writer.py# overwrite_partition
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>│   └── delete_writer.py   # DELETE WHERE
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>└── migrations/
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>    └── safe_migrator.py   # Compara contrato vs estado real
+</code></pre></div>
+</div>
+</div>
+</div>
+<hr />
+<h2 id="caracteristicas">Características<a class="headerlink" href="#caracteristicas" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Contratos JSON</strong> — schema, particiones, permisos y metadatos versionados con el código</li>
+<li><strong>Motor de ingesta declarativo</strong> — 4 estrategias de promoción Silver configurables desde JSON</li>
+<li><strong>Batch y Streaming unificados</strong> — mismo engine, trigger <code>availableNow</code> para modo micro-batch</li>
+<li><strong>Runtime-agnóstico</strong> — detección automática local / Databricks vía <code>config.json</code></li>
+<li><strong>Validación de schema</strong> — verifica tipos y nulabilidad antes de cada escritura</li>
+<li><strong>Migraciones seguras</strong> — <code>SafeMigrator</code> planifica <code>ALTER TABLE</code> sin pérdida de datos</li>
+<li><strong>Tabla de control operativo</strong> — cada ejecución registra dataset, filas, estado y timestamp</li>
+<li><strong>Logging estructurado</strong> — <code>loguru</code> en cada operación con duración y filas</li>
+</ul>
 
 
 
@@ -1436,6 +2062,8 @@
             </div>
           
           
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
         
@@ -1474,10 +2102,12 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "content.code.copy"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "content.code.copy", "content.tabs.link"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
     
     
       <script src="assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
       
     
   </body>
