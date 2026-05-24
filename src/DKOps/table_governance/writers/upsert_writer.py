@@ -68,6 +68,19 @@ class UpsertWriter(BaseWriter):
             self._log_dry_run("upsert")
             return
 
+        # Primer run: si la tabla no existe, hacer carga inicial via overwrite
+        # (equivalente a upsert donde todos los registros son inserciones)
+        if not self._table_exists():
+            self.log.info(
+                f"[upsert] Tabla '{self._table_name}' no existe — "
+                f"carga inicial via overwrite (todos son inserciones nuevas)"
+            )
+            # Seleccionar solo las columnas del contrato Silver (excluir metadata Bronze)
+            df_cols = set(df.columns)
+            silver_cols = [c for c in self._contract.column_names if c in df_cols]
+            self._write_df(df.select(*silver_cols), mode="overwrite")
+            return
+
         # Vista temporal para el MERGE
         tmp_view = f"_tmp_upsert_{self._contract.name}"
         df.createOrReplaceTempView(tmp_view)

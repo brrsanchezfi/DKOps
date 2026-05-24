@@ -1,0 +1,31 @@
+{
+  "_doc": "Silver — pedidos activos curados (cdc_merge, con merge_schema para v2)",
+  "catalog":  "{catalog.silver}",
+  "schema":   "ecommerce",
+  "name":     "pedidos_current",
+  "type":     "MANAGED",
+  "format":   "DELTA",
+  "comment":  "Pedidos activos — cdc_merge desde Bronze, merge_schema activo",
+  "owner":    "data-engineering",
+
+  "columns": [
+    { "name": "pedido_id",      "type": "STRING",    "nullable": false },
+    { "name": "cliente_id",     "type": "STRING",    "nullable": true  },
+    { "name": "email_cliente",  "type": "STRING",    "nullable": true, "mask": "security.mask_email" },
+    { "name": "fecha_pedido",   "type": "STRING",    "nullable": true  },
+    { "name": "total_usd",      "type": "DOUBLE",    "nullable": true  },
+    { "name": "estado",         "type": "STRING",    "nullable": true  },
+    { "name": "canal",          "type": "STRING",    "nullable": true  },
+    { "name": "updated_at",     "type": "STRING",    "nullable": true  },
+    { "name": "is_deleted",     "type": "BOOLEAN",   "nullable": true, "comment": "Soft delete CDC" },
+    { "name": "_silver_modified_at", "type": "TIMESTAMP", "nullable": true }
+  ],
+
+  "partitions": ["canal"],
+
+  "properties": {
+    "merge_schema": true,
+    "quality":      "curated",
+    "layer":        "silver"
+  }
+}

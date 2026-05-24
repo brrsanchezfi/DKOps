@@ -1,0 +1,30 @@
+{
+  "_doc": "Silver — ordenes de produccion actualizadas (cdc_merge)",
+  "catalog":  "{catalog.silver}",
+  "schema":   "manufactura",
+  "name":     "ordenes_current",
+  "type":     "MANAGED",
+  "format":   "DELTA",
+  "comment":  "Ordenes activas — resultado de cdc_merge desde Bronze",
+  "owner":    "data-engineering",
+
+  "columns": [
+    { "name": "orden_id",           "type": "STRING",    "nullable": false },
+    { "name": "linea_id",           "type": "STRING",    "nullable": true  },
+    { "name": "producto_id",        "type": "STRING",    "nullable": true  },
+    { "name": "fecha_inicio",       "type": "STRING",    "nullable": true  },
+    { "name": "fecha_fin",          "type": "STRING",    "nullable": true  },
+    { "name": "cantidad_planeada",  "type": "INTEGER",   "nullable": true  },
+    { "name": "cantidad_real",      "type": "INTEGER",   "nullable": true  },
+    { "name": "estado",             "type": "STRING",    "nullable": true  },
+    { "name": "operador",           "type": "STRING",    "nullable": true  },
+    { "name": "updated_at",         "type": "STRING",    "nullable": true  },
+    { "name": "is_deleted",         "type": "BOOLEAN",   "nullable": true, "comment": "Soft delete de eventos D" },
+    { "name": "_silver_modified_at","type": "TIMESTAMP", "nullable": true, "comment": "Ultima actualizacion en Silver" }
+  ],
+
+  "properties": {
+    "quality": "curated",
+    "layer":   "silver"
+  }
+}

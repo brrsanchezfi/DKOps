@@ -1,0 +1,20 @@
+{
+  "_doc": "Promocion Silver — ventas_current: full_merge desde Bronze",
+  "name":        "ventas_current",
+  "description": "Full Merge de ventas_manufactura_raw hacia ventas_current",
+  "ingest_type": "batch",
+  "strategy":    "full_merge",
+  "enabled":     true,
+
+  "source": { "format": "delta" },
+
+  "source_contract":      "../../tables/bronze_new/ventas_manufactura_raw.json",
+  "destination_contract": "../../tables/silver_new/ventas_current.json",
+
+  "merge_keys":    ["venta_id"],
+  "watermark_col": "fecha",
+
+  "metadata": {
+    "add_silver_timestamps": true
+  }
+}

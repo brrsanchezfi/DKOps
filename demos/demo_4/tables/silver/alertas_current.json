@@ -1,0 +1,29 @@
+{
+  "_doc": "Silver — alertas de stock deduplicadas (append_dedup)",
+  "catalog":  "{catalog.silver}",
+  "schema":   "inventario",
+  "name":     "alertas_current",
+  "type":     "MANAGED",
+  "format":   "DELTA",
+  "comment":  "Alertas de stock bajo deduplicadas — append_dedup desde Bronze",
+  "owner":    "data-engineering",
+
+  "columns": [
+    { "name": "alerta_id",    "type": "STRING",    "nullable": false },
+    { "name": "producto_id",  "type": "STRING",    "nullable": true  },
+    { "name": "almacen_id",   "type": "STRING",    "nullable": true  },
+    { "name": "stock_actual", "type": "INTEGER",   "nullable": true  },
+    { "name": "stock_minimo", "type": "INTEGER",   "nullable": true  },
+    { "name": "deficit",      "type": "INTEGER",   "nullable": true  },
+    { "name": "severidad",    "type": "STRING",    "nullable": true  },
+    { "name": "timestamp",    "type": "STRING",    "nullable": true  },
+    { "name": "_silver_modified_at", "type": "TIMESTAMP", "nullable": true }
+  ],
+
+  "partitions": ["severidad"],
+
+  "properties": {
+    "quality": "curated",
+    "layer":   "silver"
+  }
+}

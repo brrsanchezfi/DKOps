@@ -1,0 +1,22 @@
+{
+  "_doc": "Ingesta batch del catalogo de clientes — full load (JSON)",
+  "name":        "clientes",
+  "description": "Snapshot diario de clientes desde Landing hacia Bronze",
+  "ingest_type": "batch",
+  "load_type":   "full",
+  "enabled":     true,
+
+  "source": {
+    "format": "json",
+    "path":   "{path.landing}/clientes",
+    "options": { "multiLine": "false" }
+  },
+
+  "destination_contract": "../../tables/bronze/clientes_raw.json",
+
+  "metadata": {
+    "add_ingested_at":   true,
+    "add_ingested_date": true,
+    "add_source_file":   true
+  }
+}

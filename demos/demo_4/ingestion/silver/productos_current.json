@@ -1,0 +1,19 @@
+{
+  "_doc": "Promocion Silver — productos_current: full_merge desde Bronze",
+  "name":        "productos_current",
+  "description": "Full Merge de productos_raw hacia productos_current (con CDF activado)",
+  "ingest_type": "batch",
+  "strategy":    "full_merge",
+  "enabled":     true,
+
+  "source": { "format": "delta" },
+
+  "source_contract":      "../../tables/bronze/productos_raw.json",
+  "destination_contract": "../../tables/silver/productos_current.json",
+
+  "merge_keys":    ["producto_id"],
+
+  "metadata": {
+    "add_silver_timestamps": true
+  }
+}

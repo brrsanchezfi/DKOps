@@ -1,5 +1,5 @@
 {
-  "_doc": "Demo 5 — Motor de Ingesta DKOps: Landing → Bronze → Silver",
+  "_doc": "Demo 5 — Motor de Ingesta DKOps: Landing -> Bronze -> Silver -> Gold",
 
   "EXECUTION_ENVIRONMENT": "local",
   "DATABRICKS_TARGET": "local",
@@ -23,6 +23,7 @@
       "catalogs": {
         "bronze": "bronze",
         "silver": "silver",
+        "gold":   "gold",
         "ops":    "ops"
       },
 
@@ -30,6 +31,7 @@
         "landing":    "/tmp/dkops_demo5/landing",
         "bronze":     "/tmp/dkops_demo5/warehouse/bronze",
         "silver":     "/tmp/dkops_demo5/warehouse/silver",
+        "gold":       "/tmp/dkops_demo5/warehouse/gold",
         "checkpoint": "/tmp/dkops_demo5/checkpoints",
         "ops":        "/tmp/dkops_demo5/ops"
       },
@@ -50,6 +52,7 @@
       "catalogs": {
         "bronze": "bronze",
         "silver": "silver",
+        "gold":   "gold",
         "ops":    "lakehouse"
       },
 
@@ -57,6 +60,7 @@
         "landing":    "abfss://landing@<storage>.dfs.core.windows.net",
         "bronze":     "abfss://bronze@<storage>.dfs.core.windows.net",
         "silver":     "abfss://silver@<storage>.dfs.core.windows.net",
+        "gold":       "abfss://gold@<storage>.dfs.core.windows.net",
         "checkpoint": "abfss://lakehouse@<storage>.dfs.core.windows.net/_checkpoints",
         "ops":        "abfss://lakehouse@<storage>.dfs.core.windows.net/_ops"
       },

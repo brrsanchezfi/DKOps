@@ -1,0 +1,21 @@
+{
+  "_doc": "Ingesta streaming de alertas de stock (availableNow trigger)",
+  "name":        "alertas",
+  "description": "Alertas de stock bajo desde Landing via streaming",
+  "ingest_type": "streaming",
+  "load_type":   "streaming",
+  "enabled":     true,
+
+  "source": {
+    "format": "json",
+    "path":   "{path.landing}/alertas_stock"
+  },
+
+  "destination_contract": "../../tables/bronze/alertas_raw.json",
+
+  "metadata": {
+    "add_ingested_at":   true,
+    "add_ingested_date": true,
+    "add_source_file":   true
+  }
+}

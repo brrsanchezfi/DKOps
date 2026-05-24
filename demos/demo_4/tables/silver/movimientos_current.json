@@ -1,0 +1,29 @@
+{
+  "_doc": "Silver — movimientos de inventario deduplicados (append_dedup)",
+  "catalog":  "{catalog.silver}",
+  "schema":   "inventario",
+  "name":     "movimientos_current",
+  "type":     "MANAGED",
+  "format":   "DELTA",
+  "comment":  "Movimientos de stock deduplicados — append_dedup desde Bronze",
+  "owner":    "data-engineering",
+
+  "columns": [
+    { "name": "movimiento_id",   "type": "STRING",    "nullable": false },
+    { "name": "producto_id",     "type": "STRING",    "nullable": true  },
+    { "name": "almacen_id",      "type": "STRING",    "nullable": true  },
+    { "name": "tipo_movimiento", "type": "STRING",    "nullable": true  },
+    { "name": "cantidad",        "type": "INTEGER",   "nullable": true  },
+    { "name": "costo_unitario",  "type": "DOUBLE",    "nullable": true  },
+    { "name": "referencia",      "type": "STRING",    "nullable": true  },
+    { "name": "timestamp",       "type": "STRING",    "nullable": true  },
+    { "name": "_silver_modified_at", "type": "TIMESTAMP", "nullable": true }
+  ],
+
+  "partitions": ["tipo_movimiento"],
+
+  "properties": {
+    "quality": "curated",
+    "layer":   "silver"
+  }
+}

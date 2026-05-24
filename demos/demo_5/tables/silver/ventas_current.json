@@ -17,7 +17,7 @@
     { "name": "canal",                "type": "STRING",    "nullable": true  },
     { "name": "estado",               "type": "STRING",    "nullable": true  },
     { "name": "is_deleted",           "type": "BOOLEAN",   "nullable": true,  "comment": "Soft delete de eventos D" },
-    { "name": "fecha_venta",          "type": "TIMESTAMP", "nullable": true  },
+    { "name": "fecha_venta",          "type": "STRING",    "nullable": true  },
     { "name": "_silver_modified_at",  "type": "TIMESTAMP", "nullable": true,  "comment": "Última actualización en Silver" }
   ],
 

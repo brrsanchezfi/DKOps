@@ -35,7 +35,8 @@ class BasePromotionStrategy(ABC, LoggableMixin):
         self._contract     = contract
         self._src_contract = src_contract
         self._dst_contract = dst_contract
-        self._reader       = TableReader(src_contract)
+        self._reader       = TableReader(src_contract)   # lector de Bronze (fuente)
+        self._dst_reader   = TableReader(dst_contract)   # lector de Silver (destino)
         self._writer       = TableWriter(dst_contract)
 
     @abstractmethod
@@ -50,6 +51,20 @@ class BasePromotionStrategy(ABC, LoggableMixin):
         """Lee Bronze aplicando el filtro del contrato si existe."""
         f = filter_expr or self._contract.data_filter
         return self._reader.read(filter=f) if f else self._reader.read()
+
+    def _select_for_silver(self, df: DataFrame) -> DataFrame:
+        """
+        Selecciona únicamente las columnas declaradas en el contrato Silver.
+
+        Evita que columnas de metadatos de Bronze (_ingested_at, _ingested_date,
+        _source_file) se propaguen a Silver, donde no están declaradas.
+        Las columnas del contrato Silver que no estén en el DF se omiten
+        silenciosamente (pueden ser añadidas por _apply_defaults en el writer).
+        """
+        silver_cols = self._dst_contract.column_names
+        df_cols     = set(df.columns)
+        cols        = [c for c in silver_cols if c in df_cols]
+        return df.select(*cols)
 
     @property
     def strategy_name(self) -> str:

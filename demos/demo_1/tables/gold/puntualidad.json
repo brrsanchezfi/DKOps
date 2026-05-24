@@ -1,0 +1,27 @@
+{
+  "_doc": "Gold — KPI puntualidad por aerolinea",
+  "catalog":  "{catalog.gold}",
+  "schema":   "aeronautica_kpi",
+  "name":     "puntualidad",
+  "type":     "MANAGED",
+  "format":   "DELTA",
+  "comment":  "Metricas de puntualidad agregadas por aerolinea",
+  "owner":    "data-engineering",
+
+  "columns": [
+    { "name": "iata_aerolinea",      "type": "STRING",    "nullable": false, "comment": "Codigo IATA aerolinea" },
+    { "name": "total_vuelos",        "type": "INTEGER",   "nullable": false, "comment": "Total de vuelos" },
+    { "name": "vuelos_a_tiempo",     "type": "INTEGER",   "nullable": false, "comment": "Vuelos ON_TIME" },
+    { "name": "vuelos_demorados",    "type": "INTEGER",   "nullable": false, "comment": "Vuelos DELAYED" },
+    { "name": "vuelos_cancelados",   "type": "INTEGER",   "nullable": false, "comment": "Vuelos CANCELLED" },
+    { "name": "pct_a_tiempo",        "type": "DOUBLE",    "nullable": true,  "comment": "Porcentaje vuelos a tiempo" },
+    { "name": "retraso_prom_min",    "type": "DOUBLE",    "nullable": true,  "comment": "Retraso promedio en minutos" },
+    { "name": "ocupacion_prom_pct",  "type": "DOUBLE",    "nullable": true,  "comment": "Ocupacion promedio porcentual" },
+    { "name": "fecha_proceso",       "type": "TIMESTAMP", "nullable": true,  "default": "current_timestamp()" }
+  ],
+
+  "properties": {
+    "quality": "gold",
+    "layer":   "gold"
+  }
+}

@@ -39,8 +39,15 @@ class IncrementalReplaceStrategy(BasePromotionStrategy):
             self.log.warning(f"[{self._contract.name}] Bronze vacío, nada que procesar")
             return 0
 
-        max_val    = max_val_row[0]["max_val"]
-        latest_df  = bronze_df.filter(F.col(partition_col) == max_val)
+        max_val   = max_val_row[0]["max_val"]
+        latest_df = bronze_df.filter(F.col(partition_col) == max_val)
+
+        # Añadir timestamps Silver antes de filtrar columnas
+        if self._contract.metadata.add_silver_timestamps:
+            latest_df = latest_df.withColumn("_silver_modified_at", F.current_timestamp())
+
+        # Seleccionar solo columnas Silver (excluir metadata Bronze)
+        latest_df = self._select_for_silver(latest_df)
 
         self._writer.overwrite_partition(
             latest_df,

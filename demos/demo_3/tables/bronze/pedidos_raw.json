@@ -1,0 +1,34 @@
+{
+  "_doc": "Bronze — pedidos CDC con merge_schema habilitado para schema evolution",
+  "catalog":  "{catalog.bronze}",
+  "schema":   "ecommerce",
+  "name":     "pedidos_raw",
+  "type":     "MANAGED",
+  "format":   "DELTA",
+  "comment":  "Eventos CDC de pedidos — merge_schema permite agregar columnas nuevas (v2)",
+  "owner":    "data-engineering",
+
+  "columns": [
+    { "name": "pedido_id",      "type": "STRING",    "nullable": false },
+    { "name": "cliente_id",     "type": "STRING",    "nullable": true  },
+    { "name": "email_cliente",  "type": "STRING",    "nullable": true,  "mask": "security.mask_email" },
+    { "name": "fecha_pedido",   "type": "STRING",    "nullable": true  },
+    { "name": "total_usd",      "type": "DOUBLE",    "nullable": true  },
+    { "name": "estado",         "type": "STRING",    "nullable": true  },
+    { "name": "canal",          "type": "STRING",    "nullable": true  },
+    { "name": "op_type",        "type": "STRING",    "nullable": true, "comment": "CDC: I/U/D" },
+    { "name": "updated_at",     "type": "STRING",    "nullable": true  },
+    { "name": "_ingested_at",   "type": "TIMESTAMP", "nullable": true, "comment": "Timestamp de ingesta" },
+    { "name": "_ingested_date", "type": "DATE",      "nullable": true, "comment": "Fecha de ingesta (particion)" },
+    { "name": "_source_file",   "type": "STRING",    "nullable": true, "comment": "Archivo fuente" }
+  ],
+
+  "partitions": ["_ingested_date"],
+
+  "properties": {
+    "merge_schema":     true,
+    "change_data_feed": true,
+    "quality":          "raw",
+    "layer":            "bronze"
+  }
+}

@@ -16,7 +16,7 @@
     { "name": "pais",                 "type": "STRING",    "nullable": true  },
     { "name": "segmento",             "type": "STRING",    "nullable": true  },
     { "name": "activo",               "type": "BOOLEAN",   "nullable": true  },
-    { "name": "fecha_registro",       "type": "TIMESTAMP", "nullable": true  },
+    { "name": "fecha_registro",       "type": "STRING",    "nullable": true  },
     { "name": "_silver_modified_at",  "type": "TIMESTAMP", "nullable": true,  "comment": "Última actualización en Silver" }
   ],
 

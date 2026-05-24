@@ -1,0 +1,33 @@
+{
+  "_doc": "Bronze — snapshot del catalogo de aeropuertos (FULL load, CSV)",
+  "catalog":  "{catalog.bronze}",
+  "schema":   "aeronautica",
+  "name":     "aeropuertos_raw",
+  "type":     "MANAGED",
+  "format":   "DELTA",
+  "comment":  "Catalogo de aeropuertos — carga full diaria desde sistema MRO",
+  "owner":    "data-engineering",
+
+  "columns": [
+    { "name": "aeropuerto_id",              "type": "STRING",  "nullable": false, "comment": "Codigo IATA" },
+    { "name": "nombre",                     "type": "STRING",  "nullable": true,  "comment": "Nombre oficial" },
+    { "name": "ciudad",                     "type": "STRING",  "nullable": true,  "comment": "Ciudad" },
+    { "name": "pais",                       "type": "STRING",  "nullable": true,  "comment": "Pais" },
+    { "name": "latitud",                    "type": "DOUBLE",  "nullable": true,  "comment": "Latitud geografica" },
+    { "name": "longitud",                   "type": "DOUBLE",  "nullable": true,  "comment": "Longitud geografica" },
+    { "name": "tipo",                       "type": "STRING",  "nullable": true,  "comment": "Internacional | Domestico" },
+    { "name": "capacidad_anual_pasajeros",  "type": "INTEGER", "nullable": true,  "comment": "Capacidad anual estimada" },
+    { "name": "activo",                     "type": "BOOLEAN", "nullable": true,  "comment": "Indicador de vigencia del aeropuerto" },
+    { "name": "_ingested_at",               "type": "TIMESTAMP","nullable": true, "comment": "Timestamp de ingesta" },
+    { "name": "_ingested_date",             "type": "DATE",    "nullable": true,  "comment": "Fecha de ingesta (particion)" },
+    { "name": "_source_file",               "type": "STRING",  "nullable": true,  "comment": "Archivo fuente" }
+  ],
+
+  "partitions": ["_ingested_date"],
+
+  "properties": {
+    "merge_schema": true,
+    "quality":      "raw",
+    "layer":        "bronze"
+  }
+}

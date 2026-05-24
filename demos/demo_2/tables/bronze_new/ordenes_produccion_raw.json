@@ -1,0 +1,35 @@
+{
+  "_doc": "Bronze — ordenes de produccion CDC (particionado por _ingested_date)",
+  "catalog":  "{catalog.bronze}",
+  "schema":   "manufactura",
+  "name":     "ordenes_produccion_raw",
+  "type":     "MANAGED",
+  "format":   "DELTA",
+  "comment":  "Ordenes de produccion con CDC desde Landing — carga incremental",
+  "owner":    "data-engineering",
+
+  "columns": [
+    { "name": "orden_id",           "type": "STRING",    "nullable": false },
+    { "name": "linea_id",           "type": "STRING",    "nullable": true  },
+    { "name": "producto_id",        "type": "STRING",    "nullable": true  },
+    { "name": "fecha_inicio",       "type": "STRING",    "nullable": true  },
+    { "name": "fecha_fin",          "type": "STRING",    "nullable": true  },
+    { "name": "cantidad_planeada",  "type": "INTEGER",   "nullable": true  },
+    { "name": "cantidad_real",      "type": "INTEGER",   "nullable": true  },
+    { "name": "estado",             "type": "STRING",    "nullable": true  },
+    { "name": "operador",           "type": "STRING",    "nullable": true  },
+    { "name": "op_type",            "type": "STRING",    "nullable": true, "comment": "CDC: I/U/D" },
+    { "name": "updated_at",         "type": "STRING",    "nullable": true  },
+    { "name": "_ingested_at",       "type": "TIMESTAMP", "nullable": true, "comment": "Timestamp de ingesta" },
+    { "name": "_ingested_date",     "type": "DATE",      "nullable": true, "comment": "Fecha de ingesta (particion)" },
+    { "name": "_source_file",       "type": "STRING",    "nullable": true, "comment": "Archivo fuente" }
+  ],
+
+  "partitions": ["_ingested_date"],
+
+  "properties": {
+    "merge_schema": true,
+    "quality":      "raw",
+    "layer":        "bronze"
+  }
+}

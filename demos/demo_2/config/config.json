@@ -1,48 +1,44 @@
 {
+  "_doc": "Demo 2 — Manufactura: Landing -> Bronze -> Silver -> Gold",
+
   "EXECUTION_ENVIRONMENT": "local",
+  "DATABRICKS_TARGET": "local",
 
-  "SPARK_APP_NAME":      "manufacturaAseo",
-  "SPARK_WAREHOUSE_DIR": "/tmp/spark-warehouse",
-
-  "CLUSTER_ID": "0405-181044-j4dmpswy",
-
-  "DELTA_VERSION": "3.2.0",
-
-  "DATABRICKS_HOST": "",
-  "DATABRICKS_TOKEN": "",
-  "DATABRICKS_PROFILE": "DEFAULT",
-  "DATABRICKS_TARGET": "dev",
+  "SPARK_APP_NAME":      "DKOps-Demo2-Manufactura",
+  "SPARK_WAREHOUSE_DIR": "/tmp/dkops_demo2/warehouse",
+  "DELTA_VERSION":       "3.2.0",
 
   "LOG_LEVEL":     "INFO",
-  "LOG_DIR":       "/tmp/logs",
+  "LOG_DIR":       "/tmp/dkops_demo2/logs",
+  "LOG_FILENAME":  "demo2.log",
   "LOG_ROTATION":  "10 MB",
   "LOG_RETENTION": "7 days",
   "LOG_SERIALIZE": false,
 
   "environments": {
-    "2370424844216896": {
-      "env":            "dev",
-      "env_short":      "d",
-      "workspace_host": "https://adb-7405608374292777.17.azuredatabricks.net",
+    "local": {
+      "env":       "local",
+      "env_short": "l",
+
       "catalogs": {
         "bronze": "bronze",
         "silver": "silver",
         "gold":   "gold"
       },
-      "storage_accounts": {
-        "default": "umcmasterbrsspark001",
-        "raw":     "umcmasterbrsspark001"
-      },
+
       "paths": {
-        "bronze": "abfss://bronze@umcmasterbrsspark001.dfs.core.windows.net",
-        "silver": "abfss://silver@umcmasterbrsspark001.dfs.core.windows.net",
-        "gold":   "abfss://gold@umcmasterbrsspark001.dfs.core.windows.net"
+        "landing":    "/tmp/dkops_demo2/landing",
+        "bronze":     "/tmp/dkops_demo2/bronze",
+        "silver":     "/tmp/dkops_demo2/silver",
+        "gold":       "/tmp/dkops_demo2/gold",
+        "checkpoint": "/tmp/dkops_demo2/checkpoints",
+        "ops":        "/tmp/dkops_demo2/ops"
       },
-      "secrets": { "scope": "kv-dev" },
+
       "tags": {
-        "environment": "dev",
-        "cost_center": "CC-1001",
-        "team":        "data-engineering"
+        "environment": "local",
+        "team":        "data-engineering",
+        "demo":        "2"
       }
     }
   }

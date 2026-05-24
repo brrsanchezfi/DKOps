@@ -1,0 +1,32 @@
+{
+  "_doc": "Bronze — catalogo de clientes (FULL load, particionado por _ingested_date)",
+  "catalog":  "{catalog.bronze}",
+  "schema":   "ecommerce",
+  "name":     "clientes_raw",
+  "type":     "MANAGED",
+  "format":   "DELTA",
+  "comment":  "Snapshot diario de clientes desde Landing",
+  "owner":    "data-engineering",
+
+  "columns": [
+    { "name": "cliente_id",       "type": "STRING",    "nullable": false },
+    { "name": "nombre",           "type": "STRING",    "nullable": true  },
+    { "name": "email",            "type": "STRING",    "nullable": true  },
+    { "name": "telefono",         "type": "STRING",    "nullable": true  },
+    { "name": "pais",             "type": "STRING",    "nullable": true  },
+    { "name": "segmento",         "type": "STRING",    "nullable": true  },
+    { "name": "fecha_registro",   "type": "STRING",    "nullable": true  },
+    { "name": "activo",           "type": "BOOLEAN",   "nullable": true  },
+    { "name": "_ingested_at",     "type": "TIMESTAMP", "nullable": true, "comment": "Timestamp de ingesta" },
+    { "name": "_ingested_date",   "type": "DATE",      "nullable": true, "comment": "Fecha de ingesta (particion)" },
+    { "name": "_source_file",     "type": "STRING",    "nullable": true, "comment": "Archivo fuente" }
+  ],
+
+  "partitions": ["_ingested_date"],
+
+  "properties": {
+    "merge_schema": true,
+    "quality":      "raw",
+    "layer":        "bronze"
+  }
+}

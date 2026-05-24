@@ -1,0 +1,26 @@
+{
+  "_doc": "Gold — metricas de revenue diario desde Silver ventas_current",
+  "catalog":  "{catalog.gold}",
+  "schema":   "ecommerce",
+  "name":     "revenue_diario",
+  "type":     "MANAGED",
+  "format":   "DELTA",
+  "comment":  "Revenue diario agregado por canal — calculado desde Silver ventas_current",
+  "owner":    "data-engineering",
+
+  "columns": [
+    { "name": "canal",              "type": "STRING",    "nullable": false },
+    { "name": "total_ventas",       "type": "INTEGER",   "nullable": false },
+    { "name": "ventas_activas",     "type": "INTEGER",   "nullable": false, "comment": "Sin deletes" },
+    { "name": "revenue_total",      "type": "DOUBLE",    "nullable": true,  "comment": "Suma precio_total" },
+    { "name": "revenue_promedio",   "type": "DOUBLE",    "nullable": true,  "comment": "Ticket promedio" },
+    { "name": "ventas_canceladas",  "type": "INTEGER",   "nullable": true  },
+    { "name": "pct_canceladas",     "type": "DOUBLE",    "nullable": true  },
+    { "name": "fecha_proceso",      "type": "TIMESTAMP", "nullable": true, "default": "current_timestamp()" }
+  ],
+
+  "properties": {
+    "quality": "gold",
+    "layer":   "gold"
+  }
+}

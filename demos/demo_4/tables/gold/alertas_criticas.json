@@ -1,0 +1,26 @@
+{
+  "_doc": "Gold — dashboard de alertas criticas de stock",
+  "catalog":  "{catalog.gold}",
+  "schema":   "inventario_kpi",
+  "name":     "alertas_criticas",
+  "type":     "MANAGED",
+  "format":   "DELTA",
+  "comment":  "Resumen de alertas criticas de stock por producto y almacen",
+  "owner":    "data-engineering",
+
+  "columns": [
+    { "name": "producto_id",       "type": "STRING",    "nullable": false },
+    { "name": "almacen_id",        "type": "STRING",    "nullable": false },
+    { "name": "total_alertas",     "type": "INTEGER",   "nullable": false },
+    { "name": "alertas_criticas",  "type": "INTEGER",   "nullable": false },
+    { "name": "alertas_alta",      "type": "INTEGER",   "nullable": false },
+    { "name": "deficit_max",       "type": "INTEGER",   "nullable": true  },
+    { "name": "stock_min_obs",     "type": "INTEGER",   "nullable": true, "comment": "Stock mas bajo observado" },
+    { "name": "fecha_proceso",     "type": "TIMESTAMP", "nullable": true, "default": "current_timestamp()" }
+  ],
+
+  "properties": {
+    "quality": "gold",
+    "layer":   "gold"
+  }
+}

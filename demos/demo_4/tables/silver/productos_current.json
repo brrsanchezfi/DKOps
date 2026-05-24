@@ -1,0 +1,29 @@
+{
+  "_doc": "Silver — catalogo de productos curado (full_merge, CDF habilitado)",
+  "catalog":  "{catalog.silver}",
+  "schema":   "inventario",
+  "name":     "productos_current",
+  "type":     "MANAGED",
+  "format":   "DELTA",
+  "comment":  "Catalogo de productos curado — full_merge desde Bronze, CDF para detectar cambios",
+  "owner":    "data-engineering",
+
+  "columns": [
+    { "name": "producto_id",   "type": "STRING",    "nullable": false },
+    { "name": "nombre",        "type": "STRING",    "nullable": true  },
+    { "name": "categoria",     "type": "STRING",    "nullable": true  },
+    { "name": "precio_usd",    "type": "DOUBLE",    "nullable": true  },
+    { "name": "stock_inicial", "type": "INTEGER",   "nullable": true  },
+    { "name": "activo",        "type": "BOOLEAN",   "nullable": true  },
+    { "name": "proveedor_id",  "type": "STRING",    "nullable": true  },
+    { "name": "_silver_modified_at", "type": "TIMESTAMP", "nullable": true }
+  ],
+
+  "partitions": ["categoria"],
+
+  "properties": {
+    "change_data_feed": true,
+    "quality":          "curated",
+    "layer":            "silver"
+  }
+}

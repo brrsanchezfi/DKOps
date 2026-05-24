@@ -1,0 +1,25 @@
+{
+  "_doc": "Gold — ventas por canal de venta",
+  "catalog":  "{catalog.gold}",
+  "schema":   "ecommerce_kpi",
+  "name":     "ventas_canal",
+  "type":     "MANAGED",
+  "format":   "DELTA",
+  "comment":  "Metricas de ventas agregadas por canal",
+  "owner":    "data-engineering",
+
+  "columns": [
+    { "name": "canal",           "type": "STRING",    "nullable": false },
+    { "name": "total_pedidos",   "type": "INTEGER",   "nullable": false },
+    { "name": "pedidos_activos", "type": "INTEGER",   "nullable": false },
+    { "name": "monto_total_usd", "type": "DOUBLE",    "nullable": true  },
+    { "name": "ticket_prom_usd", "type": "DOUBLE",    "nullable": true  },
+    { "name": "pct_cancelados",  "type": "DOUBLE",    "nullable": true  },
+    { "name": "fecha_proceso",   "type": "TIMESTAMP", "nullable": true, "default": "current_timestamp()" }
+  ],
+
+  "properties": {
+    "quality": "gold",
+    "layer":   "gold"
+  }
+}

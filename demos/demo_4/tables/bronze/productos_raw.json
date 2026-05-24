@@ -1,0 +1,31 @@
+{
+  "_doc": "Bronze — catalogo de productos retail (CSV, FULL load)",
+  "catalog":  "{catalog.bronze}",
+  "schema":   "inventario",
+  "name":     "productos_raw",
+  "type":     "MANAGED",
+  "format":   "DELTA",
+  "comment":  "Catalogo de productos retail desde Landing — full load CSV",
+  "owner":    "data-engineering",
+
+  "columns": [
+    { "name": "producto_id",    "type": "STRING",    "nullable": false },
+    { "name": "nombre",         "type": "STRING",    "nullable": true  },
+    { "name": "categoria",      "type": "STRING",    "nullable": true  },
+    { "name": "precio_usd",     "type": "DOUBLE",    "nullable": true  },
+    { "name": "stock_inicial",  "type": "INTEGER",   "nullable": true  },
+    { "name": "activo",         "type": "BOOLEAN",   "nullable": true  },
+    { "name": "proveedor_id",   "type": "STRING",    "nullable": true  },
+    { "name": "_ingested_at",   "type": "TIMESTAMP", "nullable": true, "comment": "Timestamp de ingesta" },
+    { "name": "_ingested_date", "type": "DATE",      "nullable": true, "comment": "Fecha de ingesta (particion)" },
+    { "name": "_source_file",   "type": "STRING",    "nullable": true, "comment": "Archivo fuente" }
+  ],
+
+  "partitions": ["_ingested_date"],
+
+  "properties": {
+    "merge_schema": true,
+    "quality":      "raw",
+    "layer":        "bronze"
+  }
+}

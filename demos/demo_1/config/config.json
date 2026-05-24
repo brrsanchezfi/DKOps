@@ -1,80 +1,44 @@
 {
+  "_doc": "Demo 1 — Aeronautica: Landing → Bronze → Silver → Gold",
 
   "EXECUTION_ENVIRONMENT": "local",
+  "DATABRICKS_TARGET": "local",
 
-  "SPARK_APP_NAME":      "vuelosDiarios",
-  "SPARK_WAREHOUSE_DIR": "/tmp/spark-warehouse",
-
-  "CLUSTER_ID": "0405-181044-j4dmpswy",
-
-  "DELTA_VERSION": "3.2.0",
-
-  "DATABRICKS_HOST": "",
-  "DATABRICKS_TOKEN": "",
-
-  "DATABRICKS_PROFILE": "DEFAULT",
-
-  "DATABRICKS_TARGET": "dev",
+  "SPARK_APP_NAME":      "DKOps-Demo1-Aeronautica",
+  "SPARK_WAREHOUSE_DIR": "/tmp/dkops_demo1/warehouse",
+  "DELTA_VERSION":       "3.2.0",
 
   "LOG_LEVEL":     "INFO",
-  "LOG_DIR":       "/tmp/logs",
+  "LOG_DIR":       "/tmp/dkops_demo1/logs",
+  "LOG_FILENAME":  "demo1.log",
   "LOG_ROTATION":  "10 MB",
   "LOG_RETENTION": "7 days",
   "LOG_SERIALIZE": false,
 
   "environments": {
+    "local": {
+      "env":       "local",
+      "env_short": "l",
 
-
-    "2370424844216896": {
-      "env":            "dev",
-      "env_short":      "d",
-      "workspace_host": "https://adb-7405608374292777.17.azuredatabricks.net",
       "catalogs": {
         "bronze": "bronze",
         "silver": "silver",
         "gold":   "gold"
       },
-      "storage_accounts": {
-        "default": "umcmasterbrsspark001",
-        "raw":     "umcmasterbrsspark001"
-      },
-      "paths": {
-        "bronze":   "abfss://bronze@umcmasterbrsspark001.dfs.core.windows.net",
-        "silver":   "abfss://silver@umcmasterbrsspark001.dfs.core.windows.net",
-        "gold":     "abfss://gold@umcmasterbrsspark001.dfs.core.windows.net"
-      },
-      "secrets": { "scope": "kv-dev" },
-      "tags": {
-        "environment": "dev",
-        "cost_center": "CC-1001",
-        "team":        "data-engineering"
-      }
-    },
 
-
-    "7042033821150253": {
-      "env":            "prod",
-      "env_short":      "p",
-      "workspace_host": "https://adb-xxxxxxxxxxxxxx.xx.azuredatabricks.net",
-      "catalogs": {
-        "bronze": "ct_bronze_dlsuraanaliticaprod",
-        "silver": "ct_silver_dlsuraanaliticaprod",
-        "gold":   "ct_gold_dlsuraanaliticaprod"
-      },
-      "storage_accounts": {
-        "default": "dlsuraanaliticaprod",
-        "raw":     "dlsuraanaliticaprodraw"
-      },
       "paths": {
-        "raw":     "abfss://raw@dlsuraanaliticaprod.dfs.core.windows.net",
-        "curated": "abfss://curated@dlsuraanaliticaprod.dfs.core.windows.net",
-        "archive": "abfss://archive@dlsuraanaliticaprod.dfs.core.windows.net"
+        "landing":    "/tmp/dkops_demo1/landing",
+        "bronze":     "/tmp/dkops_demo1/bronze",
+        "silver":     "/tmp/dkops_demo1/silver",
+        "gold":       "/tmp/dkops_demo1/gold",
+        "checkpoint": "/tmp/dkops_demo1/checkpoints",
+        "ops":        "/tmp/dkops_demo1/ops"
       },
-      "secrets": { "scope": "kv-prod" },
+
       "tags": {
-        "environment": "prod",
-        "cost_center": "CC-2001",
-        "team":        "data-engineering"
+        "environment": "local",
+        "team":        "data-engineering",
+        "demo":        "1"
       }
     }
   }

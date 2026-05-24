@@ -1,0 +1,19 @@
+{
+  "_doc": "Promocion Silver — movimientos_current: append_dedup desde Bronze",
+  "name":        "movimientos_current",
+  "description": "Append Dedup de movimientos_raw hacia movimientos_current",
+  "ingest_type": "batch",
+  "strategy":    "append_dedup",
+  "enabled":     true,
+
+  "source": { "format": "delta" },
+
+  "source_contract":      "../../tables/bronze/movimientos_raw.json",
+  "destination_contract": "../../tables/silver/movimientos_current.json",
+
+  "merge_keys":    ["movimiento_id"],
+
+  "metadata": {
+    "add_silver_timestamps": true
+  }
+}

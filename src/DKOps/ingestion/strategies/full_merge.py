@@ -43,13 +43,16 @@ class FullMergeStrategy(BasePromotionStrategy):
                 .withColumn("_silver_modified_at", F.current_timestamp())
             )
 
+        # Seleccionar solo columnas Silver (excluir metadata Bronze)
+        deduped = self._select_for_silver(deduped)
+
         # MERGE INTO Silver
         self._writer.upsert(
             deduped,
             keys           = list(self._contract.merge_keys),
         )
 
-        count = self._reader.read().count()
+        count = self._dst_reader.read().count()
         self.log.info(f"[{self._contract.name}] FullMerge completado | silver_rows={count:,}")
         return count
 

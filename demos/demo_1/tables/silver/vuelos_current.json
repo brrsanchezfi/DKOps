@@ -1,0 +1,37 @@
+{
+  "_doc": "Silver — vuelos actualizados (full_merge desde Bronze)",
+  "catalog":  "{catalog.silver}",
+  "schema":   "aeronautica",
+  "name":     "vuelos_current",
+  "type":     "MANAGED",
+  "format":   "DELTA",
+  "comment":  "Vuelos activos — resultado de full_merge desde Bronze",
+  "owner":    "data-engineering",
+
+  "columns": [
+    { "name": "vuelo_id",            "type": "STRING",    "nullable": false, "comment": "ID unico de vuelo" },
+    { "name": "iata_aerolinea",      "type": "STRING",    "nullable": true  },
+    { "name": "iata_origen",         "type": "STRING",    "nullable": true  },
+    { "name": "iata_destino",        "type": "STRING",    "nullable": true  },
+    { "name": "fecha",               "type": "STRING",    "nullable": true  },
+    { "name": "hora_salida_prog",    "type": "STRING",    "nullable": true  },
+    { "name": "retraso_salida_min",  "type": "INTEGER",   "nullable": true  },
+    { "name": "retraso_llegada_min", "type": "INTEGER",   "nullable": true  },
+    { "name": "estado",              "type": "STRING",    "nullable": true  },
+    { "name": "causa_retraso",       "type": "STRING",    "nullable": true  },
+    { "name": "pasajeros",           "type": "INTEGER",   "nullable": true  },
+    { "name": "capacidad",           "type": "INTEGER",   "nullable": true  },
+    { "name": "distancia_km",        "type": "INTEGER",   "nullable": true  },
+    { "name": "updated_at",          "type": "STRING",    "nullable": true  },
+    { "name": "_silver_modified_at", "type": "TIMESTAMP", "nullable": true, "comment": "Ultima actualizacion en Silver" }
+  ],
+
+  "partitions": ["iata_aerolinea"],
+
+  "properties": {
+    "quality": "curated",
+    "layer":   "silver",
+    "delta.autoOptimize.optimizeWrite": "true",
+    "delta.autoOptimize.autoCompact":   "true"
+  }
+}

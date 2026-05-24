@@ -1,0 +1,39 @@
+{
+  "_doc": "Bronze — vuelos diarios crudos (INCREMENTAL, particionado por _ingested_date)",
+  "catalog":  "{catalog.bronze}",
+  "schema":   "aeronautica",
+  "name":     "vuelos_raw",
+  "type":     "MANAGED",
+  "format":   "DELTA",
+  "comment":  "Eventos de vuelos crudos desde Landing — carga incremental diaria",
+  "owner":    "data-engineering",
+
+  "columns": [
+    { "name": "vuelo_id",            "type": "STRING",    "nullable": false, "comment": "ID unico de vuelo" },
+    { "name": "iata_aerolinea",      "type": "STRING",    "nullable": true,  "comment": "Codigo IATA de la aerolinea" },
+    { "name": "iata_origen",         "type": "STRING",    "nullable": true,  "comment": "Codigo IATA aeropuerto origen" },
+    { "name": "iata_destino",        "type": "STRING",    "nullable": true,  "comment": "Codigo IATA aeropuerto destino" },
+    { "name": "fecha",               "type": "STRING",    "nullable": true,  "comment": "Fecha del vuelo (string crudo)" },
+    { "name": "hora_salida_prog",    "type": "STRING",    "nullable": true,  "comment": "Hora programada de salida" },
+    { "name": "retraso_salida_min",  "type": "INTEGER",   "nullable": true,  "comment": "Minutos de retraso en salida" },
+    { "name": "retraso_llegada_min", "type": "INTEGER",   "nullable": true,  "comment": "Minutos de retraso en llegada" },
+    { "name": "estado",              "type": "STRING",    "nullable": true,  "comment": "ON_TIME | DELAYED | CANCELLED | DIVERTED" },
+    { "name": "causa_retraso",       "type": "STRING",    "nullable": true,  "comment": "WEATHER | AIRLINE | AIRPORT | SECURITY" },
+    { "name": "pasajeros",           "type": "INTEGER",   "nullable": true,  "comment": "Pasajeros a bordo" },
+    { "name": "capacidad",           "type": "INTEGER",   "nullable": true,  "comment": "Capacidad del avion" },
+    { "name": "distancia_km",        "type": "INTEGER",   "nullable": true,  "comment": "Distancia de la ruta en km" },
+    { "name": "updated_at",          "type": "STRING",    "nullable": true,  "comment": "Timestamp fuente" },
+    { "name": "_ingested_at",        "type": "TIMESTAMP", "nullable": true,  "comment": "Timestamp de ingesta" },
+    { "name": "_ingested_date",      "type": "DATE",      "nullable": true,  "comment": "Fecha de ingesta (particion)" },
+    { "name": "_source_file",        "type": "STRING",    "nullable": true,  "comment": "Archivo fuente" }
+  ],
+
+  "partitions": ["_ingested_date"],
+
+  "properties": {
+    "merge_schema": true,
+    "quality":      "raw",
+    "layer":        "bronze",
+    "delta.autoOptimize.optimizeWrite": "true"
+  }
+}

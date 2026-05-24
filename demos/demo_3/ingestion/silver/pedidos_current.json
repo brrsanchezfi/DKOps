@@ -1,0 +1,20 @@
+{
+  "_doc": "Promocion Silver — pedidos_current: cdc_merge desde Bronze",
+  "name":        "pedidos_current",
+  "description": "CDC Merge de pedidos_raw hacia pedidos_current",
+  "ingest_type": "batch",
+  "strategy":    "cdc_merge",
+  "enabled":     true,
+
+  "source": { "format": "delta" },
+
+  "source_contract":      "../../tables/bronze/pedidos_raw.json",
+  "destination_contract": "../../tables/silver/pedidos_current.json",
+
+  "merge_keys":    ["pedido_id"],
+  "watermark_col": "updated_at",
+
+  "metadata": {
+    "add_silver_timestamps": true
+  }
+}

@@ -1,6 +1,6 @@
 site_name: DKOps
-site_description: Lakehouse automation framework for DataOps on Databricks
-site_author: Roberto
+site_description: Framework de gobierno Delta y orquestación de pipelines Spark — local y Databricks
+site_author: Roberto Sánchez
 repo_url: https://github.com/brrsanchezfi/DKOps
 repo_name: brrsanchezfi/DKOps
 
@@ -27,6 +27,7 @@ theme:
     - navigation.top
     - search.highlight
     - content.code.copy
+    - content.tabs.link
 
 plugins:
   - search:
@@ -34,7 +35,7 @@ plugins:
   - mkdocstrings:
       handlers:
         python:
-          paths: [src]                    # ← donde vive DKOps
+          paths: [src]
           options:
             docstring_style: google
             show_source: true
@@ -42,32 +43,52 @@ plugins:
             show_category_heading: true
             members_order: source
             heading_level: 2
-            show_if_no_docstring: true    # ← muestra aunque no tenga docstring
+            show_if_no_docstring: true
 
 markdown_extensions:
   - admonition
+  - pymdownx.details
   - pymdownx.highlight:
       anchor_linenums: true
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.tabbed:
       alternate_style: true
   - tables
   - toc:
       permalink: true
 
+extra_javascript:
+  - https://unpkg.com/mermaid@10/dist/mermaid.min.js
+
 nav:
   - Inicio: index.md
   - Guía de uso:
     - Quickstart: guide/quickstart.md
+    - Ingesta (Landing → Silver): guide/ingestion.md
     - Contratos de tabla: guide/contracts.md
     - Writers: guide/writers.md
     - Migraciones: guide/migrations.md
     - Arquitectura: guide/architecture.md
+  - Demos:
+    - Demo 1 — Aeronáutica: demos/demo_1.md
+    - Demo 2 — Manufactura: demos/demo_2.md
+    - Demo 3 — E-commerce: demos/demo_3.md
+    - Demo 4 — Retail / Inventario: demos/demo_4.md
+    - Demo 5 — Marketplace: demos/demo_5.md
   - API Reference:
     - Core:
       - Launcher: api/launcher.md
       - EnvironmentConfig: api/environment_config.md
       - LoggerConfig: api/logger_config.md
+    - Ingestion:
+      - IngestionEngine: api/ingestion/engine.md
+      - BronzeIngestor: api/ingestion/bronze_ingestor.md
+      - SilverPromoter: api/ingestion/silver_promoter.md
+      - Estrategias: api/ingestion/strategies.md
     - Contracts:
       - loader: api/contracts/loader.md
       - validator: api/contracts/validator.md

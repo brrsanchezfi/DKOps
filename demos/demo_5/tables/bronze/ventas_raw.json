@@ -17,7 +17,7 @@
     { "name": "canal",          "type": "STRING",    "nullable": true,  "comment": "web | app | tienda" },
     { "name": "estado",         "type": "STRING",    "nullable": true,  "comment": "pendiente | pagado | cancelado" },
     { "name": "op_type",        "type": "STRING",    "nullable": true,  "comment": "CDC: I=Insert, U=Update, D=Delete" },
-    { "name": "fecha_venta",    "type": "TIMESTAMP", "nullable": true,  "comment": "Timestamp del evento" },
+    { "name": "fecha_venta",    "type": "STRING",    "nullable": true,  "comment": "Timestamp del evento (ISO string)" },
     { "name": "_ingested_at",   "type": "TIMESTAMP", "nullable": true,  "comment": "Timestamp de ingesta" },
     { "name": "_ingested_date", "type": "DATE",      "nullable": true,  "comment": "Fecha de ingesta (partición)" },
     { "name": "_source_file",   "type": "STRING",    "nullable": true,  "comment": "Archivo fuente" }

@@ -1,0 +1,32 @@
+{
+  "_doc": "Bronze — alertas de stock bajo (streaming, particionado por _ingested_date)",
+  "catalog":  "{catalog.bronze}",
+  "schema":   "inventario",
+  "name":     "alertas_raw",
+  "type":     "MANAGED",
+  "format":   "DELTA",
+  "comment":  "Alertas de stock bajo desde streaming — append_dedup en Silver",
+  "owner":    "data-engineering",
+
+  "columns": [
+    { "name": "alerta_id",      "type": "STRING",    "nullable": false },
+    { "name": "producto_id",    "type": "STRING",    "nullable": true  },
+    { "name": "almacen_id",     "type": "STRING",    "nullable": true  },
+    { "name": "stock_actual",   "type": "INTEGER",   "nullable": true  },
+    { "name": "stock_minimo",   "type": "INTEGER",   "nullable": true  },
+    { "name": "deficit",        "type": "INTEGER",   "nullable": true  },
+    { "name": "severidad",      "type": "STRING",    "nullable": true  },
+    { "name": "timestamp",      "type": "STRING",    "nullable": true  },
+    { "name": "_ingested_at",   "type": "TIMESTAMP", "nullable": true, "comment": "Timestamp de ingesta" },
+    { "name": "_ingested_date", "type": "DATE",      "nullable": true, "comment": "Fecha de ingesta (particion)" },
+    { "name": "_source_file",   "type": "STRING",    "nullable": true, "comment": "Archivo fuente" }
+  ],
+
+  "partitions": ["_ingested_date"],
+
+  "properties": {
+    "merge_schema": true,
+    "quality":      "raw",
+    "layer":        "bronze"
+  }
+}

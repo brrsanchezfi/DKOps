@@ -1,0 +1,28 @@
+{
+  "_doc": "Silver — ventas de manufactura curadas (full_merge)",
+  "catalog":  "{catalog.silver}",
+  "schema":   "manufactura",
+  "name":     "ventas_current",
+  "type":     "MANAGED",
+  "format":   "DELTA",
+  "comment":  "Ventas activas curadas — resultado de full_merge desde Bronze",
+  "owner":    "data-engineering",
+
+  "columns": [
+    { "name": "venta_id",           "type": "STRING",    "nullable": false },
+    { "name": "fecha",              "type": "DATE",      "nullable": true  },
+    { "name": "distribuidor_id",    "type": "STRING",    "nullable": true  },
+    { "name": "producto_id",        "type": "STRING",    "nullable": true  },
+    { "name": "cantidad",           "type": "INTEGER",   "nullable": true  },
+    { "name": "precio_unitario",    "type": "DOUBLE",    "nullable": true  },
+    { "name": "estado_venta",       "type": "STRING",    "nullable": true  },
+    { "name": "_silver_modified_at","type": "TIMESTAMP", "nullable": true, "comment": "Ultima actualizacion en Silver" }
+  ],
+
+  "partitions": ["distribuidor_id"],
+
+  "properties": {
+    "quality": "curated",
+    "layer":   "silver"
+  }
+}

@@ -1,95 +1,123 @@
-# Demo 3 — Schema evolution y enmascaramiento de columnas
+# Demo 3 — E-commerce
 
-Dominio **e-commerce**. Demuestra dos características de gobernanza avanzada de DKOps:
+Pipeline Lakehouse completo para dominio de **e-commerce**. Demuestra las tres estrategias principales de promoción Silver, schema evolution automática con `merge_schema`, enmascaramiento de columnas sensibles y ingesta streaming.
 
-## Qué aprenderás
-
-### merge_schema — Schema evolution automática
-
-El contrato `pedidos_v1.json` / `pedidos_v2.json` tiene `"merge_schema": true`.
-
-- **Fase 1**: se crea la tabla `pedidos` con el schema inicial (6 columnas).
-- **Fase 2**: se hace `append` con un DataFrame que trae 3 columnas nuevas (`metodo_envio`, `dias_entrega`, `calificacion`). Sin `merge_schema` esto lanzaría un `AnalysisException`. Con `merge_schema=true`, Delta añade las columnas automáticamente y los registros anteriores las tienen como `null`.
-
-```json
-// pedidos_v1.json
-{
-  "merge_schema": true,
-  "columns": [
-    {"name": "pedido_id",    ...},
-    {"name": "email_cliente","type": "STRING", "mask": "security.mask_email"},
-    ...
-  ]
-}
+```bash
+python demos/demo_3/pipeline.py
 ```
 
-```python
-TableWriter(ct_pedidos_v1).overwrite(df_v1)   # crea tabla con 6 columnas
-TableWriter(ct_pedidos_v2).append(df_v2)      # añade 3 columnas nuevas — sin error
-```
+---
 
-### mask — Enmascaramiento de columnas
+## ¿Qué demuestra?
 
-Los contratos `clientes.json` y `pedidos_v1.json` declaran `"mask"` en columnas sensibles.
+| Concepto | Dónde se ve |
+|---|---|
+| `IngestionEngine` batch + streaming | `pipeline.py` — fases 2 y 2b |
+| `full_merge` — catálogo de clientes | `clientes_current` |
+| `cdc_merge` — pedidos CDC I/U/D | `pedidos_current` + `is_deleted` |
+| `append_dedup` — clickstream | `eventos_current` — anti-join |
+| `merge_schema: true` — schema evolution | `pedidos_raw` — columnas v2 sin recrear tabla |
+| `mask` — column masking | `email_cliente` en clientes y pedidos |
+| Streaming con `availableNow` | `eventos_web` vía `run_streaming()` |
+| Auto-schema inference en streaming | `FileStreamReader` infiere desde archivos existentes |
 
-```json
-{"name": "email",    "type": "STRING", "mask": "security.mask_email"},
-{"name": "telefono", "type": "STRING", "mask": "security.mask_phone"}
-```
-
-En Databricks / Unity Catalog, tras la escritura el framework ejecuta automáticamente:
-
-```sql
-ALTER TABLE ecommerce.clientes ALTER COLUMN email    SET MASK security.mask_email;
-ALTER TABLE ecommerce.clientes ALTER COLUMN telefono SET MASK security.mask_phone;
-```
-
-En PC local la operación se omite silenciosamente — el pipeline corre sin cambios.
+---
 
 ## Estructura
 
 ```
 demo_3/
+├── pipeline.py                # orquestador — 6 fases
 ├── config/
-│   └── config.json          # configuración local
-├── tables/
-│   ├── clientes.json        # dim clientes — mask en email y telefono
-│   ├── pedidos_v1.json      # pedidos schema inicial — merge_schema + mask en email
-│   └── pedidos_v2.json      # pedidos schema evolucionado — 3 columnas nuevas
-├── data_generator.py        # genera DataFrames sintéticos de clientes y pedidos
-├── pipeline_ecommerce.py    # pipeline principal (4 fases)
-└── README.md
+│   └── config.json
+├── datagen/
+│   ├── main.py
+│   ├── generate_clientes.py   # 300 clientes (50% activos)
+│   ├── generate_pedidos.py    # 400 pedidos CDC (I/U/D)
+│   └── generate_eventos.py    # 200 eventos web
+├── ingestion/
+│   ├── batch/                 # clientes.json, pedidos.json
+│   ├── streaming/             # eventos_web.json
+│   └── silver/                # clientes_current.json, pedidos_current.json, eventos_current.json
+└── tables/
+    ├── bronze/                # contratos Bronze
+    ├── silver/                # contratos Silver
+    └── gold/                  # ventas_canal.json, clientes_activos.json
 ```
 
-## Ejecutar
+---
+
+## Flujo Landing → Bronze → Silver → Gold
+
+```
+Landing                 Bronze                  Silver                  Gold
+─────────────────────────────────────────────────────────────────────────────────
+clientes/ (300)    →    clientes_raw        →   clientes_current    →
+                        (full snapshot)         (full_merge)            ventas_canal
+pedidos/ (400)     →    pedidos_raw         →   pedidos_current     →   (3 filas)
+                        (CDC, merge_schema)      (cdc_merge)
+                                                                     →  clientes_activos
+eventos_web/ (200) →    eventos_raw         →   eventos_current         (32 filas)
+[STREAMING]             (streaming→batch)        (append_dedup)
+```
+
+---
+
+## merge_schema — Schema evolution
+
+El contrato `pedidos_raw.json` declara `"merge_schema": true`. Los pedidos se generan en dos versiones:
+
+- **v1** (primera carga): 8 columnas base
+- **v2** (segunda carga): 3 columnas nuevas — `metodo_envio`, `dias_entrega`, `calificacion`
+
+```json
+{
+  "properties": { "merge_schema": true }
+}
+```
+
+Sin `merge_schema`, la segunda carga lanzaría `AnalysisException`. Con él, Delta añade las columnas automáticamente y los registros anteriores las tienen como `null`.
+
+---
+
+## Column masking
+
+```json
+{
+  "name": "email_cliente",
+  "type": "STRING",
+  "mask": "security.mask_email"
+}
+```
+
+En Databricks / Unity Catalog, tras cada escritura el framework ejecuta:
+
+```sql
+ALTER TABLE ecommerce.clientes_current
+  ALTER COLUMN email_cliente SET MASK security.mask_email;
+```
+
+En local PC la operación se omite silenciosamente — el pipeline corre sin cambios.
+
+---
+
+## Cómo ejecutarlo
 
 ```bash
-# Activar el venv local
-source ../../.venv-local/bin/activate   # Linux / Mac / WSL
-# ../../.venv-local/Scripts/activate    # Windows PowerShell
-
-cd demos/demo_3
-python pipeline_ecommerce.py
+# Desde la raíz del repositorio
+python demos/demo_3/pipeline.py
 ```
 
-## Salida esperada
+Fases:
+1. Genera datos en Landing (clientes JSON + pedidos CDC + eventos streaming)
+2. Landing → Bronze batch (clientes + pedidos)
+3. Landing → Bronze streaming (eventos, `availableNow`)
+4. Bronze → Silver (3 estrategias)
+5. Silver → Gold (ventas_canal, clientes_activos)
+6. Validación y status
 
-```
-══════════════════════════════════════════════════════════════════════════
-  FASE 2 — Schema evolution con merge_schema: true
-══════════════════════════════════════════════════════════════════════════
+---
 
-  ── Generando 200 pedidos — schema v2 ──────────────────────────────────
-    Schema v2 de pedidos: ['pedido_id', 'cliente_id', 'email_cliente',
-                           'fecha_pedido', 'total_usd', 'estado',
-                           'metodo_envio', 'dias_entrega', 'calificacion']
+## Próximo paso
 
-    Columnas nuevas que no estaban en v1: ['calificacion', 'dias_entrega', 'metodo_envio']
-
-    Sin merge_schema esto lanzaría AnalysisException.
-    Con merge_schema=True, Delta añade las columnas automáticamente.
-
-    ✔ Append completado — 200 filas añadidas
-    ✔ Total en tabla: 500 filas
-    ✔ Schema final  : ['pedido_id', ..., 'metodo_envio', 'dias_entrega', 'calificacion', 'cargado_en']
-```
+Demo 4 introduce `TableReader.read_cdf()` para detectar cambios via Change Data Feed y `SafeMigrator` para planificar migraciones de schema. Ver [demo_4/README.md](../demo_4/README.md).

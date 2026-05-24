@@ -1,0 +1,27 @@
+{
+  "_doc": "Gold — niveles de stock actual por producto y almacen",
+  "catalog":  "{catalog.gold}",
+  "schema":   "inventario_kpi",
+  "name":     "stock_actual",
+  "type":     "MANAGED",
+  "format":   "DELTA",
+  "comment":  "Stock actual calculado desde movimientos Silver — via TableReader.read_cdf()",
+  "owner":    "data-engineering",
+
+  "columns": [
+    { "name": "producto_id",      "type": "STRING",    "nullable": false },
+    { "name": "nombre",           "type": "STRING",    "nullable": true  },
+    { "name": "categoria",        "type": "STRING",    "nullable": true  },
+    { "name": "precio_usd",       "type": "DOUBLE",    "nullable": true  },
+    { "name": "total_entradas",   "type": "INTEGER",   "nullable": true, "comment": "Suma movimientos positivos" },
+    { "name": "total_salidas",    "type": "INTEGER",   "nullable": true, "comment": "Suma movimientos negativos (abs)" },
+    { "name": "stock_neto",       "type": "INTEGER",   "nullable": true, "comment": "Entradas - Salidas" },
+    { "name": "n_movimientos",    "type": "INTEGER",   "nullable": true  },
+    { "name": "fecha_proceso",    "type": "TIMESTAMP", "nullable": true, "default": "current_timestamp()" }
+  ],
+
+  "properties": {
+    "quality": "gold",
+    "layer":   "gold"
+  }
+}

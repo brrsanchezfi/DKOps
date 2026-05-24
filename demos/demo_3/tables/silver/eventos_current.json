@@ -1,0 +1,29 @@
+{
+  "_doc": "Silver — eventos web deduplicados (append_dedup)",
+  "catalog":  "{catalog.silver}",
+  "schema":   "ecommerce",
+  "name":     "eventos_current",
+  "type":     "MANAGED",
+  "format":   "DELTA",
+  "comment":  "Clickstream deduplicado — append_dedup desde Bronze",
+  "owner":    "data-engineering",
+
+  "columns": [
+    { "name": "evento_id",    "type": "STRING",    "nullable": false },
+    { "name": "cliente_id",   "type": "STRING",    "nullable": true  },
+    { "name": "session_id",   "type": "STRING",    "nullable": true  },
+    { "name": "tipo_evento",  "type": "STRING",    "nullable": true  },
+    { "name": "pagina",       "type": "STRING",    "nullable": true  },
+    { "name": "dispositivo",  "type": "STRING",    "nullable": true  },
+    { "name": "duracion_seg", "type": "INTEGER",   "nullable": true  },
+    { "name": "timestamp",    "type": "STRING",    "nullable": true  },
+    { "name": "_silver_modified_at", "type": "TIMESTAMP", "nullable": true }
+  ],
+
+  "partitions": ["tipo_evento"],
+
+  "properties": {
+    "quality": "curated",
+    "layer":   "silver"
+  }
+}
