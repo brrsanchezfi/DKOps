@@ -51,6 +51,7 @@ jobs:
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           repository-url: https://test.pypi.org/legacy/
+          skip_existing: true   # idempotente: ignora si la versión ya existe en TestPyPI
 
   publish-pypi:
     name: Publish to PyPI
