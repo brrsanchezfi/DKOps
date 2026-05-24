@@ -4,6 +4,9 @@ on:
   release:
     types: [published]
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true   # silencia warnings de Node.js 20
+
 jobs:
   build:
     name: Build distribution
@@ -36,7 +39,7 @@ jobs:
       name: testpypi
       url: https://test.pypi.org/p/DKOps
     permissions:
-      id-token: write  # Trusted Publishing — no API token needed
+      id-token: write  # Trusted Publishing OIDC — no API token needed
     steps:
       - name: Download dist
         uses: actions/download-artifact@v4
@@ -57,7 +60,7 @@ jobs:
       name: pypi
       url: https://pypi.org/p/DKOps
     permissions:
-      id-token: write  # Trusted Publishing — no API token needed
+      id-token: write  # Trusted Publishing OIDC — no API token needed
     steps:
       - name: Download dist
         uses: actions/download-artifact@v4
