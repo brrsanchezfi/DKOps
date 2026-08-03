@@ -32,11 +32,13 @@ import unittest
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
-# ── Ajusta el path para encontrar los módulos del proyecto ────────────────
-sys.path.insert(0, str(Path(__file__).parent))
+ROOT = Path(__file__).resolve().parent.parent
+SRC  = ROOT / "src"
+if str(SRC) not in sys.path:
+    sys.path.insert(0, str(SRC))
 
-from logger_config import AppLogger, LoggableMixin
-from launcher import Launcher
+from DKOps.logger_config import AppLogger, LoggableMixin
+from DKOps.launcher import Launcher
 
 
 # ---------------------------------------------------------------------------
@@ -82,7 +84,7 @@ class TestLauncher(unittest.TestCase):
         cfg = _base_config(self.tmp)
         path = _write_config(self.tmp, cfg)
 
-        with patch("launcher.Launcher._init_local", return_value=MagicMock()) as mock_spark:
+        with patch("DKOps.launcher.Launcher._init_local_pc", return_value=MagicMock()) as mock_spark:
             launcher = Launcher(config_file=path)
 
         self.assertEqual(launcher.config["EXECUTION_ENVIRONMENT"], "local")
@@ -96,7 +98,7 @@ class TestLauncher(unittest.TestCase):
         path = _write_config(self.tmp, cfg)
         os.environ["PATH_CONFIG_LAUNCHER"] = path
 
-        with patch("launcher.Launcher._init_local", return_value=MagicMock()):
+        with patch("DKOps.launcher.Launcher._init_local_pc", return_value=MagicMock()):
             launcher = Launcher()  # sin argumento
 
         self.assertEqual(launcher.config["EXECUTION_ENVIRONMENT"], "local")
@@ -121,7 +123,7 @@ class TestLauncher(unittest.TestCase):
 
     def test_05_json_malformado_lanza_error(self):
         bad_path = os.path.join(self.tmp, "bad.json")
-        with open(bad_path, "w") as f:
+        with open(bad_path, "w", encoding="utf-8") as f:
             f.write("{ esto no es json válido }")
 
         with self.assertRaises(ValueError) as ctx:
@@ -153,7 +155,7 @@ class TestLauncher(unittest.TestCase):
         fake_spark = MagicMock()
         fake_spark.version = "3.5.0"
 
-        with patch("launcher.Launcher._init_local", return_value=fake_spark):
+        with patch("DKOps.launcher.Launcher._init_local_pc", return_value=fake_spark):
             launcher = Launcher(config_file=path)
 
         self.assertEqual(launcher.spark, fake_spark)
@@ -172,7 +174,7 @@ class TestLauncher(unittest.TestCase):
 
         fake_spark = MagicMock()
 
-        with patch("launcher.Launcher._init_databricks", return_value=fake_spark):
+        with patch("DKOps.launcher.Launcher._init_databricks", return_value=fake_spark):
             launcher = Launcher(config_file=path)
 
         self.assertEqual(launcher.spark, fake_spark)
@@ -188,7 +190,7 @@ class TestLauncher(unittest.TestCase):
 
         fake_spark = MagicMock()
 
-        with patch("launcher.Launcher._init_databricks", return_value=fake_spark):
+        with patch("DKOps.launcher.Launcher._init_databricks", return_value=fake_spark):
             launcher = Launcher(config_file=path)
 
         self.assertEqual(launcher.spark, fake_spark)
@@ -223,6 +225,8 @@ class TestLauncher(unittest.TestCase):
             "LOG_DIR": log_dir,
             "LOG_FILENAME": "test.log",
         })
+        # Fase 2: el handler de archivo se agrega por separado, después de Spark.
+        AppLogger.add_file_handler(MagicMock(), log_dir=log_dir, log_filename="test.log")
 
         from loguru import logger
         logger.bind(class_name="Test").info("Mensaje de prueba TC-11")
