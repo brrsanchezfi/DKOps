@@ -1,0 +1,193 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://brrsanchezfi.github.io/DKOps/schema/ingestion_contract.schema.json",
+  "title": "DKOps Ingestion Contract",
+  "description": "Contrato de ingesta: conecta una fuente (Landing/Kafka/Delta) con un table contract destino. Cargado por DKOps.ingestion.contracts.loader.IngestionContractLoader. Cubre los tres casos: ingesta Bronze batch, ingesta Bronze streaming y promoción Silver.",
+  "type": "object",
+  "required": ["name", "destination_contract"],
+  "additionalProperties": false,
+
+  "properties": {
+    "_doc": {
+      "type": "string",
+      "description": "Comentario libre. El loader lo ignora."
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Identificador único del dataset. Se usa en IngestionEngine.ingest_bronze(name) / promote_silver(name) y como sufijo por defecto del checkpoint.",
+      "examples": ["ventas_diarias", "ventas_current"]
+    },
+    "description": {
+      "type": "string"
+    },
+    "enabled": {
+      "type": "boolean",
+      "default": true,
+      "description": "Si es false, load_all() omite el contrato."
+    },
+
+    "ingest_type": {
+      "enum": ["batch", "streaming"],
+      "default": "batch",
+      "description": "Las promociones Silver son siempre 'batch'."
+    },
+    "load_type": {
+      "enum": ["full", "incremental", "cdc", "streaming"],
+      "default": "incremental",
+      "description": "Semántica de la carga a Bronze. 'cdc' indica que la fuente trae eventos I/U/D."
+    },
+    "trigger": {
+      "enum": ["available_now", "continuous"],
+      "default": "available_now",
+      "description": "Solo aplica a ingest_type=streaming. 'available_now' procesa lo pendiente y para; 'continuous' no bloquea y requiere stop explícito."
+    },
+
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Fuente de datos. En promoción Silver basta con {\"format\": \"delta\"} — la tabla real se toma de source_contract.",
+      "properties": {
+        "format": {
+          "type": "string",
+          "default": "json",
+          "description": "json, csv, parquet, avro, delta o kafka. 'kafka' fuerza KafkaReader en cualquier entorno.",
+          "examples": ["json", "csv", "parquet", "delta", "kafka"]
+        },
+        "path": {
+          "type": "string",
+          "description": "Ruta en Landing. Usar placeholder {path.landing}.",
+          "examples": ["{path.landing}/ventas_diarias"]
+        },
+        "kafka": {
+          "type": "object",
+          "description": "Configuración del tópico. Solo para format=kafka.",
+          "additionalProperties": true
+        },
+        "options": {
+          "type": "object",
+          "description": "Opciones pasadas tal cual al reader de Spark.",
+          "additionalProperties": { "type": ["string", "boolean", "number"] },
+          "examples": [{ "multiLine": "false", "header": "true" }]
+        },
+        "schema": {
+          "type": "array",
+          "description": "Schema explícito de la fuente. Recomendado en streaming local (FileStreamReader no puede inferir schema de un stream). Tipos en minúscula, notación Spark.",
+          "items": {
+            "type": "object",
+            "required": ["name", "type"],
+            "additionalProperties": false,
+            "properties": {
+              "name": { "type": "string", "minLength": 1 },
+              "type": {
+                "type": "string",
+                "examples": ["string", "int", "long", "double", "boolean", "date", "timestamp"]
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "destination_contract": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Ruta al table contract destino, RELATIVA al directorio de este JSON (no al base_dir del loader).",
+      "examples": ["../../tables/bronze/ventas_raw.json"]
+    },
+    "source_contract": {
+      "type": "string",
+      "description": "Ruta al table contract fuente. Obligatorio en promoción Silver; ausente en ingesta Bronze.",
+      "examples": ["../../tables/bronze/ventas_raw.json"]
+    },
+
+    "strategy": {
+      "enum": ["full_merge", "cdc_merge", "incremental_replace", "append_dedup"],
+      "description": "Presencia de este campo = el contrato es una promoción Silver.\n  full_merge          → SCD1: dedup por merge_keys con watermark, upsert.\n  cdc_merge           → aplica eventos I/U/D con soft delete (is_deleted).\n  incremental_replace → reemplaza la partición actual con el snapshot nuevo.\n  append_dedup        → inserta solo si la clave no existe en destino."
+    },
+    "merge_keys": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1,
+      "description": "Clave de negocio del destino Silver. Obligatoria para las estrategias de merge.",
+      "examples": [["venta_id"], ["cliente_id", "fecha"]]
+    },
+    "watermark_col": {
+      "type": "string",
+      "description": "Columna de ordenamiento temporal usada para elegir el registro más reciente por clave.",
+      "examples": ["fecha_venta", "actualizado_en"]
+    },
+    "filter": {
+      "type": "string",
+      "description": "Expresión SQL aplicada al leer la fuente. Se expone como IngestionContract.data_filter.",
+      "examples": ["_ingested_date = current_date()"]
+    },
+
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Columnas técnicas que MetadataEnricher añade al DataFrame.",
+      "properties": {
+        "add_ingested_at": {
+          "type": "boolean",
+          "default": true,
+          "description": "Añade _ingested_at (TIMESTAMP)."
+        },
+        "add_ingested_date": {
+          "type": "boolean",
+          "default": true,
+          "description": "Añade _ingested_date (DATE). Es la columna de partición que hace idempotente la ingesta Bronze — no desactivar en Bronze."
+        },
+        "add_source_file": {
+          "type": "boolean",
+          "default": true,
+          "description": "Añade _source_file con el archivo de origen."
+        },
+        "add_kafka_metadata": {
+          "type": "boolean",
+          "default": false,
+          "description": "Añade topic/partition/offset. Solo con format=kafka."
+        },
+        "add_silver_timestamps": {
+          "type": "boolean",
+          "default": false,
+          "description": "Añade timestamps de promoción. Activar en contratos de Silver, no en Bronze."
+        }
+      }
+    },
+
+    "checkpoint_suffix": {
+      "type": "string",
+      "description": "Sufijo bajo {path.checkpoint}. Por defecto 'streaming/<name>' si ingest_type=streaming, 'bronze/<name>' si no. Cambiarlo reprocesa el stream desde cero.",
+      "examples": ["streaming/eventos_app"]
+    }
+  },
+
+  "allOf": [
+    {
+      "$comment": "Promoción Silver: necesita saber de qué tabla lee.",
+      "if": { "required": ["strategy"] },
+      "then": { "required": ["source_contract"] }
+    },
+    {
+      "$comment": "Las estrategias de merge necesitan clave de negocio.",
+      "if": {
+        "properties": {
+          "strategy": { "enum": ["full_merge", "cdc_merge", "append_dedup"] }
+        },
+        "required": ["strategy"]
+      },
+      "then": { "required": ["merge_keys"] }
+    },
+    {
+      "$comment": "Ingesta Bronze: sin strategy hace falta una fuente con path (salvo Kafka).",
+      "if": {
+        "allOf": [
+          { "not": { "required": ["strategy"] } },
+          { "not": { "properties": { "source": { "properties": { "format": { "const": "kafka" } } } } } }
+        ]
+      },
+      "then": { "required": ["source"] }
+    }
+  ]
+}
