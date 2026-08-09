@@ -81,6 +81,12 @@ Thumbs.db
 site/
 
 # =========================
-# Claude Code internals
+# Claude Code
 # =========================
-.claude/
+# Las skills y comandos SI se versionan — son parte del tooling del repo.
+# Solo se ignora lo local de cada maquina.
+.claude/*
+!.claude/skills/
+!.claude/commands/
+.claude/settings.local.json
+.claude/worktrees/

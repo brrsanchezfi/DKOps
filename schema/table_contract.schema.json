@@ -1,0 +1,186 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://brrsanchezfi.github.io/DKOps/schema/table_contract.schema.json",
+  "title": "DKOps Table Contract",
+  "description": "Contrato de tabla Delta: schema, particiones, propiedades y permisos. Cargado por DKOps.table_governance.contracts.loader.ContractLoader.",
+  "type": "object",
+  "required": ["catalog", "schema", "name", "columns"],
+  "additionalProperties": false,
+
+  "properties": {
+    "_doc": {
+      "type": "string",
+      "description": "Comentario libre. El loader lo ignora."
+    },
+    "catalog": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Catálogo Unity Catalog. Normalmente un placeholder: {catalog.bronze}, {catalog.silver}, {catalog.gold}.",
+      "examples": ["{catalog.bronze}", "{catalog.silver}"]
+    },
+    "schema": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Schema (base de datos) dentro del catálogo.",
+      "examples": ["ventas", "aeronautica"]
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Nombre de la tabla, en snake_case.",
+      "examples": ["ventas_raw", "clientes_current"]
+    },
+    "type": {
+      "enum": ["MANAGED", "EXTERNAL"],
+      "default": "MANAGED",
+      "description": "EXTERNAL requiere 'location'."
+    },
+    "format": {
+      "enum": ["DELTA"],
+      "default": "DELTA"
+    },
+    "comment": {
+      "type": "string",
+      "description": "Descripción de la tabla — se propaga como COMMENT en Unity Catalog."
+    },
+    "owner": {
+      "type": "string",
+      "description": "Grupo o service principal dueño de la tabla."
+    },
+    "location": {
+      "type": "string",
+      "description": "Ruta física. Solo para tablas EXTERNAL. Usar placeholder {path.<nombre>}.",
+      "examples": ["{path.bronze}/ventas/ventas_raw"]
+    },
+
+    "columns": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Schema de la tabla. Obligatorio y no vacío — el loader falla si está ausente.",
+      "items": {
+        "type": "object",
+        "required": ["name", "type"],
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nombre de columna en snake_case. Debe ser único dentro del contrato."
+          },
+          "type": {
+            "enum": [
+              "STRING", "INTEGER", "LONG", "DOUBLE", "FLOAT", "BOOLEAN",
+              "DATE", "TIMESTAMP", "BINARY", "DECIMAL", "ARRAY", "MAP", "STRUCT"
+            ],
+            "description": "Tipo lógico del contrato. El SchemaValidator lo mapea a tipos Spark compatibles (incluye widening seguro: INTEGER acepta LongType, FLOAT acepta DoubleType/DecimalType, DATE acepta TimestampType)."
+          },
+          "nullable": {
+            "type": "boolean",
+            "default": true,
+            "description": "Si es false, el validator rechaza nulls en esta columna."
+          },
+          "comment": {
+            "type": "string"
+          },
+          "default": {
+            "type": "string",
+            "description": "Expresión SQL de valor por defecto. Si está presente, la columna puede faltar en el DataFrame y el writer la añade.",
+            "examples": ["current_timestamp()", "current_date()"]
+          },
+          "mask": {
+            "type": "string",
+            "description": "Función de masking de Unity Catalog aplicada a la columna.",
+            "examples": ["security.mask_email"]
+          }
+        }
+      }
+    },
+
+    "partitions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Columnas de particionado. Cada una DEBE existir en 'columns'. En Bronze suele ser ['_ingested_date']."
+    },
+
+    "clustering": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["columns"],
+      "description": "Liquid clustering (Databricks). Alternativa al particionado.",
+      "properties": {
+        "columns": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string" },
+          "description": "Cada columna DEBE existir en 'columns'."
+        }
+      }
+    },
+
+    "properties": {
+      "type": "object",
+      "description": "TBLPROPERTIES de Delta. 'merge_schema' y 'change_data_feed' son flags de comportamiento de DKOps: se extraen aquí y NO llegan al motor Delta como properties.",
+      "properties": {
+        "merge_schema": {
+          "type": "boolean",
+          "default": false,
+          "description": "Activa mergeSchema=true en append y overwrite_partition."
+        },
+        "change_data_feed": {
+          "type": "boolean",
+          "default": false,
+          "description": "Inyecta delta.enableChangeDataFeed=true. Necesario para leer con TableReader.read_cdf()."
+        }
+      },
+      "additionalProperties": {
+        "type": ["string", "boolean", "number"]
+      }
+    },
+
+    "permissions": {
+      "type": "array",
+      "description": "GRANT/REVOKE aplicados sobre la tabla.",
+      "items": {
+        "type": "object",
+        "required": ["action", "principal"],
+        "additionalProperties": false,
+        "properties": {
+          "action": {
+            "enum": [
+              "SELECT", "MODIFY", "CREATE", "READ_METADATA",
+              "ALL PRIVILEGES", "USAGE", "EXECUTE"
+            ]
+          },
+          "principal": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Grupo o service account."
+          },
+          "operation": {
+            "enum": ["GRANT", "REVOKE"],
+            "default": "GRANT"
+          }
+        }
+      }
+    },
+
+    "merge_schema": {
+      "type": "boolean",
+      "description": "Compatibilidad: preferir properties.merge_schema."
+    },
+    "change_data_feed": {
+      "type": "boolean",
+      "description": "Compatibilidad: preferir properties.change_data_feed."
+    }
+  },
+
+  "allOf": [
+    {
+      "if": { "properties": { "type": { "const": "EXTERNAL" } }, "required": ["type"] },
+      "then": {
+        "required": ["location"],
+        "$comment": "Una tabla EXTERNAL sin location no tiene dónde escribir."
+      }
+    }
+  ]
+}
