@@ -1969,8 +1969,8 @@
 <h2 id="schema-evolution-merge_schema">Schema evolution (merge_schema)<a class="headerlink" href="#schema-evolution-merge_schema" title="Permanent link">&para;</a></h2>
 <p>El contrato <code>pedidos_raw.json</code> tiene <code>"merge_schema": true</code>. La primera carga escribe pedidos con 8 columnas (v1). La segunda agrega 3 columnas nuevas (v2: <code>metodo_envio</code>, <code>dias_entrega</code>, <code>calificacion</code>):</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">{</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="nt">&quot;merge_schema&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">"properties"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="nt">"merge_schema"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span><span class="p">}</span>
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="p">}</span>
 </code></pre></div>
@@ -1979,9 +1979,9 @@
 <h2 id="enmascaramiento-de-columnas">Enmascaramiento de columnas<a class="headerlink" href="#enmascaramiento-de-columnas" title="Permanent link">&para;</a></h2>
 <p>Los contratos de clientes y pedidos declaran <code>"mask"</code> en columnas sensibles:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">{</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w">  </span><span class="s2">&quot;email_cliente&quot;</span><span class="p">,</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w">  </span><span class="s2">&quot;STRING&quot;</span><span class="p">,</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span><span class="nt">&quot;mask&quot;</span><span class="p">:</span><span class="w">  </span><span class="s2">&quot;security.mask_email&quot;</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">"name"</span><span class="p">:</span><span class="w">  </span><span class="s2">"email_cliente"</span><span class="p">,</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="nt">"type"</span><span class="p">:</span><span class="w">  </span><span class="s2">"STRING"</span><span class="p">,</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span><span class="nt">"mask"</span><span class="p">:</span><span class="w">  </span><span class="s2">"security.mask_email"</span>
 <a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="p">}</span>
 </code></pre></div>
 <p>En Databricks / Unity Catalog, tras la escritura se ejecuta automáticamente:</p>

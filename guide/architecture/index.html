@@ -791,6 +791,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#gobierno-de-la-metadata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gobierno de la metadata
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#table-governance" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2042,6 +2053,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#gobierno-de-la-metadata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gobierno de la metadata
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#table-governance" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2158,7 +2180,7 @@
 <li>Deduplica por <code>merge_keys</code> según <code>watermark_col</code></li>
 <li>Aplica la estrategia declarada en el contrato</li>
 <li>Filtra columnas con <code>_select_for_silver()</code> — Bronze metadata no pasa a Silver</li>
-<li>Añade <code>_silver_modified_at</code> si el contrato lo pide</li>
+<li>Añade <code>_silver_created_at</code> y <code>_silver_modified_at</code> si el contrato lo pide</li>
 </ol>
 <hr />
 <h3 id="modulo-2-table_governance-silver-gold">Módulo 2: <code>table_governance</code> (Silver → Gold)<a class="headerlink" href="#modulo-2-table_governance-silver-gold" title="Permanent link">&para;</a></h3>
@@ -2209,7 +2231,7 @@
     CM-&gt;&gt;CM: filter op_type IN (I, U) → upserts
     CM-&gt;&gt;CM: filter op_type = D → deletes
     CM-&gt;&gt;CM: withColumn("is_deleted", False)
-    CM-&gt;&gt;CM: withColumn("_silver_modified_at", now())
+    CM-&gt;&gt;CM: withColumn("_silver_created_at" / "_silver_modified_at", now())
     CM-&gt;&gt;CM: _select_for_silver() — excluye _ingested_at, _source_file
     CM-&gt;&gt;S: MERGE INTO (upserts)
     CM-&gt;&gt;CM: withColumn("is_deleted", True) — soft delete
@@ -2296,6 +2318,47 @@
 </tr>
 </tbody>
 </table>
+<h3 id="gobierno-de-la-metadata">Gobierno de la metadata<a class="headerlink" href="#gobierno-de-la-metadata" title="Permanent link">&para;</a></h3>
+<p>El contrato documenta la tabla, pero DKOps puede crearla por tres caminos
+distintos, y solo uno de ellos emite <code>CREATE TABLE</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Camino</th>
+<th>Crea la tabla con</th>
+<th>Metadata del contrato</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>TableWriter.overwrite()</code></td>
+<td><code>CREATE OR REPLACE TABLE</code> + <code>saveAsTable</code></td>
+<td>Aplicada al terminar</td>
+</tr>
+<tr>
+<td><code>TableWriter.upsert()</code>, primera carga</td>
+<td><code>saveAsTable</code> en modo overwrite</td>
+<td>Aplicada al terminar</td>
+</tr>
+<tr>
+<td><code>BronzeIngestor</code>, escritura streaming</td>
+<td><code>writeStream.toTable()</code></td>
+<td>Aplicada al terminar</td>
+</tr>
+</tbody>
+</table>
+<p>Los tres convergen en <code>apply_contract_metadata()</code>, que es idempotente y no
+reescribe datos. Así el contrato gobierna comentarios, masks y permisos
+<strong>independientemente del camino de escritura</strong> — ver
+<a href="../writers/#apply_contract_metadata">Writers</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Límite conocido de la vía streaming</p>
+<p>Auto Loader infiere el schema de los archivos, así que la tabla puede nacer
+con columnas que el contrato no declara (<code>_rescued_data</code>, columnas de
+partición deducidas de la ruta). <code>apply_contract_metadata()</code> documenta lo
+que el contrato sí declara, pero no acota lo que el DataFrame trae de más.</p>
+</div>
+<hr />
 <h3 id="table-governance">Table Governance<a class="headerlink" href="#table-governance" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -2315,7 +2378,7 @@
 </tr>
 <tr>
 <td><code>TableWriter</code></td>
-<td>Fachada pública: <code>overwrite</code>, <code>append</code>, <code>upsert</code>, <code>overwrite_partition</code>, <code>delete</code>.</td>
+<td>Fachada pública: <code>overwrite</code>, <code>append</code>, <code>upsert</code>, <code>overwrite_partition</code>, <code>delete</code>, <code>apply_contract_metadata</code>.</td>
 </tr>
 <tr>
 <td><code>TableReader</code></td>

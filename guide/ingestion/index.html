@@ -2207,16 +2207,16 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">DKOps.launcher</span><span class="w"> </span><span class="kn">import</span> <span class="n">Launcher</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">DKOps.ingestion.engine</span><span class="w"> </span><span class="kn">import</span> <span class="n">IngestionEngine</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">launcher</span> <span class="o">=</span> <span class="n">Launcher</span><span class="p">(</span><span class="s2">&quot;config/config.json&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">launcher</span> <span class="o">=</span> <span class="n">Launcher</span><span class="p">(</span><span class="s2">"config/config.json"</span><span class="p">)</span>
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="n">engine</span> <span class="o">=</span> <span class="n">IngestionEngine</span><span class="o">.</span><span class="n">from_spark</span><span class="p">(</span>
 <a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">spark</span>                   <span class="o">=</span> <span class="n">launcher</span><span class="o">.</span><span class="n">spark</span><span class="p">,</span>
 <a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">env</span>                     <span class="o">=</span> <span class="n">launcher</span><span class="o">.</span><span class="n">env</span><span class="p">,</span>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">bronze_contracts_dir</span>    <span class="o">=</span> <span class="s2">&quot;ingestion/batch&quot;</span><span class="p">,</span>       <span class="c1"># contratos batch</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="n">streaming_contracts_dir</span> <span class="o">=</span> <span class="s2">&quot;ingestion/streaming&quot;</span><span class="p">,</span>   <span class="c1"># contratos streaming (opcional)</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="n">silver_contracts_dir</span>    <span class="o">=</span> <span class="s2">&quot;ingestion/silver&quot;</span><span class="p">,</span>      <span class="c1"># contratos Silver</span>
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    <span class="n">tables_base_dir</span>         <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="p">,</span>                     <span class="c1"># base para resolver paths relativos</span>
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    <span class="n">ops_path</span>                <span class="o">=</span> <span class="s2">&quot;/tmp/ops/control&quot;</span><span class="p">,</span>      <span class="c1"># tabla de control operativo</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">bronze_contracts_dir</span>    <span class="o">=</span> <span class="s2">"ingestion/batch"</span><span class="p">,</span>       <span class="c1"># contratos batch</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="n">streaming_contracts_dir</span> <span class="o">=</span> <span class="s2">"ingestion/streaming"</span><span class="p">,</span>   <span class="c1"># contratos streaming (opcional)</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="n">silver_contracts_dir</span>    <span class="o">=</span> <span class="s2">"ingestion/silver"</span><span class="p">,</span>      <span class="c1"># contratos Silver</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    <span class="n">tables_base_dir</span>         <span class="o">=</span> <span class="s2">"."</span><span class="p">,</span>                     <span class="c1"># base para resolver paths relativos</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    <span class="n">ops_path</span>                <span class="o">=</span> <span class="s2">"/tmp/ops/control"</span><span class="p">,</span>      <span class="c1"># tabla de control operativo</span>
 <a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="p">)</span>
 <a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>
 <a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="n">engine</span><span class="o">.</span><span class="n">ingest_bronze</span><span class="p">()</span>    <span class="c1"># Landing → Bronze (batch)</span>
@@ -2255,19 +2255,19 @@
 <h2 id="contratos-de-ingesta-batch-landing-bronze">Contratos de ingesta batch (Landing → Bronze)<a class="headerlink" href="#contratos-de-ingesta-batch-landing-bronze" title="Permanent link">&para;</a></h2>
 <p>Los contratos batch viven en <code>ingestion/batch/*.json</code>. Cada uno describe cómo leer una fuente de Landing y dónde escribirla en Bronze.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">{</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w">        </span><span class="s2">&quot;ventas_diarias&quot;</span><span class="p">,</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="nt">&quot;ingest_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;batch&quot;</span><span class="p">,</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span><span class="nt">&quot;load_type&quot;</span><span class="p">:</span><span class="w">   </span><span class="s2">&quot;incremental&quot;</span><span class="p">,</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w">     </span><span class="kc">true</span><span class="p">,</span>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">  </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="nt">&quot;format&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;json&quot;</span><span class="p">,</span>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w">   </span><span class="s2">&quot;{path.landing}/ventas_diarias&quot;</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">"name"</span><span class="p">:</span><span class="w">        </span><span class="s2">"ventas_diarias"</span><span class="p">,</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="nt">"ingest_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"batch"</span><span class="p">,</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span><span class="nt">"load_type"</span><span class="p">:</span><span class="w">   </span><span class="s2">"incremental"</span><span class="p">,</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w">     </span><span class="kc">true</span><span class="p">,</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">  </span><span class="nt">"source"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="nt">"format"</span><span class="p">:</span><span class="w"> </span><span class="s2">"json"</span><span class="p">,</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="nt">"path"</span><span class="p">:</span><span class="w">   </span><span class="s2">"{path.landing}/ventas_diarias"</span>
 <a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">  </span><span class="p">},</span>
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">  </span><span class="nt">&quot;destination_contract&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;../../tables/bronze/ventas_raw.json&quot;</span><span class="p">,</span>
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">  </span><span class="nt">&quot;metadata&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">    </span><span class="nt">&quot;add_ingested_at&quot;</span><span class="p">:</span><span class="w">   </span><span class="kc">true</span><span class="p">,</span>
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">    </span><span class="nt">&quot;add_ingested_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">    </span><span class="nt">&quot;add_source_file&quot;</span><span class="p">:</span><span class="w">   </span><span class="kc">true</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">  </span><span class="nt">"destination_contract"</span><span class="p">:</span><span class="w"> </span><span class="s2">"../../tables/bronze/ventas_raw.json"</span><span class="p">,</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">  </span><span class="nt">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">    </span><span class="nt">"add_ingested_at"</span><span class="p">:</span><span class="w">   </span><span class="kc">true</span><span class="p">,</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">    </span><span class="nt">"add_ingested_date"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">    </span><span class="nt">"add_source_file"</span><span class="p">:</span><span class="w">   </span><span class="kc">true</span>
 <a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">  </span><span class="p">}</span>
 <a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="p">}</span>
 </code></pre></div>
@@ -2349,19 +2349,19 @@
 <h2 id="contratos-streaming-landing-bronze">Contratos streaming (Landing → Bronze)<a class="headerlink" href="#contratos-streaming-landing-bronze" title="Permanent link">&para;</a></h2>
 <p>Los contratos streaming viven en <code>ingestion/streaming/*.json</code>. Usan <code>readStream</code> con trigger <code>availableNow</code> — procesan todos los archivos pendientes y paran.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">{</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w">        </span><span class="s2">&quot;eventos_app&quot;</span><span class="p">,</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="nt">&quot;ingest_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;streaming&quot;</span><span class="p">,</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span><span class="nt">&quot;load_type&quot;</span><span class="p">:</span><span class="w">   </span><span class="s2">&quot;streaming&quot;</span><span class="p">,</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">  </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w">     </span><span class="kc">true</span><span class="p">,</span>
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">  </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="nt">&quot;format&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;json&quot;</span><span class="p">,</span>
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w">   </span><span class="s2">&quot;{path.landing}/eventos_app&quot;</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">"name"</span><span class="p">:</span><span class="w">        </span><span class="s2">"eventos_app"</span><span class="p">,</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="nt">"ingest_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"streaming"</span><span class="p">,</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span><span class="nt">"load_type"</span><span class="p">:</span><span class="w">   </span><span class="s2">"streaming"</span><span class="p">,</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">  </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w">     </span><span class="kc">true</span><span class="p">,</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">  </span><span class="nt">"source"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="nt">"format"</span><span class="p">:</span><span class="w"> </span><span class="s2">"json"</span><span class="p">,</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="nt">"path"</span><span class="p">:</span><span class="w">   </span><span class="s2">"{path.landing}/eventos_app"</span>
 <a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">  </span><span class="p">},</span>
-<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">  </span><span class="nt">&quot;destination_contract&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;../../tables/bronze/eventos_raw.json&quot;</span><span class="p">,</span>
-<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">  </span><span class="nt">&quot;metadata&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">    </span><span class="nt">&quot;add_ingested_at&quot;</span><span class="p">:</span><span class="w">   </span><span class="kc">true</span><span class="p">,</span>
-<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">    </span><span class="nt">&quot;add_ingested_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">    </span><span class="nt">&quot;add_source_file&quot;</span><span class="p">:</span><span class="w">   </span><span class="kc">true</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">  </span><span class="nt">"destination_contract"</span><span class="p">:</span><span class="w"> </span><span class="s2">"../../tables/bronze/eventos_raw.json"</span><span class="p">,</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">  </span><span class="nt">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">    </span><span class="nt">"add_ingested_at"</span><span class="p">:</span><span class="w">   </span><span class="kc">true</span><span class="p">,</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">    </span><span class="nt">"add_ingested_date"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">    </span><span class="nt">"add_source_file"</span><span class="p">:</span><span class="w">   </span><span class="kc">true</span>
 <a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">  </span><span class="p">}</span>
 <a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="p">}</span>
 </code></pre></div>
@@ -2373,17 +2373,17 @@
 <h2 id="contratos-silver-bronze-silver">Contratos Silver (Bronze → Silver)<a class="headerlink" href="#contratos-silver-bronze-silver" title="Permanent link">&para;</a></h2>
 <p>Los contratos Silver viven en <code>ingestion/silver/*.json</code>. Declaran qué estrategia usar y cómo configurarla.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">{</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w">        </span><span class="s2">&quot;ventas_current&quot;</span><span class="p">,</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="nt">&quot;ingest_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;batch&quot;</span><span class="p">,</span>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span><span class="nt">&quot;strategy&quot;</span><span class="p">:</span><span class="w">    </span><span class="s2">&quot;cdc_merge&quot;</span><span class="p">,</span>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">  </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w">     </span><span class="kc">true</span><span class="p">,</span>
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">  </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;format&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;delta&quot;</span><span class="w"> </span><span class="p">},</span>
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">  </span><span class="nt">&quot;source_contract&quot;</span><span class="p">:</span><span class="w">      </span><span class="s2">&quot;../../tables/bronze/ventas_raw.json&quot;</span><span class="p">,</span>
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">  </span><span class="nt">&quot;destination_contract&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;../../tables/silver/ventas_current.json&quot;</span><span class="p">,</span>
-<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">  </span><span class="nt">&quot;merge_keys&quot;</span><span class="p">:</span><span class="w">    </span><span class="p">[</span><span class="s2">&quot;venta_id&quot;</span><span class="p">],</span>
-<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">  </span><span class="nt">&quot;watermark_col&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;fecha_venta&quot;</span><span class="p">,</span>
-<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">  </span><span class="nt">&quot;metadata&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">    </span><span class="nt">&quot;add_silver_timestamps&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">"name"</span><span class="p">:</span><span class="w">        </span><span class="s2">"ventas_current"</span><span class="p">,</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="nt">"ingest_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"batch"</span><span class="p">,</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span><span class="nt">"strategy"</span><span class="p">:</span><span class="w">    </span><span class="s2">"cdc_merge"</span><span class="p">,</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">  </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w">     </span><span class="kc">true</span><span class="p">,</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">  </span><span class="nt">"source"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"format"</span><span class="p">:</span><span class="w"> </span><span class="s2">"delta"</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">  </span><span class="nt">"source_contract"</span><span class="p">:</span><span class="w">      </span><span class="s2">"../../tables/bronze/ventas_raw.json"</span><span class="p">,</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">  </span><span class="nt">"destination_contract"</span><span class="p">:</span><span class="w"> </span><span class="s2">"../../tables/silver/ventas_current.json"</span><span class="p">,</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">  </span><span class="nt">"merge_keys"</span><span class="p">:</span><span class="w">    </span><span class="p">[</span><span class="s2">"venta_id"</span><span class="p">],</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">  </span><span class="nt">"watermark_col"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fecha_venta"</span><span class="p">,</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">  </span><span class="nt">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">    </span><span class="nt">"add_silver_timestamps"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
 <a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">  </span><span class="p">}</span>
 <a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="p">}</span>
 </code></pre></div>
@@ -2418,7 +2418,7 @@
 </tr>
 <tr>
 <td><code>metadata.add_silver_timestamps</code></td>
-<td>Añade <code>_silver_modified_at TIMESTAMP</code></td>
+<td>Añade <code>_silver_created_at</code> y <code>_silver_modified_at TIMESTAMP</code></td>
 </tr>
 </tbody>
 </table>
@@ -2431,9 +2431,9 @@
     D --&gt;|"MERGE INTO Silver\nMATCH → UPDATE\nNO MATCH → INSERT"| S["Silver\n(estado actual)"]</code></pre>
 <p><strong>Cuándo usarla:</strong> catálogo de productos, dimensión de clientes, tabla de parámetros.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">{</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="nt">&quot;strategy&quot;</span><span class="p">:</span><span class="w">    </span><span class="s2">&quot;full_merge&quot;</span><span class="p">,</span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span><span class="nt">&quot;merge_keys&quot;</span><span class="p">:</span><span class="w">  </span><span class="p">[</span><span class="s2">&quot;cliente_id&quot;</span><span class="p">],</span>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span><span class="nt">&quot;watermark_col&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;_ingested_at&quot;</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="nt">"strategy"</span><span class="p">:</span><span class="w">    </span><span class="s2">"full_merge"</span><span class="p">,</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span><span class="nt">"merge_keys"</span><span class="p">:</span><span class="w">  </span><span class="p">[</span><span class="s2">"cliente_id"</span><span class="p">],</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span><span class="nt">"watermark_col"</span><span class="p">:</span><span class="w"> </span><span class="s2">"_ingested_at"</span>
 <a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="p">}</span>
 </code></pre></div>
 <hr />
@@ -2447,9 +2447,9 @@
     D --&gt;|"MERGE INTO Silver"| S</code></pre>
 <p><strong>Cuándo usarla:</strong> tablas de ventas, pedidos, órdenes con CDC desde ERP/CRM.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="p">{</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="nt">&quot;strategy&quot;</span><span class="p">:</span><span class="w">    </span><span class="s2">&quot;cdc_merge&quot;</span><span class="p">,</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span><span class="nt">&quot;merge_keys&quot;</span><span class="p">:</span><span class="w">  </span><span class="p">[</span><span class="s2">&quot;venta_id&quot;</span><span class="p">],</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span><span class="nt">&quot;watermark_col&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;fecha_venta&quot;</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="nt">"strategy"</span><span class="p">:</span><span class="w">    </span><span class="s2">"cdc_merge"</span><span class="p">,</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span><span class="nt">"merge_keys"</span><span class="p">:</span><span class="w">  </span><span class="p">[</span><span class="s2">"venta_id"</span><span class="p">],</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span><span class="nt">"watermark_col"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fecha_venta"</span>
 <a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="p">}</span>
 </code></pre></div>
 <p>La tabla Silver debe tener la columna <code>is_deleted BOOLEAN</code> en su contrato.</p>
@@ -2461,9 +2461,9 @@
     L --&gt;|"MERGE INTO Silver"| S["Silver"]</code></pre>
 <p><strong>Cuándo usarla:</strong> inventario con snapshot diario, precios actualizados.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="p">{</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span><span class="nt">&quot;strategy&quot;</span><span class="p">:</span><span class="w">      </span><span class="s2">&quot;incremental_replace&quot;</span><span class="p">,</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span><span class="nt">&quot;merge_keys&quot;</span><span class="p">:</span><span class="w">    </span><span class="p">[</span><span class="s2">&quot;producto_id&quot;</span><span class="p">],</span>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">  </span><span class="nt">&quot;watermark_col&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;_ingested_date&quot;</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span><span class="nt">"strategy"</span><span class="p">:</span><span class="w">      </span><span class="s2">"incremental_replace"</span><span class="p">,</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span><span class="nt">"merge_keys"</span><span class="p">:</span><span class="w">    </span><span class="p">[</span><span class="s2">"producto_id"</span><span class="p">],</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">  </span><span class="nt">"watermark_col"</span><span class="p">:</span><span class="w"> </span><span class="s2">"_ingested_date"</span>
 <a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="p">}</span>
 </code></pre></div>
 <hr />
@@ -2474,8 +2474,8 @@
     N --&gt;|"INSERT INTO Silver"| S["Silver"]</code></pre>
 <p><strong>Cuándo usarla:</strong> clickstream, logs de eventos, alertas IoT, métricas de sesión.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="p">{</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span><span class="nt">&quot;strategy&quot;</span><span class="p">:</span><span class="w">   </span><span class="s2">&quot;append_dedup&quot;</span><span class="p">,</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span><span class="nt">&quot;merge_keys&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;evento_id&quot;</span><span class="p">]</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span><span class="nt">"strategy"</span><span class="p">:</span><span class="w">   </span><span class="s2">"append_dedup"</span><span class="p">,</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span><span class="nt">"merge_keys"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"evento_id"</span><span class="p">]</span>
 <a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="p">}</span>
 </code></pre></div>
 <hr />
@@ -2521,12 +2521,60 @@
 </thead>
 <tbody>
 <tr>
+<td><code>_silver_created_at</code></td>
+<td><code>TIMESTAMP</code></td>
+<td>Primera vez que la fila se escribió en Silver</td>
+</tr>
+<tr>
 <td><code>_silver_modified_at</code></td>
 <td><code>TIMESTAMP</code></td>
 <td>Última vez que se modificó la fila en Silver</td>
 </tr>
 </tbody>
 </table>
+<p>Solo se materializan las columnas que <strong>el contrato de tabla Silver declare</strong>:
+si tu contrato solo lista <code>_silver_modified_at</code>, la otra se descarta y el
+comportamiento es idéntico al de versiones anteriores.</p>
+<p>Para usar <code>_silver_created_at</code>, decláralas en el contrato Silver:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"_silver_created_at"</span><span class="p">,</span><span class="w">  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"TIMESTAMP"</span><span class="p">,</span><span class="w"> </span><span class="nt">"nullable"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span><span class="nt">"comment"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Primera escritura en Silver"</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="p">{</span><span class="w"> </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"_silver_modified_at"</span><span class="p">,</span><span class="w"> </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"TIMESTAMP"</span><span class="p">,</span><span class="w"> </span><span class="nt">"nullable"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">  </span><span class="nt">"comment"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ultima actualizacion en Silver"</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Qué significa <code>_silver_created_at</code> en cada estrategia</p>
+<p>La columna solo describe <em>la primera vez que se vio la fila</em> cuando la
+estrategia distingue inserción de actualización:</p>
+<table>
+<thead>
+<tr>
+<th>Estrategia</th>
+<th>Semántica de <code>_silver_created_at</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>full_merge</code></td>
+<td>Primera inserción de la clave. Se preserva en los UPDATE.</td>
+</tr>
+<tr>
+<td><code>cdc_merge</code></td>
+<td>Primera inserción de la clave. Se preserva en los UPDATE.</td>
+</tr>
+<tr>
+<td><code>append_dedup</code></td>
+<td>Primera inserción — solo hay inserciones (anti-join).</td>
+</tr>
+<tr>
+<td><code>incremental_replace</code></td>
+<td><strong>Última reconstrucción de la partición</strong>, no la primera vez que se vio la fila: la estrategia reescribe la partición entera.</td>
+</tr>
+</tbody>
+</table>
+<p>En <code>full_merge</code> y <code>cdc_merge</code> la preservación se consigue pasando la columna
+en <code>insert_only_columns</code> del MERGE — ver
+<a href="../writers/#columnas-que-se-insertan-pero-no-se-actualizan">Writers</a>.</p>
+</div>
 <p>La estrategia <code>cdc_merge</code> también gestiona:</p>
 <table>
 <thead>
@@ -2547,8 +2595,8 @@
 <hr />
 <h2 id="tabla-de-control-operativo">Tabla de control operativo<a class="headerlink" href="#tabla-de-control-operativo" title="Permanent link">&para;</a></h2>
 <p>El engine registra cada ejecución en una tabla Delta en <code>ops_path</code>. Puedes consultarla para auditoría y monitoreo:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">ops_df</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="n">ops_df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;run_id&quot;</span><span class="p">,</span> <span class="s2">&quot;dataset&quot;</span><span class="p">,</span> <span class="s2">&quot;status&quot;</span><span class="p">,</span> <span class="s2">&quot;rows_written&quot;</span><span class="p">,</span> <span class="s2">&quot;started_at&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">ops_df</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">ops_df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">"run_id"</span><span class="p">,</span> <span class="s2">"dataset"</span><span class="p">,</span> <span class="s2">"status"</span><span class="p">,</span> <span class="s2">"rows_written"</span><span class="p">,</span> <span class="s2">"started_at"</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </code></pre></div>
 <hr />
 <h2 id="batch-vs-streaming">Batch vs. Streaming<a class="headerlink" href="#batch-vs-streaming" title="Permanent link">&para;</a></h2>

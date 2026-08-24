@@ -2050,7 +2050,7 @@
 <p>MERGE INTO funciona en ambos runtimes (Delta lo soporta nativamente).
 En local PC la tabla debe existir previamente — usa CreateWriter primero.</p>
 <h4 id="DKOps.table_governance.writers.upsert_writer--uso">Uso<a class="headerlink" href="#DKOps.table_governance.writers.upsert_writer--uso" title="Permanent link">&para;</a></h4>
-<div class="highlight"><pre><span></span><code>UpsertWriter(contract).write(df, merge_keys=[&quot;vuelo_id&quot;])
+<div class="highlight"><pre><span></span><code>UpsertWriter(contract).write(df, merge_keys=["vuelo_id"])
 </code></pre></div>
 
 
@@ -2093,8 +2093,9 @@ En local PC la tabla debe existir previamente — usa CreateWriter primero.</p>
 <h6 id="DKOps.table_governance.writers.upsert_writer.UpsertWriter--uso">Uso<a class="headerlink" href="#DKOps.table_governance.writers.upsert_writer.UpsertWriter--uso" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code>UpsertWriter(contract).write(
     df,
-    merge_keys=[&quot;vuelo_id&quot;],
-    update_columns=[&quot;retraso_min&quot;],   # opcional — default: todas las no-key
+    merge_keys=["vuelo_id"],
+    update_columns=["retraso_min"],              # opcional — default: todas las no-key
+    insert_only_columns=["_silver_created_at"],  # opcional — se insertan, nunca se actualizan
 )
 </code></pre></div>
 
@@ -2208,108 +2209,142 @@ En local PC la tabla debe existir previamente — usa CreateWriter primero.</p>
 <span class="normal"><a href="#__codelineno-0-120">120</a></span>
 <span class="normal"><a href="#__codelineno-0-121">121</a></span>
 <span class="normal"><a href="#__codelineno-0-122">122</a></span>
-<span class="normal"><a href="#__codelineno-0-123">123</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="k">class</span><span class="w"> </span><span class="nc">UpsertWriter</span><span class="p">(</span><span class="n">BaseWriter</span><span class="p">):</span>
-<a id="__codelineno-0-23" name="__codelineno-0-23"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="normal"><a href="#__codelineno-0-123">123</a></span>
+<span class="normal"><a href="#__codelineno-0-124">124</a></span>
+<span class="normal"><a href="#__codelineno-0-125">125</a></span>
+<span class="normal"><a href="#__codelineno-0-126">126</a></span>
+<span class="normal"><a href="#__codelineno-0-127">127</a></span>
+<span class="normal"><a href="#__codelineno-0-128">128</a></span>
+<span class="normal"><a href="#__codelineno-0-129">129</a></span>
+<span class="normal"><a href="#__codelineno-0-130">130</a></span>
+<span class="normal"><a href="#__codelineno-0-131">131</a></span>
+<span class="normal"><a href="#__codelineno-0-132">132</a></span>
+<span class="normal"><a href="#__codelineno-0-133">133</a></span>
+<span class="normal"><a href="#__codelineno-0-134">134</a></span>
+<span class="normal"><a href="#__codelineno-0-135">135</a></span>
+<span class="normal"><a href="#__codelineno-0-136">136</a></span>
+<span class="normal"><a href="#__codelineno-0-137">137</a></span>
+<span class="normal"><a href="#__codelineno-0-138">138</a></span>
+<span class="normal"><a href="#__codelineno-0-139">139</a></span>
+<span class="normal"><a href="#__codelineno-0-140">140</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="k">class</span><span class="w"> </span><span class="nc">UpsertWriter</span><span class="p">(</span><span class="n">BaseWriter</span><span class="p">):</span>
+<a id="__codelineno-0-23" name="__codelineno-0-23"></a><span class="w">    </span><span class="sd">"""</span>
 <a id="__codelineno-0-24" name="__codelineno-0-24"></a><span class="sd">    MERGE INTO — inserta filas nuevas, actualiza las existentes.</span>
 <a id="__codelineno-0-25" name="__codelineno-0-25"></a>
 <a id="__codelineno-0-26" name="__codelineno-0-26"></a><span class="sd">    Uso</span>
 <a id="__codelineno-0-27" name="__codelineno-0-27"></a><span class="sd">    ---</span>
 <a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="sd">        UpsertWriter(contract).write(</span>
 <a id="__codelineno-0-29" name="__codelineno-0-29"></a><span class="sd">            df,</span>
-<a id="__codelineno-0-30" name="__codelineno-0-30"></a><span class="sd">            merge_keys=[&quot;vuelo_id&quot;],</span>
-<a id="__codelineno-0-31" name="__codelineno-0-31"></a><span class="sd">            update_columns=[&quot;retraso_min&quot;],   # opcional — default: todas las no-key</span>
-<a id="__codelineno-0-32" name="__codelineno-0-32"></a><span class="sd">        )</span>
-<a id="__codelineno-0-33" name="__codelineno-0-33"></a><span class="sd">    &quot;&quot;&quot;</span>
-<a id="__codelineno-0-34" name="__codelineno-0-34"></a>
-<a id="__codelineno-0-35" name="__codelineno-0-35"></a>    <span class="nd">@log_operation</span><span class="p">(</span><span class="s2">&quot;upsert&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-36" name="__codelineno-0-36"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span>
-<a id="__codelineno-0-37" name="__codelineno-0-37"></a>        <span class="bp">self</span><span class="p">,</span>
-<a id="__codelineno-0-38" name="__codelineno-0-38"></a>        <span class="n">df</span><span class="p">:</span>             <span class="n">DataFrame</span><span class="p">,</span>
-<a id="__codelineno-0-39" name="__codelineno-0-39"></a>        <span class="n">merge_keys</span><span class="p">:</span>     <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<a id="__codelineno-0-40" name="__codelineno-0-40"></a>        <span class="n">update_columns</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<a id="__codelineno-0-41" name="__codelineno-0-41"></a>        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-<a id="__codelineno-0-42" name="__codelineno-0-42"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-0-43" name="__codelineno-0-43"></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">merge_keys</span><span class="p">:</span>
-<a id="__codelineno-0-44" name="__codelineno-0-44"></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-<a id="__codelineno-0-45" name="__codelineno-0-45"></a>                <span class="s2">&quot;UpsertWriter requiere &#39;merge_keys&#39;. &quot;</span>
-<a id="__codelineno-0-46" name="__codelineno-0-46"></a>                <span class="s2">&quot;Ejemplo: writer.write(df, merge_keys=[&#39;vuelo_id&#39;])&quot;</span>
-<a id="__codelineno-0-47" name="__codelineno-0-47"></a>            <span class="p">)</span>
-<a id="__codelineno-0-48" name="__codelineno-0-48"></a>
-<a id="__codelineno-0-49" name="__codelineno-0-49"></a>        <span class="n">contract_cols</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_contract</span><span class="o">.</span><span class="n">column_names</span><span class="p">)</span>
-<a id="__codelineno-0-50" name="__codelineno-0-50"></a>        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">merge_keys</span><span class="p">:</span>
-<a id="__codelineno-0-51" name="__codelineno-0-51"></a>            <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">contract_cols</span><span class="p">:</span>
-<a id="__codelineno-0-52" name="__codelineno-0-52"></a>                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-<a id="__codelineno-0-53" name="__codelineno-0-53"></a>                    <span class="sa">f</span><span class="s2">&quot;merge_key &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39; no definida en contrato de &quot;</span>
-<a id="__codelineno-0-54" name="__codelineno-0-54"></a>                    <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_table_name</span><span class="si">}</span><span class="s2">&#39;.</span><span class="se">\n</span><span class="s2">&quot;</span>
-<a id="__codelineno-0-55" name="__codelineno-0-55"></a>                    <span class="sa">f</span><span class="s2">&quot;Columnas disponibles: </span><span class="si">{</span><span class="nb">sorted</span><span class="p">(</span><span class="n">contract_cols</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
-<a id="__codelineno-0-56" name="__codelineno-0-56"></a>                <span class="p">)</span>
-<a id="__codelineno-0-57" name="__codelineno-0-57"></a>
-<a id="__codelineno-0-58" name="__codelineno-0-58"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-<a id="__codelineno-0-59" name="__codelineno-0-59"></a>            <span class="sa">f</span><span class="s2">&quot;Iniciando UPSERT | tabla=&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_table_name</span><span class="si">}</span><span class="s2">&#39; | &quot;</span>
-<a id="__codelineno-0-60" name="__codelineno-0-60"></a>            <span class="sa">f</span><span class="s2">&quot;merge_keys=</span><span class="si">{</span><span class="n">merge_keys</span><span class="si">}</span><span class="s2">&quot;</span>
-<a id="__codelineno-0-61" name="__codelineno-0-61"></a>        <span class="p">)</span>
-<a id="__codelineno-0-62" name="__codelineno-0-62"></a>
-<a id="__codelineno-0-63" name="__codelineno-0-63"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_validate</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-<a id="__codelineno-0-64" name="__codelineno-0-64"></a>        <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_apply_defaults</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-<a id="__codelineno-0-65" name="__codelineno-0-65"></a>        <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reorder_columns</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-<a id="__codelineno-0-66" name="__codelineno-0-66"></a>
-<a id="__codelineno-0-67" name="__codelineno-0-67"></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dry_run</span><span class="p">:</span>
-<a id="__codelineno-0-68" name="__codelineno-0-68"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">_log_dry_run</span><span class="p">(</span><span class="s2">&quot;upsert&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-69" name="__codelineno-0-69"></a>            <span class="k">return</span>
-<a id="__codelineno-0-70" name="__codelineno-0-70"></a>
-<a id="__codelineno-0-71" name="__codelineno-0-71"></a>        <span class="c1"># Primer run: si la tabla no existe, hacer carga inicial via overwrite</span>
-<a id="__codelineno-0-72" name="__codelineno-0-72"></a>        <span class="c1"># (equivalente a upsert donde todos los registros son inserciones)</span>
-<a id="__codelineno-0-73" name="__codelineno-0-73"></a>        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_table_exists</span><span class="p">():</span>
-<a id="__codelineno-0-74" name="__codelineno-0-74"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-<a id="__codelineno-0-75" name="__codelineno-0-75"></a>                <span class="sa">f</span><span class="s2">&quot;[upsert] Tabla &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_table_name</span><span class="si">}</span><span class="s2">&#39; no existe — &quot;</span>
-<a id="__codelineno-0-76" name="__codelineno-0-76"></a>                <span class="sa">f</span><span class="s2">&quot;carga inicial via overwrite (todos son inserciones nuevas)&quot;</span>
-<a id="__codelineno-0-77" name="__codelineno-0-77"></a>            <span class="p">)</span>
-<a id="__codelineno-0-78" name="__codelineno-0-78"></a>            <span class="c1"># Seleccionar solo las columnas del contrato Silver (excluir metadata Bronze)</span>
-<a id="__codelineno-0-79" name="__codelineno-0-79"></a>            <span class="n">df_cols</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
-<a id="__codelineno-0-80" name="__codelineno-0-80"></a>            <span class="n">silver_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_contract</span><span class="o">.</span><span class="n">column_names</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df_cols</span><span class="p">]</span>
-<a id="__codelineno-0-81" name="__codelineno-0-81"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">_write_df</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="o">*</span><span class="n">silver_cols</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;overwrite&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-82" name="__codelineno-0-82"></a>            <span class="k">return</span>
-<a id="__codelineno-0-83" name="__codelineno-0-83"></a>
-<a id="__codelineno-0-84" name="__codelineno-0-84"></a>        <span class="c1"># Vista temporal para el MERGE</span>
-<a id="__codelineno-0-85" name="__codelineno-0-85"></a>        <span class="n">tmp_view</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;_tmp_upsert_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_contract</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
-<a id="__codelineno-0-86" name="__codelineno-0-86"></a>        <span class="n">df</span><span class="o">.</span><span class="n">createOrReplaceTempView</span><span class="p">(</span><span class="n">tmp_view</span><span class="p">)</span>
-<a id="__codelineno-0-87" name="__codelineno-0-87"></a>
-<a id="__codelineno-0-88" name="__codelineno-0-88"></a>        <span class="n">join_cond</span> <span class="o">=</span> <span class="s2">&quot; AND &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-<a id="__codelineno-0-89" name="__codelineno-0-89"></a>            <span class="sa">f</span><span class="s2">&quot;target.`</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">` = source.`</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">`&quot;</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">merge_keys</span>
-<a id="__codelineno-0-90" name="__codelineno-0-90"></a>        <span class="p">)</span>
-<a id="__codelineno-0-91" name="__codelineno-0-91"></a>
-<a id="__codelineno-0-92" name="__codelineno-0-92"></a>        <span class="n">all_cols</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_contract</span><span class="o">.</span><span class="n">column_names</span>
-<a id="__codelineno-0-93" name="__codelineno-0-93"></a>        <span class="n">cols_to_update</span> <span class="o">=</span> <span class="p">(</span>
-<a id="__codelineno-0-94" name="__codelineno-0-94"></a>            <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">update_columns</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">merge_keys</span><span class="p">]</span>
-<a id="__codelineno-0-95" name="__codelineno-0-95"></a>            <span class="k">if</span> <span class="n">update_columns</span>
-<a id="__codelineno-0-96" name="__codelineno-0-96"></a>            <span class="k">else</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">all_cols</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">merge_keys</span><span class="p">]</span>
-<a id="__codelineno-0-97" name="__codelineno-0-97"></a>        <span class="p">)</span>
-<a id="__codelineno-0-98" name="__codelineno-0-98"></a>
-<a id="__codelineno-0-99" name="__codelineno-0-99"></a>        <span class="n">set_clause</span>    <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;target.`</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">` = source.`</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">`&quot;</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">cols_to_update</span><span class="p">)</span>
-<a id="__codelineno-0-100" name="__codelineno-0-100"></a>        <span class="n">insert_cols</span>   <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;`</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">`&quot;</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">all_cols</span><span class="p">)</span>
-<a id="__codelineno-0-101" name="__codelineno-0-101"></a>        <span class="n">insert_values</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;source.`</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">`&quot;</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">all_cols</span><span class="p">)</span>
-<a id="__codelineno-0-102" name="__codelineno-0-102"></a>
-<a id="__codelineno-0-103" name="__codelineno-0-103"></a>        <span class="n">merge_sql</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
-<a id="__codelineno-0-104" name="__codelineno-0-104"></a><span class="s2">        MERGE INTO </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_table_name</span><span class="si">}</span><span class="s2"> AS target</span>
-<a id="__codelineno-0-105" name="__codelineno-0-105"></a><span class="s2">        USING </span><span class="si">{</span><span class="n">tmp_view</span><span class="si">}</span><span class="s2"> AS source</span>
-<a id="__codelineno-0-106" name="__codelineno-0-106"></a><span class="s2">        ON </span><span class="si">{</span><span class="n">join_cond</span><span class="si">}</span>
-<a id="__codelineno-0-107" name="__codelineno-0-107"></a><span class="s2">        WHEN MATCHED THEN UPDATE SET </span><span class="si">{</span><span class="n">set_clause</span><span class="si">}</span>
-<a id="__codelineno-0-108" name="__codelineno-0-108"></a><span class="s2">        WHEN NOT MATCHED THEN INSERT (</span><span class="si">{</span><span class="n">insert_cols</span><span class="si">}</span><span class="s2">) VALUES (</span><span class="si">{</span><span class="n">insert_values</span><span class="si">}</span><span class="s2">)</span>
-<a id="__codelineno-0-109" name="__codelineno-0-109"></a><span class="s2">        &quot;&quot;&quot;</span>
-<a id="__codelineno-0-110" name="__codelineno-0-110"></a>
-<a id="__codelineno-0-111" name="__codelineno-0-111"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;MERGE SQL:</span><span class="se">\n</span><span class="si">{</span><span class="n">merge_sql</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-112" name="__codelineno-0-112"></a>        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="n">merge_sql</span><span class="p">)</span>
-<a id="__codelineno-0-113" name="__codelineno-0-113"></a>
-<a id="__codelineno-0-114" name="__codelineno-0-114"></a>        <span class="k">try</span><span class="p">:</span>
-<a id="__codelineno-0-115" name="__codelineno-0-115"></a>            <span class="n">metrics</span>  <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">collect</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">asDict</span><span class="p">()</span>
-<a id="__codelineno-0-116" name="__codelineno-0-116"></a>            <span class="n">inserted</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;num_inserted_rows&quot;</span><span class="p">,</span> <span class="s2">&quot;?&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-117" name="__codelineno-0-117"></a>            <span class="n">updated</span>  <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;num_updated_rows&quot;</span><span class="p">,</span> <span class="s2">&quot;?&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-118" name="__codelineno-0-118"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">success</span><span class="p">(</span>
-<a id="__codelineno-0-119" name="__codelineno-0-119"></a>                <span class="sa">f</span><span class="s2">&quot;✔ UPSERT completado | tabla=&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_table_name</span><span class="si">}</span><span class="s2">&#39; | &quot;</span>
-<a id="__codelineno-0-120" name="__codelineno-0-120"></a>                <span class="sa">f</span><span class="s2">&quot;insertados=</span><span class="si">{</span><span class="n">inserted</span><span class="si">}</span><span class="s2"> | actualizados=</span><span class="si">{</span><span class="n">updated</span><span class="si">}</span><span class="s2">&quot;</span>
-<a id="__codelineno-0-121" name="__codelineno-0-121"></a>            <span class="p">)</span>
-<a id="__codelineno-0-122" name="__codelineno-0-122"></a>        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-<a id="__codelineno-0-123" name="__codelineno-0-123"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✔ UPSERT completado | tabla=&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_table_name</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-30" name="__codelineno-0-30"></a><span class="sd">            merge_keys=["vuelo_id"],</span>
+<a id="__codelineno-0-31" name="__codelineno-0-31"></a><span class="sd">            update_columns=["retraso_min"],              # opcional — default: todas las no-key</span>
+<a id="__codelineno-0-32" name="__codelineno-0-32"></a><span class="sd">            insert_only_columns=["_silver_created_at"],  # opcional — se insertan, nunca se actualizan</span>
+<a id="__codelineno-0-33" name="__codelineno-0-33"></a><span class="sd">        )</span>
+<a id="__codelineno-0-34" name="__codelineno-0-34"></a><span class="sd">    """</span>
+<a id="__codelineno-0-35" name="__codelineno-0-35"></a>
+<a id="__codelineno-0-36" name="__codelineno-0-36"></a>    <span class="nd">@log_operation</span><span class="p">(</span><span class="s2">"upsert"</span><span class="p">)</span>
+<a id="__codelineno-0-37" name="__codelineno-0-37"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span>
+<a id="__codelineno-0-38" name="__codelineno-0-38"></a>        <span class="bp">self</span><span class="p">,</span>
+<a id="__codelineno-0-39" name="__codelineno-0-39"></a>        <span class="n">df</span><span class="p">:</span>                  <span class="n">DataFrame</span><span class="p">,</span>
+<a id="__codelineno-0-40" name="__codelineno-0-40"></a>        <span class="n">merge_keys</span><span class="p">:</span>          <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-0-41" name="__codelineno-0-41"></a>        <span class="n">update_columns</span><span class="p">:</span>      <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-0-42" name="__codelineno-0-42"></a>        <span class="n">insert_only_columns</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-0-43" name="__codelineno-0-43"></a>        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<a id="__codelineno-0-44" name="__codelineno-0-44"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-0-45" name="__codelineno-0-45"></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">merge_keys</span><span class="p">:</span>
+<a id="__codelineno-0-46" name="__codelineno-0-46"></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+<a id="__codelineno-0-47" name="__codelineno-0-47"></a>                <span class="s2">"UpsertWriter requiere 'merge_keys'. "</span>
+<a id="__codelineno-0-48" name="__codelineno-0-48"></a>                <span class="s2">"Ejemplo: writer.write(df, merge_keys=['vuelo_id'])"</span>
+<a id="__codelineno-0-49" name="__codelineno-0-49"></a>            <span class="p">)</span>
+<a id="__codelineno-0-50" name="__codelineno-0-50"></a>
+<a id="__codelineno-0-51" name="__codelineno-0-51"></a>        <span class="n">contract_cols</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_contract</span><span class="o">.</span><span class="n">column_names</span><span class="p">)</span>
+<a id="__codelineno-0-52" name="__codelineno-0-52"></a>        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">merge_keys</span><span class="p">:</span>
+<a id="__codelineno-0-53" name="__codelineno-0-53"></a>            <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">contract_cols</span><span class="p">:</span>
+<a id="__codelineno-0-54" name="__codelineno-0-54"></a>                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+<a id="__codelineno-0-55" name="__codelineno-0-55"></a>                    <span class="sa">f</span><span class="s2">"merge_key '</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">' no definida en contrato de "</span>
+<a id="__codelineno-0-56" name="__codelineno-0-56"></a>                    <span class="sa">f</span><span class="s2">"'</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_table_name</span><span class="si">}</span><span class="s2">'.</span><span class="se">\n</span><span class="s2">"</span>
+<a id="__codelineno-0-57" name="__codelineno-0-57"></a>                    <span class="sa">f</span><span class="s2">"Columnas disponibles: </span><span class="si">{</span><span class="nb">sorted</span><span class="p">(</span><span class="n">contract_cols</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
+<a id="__codelineno-0-58" name="__codelineno-0-58"></a>                <span class="p">)</span>
+<a id="__codelineno-0-59" name="__codelineno-0-59"></a>
+<a id="__codelineno-0-60" name="__codelineno-0-60"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+<a id="__codelineno-0-61" name="__codelineno-0-61"></a>            <span class="sa">f</span><span class="s2">"Iniciando UPSERT | tabla='</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_table_name</span><span class="si">}</span><span class="s2">' | "</span>
+<a id="__codelineno-0-62" name="__codelineno-0-62"></a>            <span class="sa">f</span><span class="s2">"merge_keys=</span><span class="si">{</span><span class="n">merge_keys</span><span class="si">}</span><span class="s2">"</span>
+<a id="__codelineno-0-63" name="__codelineno-0-63"></a>        <span class="p">)</span>
+<a id="__codelineno-0-64" name="__codelineno-0-64"></a>
+<a id="__codelineno-0-65" name="__codelineno-0-65"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_validate</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<a id="__codelineno-0-66" name="__codelineno-0-66"></a>        <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_apply_defaults</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<a id="__codelineno-0-67" name="__codelineno-0-67"></a>        <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reorder_columns</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<a id="__codelineno-0-68" name="__codelineno-0-68"></a>
+<a id="__codelineno-0-69" name="__codelineno-0-69"></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dry_run</span><span class="p">:</span>
+<a id="__codelineno-0-70" name="__codelineno-0-70"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">_log_dry_run</span><span class="p">(</span><span class="s2">"upsert"</span><span class="p">)</span>
+<a id="__codelineno-0-71" name="__codelineno-0-71"></a>            <span class="k">return</span>
+<a id="__codelineno-0-72" name="__codelineno-0-72"></a>
+<a id="__codelineno-0-73" name="__codelineno-0-73"></a>        <span class="c1"># Primer run: si la tabla no existe, hacer carga inicial via overwrite</span>
+<a id="__codelineno-0-74" name="__codelineno-0-74"></a>        <span class="c1"># (equivalente a upsert donde todos los registros son inserciones)</span>
+<a id="__codelineno-0-75" name="__codelineno-0-75"></a>        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_table_exists</span><span class="p">():</span>
+<a id="__codelineno-0-76" name="__codelineno-0-76"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+<a id="__codelineno-0-77" name="__codelineno-0-77"></a>                <span class="sa">f</span><span class="s2">"[upsert] Tabla '</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_table_name</span><span class="si">}</span><span class="s2">' no existe — "</span>
+<a id="__codelineno-0-78" name="__codelineno-0-78"></a>                <span class="sa">f</span><span class="s2">"carga inicial via overwrite (todos son inserciones nuevas)"</span>
+<a id="__codelineno-0-79" name="__codelineno-0-79"></a>            <span class="p">)</span>
+<a id="__codelineno-0-80" name="__codelineno-0-80"></a>            <span class="c1"># Seleccionar solo las columnas del contrato Silver (excluir metadata Bronze)</span>
+<a id="__codelineno-0-81" name="__codelineno-0-81"></a>            <span class="n">df_cols</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+<a id="__codelineno-0-82" name="__codelineno-0-82"></a>            <span class="n">silver_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_contract</span><span class="o">.</span><span class="n">column_names</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df_cols</span><span class="p">]</span>
+<a id="__codelineno-0-83" name="__codelineno-0-83"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">_write_df</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="o">*</span><span class="n">silver_cols</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"overwrite"</span><span class="p">)</span>
+<a id="__codelineno-0-84" name="__codelineno-0-84"></a>            <span class="c1"># La tabla nace aquí, no en CreateWriter — hay que documentarla</span>
+<a id="__codelineno-0-85" name="__codelineno-0-85"></a>            <span class="c1"># igual, o el contrato no gobierna la metadata en la primera carga.</span>
+<a id="__codelineno-0-86" name="__codelineno-0-86"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">apply_contract_metadata</span><span class="p">()</span>
+<a id="__codelineno-0-87" name="__codelineno-0-87"></a>            <span class="k">return</span>
+<a id="__codelineno-0-88" name="__codelineno-0-88"></a>
+<a id="__codelineno-0-89" name="__codelineno-0-89"></a>        <span class="c1"># Vista temporal para el MERGE</span>
+<a id="__codelineno-0-90" name="__codelineno-0-90"></a>        <span class="n">tmp_view</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"_tmp_upsert_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_contract</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span>
+<a id="__codelineno-0-91" name="__codelineno-0-91"></a>        <span class="n">df</span><span class="o">.</span><span class="n">createOrReplaceTempView</span><span class="p">(</span><span class="n">tmp_view</span><span class="p">)</span>
+<a id="__codelineno-0-92" name="__codelineno-0-92"></a>
+<a id="__codelineno-0-93" name="__codelineno-0-93"></a>        <span class="n">join_cond</span> <span class="o">=</span> <span class="s2">" AND "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+<a id="__codelineno-0-94" name="__codelineno-0-94"></a>            <span class="sa">f</span><span class="s2">"target.`</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">` = source.`</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">`"</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">merge_keys</span>
+<a id="__codelineno-0-95" name="__codelineno-0-95"></a>        <span class="p">)</span>
+<a id="__codelineno-0-96" name="__codelineno-0-96"></a>
+<a id="__codelineno-0-97" name="__codelineno-0-97"></a>        <span class="n">all_cols</span>   <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_contract</span><span class="o">.</span><span class="n">column_names</span>
+<a id="__codelineno-0-98" name="__codelineno-0-98"></a>        <span class="n">never_upd</span>  <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">insert_only_columns</span> <span class="ow">or</span> <span class="p">[])</span>
+<a id="__codelineno-0-99" name="__codelineno-0-99"></a>        <span class="n">cols_to_update</span> <span class="o">=</span> <span class="p">(</span>
+<a id="__codelineno-0-100" name="__codelineno-0-100"></a>            <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">update_columns</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">merge_keys</span><span class="p">]</span>
+<a id="__codelineno-0-101" name="__codelineno-0-101"></a>            <span class="k">if</span> <span class="n">update_columns</span>
+<a id="__codelineno-0-102" name="__codelineno-0-102"></a>            <span class="k">else</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">all_cols</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">merge_keys</span><span class="p">]</span>
+<a id="__codelineno-0-103" name="__codelineno-0-103"></a>        <span class="p">)</span>
+<a id="__codelineno-0-104" name="__codelineno-0-104"></a>        <span class="c1"># Columnas insert-only: entran en el INSERT pero se excluyen del UPDATE</span>
+<a id="__codelineno-0-105" name="__codelineno-0-105"></a>        <span class="c1"># (p. ej. _silver_created_at, que debe conservar el valor original).</span>
+<a id="__codelineno-0-106" name="__codelineno-0-106"></a>        <span class="k">if</span> <span class="n">never_upd</span><span class="p">:</span>
+<a id="__codelineno-0-107" name="__codelineno-0-107"></a>            <span class="n">cols_to_update</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">cols_to_update</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">never_upd</span><span class="p">]</span>
+<a id="__codelineno-0-108" name="__codelineno-0-108"></a>
+<a id="__codelineno-0-109" name="__codelineno-0-109"></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">cols_to_update</span><span class="p">:</span>
+<a id="__codelineno-0-110" name="__codelineno-0-110"></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+<a id="__codelineno-0-111" name="__codelineno-0-111"></a>                <span class="sa">f</span><span class="s2">"El MERGE sobre '</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_table_name</span><span class="si">}</span><span class="s2">' no tiene ninguna columna "</span>
+<a id="__codelineno-0-112" name="__codelineno-0-112"></a>                <span class="sa">f</span><span class="s2">"que actualizar: todas las no-key están en insert_only_columns "</span>
+<a id="__codelineno-0-113" name="__codelineno-0-113"></a>                <span class="sa">f</span><span class="s2">"o update_columns quedó vacío."</span>
+<a id="__codelineno-0-114" name="__codelineno-0-114"></a>            <span class="p">)</span>
+<a id="__codelineno-0-115" name="__codelineno-0-115"></a>
+<a id="__codelineno-0-116" name="__codelineno-0-116"></a>        <span class="n">set_clause</span>    <span class="o">=</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">"target.`</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">` = source.`</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">`"</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">cols_to_update</span><span class="p">)</span>
+<a id="__codelineno-0-117" name="__codelineno-0-117"></a>        <span class="n">insert_cols</span>   <span class="o">=</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">"`</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">`"</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">all_cols</span><span class="p">)</span>
+<a id="__codelineno-0-118" name="__codelineno-0-118"></a>        <span class="n">insert_values</span> <span class="o">=</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">"source.`</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">`"</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">all_cols</span><span class="p">)</span>
+<a id="__codelineno-0-119" name="__codelineno-0-119"></a>
+<a id="__codelineno-0-120" name="__codelineno-0-120"></a>        <span class="n">merge_sql</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"""</span>
+<a id="__codelineno-0-121" name="__codelineno-0-121"></a><span class="s2">        MERGE INTO </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_table_name</span><span class="si">}</span><span class="s2"> AS target</span>
+<a id="__codelineno-0-122" name="__codelineno-0-122"></a><span class="s2">        USING </span><span class="si">{</span><span class="n">tmp_view</span><span class="si">}</span><span class="s2"> AS source</span>
+<a id="__codelineno-0-123" name="__codelineno-0-123"></a><span class="s2">        ON </span><span class="si">{</span><span class="n">join_cond</span><span class="si">}</span>
+<a id="__codelineno-0-124" name="__codelineno-0-124"></a><span class="s2">        WHEN MATCHED THEN UPDATE SET </span><span class="si">{</span><span class="n">set_clause</span><span class="si">}</span>
+<a id="__codelineno-0-125" name="__codelineno-0-125"></a><span class="s2">        WHEN NOT MATCHED THEN INSERT (</span><span class="si">{</span><span class="n">insert_cols</span><span class="si">}</span><span class="s2">) VALUES (</span><span class="si">{</span><span class="n">insert_values</span><span class="si">}</span><span class="s2">)</span>
+<a id="__codelineno-0-126" name="__codelineno-0-126"></a><span class="s2">        """</span>
+<a id="__codelineno-0-127" name="__codelineno-0-127"></a>
+<a id="__codelineno-0-128" name="__codelineno-0-128"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">"MERGE SQL:</span><span class="se">\n</span><span class="si">{</span><span class="n">merge_sql</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<a id="__codelineno-0-129" name="__codelineno-0-129"></a>        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="n">merge_sql</span><span class="p">)</span>
+<a id="__codelineno-0-130" name="__codelineno-0-130"></a>
+<a id="__codelineno-0-131" name="__codelineno-0-131"></a>        <span class="k">try</span><span class="p">:</span>
+<a id="__codelineno-0-132" name="__codelineno-0-132"></a>            <span class="n">metrics</span>  <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">collect</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">asDict</span><span class="p">()</span>
+<a id="__codelineno-0-133" name="__codelineno-0-133"></a>            <span class="n">inserted</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"num_inserted_rows"</span><span class="p">,</span> <span class="s2">"?"</span><span class="p">)</span>
+<a id="__codelineno-0-134" name="__codelineno-0-134"></a>            <span class="n">updated</span>  <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"num_updated_rows"</span><span class="p">,</span> <span class="s2">"?"</span><span class="p">)</span>
+<a id="__codelineno-0-135" name="__codelineno-0-135"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">success</span><span class="p">(</span>
+<a id="__codelineno-0-136" name="__codelineno-0-136"></a>                <span class="sa">f</span><span class="s2">"✔ UPSERT completado | tabla='</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_table_name</span><span class="si">}</span><span class="s2">' | "</span>
+<a id="__codelineno-0-137" name="__codelineno-0-137"></a>                <span class="sa">f</span><span class="s2">"insertados=</span><span class="si">{</span><span class="n">inserted</span><span class="si">}</span><span class="s2"> | actualizados=</span><span class="si">{</span><span class="n">updated</span><span class="si">}</span><span class="s2">"</span>
+<a id="__codelineno-0-138" name="__codelineno-0-138"></a>            <span class="p">)</span>
+<a id="__codelineno-0-139" name="__codelineno-0-139"></a>        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+<a id="__codelineno-0-140" name="__codelineno-0-140"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✔ UPSERT completado | tabla='</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_table_name</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
               </details>
 
@@ -2330,7 +2365,7 @@ En local PC la tabla debe existir previamente — usa CreateWriter primero.</p>
 
 
 <h6 id="DKOps.table_governance.writers.upsert_writer.UpsertWriter.write" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">write</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">merge_keys</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">update_columns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">write</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">merge_keys</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">update_columns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">insert_only_columns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
 
 <a href="#DKOps.table_governance.writers.upsert_writer.UpsertWriter.write" class="headerlink" title="Permanent link">&para;</a></h6>
 
@@ -2340,8 +2375,7 @@ En local PC la tabla debe existir previamente — usa CreateWriter primero.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/DKOps/table_governance/writers/upsert_writer.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-35"> 35</a></span>
-<span class="normal"><a href="#__codelineno-0-36"> 36</a></span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-36"> 36</a></span>
 <span class="normal"><a href="#__codelineno-0-37"> 37</a></span>
 <span class="normal"><a href="#__codelineno-0-38"> 38</a></span>
 <span class="normal"><a href="#__codelineno-0-39"> 39</a></span>
@@ -2428,95 +2462,128 @@ En local PC la tabla debe existir previamente — usa CreateWriter primero.</p>
 <span class="normal"><a href="#__codelineno-0-120">120</a></span>
 <span class="normal"><a href="#__codelineno-0-121">121</a></span>
 <span class="normal"><a href="#__codelineno-0-122">122</a></span>
-<span class="normal"><a href="#__codelineno-0-123">123</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-35" name="__codelineno-0-35"></a><span class="nd">@log_operation</span><span class="p">(</span><span class="s2">&quot;upsert&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-36" name="__codelineno-0-36"></a><span class="k">def</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span>
-<a id="__codelineno-0-37" name="__codelineno-0-37"></a>    <span class="bp">self</span><span class="p">,</span>
-<a id="__codelineno-0-38" name="__codelineno-0-38"></a>    <span class="n">df</span><span class="p">:</span>             <span class="n">DataFrame</span><span class="p">,</span>
-<a id="__codelineno-0-39" name="__codelineno-0-39"></a>    <span class="n">merge_keys</span><span class="p">:</span>     <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<a id="__codelineno-0-40" name="__codelineno-0-40"></a>    <span class="n">update_columns</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<a id="__codelineno-0-41" name="__codelineno-0-41"></a>    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-<a id="__codelineno-0-42" name="__codelineno-0-42"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-0-43" name="__codelineno-0-43"></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">merge_keys</span><span class="p">:</span>
-<a id="__codelineno-0-44" name="__codelineno-0-44"></a>        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-<a id="__codelineno-0-45" name="__codelineno-0-45"></a>            <span class="s2">&quot;UpsertWriter requiere &#39;merge_keys&#39;. &quot;</span>
-<a id="__codelineno-0-46" name="__codelineno-0-46"></a>            <span class="s2">&quot;Ejemplo: writer.write(df, merge_keys=[&#39;vuelo_id&#39;])&quot;</span>
-<a id="__codelineno-0-47" name="__codelineno-0-47"></a>        <span class="p">)</span>
-<a id="__codelineno-0-48" name="__codelineno-0-48"></a>
-<a id="__codelineno-0-49" name="__codelineno-0-49"></a>    <span class="n">contract_cols</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_contract</span><span class="o">.</span><span class="n">column_names</span><span class="p">)</span>
-<a id="__codelineno-0-50" name="__codelineno-0-50"></a>    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">merge_keys</span><span class="p">:</span>
-<a id="__codelineno-0-51" name="__codelineno-0-51"></a>        <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">contract_cols</span><span class="p">:</span>
-<a id="__codelineno-0-52" name="__codelineno-0-52"></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-<a id="__codelineno-0-53" name="__codelineno-0-53"></a>                <span class="sa">f</span><span class="s2">&quot;merge_key &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39; no definida en contrato de &quot;</span>
-<a id="__codelineno-0-54" name="__codelineno-0-54"></a>                <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_table_name</span><span class="si">}</span><span class="s2">&#39;.</span><span class="se">\n</span><span class="s2">&quot;</span>
-<a id="__codelineno-0-55" name="__codelineno-0-55"></a>                <span class="sa">f</span><span class="s2">&quot;Columnas disponibles: </span><span class="si">{</span><span class="nb">sorted</span><span class="p">(</span><span class="n">contract_cols</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
-<a id="__codelineno-0-56" name="__codelineno-0-56"></a>            <span class="p">)</span>
-<a id="__codelineno-0-57" name="__codelineno-0-57"></a>
-<a id="__codelineno-0-58" name="__codelineno-0-58"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-<a id="__codelineno-0-59" name="__codelineno-0-59"></a>        <span class="sa">f</span><span class="s2">&quot;Iniciando UPSERT | tabla=&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_table_name</span><span class="si">}</span><span class="s2">&#39; | &quot;</span>
-<a id="__codelineno-0-60" name="__codelineno-0-60"></a>        <span class="sa">f</span><span class="s2">&quot;merge_keys=</span><span class="si">{</span><span class="n">merge_keys</span><span class="si">}</span><span class="s2">&quot;</span>
-<a id="__codelineno-0-61" name="__codelineno-0-61"></a>    <span class="p">)</span>
-<a id="__codelineno-0-62" name="__codelineno-0-62"></a>
-<a id="__codelineno-0-63" name="__codelineno-0-63"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_validate</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-<a id="__codelineno-0-64" name="__codelineno-0-64"></a>    <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_apply_defaults</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-<a id="__codelineno-0-65" name="__codelineno-0-65"></a>    <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reorder_columns</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-<a id="__codelineno-0-66" name="__codelineno-0-66"></a>
-<a id="__codelineno-0-67" name="__codelineno-0-67"></a>    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dry_run</span><span class="p">:</span>
-<a id="__codelineno-0-68" name="__codelineno-0-68"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_log_dry_run</span><span class="p">(</span><span class="s2">&quot;upsert&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-69" name="__codelineno-0-69"></a>        <span class="k">return</span>
-<a id="__codelineno-0-70" name="__codelineno-0-70"></a>
-<a id="__codelineno-0-71" name="__codelineno-0-71"></a>    <span class="c1"># Primer run: si la tabla no existe, hacer carga inicial via overwrite</span>
-<a id="__codelineno-0-72" name="__codelineno-0-72"></a>    <span class="c1"># (equivalente a upsert donde todos los registros son inserciones)</span>
-<a id="__codelineno-0-73" name="__codelineno-0-73"></a>    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_table_exists</span><span class="p">():</span>
-<a id="__codelineno-0-74" name="__codelineno-0-74"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-<a id="__codelineno-0-75" name="__codelineno-0-75"></a>            <span class="sa">f</span><span class="s2">&quot;[upsert] Tabla &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_table_name</span><span class="si">}</span><span class="s2">&#39; no existe — &quot;</span>
-<a id="__codelineno-0-76" name="__codelineno-0-76"></a>            <span class="sa">f</span><span class="s2">&quot;carga inicial via overwrite (todos son inserciones nuevas)&quot;</span>
-<a id="__codelineno-0-77" name="__codelineno-0-77"></a>        <span class="p">)</span>
-<a id="__codelineno-0-78" name="__codelineno-0-78"></a>        <span class="c1"># Seleccionar solo las columnas del contrato Silver (excluir metadata Bronze)</span>
-<a id="__codelineno-0-79" name="__codelineno-0-79"></a>        <span class="n">df_cols</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
-<a id="__codelineno-0-80" name="__codelineno-0-80"></a>        <span class="n">silver_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_contract</span><span class="o">.</span><span class="n">column_names</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df_cols</span><span class="p">]</span>
-<a id="__codelineno-0-81" name="__codelineno-0-81"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_write_df</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="o">*</span><span class="n">silver_cols</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;overwrite&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-82" name="__codelineno-0-82"></a>        <span class="k">return</span>
-<a id="__codelineno-0-83" name="__codelineno-0-83"></a>
-<a id="__codelineno-0-84" name="__codelineno-0-84"></a>    <span class="c1"># Vista temporal para el MERGE</span>
-<a id="__codelineno-0-85" name="__codelineno-0-85"></a>    <span class="n">tmp_view</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;_tmp_upsert_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_contract</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
-<a id="__codelineno-0-86" name="__codelineno-0-86"></a>    <span class="n">df</span><span class="o">.</span><span class="n">createOrReplaceTempView</span><span class="p">(</span><span class="n">tmp_view</span><span class="p">)</span>
-<a id="__codelineno-0-87" name="__codelineno-0-87"></a>
-<a id="__codelineno-0-88" name="__codelineno-0-88"></a>    <span class="n">join_cond</span> <span class="o">=</span> <span class="s2">&quot; AND &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-<a id="__codelineno-0-89" name="__codelineno-0-89"></a>        <span class="sa">f</span><span class="s2">&quot;target.`</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">` = source.`</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">`&quot;</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">merge_keys</span>
-<a id="__codelineno-0-90" name="__codelineno-0-90"></a>    <span class="p">)</span>
-<a id="__codelineno-0-91" name="__codelineno-0-91"></a>
-<a id="__codelineno-0-92" name="__codelineno-0-92"></a>    <span class="n">all_cols</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_contract</span><span class="o">.</span><span class="n">column_names</span>
-<a id="__codelineno-0-93" name="__codelineno-0-93"></a>    <span class="n">cols_to_update</span> <span class="o">=</span> <span class="p">(</span>
-<a id="__codelineno-0-94" name="__codelineno-0-94"></a>        <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">update_columns</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">merge_keys</span><span class="p">]</span>
-<a id="__codelineno-0-95" name="__codelineno-0-95"></a>        <span class="k">if</span> <span class="n">update_columns</span>
-<a id="__codelineno-0-96" name="__codelineno-0-96"></a>        <span class="k">else</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">all_cols</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">merge_keys</span><span class="p">]</span>
-<a id="__codelineno-0-97" name="__codelineno-0-97"></a>    <span class="p">)</span>
-<a id="__codelineno-0-98" name="__codelineno-0-98"></a>
-<a id="__codelineno-0-99" name="__codelineno-0-99"></a>    <span class="n">set_clause</span>    <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;target.`</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">` = source.`</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">`&quot;</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">cols_to_update</span><span class="p">)</span>
-<a id="__codelineno-0-100" name="__codelineno-0-100"></a>    <span class="n">insert_cols</span>   <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;`</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">`&quot;</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">all_cols</span><span class="p">)</span>
-<a id="__codelineno-0-101" name="__codelineno-0-101"></a>    <span class="n">insert_values</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;source.`</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">`&quot;</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">all_cols</span><span class="p">)</span>
-<a id="__codelineno-0-102" name="__codelineno-0-102"></a>
-<a id="__codelineno-0-103" name="__codelineno-0-103"></a>    <span class="n">merge_sql</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
-<a id="__codelineno-0-104" name="__codelineno-0-104"></a><span class="s2">    MERGE INTO </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_table_name</span><span class="si">}</span><span class="s2"> AS target</span>
-<a id="__codelineno-0-105" name="__codelineno-0-105"></a><span class="s2">    USING </span><span class="si">{</span><span class="n">tmp_view</span><span class="si">}</span><span class="s2"> AS source</span>
-<a id="__codelineno-0-106" name="__codelineno-0-106"></a><span class="s2">    ON </span><span class="si">{</span><span class="n">join_cond</span><span class="si">}</span>
-<a id="__codelineno-0-107" name="__codelineno-0-107"></a><span class="s2">    WHEN MATCHED THEN UPDATE SET </span><span class="si">{</span><span class="n">set_clause</span><span class="si">}</span>
-<a id="__codelineno-0-108" name="__codelineno-0-108"></a><span class="s2">    WHEN NOT MATCHED THEN INSERT (</span><span class="si">{</span><span class="n">insert_cols</span><span class="si">}</span><span class="s2">) VALUES (</span><span class="si">{</span><span class="n">insert_values</span><span class="si">}</span><span class="s2">)</span>
-<a id="__codelineno-0-109" name="__codelineno-0-109"></a><span class="s2">    &quot;&quot;&quot;</span>
-<a id="__codelineno-0-110" name="__codelineno-0-110"></a>
-<a id="__codelineno-0-111" name="__codelineno-0-111"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;MERGE SQL:</span><span class="se">\n</span><span class="si">{</span><span class="n">merge_sql</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-112" name="__codelineno-0-112"></a>    <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="n">merge_sql</span><span class="p">)</span>
-<a id="__codelineno-0-113" name="__codelineno-0-113"></a>
-<a id="__codelineno-0-114" name="__codelineno-0-114"></a>    <span class="k">try</span><span class="p">:</span>
-<a id="__codelineno-0-115" name="__codelineno-0-115"></a>        <span class="n">metrics</span>  <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">collect</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">asDict</span><span class="p">()</span>
-<a id="__codelineno-0-116" name="__codelineno-0-116"></a>        <span class="n">inserted</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;num_inserted_rows&quot;</span><span class="p">,</span> <span class="s2">&quot;?&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-117" name="__codelineno-0-117"></a>        <span class="n">updated</span>  <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;num_updated_rows&quot;</span><span class="p">,</span> <span class="s2">&quot;?&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-118" name="__codelineno-0-118"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">success</span><span class="p">(</span>
-<a id="__codelineno-0-119" name="__codelineno-0-119"></a>            <span class="sa">f</span><span class="s2">&quot;✔ UPSERT completado | tabla=&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_table_name</span><span class="si">}</span><span class="s2">&#39; | &quot;</span>
-<a id="__codelineno-0-120" name="__codelineno-0-120"></a>            <span class="sa">f</span><span class="s2">&quot;insertados=</span><span class="si">{</span><span class="n">inserted</span><span class="si">}</span><span class="s2"> | actualizados=</span><span class="si">{</span><span class="n">updated</span><span class="si">}</span><span class="s2">&quot;</span>
-<a id="__codelineno-0-121" name="__codelineno-0-121"></a>        <span class="p">)</span>
-<a id="__codelineno-0-122" name="__codelineno-0-122"></a>    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-<a id="__codelineno-0-123" name="__codelineno-0-123"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✔ UPSERT completado | tabla=&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_table_name</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+<span class="normal"><a href="#__codelineno-0-123">123</a></span>
+<span class="normal"><a href="#__codelineno-0-124">124</a></span>
+<span class="normal"><a href="#__codelineno-0-125">125</a></span>
+<span class="normal"><a href="#__codelineno-0-126">126</a></span>
+<span class="normal"><a href="#__codelineno-0-127">127</a></span>
+<span class="normal"><a href="#__codelineno-0-128">128</a></span>
+<span class="normal"><a href="#__codelineno-0-129">129</a></span>
+<span class="normal"><a href="#__codelineno-0-130">130</a></span>
+<span class="normal"><a href="#__codelineno-0-131">131</a></span>
+<span class="normal"><a href="#__codelineno-0-132">132</a></span>
+<span class="normal"><a href="#__codelineno-0-133">133</a></span>
+<span class="normal"><a href="#__codelineno-0-134">134</a></span>
+<span class="normal"><a href="#__codelineno-0-135">135</a></span>
+<span class="normal"><a href="#__codelineno-0-136">136</a></span>
+<span class="normal"><a href="#__codelineno-0-137">137</a></span>
+<span class="normal"><a href="#__codelineno-0-138">138</a></span>
+<span class="normal"><a href="#__codelineno-0-139">139</a></span>
+<span class="normal"><a href="#__codelineno-0-140">140</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-36" name="__codelineno-0-36"></a><span class="nd">@log_operation</span><span class="p">(</span><span class="s2">"upsert"</span><span class="p">)</span>
+<a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="k">def</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span>
+<a id="__codelineno-0-38" name="__codelineno-0-38"></a>    <span class="bp">self</span><span class="p">,</span>
+<a id="__codelineno-0-39" name="__codelineno-0-39"></a>    <span class="n">df</span><span class="p">:</span>                  <span class="n">DataFrame</span><span class="p">,</span>
+<a id="__codelineno-0-40" name="__codelineno-0-40"></a>    <span class="n">merge_keys</span><span class="p">:</span>          <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-0-41" name="__codelineno-0-41"></a>    <span class="n">update_columns</span><span class="p">:</span>      <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-0-42" name="__codelineno-0-42"></a>    <span class="n">insert_only_columns</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-0-43" name="__codelineno-0-43"></a>    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<a id="__codelineno-0-44" name="__codelineno-0-44"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-0-45" name="__codelineno-0-45"></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">merge_keys</span><span class="p">:</span>
+<a id="__codelineno-0-46" name="__codelineno-0-46"></a>        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+<a id="__codelineno-0-47" name="__codelineno-0-47"></a>            <span class="s2">"UpsertWriter requiere 'merge_keys'. "</span>
+<a id="__codelineno-0-48" name="__codelineno-0-48"></a>            <span class="s2">"Ejemplo: writer.write(df, merge_keys=['vuelo_id'])"</span>
+<a id="__codelineno-0-49" name="__codelineno-0-49"></a>        <span class="p">)</span>
+<a id="__codelineno-0-50" name="__codelineno-0-50"></a>
+<a id="__codelineno-0-51" name="__codelineno-0-51"></a>    <span class="n">contract_cols</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_contract</span><span class="o">.</span><span class="n">column_names</span><span class="p">)</span>
+<a id="__codelineno-0-52" name="__codelineno-0-52"></a>    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">merge_keys</span><span class="p">:</span>
+<a id="__codelineno-0-53" name="__codelineno-0-53"></a>        <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">contract_cols</span><span class="p">:</span>
+<a id="__codelineno-0-54" name="__codelineno-0-54"></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+<a id="__codelineno-0-55" name="__codelineno-0-55"></a>                <span class="sa">f</span><span class="s2">"merge_key '</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">' no definida en contrato de "</span>
+<a id="__codelineno-0-56" name="__codelineno-0-56"></a>                <span class="sa">f</span><span class="s2">"'</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_table_name</span><span class="si">}</span><span class="s2">'.</span><span class="se">\n</span><span class="s2">"</span>
+<a id="__codelineno-0-57" name="__codelineno-0-57"></a>                <span class="sa">f</span><span class="s2">"Columnas disponibles: </span><span class="si">{</span><span class="nb">sorted</span><span class="p">(</span><span class="n">contract_cols</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
+<a id="__codelineno-0-58" name="__codelineno-0-58"></a>            <span class="p">)</span>
+<a id="__codelineno-0-59" name="__codelineno-0-59"></a>
+<a id="__codelineno-0-60" name="__codelineno-0-60"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+<a id="__codelineno-0-61" name="__codelineno-0-61"></a>        <span class="sa">f</span><span class="s2">"Iniciando UPSERT | tabla='</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_table_name</span><span class="si">}</span><span class="s2">' | "</span>
+<a id="__codelineno-0-62" name="__codelineno-0-62"></a>        <span class="sa">f</span><span class="s2">"merge_keys=</span><span class="si">{</span><span class="n">merge_keys</span><span class="si">}</span><span class="s2">"</span>
+<a id="__codelineno-0-63" name="__codelineno-0-63"></a>    <span class="p">)</span>
+<a id="__codelineno-0-64" name="__codelineno-0-64"></a>
+<a id="__codelineno-0-65" name="__codelineno-0-65"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_validate</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<a id="__codelineno-0-66" name="__codelineno-0-66"></a>    <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_apply_defaults</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<a id="__codelineno-0-67" name="__codelineno-0-67"></a>    <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reorder_columns</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<a id="__codelineno-0-68" name="__codelineno-0-68"></a>
+<a id="__codelineno-0-69" name="__codelineno-0-69"></a>    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dry_run</span><span class="p">:</span>
+<a id="__codelineno-0-70" name="__codelineno-0-70"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_log_dry_run</span><span class="p">(</span><span class="s2">"upsert"</span><span class="p">)</span>
+<a id="__codelineno-0-71" name="__codelineno-0-71"></a>        <span class="k">return</span>
+<a id="__codelineno-0-72" name="__codelineno-0-72"></a>
+<a id="__codelineno-0-73" name="__codelineno-0-73"></a>    <span class="c1"># Primer run: si la tabla no existe, hacer carga inicial via overwrite</span>
+<a id="__codelineno-0-74" name="__codelineno-0-74"></a>    <span class="c1"># (equivalente a upsert donde todos los registros son inserciones)</span>
+<a id="__codelineno-0-75" name="__codelineno-0-75"></a>    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_table_exists</span><span class="p">():</span>
+<a id="__codelineno-0-76" name="__codelineno-0-76"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+<a id="__codelineno-0-77" name="__codelineno-0-77"></a>            <span class="sa">f</span><span class="s2">"[upsert] Tabla '</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_table_name</span><span class="si">}</span><span class="s2">' no existe — "</span>
+<a id="__codelineno-0-78" name="__codelineno-0-78"></a>            <span class="sa">f</span><span class="s2">"carga inicial via overwrite (todos son inserciones nuevas)"</span>
+<a id="__codelineno-0-79" name="__codelineno-0-79"></a>        <span class="p">)</span>
+<a id="__codelineno-0-80" name="__codelineno-0-80"></a>        <span class="c1"># Seleccionar solo las columnas del contrato Silver (excluir metadata Bronze)</span>
+<a id="__codelineno-0-81" name="__codelineno-0-81"></a>        <span class="n">df_cols</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+<a id="__codelineno-0-82" name="__codelineno-0-82"></a>        <span class="n">silver_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_contract</span><span class="o">.</span><span class="n">column_names</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df_cols</span><span class="p">]</span>
+<a id="__codelineno-0-83" name="__codelineno-0-83"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_write_df</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="o">*</span><span class="n">silver_cols</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"overwrite"</span><span class="p">)</span>
+<a id="__codelineno-0-84" name="__codelineno-0-84"></a>        <span class="c1"># La tabla nace aquí, no en CreateWriter — hay que documentarla</span>
+<a id="__codelineno-0-85" name="__codelineno-0-85"></a>        <span class="c1"># igual, o el contrato no gobierna la metadata en la primera carga.</span>
+<a id="__codelineno-0-86" name="__codelineno-0-86"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">apply_contract_metadata</span><span class="p">()</span>
+<a id="__codelineno-0-87" name="__codelineno-0-87"></a>        <span class="k">return</span>
+<a id="__codelineno-0-88" name="__codelineno-0-88"></a>
+<a id="__codelineno-0-89" name="__codelineno-0-89"></a>    <span class="c1"># Vista temporal para el MERGE</span>
+<a id="__codelineno-0-90" name="__codelineno-0-90"></a>    <span class="n">tmp_view</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"_tmp_upsert_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_contract</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span>
+<a id="__codelineno-0-91" name="__codelineno-0-91"></a>    <span class="n">df</span><span class="o">.</span><span class="n">createOrReplaceTempView</span><span class="p">(</span><span class="n">tmp_view</span><span class="p">)</span>
+<a id="__codelineno-0-92" name="__codelineno-0-92"></a>
+<a id="__codelineno-0-93" name="__codelineno-0-93"></a>    <span class="n">join_cond</span> <span class="o">=</span> <span class="s2">" AND "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+<a id="__codelineno-0-94" name="__codelineno-0-94"></a>        <span class="sa">f</span><span class="s2">"target.`</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">` = source.`</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">`"</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">merge_keys</span>
+<a id="__codelineno-0-95" name="__codelineno-0-95"></a>    <span class="p">)</span>
+<a id="__codelineno-0-96" name="__codelineno-0-96"></a>
+<a id="__codelineno-0-97" name="__codelineno-0-97"></a>    <span class="n">all_cols</span>   <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_contract</span><span class="o">.</span><span class="n">column_names</span>
+<a id="__codelineno-0-98" name="__codelineno-0-98"></a>    <span class="n">never_upd</span>  <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">insert_only_columns</span> <span class="ow">or</span> <span class="p">[])</span>
+<a id="__codelineno-0-99" name="__codelineno-0-99"></a>    <span class="n">cols_to_update</span> <span class="o">=</span> <span class="p">(</span>
+<a id="__codelineno-0-100" name="__codelineno-0-100"></a>        <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">update_columns</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">merge_keys</span><span class="p">]</span>
+<a id="__codelineno-0-101" name="__codelineno-0-101"></a>        <span class="k">if</span> <span class="n">update_columns</span>
+<a id="__codelineno-0-102" name="__codelineno-0-102"></a>        <span class="k">else</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">all_cols</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">merge_keys</span><span class="p">]</span>
+<a id="__codelineno-0-103" name="__codelineno-0-103"></a>    <span class="p">)</span>
+<a id="__codelineno-0-104" name="__codelineno-0-104"></a>    <span class="c1"># Columnas insert-only: entran en el INSERT pero se excluyen del UPDATE</span>
+<a id="__codelineno-0-105" name="__codelineno-0-105"></a>    <span class="c1"># (p. ej. _silver_created_at, que debe conservar el valor original).</span>
+<a id="__codelineno-0-106" name="__codelineno-0-106"></a>    <span class="k">if</span> <span class="n">never_upd</span><span class="p">:</span>
+<a id="__codelineno-0-107" name="__codelineno-0-107"></a>        <span class="n">cols_to_update</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">cols_to_update</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">never_upd</span><span class="p">]</span>
+<a id="__codelineno-0-108" name="__codelineno-0-108"></a>
+<a id="__codelineno-0-109" name="__codelineno-0-109"></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">cols_to_update</span><span class="p">:</span>
+<a id="__codelineno-0-110" name="__codelineno-0-110"></a>        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+<a id="__codelineno-0-111" name="__codelineno-0-111"></a>            <span class="sa">f</span><span class="s2">"El MERGE sobre '</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_table_name</span><span class="si">}</span><span class="s2">' no tiene ninguna columna "</span>
+<a id="__codelineno-0-112" name="__codelineno-0-112"></a>            <span class="sa">f</span><span class="s2">"que actualizar: todas las no-key están en insert_only_columns "</span>
+<a id="__codelineno-0-113" name="__codelineno-0-113"></a>            <span class="sa">f</span><span class="s2">"o update_columns quedó vacío."</span>
+<a id="__codelineno-0-114" name="__codelineno-0-114"></a>        <span class="p">)</span>
+<a id="__codelineno-0-115" name="__codelineno-0-115"></a>
+<a id="__codelineno-0-116" name="__codelineno-0-116"></a>    <span class="n">set_clause</span>    <span class="o">=</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">"target.`</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">` = source.`</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">`"</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">cols_to_update</span><span class="p">)</span>
+<a id="__codelineno-0-117" name="__codelineno-0-117"></a>    <span class="n">insert_cols</span>   <span class="o">=</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">"`</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">`"</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">all_cols</span><span class="p">)</span>
+<a id="__codelineno-0-118" name="__codelineno-0-118"></a>    <span class="n">insert_values</span> <span class="o">=</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">"source.`</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">`"</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">all_cols</span><span class="p">)</span>
+<a id="__codelineno-0-119" name="__codelineno-0-119"></a>
+<a id="__codelineno-0-120" name="__codelineno-0-120"></a>    <span class="n">merge_sql</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"""</span>
+<a id="__codelineno-0-121" name="__codelineno-0-121"></a><span class="s2">    MERGE INTO </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_table_name</span><span class="si">}</span><span class="s2"> AS target</span>
+<a id="__codelineno-0-122" name="__codelineno-0-122"></a><span class="s2">    USING </span><span class="si">{</span><span class="n">tmp_view</span><span class="si">}</span><span class="s2"> AS source</span>
+<a id="__codelineno-0-123" name="__codelineno-0-123"></a><span class="s2">    ON </span><span class="si">{</span><span class="n">join_cond</span><span class="si">}</span>
+<a id="__codelineno-0-124" name="__codelineno-0-124"></a><span class="s2">    WHEN MATCHED THEN UPDATE SET </span><span class="si">{</span><span class="n">set_clause</span><span class="si">}</span>
+<a id="__codelineno-0-125" name="__codelineno-0-125"></a><span class="s2">    WHEN NOT MATCHED THEN INSERT (</span><span class="si">{</span><span class="n">insert_cols</span><span class="si">}</span><span class="s2">) VALUES (</span><span class="si">{</span><span class="n">insert_values</span><span class="si">}</span><span class="s2">)</span>
+<a id="__codelineno-0-126" name="__codelineno-0-126"></a><span class="s2">    """</span>
+<a id="__codelineno-0-127" name="__codelineno-0-127"></a>
+<a id="__codelineno-0-128" name="__codelineno-0-128"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">"MERGE SQL:</span><span class="se">\n</span><span class="si">{</span><span class="n">merge_sql</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<a id="__codelineno-0-129" name="__codelineno-0-129"></a>    <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="n">merge_sql</span><span class="p">)</span>
+<a id="__codelineno-0-130" name="__codelineno-0-130"></a>
+<a id="__codelineno-0-131" name="__codelineno-0-131"></a>    <span class="k">try</span><span class="p">:</span>
+<a id="__codelineno-0-132" name="__codelineno-0-132"></a>        <span class="n">metrics</span>  <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">collect</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">asDict</span><span class="p">()</span>
+<a id="__codelineno-0-133" name="__codelineno-0-133"></a>        <span class="n">inserted</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"num_inserted_rows"</span><span class="p">,</span> <span class="s2">"?"</span><span class="p">)</span>
+<a id="__codelineno-0-134" name="__codelineno-0-134"></a>        <span class="n">updated</span>  <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"num_updated_rows"</span><span class="p">,</span> <span class="s2">"?"</span><span class="p">)</span>
+<a id="__codelineno-0-135" name="__codelineno-0-135"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">success</span><span class="p">(</span>
+<a id="__codelineno-0-136" name="__codelineno-0-136"></a>            <span class="sa">f</span><span class="s2">"✔ UPSERT completado | tabla='</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_table_name</span><span class="si">}</span><span class="s2">' | "</span>
+<a id="__codelineno-0-137" name="__codelineno-0-137"></a>            <span class="sa">f</span><span class="s2">"insertados=</span><span class="si">{</span><span class="n">inserted</span><span class="si">}</span><span class="s2"> | actualizados=</span><span class="si">{</span><span class="n">updated</span><span class="si">}</span><span class="s2">"</span>
+<a id="__codelineno-0-138" name="__codelineno-0-138"></a>        <span class="p">)</span>
+<a id="__codelineno-0-139" name="__codelineno-0-139"></a>    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+<a id="__codelineno-0-140" name="__codelineno-0-140"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✔ UPSERT completado | tabla='</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_table_name</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>

@@ -621,6 +621,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="upsert">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#columnas-que-se-insertan-pero-no-se-actualizan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Columnas que se insertan pero no se actualizan
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
           <li class="md-nav__item">
@@ -628,6 +645,17 @@
     <span class="md-ellipsis">
       
         delete
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#apply_contract_metadata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        apply_contract_metadata
       
     </span>
   </a>
@@ -1850,6 +1878,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="upsert">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#columnas-que-se-insertan-pero-no-se-actualizan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Columnas que se insertan pero no se actualizan
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
           <li class="md-nav__item">
@@ -1857,6 +1902,17 @@
     <span class="md-ellipsis">
       
         delete
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#apply_contract_metadata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        apply_contract_metadata
       
     </span>
   </a>
@@ -1927,14 +1983,15 @@
 <p><code>TableWriter</code> es la fachada recomendada. Elige el writer correcto según el método que llames y pasa las opciones de configuración de forma uniforme.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">DKOps.table_governance</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_contract</span><span class="p">,</span> <span class="n">TableWriter</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">contract</span> <span class="o">=</span> <span class="n">load_contract</span><span class="p">(</span><span class="s2">&quot;tables/fact_ventas.json&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">contract</span> <span class="o">=</span> <span class="n">load_contract</span><span class="p">(</span><span class="s2">"tables/fact_ventas.json"</span><span class="p">)</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">writer</span>   <span class="o">=</span> <span class="n">TableWriter</span><span class="p">(</span><span class="n">contract</span><span class="p">)</span>
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="n">writer</span><span class="o">.</span><span class="n">overwrite</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>                             <span class="c1"># full load (CREATE OR REPLACE)</span>
 <a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="n">writer</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>                                <span class="c1"># INSERT INTO</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="n">writer</span><span class="o">.</span><span class="n">upsert</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;venta_id&quot;</span><span class="p">,</span> <span class="s2">&quot;fecha&quot;</span><span class="p">])</span>    <span class="c1"># MERGE INTO (SCD1)</span>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="n">writer</span><span class="o">.</span><span class="n">overwrite_partition</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">partition</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;fecha&quot;</span><span class="p">:</span> <span class="s2">&quot;2024-01-15&quot;</span><span class="p">})</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="n">writer</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s2">&quot;fecha &lt; &#39;2023-01-01&#39;&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="n">writer</span><span class="o">.</span><span class="n">upsert</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s2">"venta_id"</span><span class="p">,</span> <span class="s2">"fecha"</span><span class="p">])</span>    <span class="c1"># MERGE INTO (SCD1)</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="n">writer</span><span class="o">.</span><span class="n">overwrite_partition</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">partition</span><span class="o">=</span><span class="p">{</span><span class="s2">"fecha"</span><span class="p">:</span> <span class="s2">"2024-01-15"</span><span class="p">})</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="n">writer</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s2">"fecha &lt; '2023-01-01'"</span><span class="p">)</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="n">writer</span><span class="o">.</span><span class="n">apply_contract_metadata</span><span class="p">()</span>                 <span class="c1"># comentarios, masks y permisos</span>
 </code></pre></div>
 <h3 id="opciones-de-construccion">Opciones de construcción<a class="headerlink" href="#opciones-de-construccion" title="Permanent link">&para;</a></h3>
 <table>
@@ -1982,26 +2039,93 @@
 <h3 id="upsert">upsert<a class="headerlink" href="#upsert" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">writer</span><span class="o">.</span><span class="n">upsert</span><span class="p">(</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    <span class="n">df</span><span class="p">,</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;fecha&quot;</span><span class="p">],</span>          <span class="c1"># columnas de join (obligatorio)</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>    <span class="n">update_columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;estado&quot;</span><span class="p">],</span>     <span class="c1"># si None, actualiza todas</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s2">"id"</span><span class="p">,</span> <span class="s2">"fecha"</span><span class="p">],</span>          <span class="c1"># columnas de join (obligatorio)</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>    <span class="n">update_columns</span><span class="o">=</span><span class="p">[</span><span class="s2">"estado"</span><span class="p">],</span>     <span class="c1"># si None, actualiza todas</span>
 <a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="p">)</span>
 </code></pre></div>
-<h3 id="delete">delete<a class="headerlink" href="#delete" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">rows_deleted</span> <span class="o">=</span> <span class="n">writer</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s2">&quot;fecha &lt; &#39;2023-01-01&#39;&quot;</span><span class="p">)</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">rows_preview</span> <span class="o">=</span> <span class="n">writer</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s2">&quot;estado = &#39;CANCELLED&#39;&quot;</span><span class="p">,</span> <span class="n">preview</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># no borra, solo cuenta</span>
+<h4 id="columnas-que-se-insertan-pero-no-se-actualizan">Columnas que se insertan pero no se actualizan<a class="headerlink" href="#columnas-que-se-insertan-pero-no-se-actualizan" title="Permanent link">&para;</a></h4>
+<p>Algunas columnas solo tienen sentido en el momento de la inserción: si el
+<code>UPDATE</code> del MERGE las reescribiera en cada ejecución, dejarían de significar
+nada. El caso típico es una marca de creación.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">writer</span><span class="o">.</span><span class="n">upsert</span><span class="p">(</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>    <span class="n">df</span><span class="p">,</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s2">"venta_id"</span><span class="p">],</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    <span class="n">insert_only_columns</span><span class="o">=</span><span class="p">[</span><span class="s2">"_silver_created_at"</span><span class="p">],</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="p">)</span>
 </code></pre></div>
+<p>La columna entra en el <code>WHEN NOT MATCHED THEN INSERT</code> y se excluye del
+<code>WHEN MATCHED THEN UPDATE SET</code>. Si todas las columnas no-key quedaran excluidas,
+el writer lanza <code>ValueError</code> en vez de emitir un MERGE que no actualiza nada.</p>
+<p>Las estrategias de promoción a Silver ya lo usan automáticamente para
+<code>_silver_created_at</code> — ver <a href="../ingestion/#metadatos-silver">Ingesta</a>.</p>
+<h3 id="delete">delete<a class="headerlink" href="#delete" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">rows_deleted</span> <span class="o">=</span> <span class="n">writer</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s2">"fecha &lt; '2023-01-01'"</span><span class="p">)</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">rows_preview</span> <span class="o">=</span> <span class="n">writer</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s2">"estado = 'CANCELLED'"</span><span class="p">,</span> <span class="n">preview</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># no borra, solo cuenta</span>
+</code></pre></div>
+<h3 id="apply_contract_metadata">apply_contract_metadata<a class="headerlink" href="#apply_contract_metadata" title="Permanent link">&para;</a></h3>
+<p>El contrato documenta la tabla y cada columna, pero esa metadata solo llega al
+catálogo cuando alguien la aplica. <code>overwrite()</code> lo hace por su cuenta; los
+demás caminos no crean la tabla vía <code>CREATE TABLE</code>, así que necesitan una
+llamada explícita:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">writer</span><span class="o">.</span><span class="n">apply_contract_metadata</span><span class="p">()</span>
+</code></pre></div>
+<p>Aplica, de forma <strong>idempotente</strong> y sin reescribir los datos:</p>
+<table>
+<thead>
+<tr>
+<th>Elemento</th>
+<th>Sentencia emitida</th>
+<th>Dónde aplica</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>comment</code> de la tabla</td>
+<td><code>COMMENT ON TABLE</code></td>
+<td>Ambos runtimes</td>
+</tr>
+<tr>
+<td><code>comment</code> de cada columna</td>
+<td><code>ALTER TABLE ... ALTER COLUMN ... COMMENT</code></td>
+<td>Ambos runtimes</td>
+</tr>
+<tr>
+<td><code>mask</code> de columna</td>
+<td><code>ALTER TABLE ... SET MASK</code></td>
+<td>Solo Databricks (UC)</td>
+</tr>
+<tr>
+<td><code>permissions</code></td>
+<td><code>GRANT</code> / <code>DENY</code></td>
+<td>Solo Databricks</td>
+</tr>
+</tbody>
+</table>
+<p>Dos usos:</p>
+<ul>
+<li><strong>Documentar tablas creadas por otro camino.</strong> La primera carga de <code>upsert()</code>
+  y la escritura streaming de <code>BronzeIngestor</code> ya la invocan internamente, así
+  que no tienes que hacer nada.</li>
+<li><strong>Reparar tablas existentes</strong> sin recrearlas — útil tras cambiar los
+  <code>comment</code> del contrato:</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">Path</span><span class="p">(</span><span class="s2">"tables/silver"</span><span class="p">)</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">"*.json"</span><span class="p">):</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>    <span class="n">TableWriter</span><span class="p">(</span><span class="n">load_contract</span><span class="p">(</span><span class="n">path</span><span class="p">))</span><span class="o">.</span><span class="n">apply_contract_metadata</span><span class="p">()</span>
+</code></pre></div>
+<p>Si la tabla no existe, registra un WARNING y no hace nada — nunca lanza. En
+<code>dry_run=True</code> no emite ninguna sentencia.</p>
 <hr />
 <h2 id="merge_schema-evolucion-de-schema">merge_schema — Evolución de schema<a class="headerlink" href="#merge_schema-evolucion-de-schema" title="Permanent link">&para;</a></h2>
 <p>Declara <code>"merge_schema": true</code> en el contrato para activar <code>mergeSchema=true</code> en operaciones append y partition overwrite. Permite añadir columnas nuevas sin recrear la tabla.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">{</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="nt">&quot;catalog&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{catalog.silver}&quot;</span><span class="p">,</span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span><span class="nt">&quot;schema&quot;</span><span class="p">:</span><span class="w">  </span><span class="s2">&quot;ventas&quot;</span><span class="p">,</span>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w">    </span><span class="s2">&quot;fact_ventas&quot;</span><span class="p">,</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">  </span><span class="nt">&quot;merge_schema&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">  </span><span class="nt">&quot;columns&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="err">...</span><span class="p">]</span>
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="p">{</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span><span class="nt">"catalog"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{catalog.silver}"</span><span class="p">,</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span><span class="nt">"schema"</span><span class="p">:</span><span class="w">  </span><span class="s2">"ventas"</span><span class="p">,</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">  </span><span class="nt">"name"</span><span class="p">:</span><span class="w">    </span><span class="s2">"fact_ventas"</span><span class="p">,</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">  </span><span class="nt">"merge_schema"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">  </span><span class="nt">"columns"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="err">...</span><span class="p">]</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="p">}</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">TableWriter</span><span class="p">(</span><span class="n">contract</span><span class="p">)</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df_con_columnas_nuevas</span><span class="p">)</span>  <span class="c1"># no falla aunque el schema haya cambiado</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">TableWriter</span><span class="p">(</span><span class="n">contract</span><span class="p">)</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df_con_columnas_nuevas</span><span class="p">)</span>  <span class="c1"># no falla aunque el schema haya cambiado</span>
 </code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -2010,26 +2134,26 @@
 <hr />
 <h2 id="enmascaramiento-de-columnas">Enmascaramiento de columnas<a class="headerlink" href="#enmascaramiento-de-columnas" title="Permanent link">&para;</a></h2>
 <p>Declara <code>"mask"</code> en una columna para aplicar <code>ALTER TABLE … ALTER COLUMN … SET MASK</code> post-escritura. Solo se ejecuta en Databricks / Unity Catalog.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="p">{</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;email&quot;</span><span class="p">,</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;STRING&quot;</span><span class="p">,</span>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">  </span><span class="nt">&quot;mask&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;security.mask_email&quot;</span>
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="p">{</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"email"</span><span class="p">,</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"STRING"</span><span class="p">,</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">  </span><span class="nt">"mask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"security.mask_email"</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="p">}</span>
 </code></pre></div>
 <p>La función de máscara debe existir previamente en Unity Catalog bajo el catálogo y schema indicados (<code>security.mask_email</code> se resuelve como <code>&lt;catalog&gt;.security.mask_email</code>).</p>
 <p>El enmascaramiento se aplica automáticamente al crear la tabla (<code>overwrite</code>) y se omite silenciosamente en PC local o con <code>dry_run=True</code>.</p>
 <hr />
 <h2 id="writers-individuales-api-interna">Writers individuales (API interna)<a class="headerlink" href="#writers-individuales-api-interna" title="Permanent link">&para;</a></h2>
 <p>Los writers individuales siguen disponibles para casos avanzados, pero se recomienda usar <code>TableWriter</code>.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">DKOps.table_governance.writers</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>    <span class="n">CreateWriter</span><span class="p">,</span> <span class="n">AppendWriter</span><span class="p">,</span> <span class="n">UpsertWriter</span><span class="p">,</span> <span class="n">PartitionWriter</span><span class="p">,</span> <span class="n">DeleteWriter</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="p">)</span>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="n">CreateWriter</span><span class="p">(</span><span class="n">contract</span><span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="n">AppendWriter</span><span class="p">(</span><span class="n">contract</span><span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="n">UpsertWriter</span><span class="p">(</span><span class="n">contract</span><span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">merge_keys</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">])</span>
-<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="n">PartitionWriter</span><span class="p">(</span><span class="n">contract</span><span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">partition</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;fecha&quot;</span><span class="p">:</span> <span class="s2">&quot;2024-01-15&quot;</span><span class="p">})</span>
-<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="n">DeleteWriter</span><span class="p">(</span><span class="n">contract</span><span class="p">)</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s2">&quot;fecha &lt; &#39;2023-01-01&#39;&quot;</span><span class="p">,</span> <span class="n">preview</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">DKOps.table_governance.writers</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>    <span class="n">CreateWriter</span><span class="p">,</span> <span class="n">AppendWriter</span><span class="p">,</span> <span class="n">UpsertWriter</span><span class="p">,</span> <span class="n">PartitionWriter</span><span class="p">,</span> <span class="n">DeleteWriter</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="p">)</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="n">CreateWriter</span><span class="p">(</span><span class="n">contract</span><span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="n">AppendWriter</span><span class="p">(</span><span class="n">contract</span><span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="n">UpsertWriter</span><span class="p">(</span><span class="n">contract</span><span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">merge_keys</span><span class="o">=</span><span class="p">[</span><span class="s2">"id"</span><span class="p">])</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="n">PartitionWriter</span><span class="p">(</span><span class="n">contract</span><span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">partition</span><span class="o">=</span><span class="p">{</span><span class="s2">"fecha"</span><span class="p">:</span> <span class="s2">"2024-01-15"</span><span class="p">})</span>
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="n">DeleteWriter</span><span class="p">(</span><span class="n">contract</span><span class="p">)</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s2">"fecha &lt; '2023-01-01'"</span><span class="p">,</span> <span class="n">preview</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div>
 
 

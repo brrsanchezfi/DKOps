@@ -2054,7 +2054,7 @@
 
         <p>Overwrite de partición específica — idempotente en esa partición.</p>
 <h6 id="DKOps.table_governance.writers.partition_writer.PartitionWriter--uso">Uso<a class="headerlink" href="#DKOps.table_governance.writers.partition_writer.PartitionWriter--uso" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code>PartitionWriter(contract).write(df, partition={&quot;fecha&quot;: &quot;2024-01-15&quot;})
+<div class="highlight"><pre><span></span><code>PartitionWriter(contract).write(df, partition={"fecha": "2024-01-15"})
 </code></pre></div>
 
 
@@ -2124,15 +2124,15 @@
 <span class="normal"><a href="#__codelineno-0-73">73</a></span>
 <span class="normal"><a href="#__codelineno-0-74">74</a></span>
 <span class="normal"><a href="#__codelineno-0-75">75</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="k">class</span><span class="w"> </span><span class="nc">PartitionWriter</span><span class="p">(</span><span class="n">BaseWriter</span><span class="p">):</span>
-<a id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<a id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="w">    </span><span class="sd">"""</span>
 <a id="__codelineno-0-20" name="__codelineno-0-20"></a><span class="sd">    Overwrite de partición específica — idempotente en esa partición.</span>
 <a id="__codelineno-0-21" name="__codelineno-0-21"></a>
 <a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="sd">    Uso</span>
 <a id="__codelineno-0-23" name="__codelineno-0-23"></a><span class="sd">    ---</span>
-<a id="__codelineno-0-24" name="__codelineno-0-24"></a><span class="sd">        PartitionWriter(contract).write(df, partition={&quot;fecha&quot;: &quot;2024-01-15&quot;})</span>
-<a id="__codelineno-0-25" name="__codelineno-0-25"></a><span class="sd">    &quot;&quot;&quot;</span>
+<a id="__codelineno-0-24" name="__codelineno-0-24"></a><span class="sd">        PartitionWriter(contract).write(df, partition={"fecha": "2024-01-15"})</span>
+<a id="__codelineno-0-25" name="__codelineno-0-25"></a><span class="sd">    """</span>
 <a id="__codelineno-0-26" name="__codelineno-0-26"></a>
-<a id="__codelineno-0-27" name="__codelineno-0-27"></a>    <span class="nd">@log_operation</span><span class="p">(</span><span class="s2">&quot;overwrite_partition&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-27" name="__codelineno-0-27"></a>    <span class="nd">@log_operation</span><span class="p">(</span><span class="s2">"overwrite_partition"</span><span class="p">)</span>
 <a id="__codelineno-0-28" name="__codelineno-0-28"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span>
 <a id="__codelineno-0-29" name="__codelineno-0-29"></a>        <span class="bp">self</span><span class="p">,</span>
 <a id="__codelineno-0-30" name="__codelineno-0-30"></a>        <span class="n">df</span><span class="p">:</span>        <span class="n">DataFrame</span><span class="p">,</span>
@@ -2141,22 +2141,22 @@
 <a id="__codelineno-0-33" name="__codelineno-0-33"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <a id="__codelineno-0-34" name="__codelineno-0-34"></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">partition</span><span class="p">:</span>
 <a id="__codelineno-0-35" name="__codelineno-0-35"></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-<a id="__codelineno-0-36" name="__codelineno-0-36"></a>                <span class="s2">&quot;PartitionWriter requiere &#39;partition&#39;. &quot;</span>
-<a id="__codelineno-0-37" name="__codelineno-0-37"></a>                <span class="s2">&quot;Ejemplo: writer.write(df, partition={&#39;fecha&#39;: &#39;2024-01-15&#39;})&quot;</span>
+<a id="__codelineno-0-36" name="__codelineno-0-36"></a>                <span class="s2">"PartitionWriter requiere 'partition'. "</span>
+<a id="__codelineno-0-37" name="__codelineno-0-37"></a>                <span class="s2">"Ejemplo: writer.write(df, partition={'fecha': '2024-01-15'})"</span>
 <a id="__codelineno-0-38" name="__codelineno-0-38"></a>            <span class="p">)</span>
 <a id="__codelineno-0-39" name="__codelineno-0-39"></a>
 <a id="__codelineno-0-40" name="__codelineno-0-40"></a>        <span class="n">declared</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_contract</span><span class="o">.</span><span class="n">partition_columns</span><span class="p">)</span>
 <a id="__codelineno-0-41" name="__codelineno-0-41"></a>        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">partition</span><span class="p">:</span>
 <a id="__codelineno-0-42" name="__codelineno-0-42"></a>            <span class="k">if</span> <span class="n">col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">declared</span><span class="p">:</span>
 <a id="__codelineno-0-43" name="__codelineno-0-43"></a>                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-<a id="__codelineno-0-44" name="__codelineno-0-44"></a>                    <span class="sa">f</span><span class="s2">&quot;Columna &#39;</span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2">&#39; no es columna de partición en &quot;</span>
-<a id="__codelineno-0-45" name="__codelineno-0-45"></a>                    <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_table_name</span><span class="si">}</span><span class="s2">&#39;.</span><span class="se">\n</span><span class="s2">&quot;</span>
-<a id="__codelineno-0-46" name="__codelineno-0-46"></a>                    <span class="sa">f</span><span class="s2">&quot;Particiones declaradas: </span><span class="si">{</span><span class="nb">sorted</span><span class="p">(</span><span class="n">declared</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+<a id="__codelineno-0-44" name="__codelineno-0-44"></a>                    <span class="sa">f</span><span class="s2">"Columna '</span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2">' no es columna de partición en "</span>
+<a id="__codelineno-0-45" name="__codelineno-0-45"></a>                    <span class="sa">f</span><span class="s2">"'</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_table_name</span><span class="si">}</span><span class="s2">'.</span><span class="se">\n</span><span class="s2">"</span>
+<a id="__codelineno-0-46" name="__codelineno-0-46"></a>                    <span class="sa">f</span><span class="s2">"Particiones declaradas: </span><span class="si">{</span><span class="nb">sorted</span><span class="p">(</span><span class="n">declared</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
 <a id="__codelineno-0-47" name="__codelineno-0-47"></a>                <span class="p">)</span>
 <a id="__codelineno-0-48" name="__codelineno-0-48"></a>
 <a id="__codelineno-0-49" name="__codelineno-0-49"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-<a id="__codelineno-0-50" name="__codelineno-0-50"></a>            <span class="sa">f</span><span class="s2">&quot;Iniciando OVERWRITE PARTITION | tabla=&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_table_name</span><span class="si">}</span><span class="s2">&#39; | &quot;</span>
-<a id="__codelineno-0-51" name="__codelineno-0-51"></a>            <span class="sa">f</span><span class="s2">&quot;partición=</span><span class="si">{</span><span class="n">partition</span><span class="si">}</span><span class="s2">&quot;</span>
+<a id="__codelineno-0-50" name="__codelineno-0-50"></a>            <span class="sa">f</span><span class="s2">"Iniciando OVERWRITE PARTITION | tabla='</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_table_name</span><span class="si">}</span><span class="s2">' | "</span>
+<a id="__codelineno-0-51" name="__codelineno-0-51"></a>            <span class="sa">f</span><span class="s2">"partición=</span><span class="si">{</span><span class="n">partition</span><span class="si">}</span><span class="s2">"</span>
 <a id="__codelineno-0-52" name="__codelineno-0-52"></a>        <span class="p">)</span>
 <a id="__codelineno-0-53" name="__codelineno-0-53"></a>
 <a id="__codelineno-0-54" name="__codelineno-0-54"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_validate</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
@@ -2164,22 +2164,22 @@
 <a id="__codelineno-0-56" name="__codelineno-0-56"></a>        <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reorder_columns</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 <a id="__codelineno-0-57" name="__codelineno-0-57"></a>
 <a id="__codelineno-0-58" name="__codelineno-0-58"></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dry_run</span><span class="p">:</span>
-<a id="__codelineno-0-59" name="__codelineno-0-59"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">_log_dry_run</span><span class="p">(</span><span class="s2">&quot;overwrite_partition&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-59" name="__codelineno-0-59"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">_log_dry_run</span><span class="p">(</span><span class="s2">"overwrite_partition"</span><span class="p">)</span>
 <a id="__codelineno-0-60" name="__codelineno-0-60"></a>            <span class="k">return</span>
 <a id="__codelineno-0-61" name="__codelineno-0-61"></a>
 <a id="__codelineno-0-62" name="__codelineno-0-62"></a>        <span class="c1"># Dynamic partition overwrite — solo reemplaza las particiones del DF</span>
-<a id="__codelineno-0-63" name="__codelineno-0-63"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_spark</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;spark.sql.sources.partitionOverwriteMode&quot;</span><span class="p">,</span> <span class="s2">&quot;dynamic&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-63" name="__codelineno-0-63"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_spark</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">"spark.sql.sources.partitionOverwriteMode"</span><span class="p">,</span> <span class="s2">"dynamic"</span><span class="p">)</span>
 <a id="__codelineno-0-64" name="__codelineno-0-64"></a>
 <a id="__codelineno-0-65" name="__codelineno-0-65"></a>        <span class="n">row_count</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
-<a id="__codelineno-0-66" name="__codelineno-0-66"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_write_df</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;overwrite&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-66" name="__codelineno-0-66"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_write_df</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"overwrite"</span><span class="p">)</span>
 <a id="__codelineno-0-67" name="__codelineno-0-67"></a>
-<a id="__codelineno-0-68" name="__codelineno-0-68"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_spark</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;spark.sql.sources.partitionOverwriteMode&quot;</span><span class="p">,</span> <span class="s2">&quot;static&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-68" name="__codelineno-0-68"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_spark</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">"spark.sql.sources.partitionOverwriteMode"</span><span class="p">,</span> <span class="s2">"static"</span><span class="p">)</span>
 <a id="__codelineno-0-69" name="__codelineno-0-69"></a>
 <a id="__codelineno-0-70" name="__codelineno-0-70"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">log_write_ok</span><span class="p">(</span>
-<a id="__codelineno-0-71" name="__codelineno-0-71"></a>            <span class="s2">&quot;overwrite_partition&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-71" name="__codelineno-0-71"></a>            <span class="s2">"overwrite_partition"</span><span class="p">,</span>
 <a id="__codelineno-0-72" name="__codelineno-0-72"></a>            <span class="n">rows</span><span class="o">=</span><span class="n">row_count</span><span class="p">,</span>
 <a id="__codelineno-0-73" name="__codelineno-0-73"></a>            <span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_table_name</span><span class="p">,</span>
-<a id="__codelineno-0-74" name="__codelineno-0-74"></a>            <span class="n">mode</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;overwrite partition=</span><span class="si">{</span><span class="n">partition</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-74" name="__codelineno-0-74"></a>            <span class="n">mode</span><span class="o">=</span><span class="sa">f</span><span class="s2">"overwrite partition=</span><span class="si">{</span><span class="n">partition</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
 <a id="__codelineno-0-75" name="__codelineno-0-75"></a>        <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
               </details>
@@ -2259,7 +2259,7 @@
 <span class="normal"><a href="#__codelineno-0-72">72</a></span>
 <span class="normal"><a href="#__codelineno-0-73">73</a></span>
 <span class="normal"><a href="#__codelineno-0-74">74</a></span>
-<span class="normal"><a href="#__codelineno-0-75">75</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-27" name="__codelineno-0-27"></a><span class="nd">@log_operation</span><span class="p">(</span><span class="s2">&quot;overwrite_partition&quot;</span><span class="p">)</span>
+<span class="normal"><a href="#__codelineno-0-75">75</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-27" name="__codelineno-0-27"></a><span class="nd">@log_operation</span><span class="p">(</span><span class="s2">"overwrite_partition"</span><span class="p">)</span>
 <a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="k">def</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span>
 <a id="__codelineno-0-29" name="__codelineno-0-29"></a>    <span class="bp">self</span><span class="p">,</span>
 <a id="__codelineno-0-30" name="__codelineno-0-30"></a>    <span class="n">df</span><span class="p">:</span>        <span class="n">DataFrame</span><span class="p">,</span>
@@ -2268,22 +2268,22 @@
 <a id="__codelineno-0-33" name="__codelineno-0-33"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <a id="__codelineno-0-34" name="__codelineno-0-34"></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">partition</span><span class="p">:</span>
 <a id="__codelineno-0-35" name="__codelineno-0-35"></a>        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-<a id="__codelineno-0-36" name="__codelineno-0-36"></a>            <span class="s2">&quot;PartitionWriter requiere &#39;partition&#39;. &quot;</span>
-<a id="__codelineno-0-37" name="__codelineno-0-37"></a>            <span class="s2">&quot;Ejemplo: writer.write(df, partition={&#39;fecha&#39;: &#39;2024-01-15&#39;})&quot;</span>
+<a id="__codelineno-0-36" name="__codelineno-0-36"></a>            <span class="s2">"PartitionWriter requiere 'partition'. "</span>
+<a id="__codelineno-0-37" name="__codelineno-0-37"></a>            <span class="s2">"Ejemplo: writer.write(df, partition={'fecha': '2024-01-15'})"</span>
 <a id="__codelineno-0-38" name="__codelineno-0-38"></a>        <span class="p">)</span>
 <a id="__codelineno-0-39" name="__codelineno-0-39"></a>
 <a id="__codelineno-0-40" name="__codelineno-0-40"></a>    <span class="n">declared</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_contract</span><span class="o">.</span><span class="n">partition_columns</span><span class="p">)</span>
 <a id="__codelineno-0-41" name="__codelineno-0-41"></a>    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">partition</span><span class="p">:</span>
 <a id="__codelineno-0-42" name="__codelineno-0-42"></a>        <span class="k">if</span> <span class="n">col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">declared</span><span class="p">:</span>
 <a id="__codelineno-0-43" name="__codelineno-0-43"></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-<a id="__codelineno-0-44" name="__codelineno-0-44"></a>                <span class="sa">f</span><span class="s2">&quot;Columna &#39;</span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2">&#39; no es columna de partición en &quot;</span>
-<a id="__codelineno-0-45" name="__codelineno-0-45"></a>                <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_table_name</span><span class="si">}</span><span class="s2">&#39;.</span><span class="se">\n</span><span class="s2">&quot;</span>
-<a id="__codelineno-0-46" name="__codelineno-0-46"></a>                <span class="sa">f</span><span class="s2">&quot;Particiones declaradas: </span><span class="si">{</span><span class="nb">sorted</span><span class="p">(</span><span class="n">declared</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+<a id="__codelineno-0-44" name="__codelineno-0-44"></a>                <span class="sa">f</span><span class="s2">"Columna '</span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2">' no es columna de partición en "</span>
+<a id="__codelineno-0-45" name="__codelineno-0-45"></a>                <span class="sa">f</span><span class="s2">"'</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_table_name</span><span class="si">}</span><span class="s2">'.</span><span class="se">\n</span><span class="s2">"</span>
+<a id="__codelineno-0-46" name="__codelineno-0-46"></a>                <span class="sa">f</span><span class="s2">"Particiones declaradas: </span><span class="si">{</span><span class="nb">sorted</span><span class="p">(</span><span class="n">declared</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
 <a id="__codelineno-0-47" name="__codelineno-0-47"></a>            <span class="p">)</span>
 <a id="__codelineno-0-48" name="__codelineno-0-48"></a>
 <a id="__codelineno-0-49" name="__codelineno-0-49"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-<a id="__codelineno-0-50" name="__codelineno-0-50"></a>        <span class="sa">f</span><span class="s2">&quot;Iniciando OVERWRITE PARTITION | tabla=&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_table_name</span><span class="si">}</span><span class="s2">&#39; | &quot;</span>
-<a id="__codelineno-0-51" name="__codelineno-0-51"></a>        <span class="sa">f</span><span class="s2">&quot;partición=</span><span class="si">{</span><span class="n">partition</span><span class="si">}</span><span class="s2">&quot;</span>
+<a id="__codelineno-0-50" name="__codelineno-0-50"></a>        <span class="sa">f</span><span class="s2">"Iniciando OVERWRITE PARTITION | tabla='</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_table_name</span><span class="si">}</span><span class="s2">' | "</span>
+<a id="__codelineno-0-51" name="__codelineno-0-51"></a>        <span class="sa">f</span><span class="s2">"partición=</span><span class="si">{</span><span class="n">partition</span><span class="si">}</span><span class="s2">"</span>
 <a id="__codelineno-0-52" name="__codelineno-0-52"></a>    <span class="p">)</span>
 <a id="__codelineno-0-53" name="__codelineno-0-53"></a>
 <a id="__codelineno-0-54" name="__codelineno-0-54"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_validate</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
@@ -2291,22 +2291,22 @@
 <a id="__codelineno-0-56" name="__codelineno-0-56"></a>    <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reorder_columns</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 <a id="__codelineno-0-57" name="__codelineno-0-57"></a>
 <a id="__codelineno-0-58" name="__codelineno-0-58"></a>    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dry_run</span><span class="p">:</span>
-<a id="__codelineno-0-59" name="__codelineno-0-59"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_log_dry_run</span><span class="p">(</span><span class="s2">&quot;overwrite_partition&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-59" name="__codelineno-0-59"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_log_dry_run</span><span class="p">(</span><span class="s2">"overwrite_partition"</span><span class="p">)</span>
 <a id="__codelineno-0-60" name="__codelineno-0-60"></a>        <span class="k">return</span>
 <a id="__codelineno-0-61" name="__codelineno-0-61"></a>
 <a id="__codelineno-0-62" name="__codelineno-0-62"></a>    <span class="c1"># Dynamic partition overwrite — solo reemplaza las particiones del DF</span>
-<a id="__codelineno-0-63" name="__codelineno-0-63"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_spark</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;spark.sql.sources.partitionOverwriteMode&quot;</span><span class="p">,</span> <span class="s2">&quot;dynamic&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-63" name="__codelineno-0-63"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_spark</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">"spark.sql.sources.partitionOverwriteMode"</span><span class="p">,</span> <span class="s2">"dynamic"</span><span class="p">)</span>
 <a id="__codelineno-0-64" name="__codelineno-0-64"></a>
 <a id="__codelineno-0-65" name="__codelineno-0-65"></a>    <span class="n">row_count</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
-<a id="__codelineno-0-66" name="__codelineno-0-66"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_write_df</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;overwrite&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-66" name="__codelineno-0-66"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_write_df</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"overwrite"</span><span class="p">)</span>
 <a id="__codelineno-0-67" name="__codelineno-0-67"></a>
-<a id="__codelineno-0-68" name="__codelineno-0-68"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_spark</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;spark.sql.sources.partitionOverwriteMode&quot;</span><span class="p">,</span> <span class="s2">&quot;static&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-68" name="__codelineno-0-68"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_spark</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">"spark.sql.sources.partitionOverwriteMode"</span><span class="p">,</span> <span class="s2">"static"</span><span class="p">)</span>
 <a id="__codelineno-0-69" name="__codelineno-0-69"></a>
 <a id="__codelineno-0-70" name="__codelineno-0-70"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">log_write_ok</span><span class="p">(</span>
-<a id="__codelineno-0-71" name="__codelineno-0-71"></a>        <span class="s2">&quot;overwrite_partition&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-71" name="__codelineno-0-71"></a>        <span class="s2">"overwrite_partition"</span><span class="p">,</span>
 <a id="__codelineno-0-72" name="__codelineno-0-72"></a>        <span class="n">rows</span><span class="o">=</span><span class="n">row_count</span><span class="p">,</span>
 <a id="__codelineno-0-73" name="__codelineno-0-73"></a>        <span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_table_name</span><span class="p">,</span>
-<a id="__codelineno-0-74" name="__codelineno-0-74"></a>        <span class="n">mode</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;overwrite partition=</span><span class="si">{</span><span class="n">partition</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-74" name="__codelineno-0-74"></a>        <span class="n">mode</span><span class="o">=</span><span class="sa">f</span><span class="s2">"overwrite partition=</span><span class="si">{</span><span class="n">partition</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
 <a id="__codelineno-0-75" name="__codelineno-0-75"></a>    <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
