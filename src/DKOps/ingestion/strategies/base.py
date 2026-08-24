@@ -5,6 +5,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 
 from pyspark.sql import DataFrame, SparkSession
+from pyspark.sql import functions as F
 
 from DKOps.ingestion.contracts.ingestion_contract import IngestionContract
 from DKOps.logger_config import LoggableMixin
@@ -51,6 +52,44 @@ class BasePromotionStrategy(ABC, LoggableMixin):
         """Lee Bronze aplicando el filtro del contrato si existe."""
         f = filter_expr or self._contract.data_filter
         return self._reader.read(filter=f) if f else self._reader.read()
+
+    def _add_silver_timestamps(self, df: DataFrame) -> DataFrame:
+        """
+        Añade las columnas técnicas de Silver si el contrato de ingesta las pide.
+
+        Añade **ambas** columnas, igual que MetadataEnricher:
+
+          _silver_created_at    primera escritura de la fila en Silver
+          _silver_modified_at   última modificación de la fila en Silver
+
+        Solo se añaden las que el contrato Silver declare — `_select_for_silver()`
+        descarta el resto, así que un contrato que solo declare
+        `_silver_modified_at` sigue funcionando igual que antes.
+
+        Preservar `_silver_created_at` entre ejecuciones es responsabilidad de
+        la estrategia: las que hacen MERGE deben pasarla en `insert_only_columns`
+        para que el UPDATE no la sobrescriba.
+        """
+        if not self._contract.metadata.add_silver_timestamps:
+            return df
+
+        now = F.current_timestamp()
+        return (
+            df.withColumn("_silver_created_at",  now)
+              .withColumn("_silver_modified_at", now)
+        )
+
+    def _silver_insert_only_columns(self) -> list[str]:
+        """
+        Columnas que un MERGE debe insertar pero nunca actualizar.
+
+        `_silver_created_at` marca la primera inserción: si el UPDATE la
+        reescribiera con `current_timestamp()` en cada ejecución dejaría de
+        significar nada.
+        """
+        if not self._contract.metadata.add_silver_timestamps:
+            return []
+        return [c for c in ("_silver_created_at",) if c in self._dst_contract.column_names]
 
     def _select_for_silver(self, df: DataFrame) -> DataFrame:
         """

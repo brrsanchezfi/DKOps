@@ -28,16 +28,18 @@ class UpsertWriter(BaseWriter):
         UpsertWriter(contract).write(
             df,
             merge_keys=["vuelo_id"],
-            update_columns=["retraso_min"],   # opcional — default: todas las no-key
+            update_columns=["retraso_min"],              # opcional — default: todas las no-key
+            insert_only_columns=["_silver_created_at"],  # opcional — se insertan, nunca se actualizan
         )
     """
 
     @log_operation("upsert")
     def write(
         self,
-        df:             DataFrame,
-        merge_keys:     list[str] | None = None,
-        update_columns: list[str] | None = None,
+        df:                  DataFrame,
+        merge_keys:          list[str] | None = None,
+        update_columns:      list[str] | None = None,
+        insert_only_columns: list[str] | None = None,
         **kwargs,
     ) -> None:
         if not merge_keys:
@@ -79,6 +81,9 @@ class UpsertWriter(BaseWriter):
             df_cols = set(df.columns)
             silver_cols = [c for c in self._contract.column_names if c in df_cols]
             self._write_df(df.select(*silver_cols), mode="overwrite")
+            # La tabla nace aquí, no en CreateWriter — hay que documentarla
+            # igual, o el contrato no gobierna la metadata en la primera carga.
+            self.apply_contract_metadata()
             return
 
         # Vista temporal para el MERGE
@@ -89,12 +94,24 @@ class UpsertWriter(BaseWriter):
             f"target.`{k}` = source.`{k}`" for k in merge_keys
         )
 
-        all_cols = self._contract.column_names
+        all_cols   = self._contract.column_names
+        never_upd  = set(insert_only_columns or [])
         cols_to_update = (
             [c for c in update_columns if c not in merge_keys]
             if update_columns
             else [c for c in all_cols if c not in merge_keys]
         )
+        # Columnas insert-only: entran en el INSERT pero se excluyen del UPDATE
+        # (p. ej. _silver_created_at, que debe conservar el valor original).
+        if never_upd:
+            cols_to_update = [c for c in cols_to_update if c not in never_upd]
+
+        if not cols_to_update:
+            raise ValueError(
+                f"El MERGE sobre '{self._table_name}' no tiene ninguna columna "
+                f"que actualizar: todas las no-key están en insert_only_columns "
+                f"o update_columns quedó vacío."
+            )
 
         set_clause    = ", ".join(f"target.`{c}` = source.`{c}`" for c in cols_to_update)
         insert_cols   = ", ".join(f"`{c}`" for c in all_cols)

@@ -89,6 +89,39 @@ class BaseWriter(LoggableMixin, ABC):
     def write(self, df: DataFrame, **kwargs) -> None:
         ...
 
+    def apply_contract_metadata(self) -> None:
+        """
+        Aplica al catálogo la metadata declarativa del contrato: comentario de
+        tabla, comentarios de columna, masks y permisos.
+
+        Es idempotente y no depende de cómo se creó la tabla, así que sirve
+        para dos cosas:
+
+          - que los caminos de escritura que no pasan por CreateWriter
+            (carga inicial de UpsertWriter, escritura streaming) dejen la
+            tabla documentada igual que CreateWriter;
+          - reparar tablas ya existentes sin recrearlas.
+
+        Requiere que la tabla exista. Si no existe, se registra un WARNING y
+        no se hace nada — nunca lanza.
+        """
+        if self._dry_run:
+            self.log.info("dry_run=True → metadata del contrato no aplicada")
+            return
+
+        if not self._table_exists():
+            self.log.warning(
+                "apply_contract_metadata",
+                f"Tabla '{self._table_name}' no existe — metadata no aplicada",
+            )
+            return
+
+        self.log.debug(f"Aplicando metadata del contrato a '{self._table_name}'")
+        self._apply_table_comment()
+        self._apply_column_comments()
+        self._apply_column_masks()
+        self._apply_permissions()
+
     # ── Escritura abstracta — el corazón del bridge local/databricks ──────
 
     def _write_df(

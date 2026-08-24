@@ -66,6 +66,7 @@ class IngestionEngine(LoggableMixin):
         bronze_tables:   dict[str, TableContract],
         silver_tables:   dict[str, TableContract],
         ops:             IngestionOpsLogger | None,
+        silver_src_tables: dict[str, TableContract] | None = None,
         schema_root:     str | None = None,
         kafka_creds:     dict | None = None,
     ) -> None:
@@ -75,6 +76,11 @@ class IngestionEngine(LoggableMixin):
         self._silver_contracts = silver_contracts
         self._bronze_tables    = bronze_tables
         self._silver_tables    = silver_tables
+        # Contrato Bronze de origen por cada contrato de promoción Silver,
+        # resuelto desde su `source_contract`. Es la vía fiable: los nombres
+        # de los contratos de ingesta batch no tienen por qué coincidir con
+        # el nombre de la tabla Bronze ni con el del contrato Silver.
+        self._silver_src_tables = silver_src_tables or {}
         self.ops               = ops
 
         self._bronze_ingestor = BronzeIngestor(
@@ -197,6 +203,7 @@ class IngestionEngine(LoggableMixin):
             silver_contracts = silver_contracts,
             bronze_tables    = bronze_tables,
             silver_tables    = {**bronze_tables, **silver_tables},
+            silver_src_tables = silver_src_tables,
             ops              = ops,
             schema_root      = schema_root,
             kafka_creds      = kafka_creds,
@@ -244,12 +251,18 @@ class IngestionEngine(LoggableMixin):
 
         failed = []
         for c in contracts:
-            src = self._bronze_tables.get(c.name) or self._bronze_tables.get(
-                Path(c.source_contract_path or "").stem
+            src = (
+                self._silver_src_tables.get(c.name)
+                or self._bronze_tables.get(c.name)
+                or self._bronze_tables.get(Path(c.source_contract_path or "").stem)
             )
             dst = self._silver_tables.get(c.name)
             if src is None or dst is None:
-                self.log.warning(f"[{c.name}] Faltan contratos src/dst — omitido")
+                falta = "source_contract" if src is None else "destination_contract"
+                self.log.warning(
+                    f"[{c.name}] No se pudo resolver {falta} — omitido. "
+                    f"Revisa esa ruta en el contrato de promoción."
+                )
                 continue
             try:
                 self._silver_promoter.promote(c, src, dst)

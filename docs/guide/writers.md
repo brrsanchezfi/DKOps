@@ -17,6 +17,7 @@ writer.append(df)                                # INSERT INTO
 writer.upsert(df, keys=["venta_id", "fecha"])    # MERGE INTO (SCD1)
 writer.overwrite_partition(df, partition={"fecha": "2024-01-15"})
 writer.delete("fecha < '2023-01-01'")
+writer.apply_contract_metadata()                 # comentarios, masks y permisos
 ```
 
 ### Opciones de construcción
@@ -46,12 +47,69 @@ writer.upsert(
 )
 ```
 
+#### Columnas que se insertan pero no se actualizan
+
+Algunas columnas solo tienen sentido en el momento de la inserción: si el
+`UPDATE` del MERGE las reescribiera en cada ejecución, dejarían de significar
+nada. El caso típico es una marca de creación.
+
+```python
+writer.upsert(
+    df,
+    keys=["venta_id"],
+    insert_only_columns=["_silver_created_at"],
+)
+```
+
+La columna entra en el `WHEN NOT MATCHED THEN INSERT` y se excluye del
+`WHEN MATCHED THEN UPDATE SET`. Si todas las columnas no-key quedaran excluidas,
+el writer lanza `ValueError` en vez de emitir un MERGE que no actualiza nada.
+
+Las estrategias de promoción a Silver ya lo usan automáticamente para
+`_silver_created_at` — ver [Ingesta](ingestion.md#metadatos-silver).
+
 ### delete
 
 ```python
 rows_deleted = writer.delete("fecha < '2023-01-01'")
 rows_preview = writer.delete("estado = 'CANCELLED'", preview=True)  # no borra, solo cuenta
 ```
+
+### apply_contract_metadata
+
+El contrato documenta la tabla y cada columna, pero esa metadata solo llega al
+catálogo cuando alguien la aplica. `overwrite()` lo hace por su cuenta; los
+demás caminos no crean la tabla vía `CREATE TABLE`, así que necesitan una
+llamada explícita:
+
+```python
+writer.apply_contract_metadata()
+```
+
+Aplica, de forma **idempotente** y sin reescribir los datos:
+
+| Elemento | Sentencia emitida | Dónde aplica |
+|---|---|---|
+| `comment` de la tabla | `COMMENT ON TABLE` | Ambos runtimes |
+| `comment` de cada columna | `ALTER TABLE ... ALTER COLUMN ... COMMENT` | Ambos runtimes |
+| `mask` de columna | `ALTER TABLE ... SET MASK` | Solo Databricks (UC) |
+| `permissions` | `GRANT` / `DENY` | Solo Databricks |
+
+Dos usos:
+
+- **Documentar tablas creadas por otro camino.** La primera carga de `upsert()`
+  y la escritura streaming de `BronzeIngestor` ya la invocan internamente, así
+  que no tienes que hacer nada.
+- **Reparar tablas existentes** sin recrearlas — útil tras cambiar los
+  `comment` del contrato:
+
+  ```python
+  for path in Path("tables/silver").glob("*.json"):
+      TableWriter(load_contract(path)).apply_contract_metadata()
+  ```
+
+Si la tabla no existe, registra un WARNING y no hace nada — nunca lanza. En
+`dry_run=True` no emite ninguna sentencia.
 
 ---
 

@@ -62,8 +62,7 @@ class CdcMergeStrategy(BasePromotionStrategy):
 
         if upserts.count() > 0:
             # Añadir timestamps Silver
-            if self._contract.metadata.add_silver_timestamps:
-                upserts = upserts.withColumn("_silver_modified_at", F.current_timestamp())
+            upserts = self._add_silver_timestamps(upserts)
 
             # Añadir is_deleted=False si la columna existe en Silver pero no en el DataFrame
             if (
@@ -77,7 +76,8 @@ class CdcMergeStrategy(BasePromotionStrategy):
 
             self._writer.upsert(
                 upserts,
-                keys = list(self._contract.merge_keys),
+                keys                = list(self._contract.merge_keys),
+                insert_only_columns = self._silver_insert_only_columns(),
             )
 
         if deletes.count() > 0:
@@ -110,13 +110,16 @@ class CdcMergeStrategy(BasePromotionStrategy):
             soft = deletes.withColumn("is_deleted", F.lit(True))
 
             # Añadir timestamps Silver también en soft-deletes
-            if self._contract.metadata.add_silver_timestamps:
-                soft = soft.withColumn("_silver_modified_at", F.current_timestamp())
+            soft = self._add_silver_timestamps(soft)
 
             # Seleccionar solo columnas Silver (excluir metadata Bronze)
             soft = self._select_for_silver(soft)
 
-            self._writer.upsert(soft, keys=keys)
+            self._writer.upsert(
+                soft,
+                keys                = keys,
+                insert_only_columns = self._silver_insert_only_columns(),
+            )
         else:
             # Hard delete: DELETE WHERE key IN (...)
             key_col   = keys[0]

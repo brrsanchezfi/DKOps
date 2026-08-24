@@ -42,9 +42,11 @@ class IncrementalReplaceStrategy(BasePromotionStrategy):
         max_val   = max_val_row[0]["max_val"]
         latest_df = bronze_df.filter(F.col(partition_col) == max_val)
 
-        # Añadir timestamps Silver antes de filtrar columnas
-        if self._contract.metadata.add_silver_timestamps:
-            latest_df = latest_df.withColumn("_silver_modified_at", F.current_timestamp())
+        # Añadir timestamps Silver antes de filtrar columnas.
+        # Ojo: esta estrategia reescribe la partición entera, así que
+        # `_silver_created_at` marca la última reconstrucción de la partición,
+        # no la primera vez que se vio la fila.
+        latest_df = self._add_silver_timestamps(latest_df)
 
         # Seleccionar solo columnas Silver (excluir metadata Bronze)
         latest_df = self._select_for_silver(latest_df)

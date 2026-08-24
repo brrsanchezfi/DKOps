@@ -179,6 +179,22 @@ pip install -e ".[local]"
 pip install -e ".[databricks-connect]"
 ```
 
+Para instalar una version publicada directamente desde un tag:
+
+```bash
+pip install "DKOps @ git+https://github.com/brrsanchezfi/DKOps.git@v0.3.1"
+```
+
+> **Nombre del paquete.** La distribucion se llama `DKOps` y el modulo
+> importable tambien: `import DKOps`. `pip install dkops` funciona porque pip
+> normaliza el nombre de la distribucion a minusculas, pero **el import si
+> distingue mayusculas** — `import dkops` falla. Usa `DKOps` en ambos sitios.
+
+> **Nota sobre `v0.3.0`.** Ese tag empaqueta un `pyproject.toml` que declara
+> `0.2.4`, porque se creo antes del commit que subio la version. Instala
+> `v0.3.1` o posterior; desde esa version el workflow de publicacion falla si
+> el tag y `pyproject.toml` no coinciden.
+
 ---
 
 ## Demos

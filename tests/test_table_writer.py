@@ -380,3 +380,247 @@ def test_apply_column_masks_noop_when_no_masks():
         if "SET MASK" in str(c)
     ]
     assert len(set_mask_calls) == 0
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# TC-MD01  apply_contract_metadata aplica comentarios de tabla y de columna
+#          (issue #18 — el contrato debe gobernar la metadata sea cual sea
+#          el camino de escritura)
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _make_documented_contract() -> TableContract:
+    return TableContract(
+        catalog = "ct_silver_dev",
+        schema  = "test_schema",
+        name    = "test_table",
+        type    = "MANAGED",
+        format  = "DELTA",
+        comment = "Tabla de prueba documentada",
+        columns = (
+            ColumnContract(name="id",    type="STRING",  nullable=False,
+                           comment="Identificador de negocio"),
+            ColumnContract(name="valor", type="INTEGER", nullable=True,
+                           comment="Métrica principal"),
+        ),
+    )
+
+
+def test_apply_contract_metadata_emite_comentarios():
+    from DKOps.table_governance.writers.create_writer import CreateWriter
+
+    contract      = _make_documented_contract()
+    mock_launcher = _mock_launcher(is_databricks=True)
+
+    with patch("DKOps.table_governance.writers.base_writer.Launcher") as mock_lc, \
+         patch("DKOps.table_governance.contracts.validator.SchemaValidator"):
+        mock_lc.current.return_value = mock_launcher
+        cw = CreateWriter(contract)
+        cw.apply_contract_metadata()
+
+    sql_calls = [str(c) for c in mock_launcher.spark.sql.call_args_list]
+
+    table_comments = [c for c in sql_calls if "COMMENT ON TABLE" in c]
+    assert len(table_comments) == 1
+    assert "Tabla de prueba documentada" in table_comments[0]
+
+    col_comments = [c for c in sql_calls if "ALTER COLUMN" in c and "COMMENT '" in c]
+    assert len(col_comments) == 2
+    assert any("Identificador de negocio" in c for c in col_comments)
+    assert any("Métrica principal" in c for c in col_comments)
+
+
+def test_apply_contract_metadata_no_hace_nada_si_la_tabla_no_existe():
+    from DKOps.table_governance.writers.create_writer import CreateWriter
+
+    contract      = _make_documented_contract()
+    mock_launcher = _mock_launcher(is_databricks=True)
+
+    with patch("DKOps.table_governance.writers.base_writer.Launcher") as mock_lc, \
+         patch("DKOps.table_governance.contracts.validator.SchemaValidator"):
+        mock_lc.current.return_value = mock_launcher
+        cw = CreateWriter(contract)
+        with patch.object(cw, "_table_exists", return_value=False):
+            cw.apply_contract_metadata()
+
+    sql_calls = [str(c) for c in mock_launcher.spark.sql.call_args_list]
+    assert not [c for c in sql_calls if "COMMENT ON TABLE" in c]
+
+
+def test_apply_contract_metadata_omitida_en_dry_run():
+    from DKOps.table_governance.writers.create_writer import CreateWriter
+
+    contract      = _make_documented_contract()
+    mock_launcher = _mock_launcher(is_databricks=True)
+
+    with patch("DKOps.table_governance.writers.base_writer.Launcher") as mock_lc, \
+         patch("DKOps.table_governance.contracts.validator.SchemaValidator"):
+        mock_lc.current.return_value = mock_launcher
+        cw = CreateWriter(contract, dry_run=True)
+        cw.apply_contract_metadata()
+
+    sql_calls = [str(c) for c in mock_launcher.spark.sql.call_args_list]
+    assert not [c for c in sql_calls if "COMMENT ON TABLE" in c]
+
+
+def test_table_writer_expone_apply_contract_metadata():
+    contract = _make_documented_contract()
+
+    with _patch_writers(is_databricks=True):
+        writer = TableWriter(contract)
+        # No debe lanzar: la fachada delega en un writer concreto.
+        writer.apply_contract_metadata()
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# TC-IO01  insert_only_columns — la columna entra en el INSERT pero se excluye
+#          del UPDATE (issue #19 — _silver_created_at no debe reescribirse)
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _make_silver_contract() -> TableContract:
+    return TableContract(
+        catalog = "ct_silver_dev",
+        schema  = "batch",
+        name    = "ventas",
+        type    = "MANAGED",
+        format  = "DELTA",
+        columns = (
+            ColumnContract(name="venta_id",            type="STRING",    nullable=False),
+            ColumnContract(name="importe",             type="DOUBLE",    nullable=True),
+            ColumnContract(name="_silver_created_at",  type="TIMESTAMP", nullable=True),
+            ColumnContract(name="_silver_modified_at", type="TIMESTAMP", nullable=True),
+        ),
+    )
+
+
+def _capture_merge_sql(contract, **write_kwargs) -> str:
+    """Ejecuta UpsertWriter sobre una tabla existente y devuelve el MERGE emitido."""
+    from DKOps.table_governance.writers.upsert_writer import UpsertWriter
+
+    mock_launcher = _mock_launcher(is_databricks=True)
+    df            = MagicMock()
+    df.columns    = list(contract.column_names)
+
+    mock_val_result = MagicMock()
+    mock_val_result.warnings = []
+
+    with patch("DKOps.table_governance.writers.base_writer.Launcher") as mock_lc, \
+         patch("DKOps.table_governance.writers.base_writer.SchemaValidator") as mock_sv:
+        mock_lc.current.return_value = mock_launcher
+        mock_sv.return_value.validate.return_value = mock_val_result
+
+        uw = UpsertWriter(contract)
+        with patch.object(uw, "_table_exists", return_value=True), \
+             patch.object(uw, "_apply_defaults",   side_effect=lambda d: d), \
+             patch.object(uw, "_reorder_columns",  side_effect=lambda d: d):
+            uw.write(df, **write_kwargs)
+
+    merges = [
+        str(c.args[0]) for c in mock_launcher.spark.sql.call_args_list
+        if c.args and "MERGE INTO" in str(c.args[0])
+    ]
+    assert len(merges) == 1, f"esperaba 1 MERGE, encontrados {len(merges)}"
+    return merges[0]
+
+
+def test_merge_excluye_insert_only_columns_del_update():
+    sql = _capture_merge_sql(
+        _make_silver_contract(),
+        merge_keys          = ["venta_id"],
+        insert_only_columns = ["_silver_created_at"],
+    )
+
+    update_part, insert_part = sql.split("WHEN NOT MATCHED")
+
+    # No se actualiza…
+    assert "_silver_created_at" not in update_part
+    # …pero sí se inserta.
+    assert "_silver_created_at" in insert_part
+    # El resto de columnas no-key siguen actualizándose.
+    assert "_silver_modified_at" in update_part
+    assert "importe" in update_part
+
+
+def test_merge_sin_insert_only_columns_actualiza_todo():
+    sql = _capture_merge_sql(
+        _make_silver_contract(),
+        merge_keys = ["venta_id"],
+    )
+    update_part = sql.split("WHEN NOT MATCHED")[0]
+    assert "_silver_created_at" in update_part
+
+
+def test_merge_falla_si_no_queda_ninguna_columna_que_actualizar():
+    contract = TableContract(
+        catalog = "ct", schema = "s", name = "t",
+        type    = "MANAGED", format = "DELTA",
+        columns = (
+            ColumnContract(name="id",                 type="STRING",    nullable=False),
+            ColumnContract(name="_silver_created_at", type="TIMESTAMP", nullable=True),
+        ),
+    )
+    with pytest.raises(ValueError, match="ninguna columna"):
+        _capture_merge_sql(
+            contract,
+            merge_keys          = ["id"],
+            insert_only_columns = ["_silver_created_at"],
+        )
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# TC-MD02  La carga inicial de UpsertWriter también documenta la tabla
+#          (issue #18 — antes salía del método sin aplicar metadata)
+# ─────────────────────────────────────────────────────────────────────────────
+
+def test_upsert_carga_inicial_aplica_metadata_del_contrato():
+    from DKOps.table_governance.writers.upsert_writer import UpsertWriter
+
+    contract      = _make_documented_contract()
+    mock_launcher = _mock_launcher(is_databricks=True)
+    df            = MagicMock()
+    df.columns    = list(contract.column_names)
+
+    mock_val_result = MagicMock()
+    mock_val_result.warnings = []
+
+    with patch("DKOps.table_governance.writers.base_writer.Launcher") as mock_lc, \
+         patch("DKOps.table_governance.writers.base_writer.SchemaValidator") as mock_sv:
+        mock_lc.current.return_value = mock_launcher
+        mock_sv.return_value.validate.return_value = mock_val_result
+
+        uw = UpsertWriter(contract)
+        with patch.object(uw, "_table_exists", return_value=False), \
+             patch.object(uw, "_apply_defaults",  side_effect=lambda d: d), \
+             patch.object(uw, "_reorder_columns", side_effect=lambda d: d), \
+             patch.object(uw, "_write_df") as mock_write, \
+             patch.object(uw, "apply_contract_metadata") as mock_meta:
+            uw.write(df, merge_keys=["id"])
+
+    mock_write.assert_called_once()
+    mock_meta.assert_called_once()
+
+
+def test_upsert_sobre_tabla_existente_no_reaplica_metadata():
+    """En el MERGE normal la tabla ya está documentada — no hace falta repetirlo."""
+    from DKOps.table_governance.writers.upsert_writer import UpsertWriter
+
+    contract      = _make_documented_contract()
+    mock_launcher = _mock_launcher(is_databricks=True)
+    df            = MagicMock()
+    df.columns    = list(contract.column_names)
+
+    mock_val_result = MagicMock()
+    mock_val_result.warnings = []
+
+    with patch("DKOps.table_governance.writers.base_writer.Launcher") as mock_lc, \
+         patch("DKOps.table_governance.writers.base_writer.SchemaValidator") as mock_sv:
+        mock_lc.current.return_value = mock_launcher
+        mock_sv.return_value.validate.return_value = mock_val_result
+
+        uw = UpsertWriter(contract)
+        with patch.object(uw, "_table_exists", return_value=True), \
+             patch.object(uw, "_apply_defaults",  side_effect=lambda d: d), \
+             patch.object(uw, "_reorder_columns", side_effect=lambda d: d), \
+             patch.object(uw, "apply_contract_metadata") as mock_meta:
+            uw.write(df, merge_keys=["id"])
+
+    mock_meta.assert_not_called()

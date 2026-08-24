@@ -37,11 +37,7 @@ class FullMergeStrategy(BasePromotionStrategy):
         deduped = self._dedup(bronze_df)
 
         # Añadir timestamps Silver si el contrato los pide
-        if self._contract.metadata.add_silver_timestamps:
-            deduped = (
-                deduped
-                .withColumn("_silver_modified_at", F.current_timestamp())
-            )
+        deduped = self._add_silver_timestamps(deduped)
 
         # Seleccionar solo columnas Silver (excluir metadata Bronze)
         deduped = self._select_for_silver(deduped)
@@ -49,7 +45,8 @@ class FullMergeStrategy(BasePromotionStrategy):
         # MERGE INTO Silver
         self._writer.upsert(
             deduped,
-            keys           = list(self._contract.merge_keys),
+            keys                = list(self._contract.merge_keys),
+            insert_only_columns = self._silver_insert_only_columns(),
         )
 
         count = self._dst_reader.read().count()

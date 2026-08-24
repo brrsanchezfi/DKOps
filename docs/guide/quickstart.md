@@ -14,6 +14,22 @@ pip install -e ".[local]"
 pip install -e ".[databricks-connect]"
 ```
 
+O directamente desde un tag publicado:
+
+```bash
+pip install "DKOps @ git+https://github.com/brrsanchezfi/DKOps.git@v0.3.1"
+```
+
+!!! warning "El import distingue mayúsculas"
+
+    La distribución se llama `DKOps` y el módulo importable también.
+    `pip install dkops` funciona porque pip normaliza el nombre de la
+    distribución, pero `import dkops` **falla**: el import correcto es
+    `import DKOps`.
+
+    Evita además el tag `v0.3.0` — empaqueta un `pyproject.toml` que declara
+    `0.2.4` porque se creó antes del commit de bump. Usa `v0.3.1` o posterior.
+
 ---
 
 ## 2. config.json

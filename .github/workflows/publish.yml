@@ -20,6 +20,18 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Verificar que el tag coincide con la versión de pyproject.toml
+        if: github.event_name == 'release'
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          PYPROJECT=$(python -c "import tomllib,pathlib; print(tomllib.loads(pathlib.Path('pyproject.toml').read_text())['project']['version'])")
+          echo "tag=$TAG  pyproject=$PYPROJECT"
+          if [ "$TAG" != "$PYPROJECT" ]; then
+            echo "::error::El tag '$GITHUB_REF_NAME' apunta a un commit cuyo pyproject.toml declara '$PYPROJECT'."
+            echo "::error::Sube 'version' en pyproject.toml ANTES de crear el tag, y vuelve a taguear."
+            exit 1
+          fi
+
       - name: Install build tool
         run: pip install build
 

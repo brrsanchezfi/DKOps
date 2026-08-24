@@ -352,3 +352,51 @@ class TestOpsLogger:
         for field in ["run_id", "pipeline", "dataset", "status", "rows_written"]:
             assert f'"{field}"' in source or f"'{field}'" in source, \
                 f"Campo '{field}' no encontrado en la definición del schema"
+
+
+# ── Metadata del contrato en el camino streaming (issue #18) ─────────────────
+
+class TestStreamingContractMetadata:
+    """
+    La escritura streaming crea la tabla con `writeStream.toTable()`, sin pasar
+    por los writers de table_governance. Debe aplicar igualmente la metadata
+    declarada en el TableContract.
+    """
+
+    @pytest.fixture
+    def env(self):
+        env = MagicMock()
+        env._is_databricks = True
+        env.has_path.return_value = False
+        return env
+
+    @pytest.fixture
+    def ingestor(self, env) -> BronzeIngestor:
+        return BronzeIngestor(spark=MagicMock(), env=env)
+
+    def _mock_stream_df(self):
+        df = MagicMock()
+        df.isStreaming = True
+        return df
+
+    def test_write_stream_aplica_metadata_del_contrato(self, ingestor):
+        contract     = _make_ingestion_contract(ingest_type="streaming")
+        dst_contract = _make_partitioned_table_contract()
+
+        with patch(
+            "DKOps.ingestion.bronze_ingestor.TableWriter"
+        ) as mock_tw:
+            ingestor._write_stream(self._mock_stream_df(), contract, dst_contract)
+
+        mock_tw.return_value.apply_contract_metadata.assert_called_once()
+
+    def test_write_stream_construye_el_writer_con_el_contrato_destino(self, ingestor):
+        contract     = _make_ingestion_contract(ingest_type="streaming")
+        dst_contract = _make_partitioned_table_contract()
+
+        with patch(
+            "DKOps.ingestion.bronze_ingestor.TableWriter"
+        ) as mock_tw:
+            ingestor._write_stream(self._mock_stream_df(), contract, dst_contract)
+
+        assert mock_tw.call_args.args[0] is dst_contract
