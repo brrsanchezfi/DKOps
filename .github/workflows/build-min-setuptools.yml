@@ -1,0 +1,63 @@
+name: Build con setuptools minimo
+
+# El minimo declarado en build-system.requires y el minimo real pueden
+# separarse sin que nadie lo note: pip aisla la construccion y baja el
+# setuptools mas nuevo, asi que en un entorno de desarrollo todo funciona.
+# Donde rompe es en Databricks, que construye con un setuptools antiguo.
+# Este job construye con EXACTAMENTE el minimo declarado (issue #23).
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build-min:
+    name: Construir con el setuptools minimo declarado
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Leer el minimo de build-system.requires
+        id: minver
+        run: |
+          MIN=$(python -c "
+          import re, tomllib, pathlib
+          req = tomllib.loads(pathlib.Path('pyproject.toml').read_text())['build-system']['requires']
+          spec = next(r for r in req if r.replace('-','_').lower().startswith('setuptools'))
+          m = re.search(r'>=\s*([0-9][0-9a-zA-Z.\-]*)', spec)
+          if not m:
+              raise SystemExit(f'No hay un minimo >= en {spec!r}')
+          print(m.group(1))
+          ")
+          echo "min=$MIN" >> "$GITHUB_OUTPUT"
+          echo "setuptools minimo declarado: $MIN"
+
+      - name: Instalar ese setuptools exacto
+        run: pip install "setuptools==${{ steps.minver.outputs.min }}" wheel
+
+      - name: Construir sin aislamiento
+        # --no-build-isolation es el punto: obliga a usar el setuptools
+        # instalado arriba en vez de dejar que pip baje el mas reciente.
+        run: |
+          pip install --no-build-isolation --no-deps --target /tmp/dkops_min .
+          python -c "
+          import pathlib
+          # Los setuptools recientes normalizan el nombre a minusculas
+          # (dkops-*.dist-info); el 68 lo deja como DKOps-*. Aceptar ambos.
+          raiz = pathlib.Path('/tmp/dkops_min')
+          dist = [d for d in raiz.glob('*.dist-info')
+                  if d.name.lower().startswith('dkops-')]
+          if not dist:
+              raise SystemExit('No se genero la metadata del paquete')
+          meta = (dist[0] / 'METADATA').read_text(encoding='utf-8')
+          for campo in ('Name:', 'Version:', 'License'):
+              linea = next((l for l in meta.splitlines() if l.startswith(campo)), None)
+              print(linea or f'(sin {campo})')
+          "
