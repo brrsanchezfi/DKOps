@@ -147,7 +147,7 @@ Los contratos Silver viven en `ingestion/silver/*.json`. Declaran qué estrategi
 | `destination_contract` | Path al contrato de tabla Silver |
 | `merge_keys` | Clave(s) de negocio para el MERGE INTO |
 | `watermark_col` | Columna para determinar el registro más reciente (dedup) |
-| `metadata.add_silver_timestamps` | Añade `_silver_modified_at TIMESTAMP` |
+| `metadata.add_silver_timestamps` | Añade `_silver_created_at` y `_silver_modified_at TIMESTAMP` |
 
 ---
 
@@ -265,7 +265,37 @@ Cuando `add_silver_timestamps: true`, todas las estrategias añaden:
 
 | Columna | Tipo | Descripción |
 |---|---|---|
+| `_silver_created_at` | `TIMESTAMP` | Primera vez que la fila se escribió en Silver |
 | `_silver_modified_at` | `TIMESTAMP` | Última vez que se modificó la fila en Silver |
+
+Solo se materializan las columnas que **el contrato de tabla Silver declare**:
+si tu contrato solo lista `_silver_modified_at`, la otra se descarta y el
+comportamiento es idéntico al de versiones anteriores.
+
+Para usar `_silver_created_at`, decláralas en el contrato Silver:
+
+```json
+{ "name": "_silver_created_at",  "type": "TIMESTAMP", "nullable": true,
+  "comment": "Primera escritura en Silver" },
+{ "name": "_silver_modified_at", "type": "TIMESTAMP", "nullable": true,
+  "comment": "Ultima actualizacion en Silver" }
+```
+
+!!! warning "Qué significa `_silver_created_at` en cada estrategia"
+
+    La columna solo describe *la primera vez que se vio la fila* cuando la
+    estrategia distingue inserción de actualización:
+
+    | Estrategia | Semántica de `_silver_created_at` |
+    |---|---|
+    | `full_merge` | Primera inserción de la clave. Se preserva en los UPDATE. |
+    | `cdc_merge` | Primera inserción de la clave. Se preserva en los UPDATE. |
+    | `append_dedup` | Primera inserción — solo hay inserciones (anti-join). |
+    | `incremental_replace` | **Última reconstrucción de la partición**, no la primera vez que se vio la fila: la estrategia reescribe la partición entera. |
+
+    En `full_merge` y `cdc_merge` la preservación se consigue pasando la columna
+    en `insert_only_columns` del MERGE — ver
+    [Writers](writers.md#columnas-que-se-insertan-pero-no-se-actualizan).
 
 La estrategia `cdc_merge` también gestiona:
 

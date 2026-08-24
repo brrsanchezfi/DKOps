@@ -52,9 +52,9 @@ class AppendDedupStrategy(BasePromotionStrategy):
             self.log.info(f"[{self._contract.name}] AppendDedup: sin registros nuevos")
             return 0
 
-        # Añadir timestamps Silver antes de filtrar columnas
-        if self._contract.metadata.add_silver_timestamps:
-            new_records = new_records.withColumn("_silver_modified_at", F.current_timestamp())
+        # Añadir timestamps Silver antes de filtrar columnas.
+        # Aquí solo hay inserciones (anti-join), así que created == modified.
+        new_records = self._add_silver_timestamps(new_records)
 
         # Seleccionar solo columnas Silver (excluir metadata Bronze)
         new_records = self._select_for_silver(new_records)

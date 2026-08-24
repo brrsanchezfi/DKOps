@@ -50,6 +50,7 @@ class TableWriter:
         writer.upsert(df_correcciones, keys=["vuelo_id"])
         writer.overwrite_partition(df_reproc, {"fecha": "2024-01-15"})
         writer.delete("distancia_km = 0")
+        writer.apply_contract_metadata()
     """
 
     def __init__(
@@ -90,9 +91,10 @@ class TableWriter:
 
     def upsert(
         self,
-        df:             DataFrame,
-        keys:           list[str],
-        update_columns: list[str] | None = None,
+        df:                  DataFrame,
+        keys:                list[str],
+        update_columns:      list[str] | None = None,
+        insert_only_columns: list[str] | None = None,
     ) -> None:
         """
         MERGE INTO — actualiza filas existentes e inserta las nuevas.
@@ -104,13 +106,17 @@ class TableWriter:
                          Ej: ``keys=["vuelo_id"]``
         update_columns : columnas a actualizar en filas existentes.
                          Si se omite, se actualizan todas las columnas que no son key.
+        insert_only_columns : columnas que se insertan en filas nuevas pero
+                         nunca se actualizan en las existentes.
+                         Ej: ``["_silver_created_at"]``
 
         Equivalente a: ``UpsertWriter(contract).write(df, merge_keys=keys)``
         """
         UpsertWriter(self._contract, **self._writer_kwargs).write(
             df,
-            merge_keys     = keys,
-            update_columns = update_columns,
+            merge_keys          = keys,
+            update_columns      = update_columns,
+            insert_only_columns = insert_only_columns,
         )
 
     def overwrite_partition(
@@ -154,6 +160,23 @@ class TableWriter:
             condition,
             preview = preview,
         )
+
+    # ── Gobierno de metadata ──────────────────────────────────────────────
+
+    def apply_contract_metadata(self) -> None:
+        """
+        Aplica al catálogo el comentario de tabla, los comentarios de columna,
+        las masks y los permisos declarados en el contrato.
+
+        Es idempotente y no requiere reescribir los datos, así que sirve tanto
+        para documentar una tabla creada por un camino que no pasa por
+        ``overwrite()`` (carga inicial de ``upsert()``, escritura streaming)
+        como para reparar tablas ya existentes.
+
+            writer = TableWriter(contract)
+            writer.apply_contract_metadata()
+        """
+        CreateWriter(self._contract, **self._writer_kwargs).apply_contract_metadata()
 
     def __repr__(self) -> str:
         return (

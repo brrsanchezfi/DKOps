@@ -91,7 +91,7 @@ flowchart LR
 2. Deduplica por `merge_keys` según `watermark_col`
 3. Aplica la estrategia declarada en el contrato
 4. Filtra columnas con `_select_for_silver()` — Bronze metadata no pasa a Silver
-5. Añade `_silver_modified_at` si el contrato lo pide
+5. Añade `_silver_created_at` y `_silver_modified_at` si el contrato lo pide
 
 ---
 
@@ -154,7 +154,7 @@ sequenceDiagram
     CM->>CM: filter op_type IN (I, U) → upserts
     CM->>CM: filter op_type = D → deletes
     CM->>CM: withColumn("is_deleted", False)
-    CM->>CM: withColumn("_silver_modified_at", now())
+    CM->>CM: withColumn("_silver_created_at" / "_silver_modified_at", now())
     CM->>CM: _select_for_silver() — excluye _ingested_at, _source_file
     CM->>S: MERGE INTO (upserts)
     CM->>CM: withColumn("is_deleted", True) — soft delete
@@ -203,12 +203,37 @@ El `Launcher` se instancia **una vez** como singleton del proceso. Todos los wri
 | `IncrementalReplaceStrategy` | Filtra la partición más reciente del Bronze y hace upsert. |
 | `AppendDedupStrategy` | Anti-join: solo inserta registros que no existen en Silver. |
 
+### Gobierno de la metadata
+
+El contrato documenta la tabla, pero DKOps puede crearla por tres caminos
+distintos, y solo uno de ellos emite `CREATE TABLE`:
+
+| Camino | Crea la tabla con | Metadata del contrato |
+|---|---|---|
+| `TableWriter.overwrite()` | `CREATE OR REPLACE TABLE` + `saveAsTable` | Aplicada al terminar |
+| `TableWriter.upsert()`, primera carga | `saveAsTable` en modo overwrite | Aplicada al terminar |
+| `BronzeIngestor`, escritura streaming | `writeStream.toTable()` | Aplicada al terminar |
+
+Los tres convergen en `apply_contract_metadata()`, que es idempotente y no
+reescribe datos. Así el contrato gobierna comentarios, masks y permisos
+**independientemente del camino de escritura** — ver
+[Writers](writers.md#apply_contract_metadata).
+
+!!! note "Límite conocido de la vía streaming"
+
+    Auto Loader infiere el schema de los archivos, así que la tabla puede nacer
+    con columnas que el contrato no declara (`_rescued_data`, columnas de
+    partición deducidas de la ruta). `apply_contract_metadata()` documenta lo
+    que el contrato sí declara, pero no acota lo que el DataFrame trae de más.
+
+---
+
 ### Table Governance
 
 | Módulo | Responsabilidad |
 |---|---|
 | `TableContract` | Dataclass inmutable (frozen). Representa el estado deseado de una tabla. |
 | `SchemaValidator` | Compara tipos Spark del DataFrame contra el contrato. Soporta widening. |
-| `TableWriter` | Fachada pública: `overwrite`, `append`, `upsert`, `overwrite_partition`, `delete`. |
+| `TableWriter` | Fachada pública: `overwrite`, `append`, `upsert`, `overwrite_partition`, `delete`, `apply_contract_metadata`. |
 | `TableReader` | Lectura gobernada: `read()`, `read_partition()`, `read_stream()`, `read_cdf()`. |
 | `SafeMigrator` | Compara contrato vs. tabla real. Genera plan `ALTER TABLE` sin pérdida de datos. |

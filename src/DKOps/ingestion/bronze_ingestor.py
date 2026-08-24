@@ -241,6 +241,11 @@ class BronzeIngestor(LoggableMixin):
         if not self._env._is_databricks:
             self._register_local_table(dst_contract)
 
+        # La tabla la crea writeStream a partir del schema del DataFrame, sin
+        # pasar por los writers de table_governance. Aplicamos aquí la metadata
+        # del contrato para que el gobierno no dependa del camino de escritura.
+        TableWriter(dst_contract, strict_columns=False).apply_contract_metadata()
+
         try:
             return self._spark.read.format("delta").load(
                 dst_contract.location or self._local_delta_path(dst_contract)
