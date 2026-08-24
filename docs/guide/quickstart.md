@@ -17,7 +17,7 @@ pip install -e ".[databricks-connect]"
 O directamente desde un tag publicado:
 
 ```bash
-pip install "DKOps @ git+https://github.com/brrsanchezfi/DKOps.git@v0.3.1"
+pip install "DKOps @ git+https://github.com/brrsanchezfi/DKOps.git@v0.3.2"
 ```
 
 !!! warning "El import distingue mayúsculas"
@@ -29,8 +29,13 @@ pip install "DKOps @ git+https://github.com/brrsanchezfi/DKOps.git@v0.3.1"
 
     Si instalas **desde un tag de git**, evita `v0.3.0`: apunta a un commit
     cuyo `pyproject.toml` declara `0.2.4`, porque el tag se creó antes del
-    commit de bump. Usa `v0.3.1` o posterior. Instalando desde PyPI no hay
-    problema — `pip install DKOps` entrega un `0.3.0` bien etiquetado.
+    commit de bump. Instalando desde PyPI no hay problema — `pip install DKOps`
+    entrega un `0.3.0` bien etiquetado.
+
+    Tampoco instales `v0.3.1` desde git: declara la licencia con la forma corta
+    de PEP 639, que exige `setuptools >= 77` mientras el bloque de construccion
+    pide `>= 68`. En Databricks eso rompe la instalacion con
+    `ERROR_WHEEL_BUILD`. Usa **`v0.3.2` o posterior**.
 
 ---
 

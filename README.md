@@ -182,7 +182,7 @@ pip install -e ".[databricks-connect]"
 Para instalar una version publicada directamente desde un tag:
 
 ```bash
-pip install "DKOps @ git+https://github.com/brrsanchezfi/DKOps.git@v0.3.1"
+pip install "DKOps @ git+https://github.com/brrsanchezfi/DKOps.git@v0.3.2"
 ```
 
 > **Nombre del paquete.** La distribucion se llama `DKOps` y el modulo
@@ -194,8 +194,15 @@ pip install "DKOps @ git+https://github.com/brrsanchezfi/DKOps.git@v0.3.1"
 > tag apunta a un commit cuyo `pyproject.toml` declara `0.2.4`, porque se creo
 > antes del commit que subio la version. **PyPI no esta afectado** —
 > `pip install DKOps` entrega un `0.3.0` correctamente etiquetado. Si instalas
-> desde un tag, usa `v0.3.1` o posterior; desde esa version el workflow de
+> desde un tag, usa `v0.3.2` o posterior; desde esa version el workflow de
 > publicacion falla si el tag y `pyproject.toml` no coinciden.
+
+> **No instales `v0.3.1` desde git.** Declara la licencia con la forma corta de
+> PEP 639, que exige `setuptools >= 77`, mientras que el bloque de construccion
+> pide `>= 68`. En un entorno que resuelva un setuptools anterior —el caso del
+> runtime de Databricks— la generacion de metadatos falla con
+> `ERROR_WHEEL_BUILD` y la libreria no llega a instalarse. Corregido en
+> `v0.3.2`. El wheel de PyPI no esta afectado, porque ya viene construido.
 
 ---
 

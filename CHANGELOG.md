@@ -6,6 +6,23 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) · Versioning: 
 
 ---
 
+## [0.3.2] — 2026-08-24
+
+### Fixed
+
+- **`license = "MIT"` impedía instalar el paquete desde git en Databricks (#23).** La forma corta de PEP 639 solo la entiende `setuptools >= 77`, pero `build-system.requires` declara `>= 68`. En cualquier entorno que resuelva un setuptools anterior, la generación de metadatos falla con `invalid pyproject.toml config: project.license` y el cluster aborta con `ERROR_WHEEL_BUILD`, de modo que ninguna tarea llega a ejecutarse. Vuelve a la forma de tabla `license = { text = "MIT" }`, válida en todas las versiones, y restaura el classifier `License :: OSI Approved :: MIT License`
+- El wheel publicado en PyPI **no estaba afectado**: se distribuye ya construido y no vuelve a generar metadatos al instalarse. El fallo solo se daba instalando desde el repositorio
+
+### Added
+
+- Workflow `build-min-setuptools.yml` — construye el paquete con **exactamente** el setuptools mínimo declarado en `build-system.requires`, sin aislamiento de build. El mínimo declarado y el real pueden separarse sin que nadie lo note, porque pip aísla la construcción y descarga el setuptools más reciente; este job lo habría detectado antes de publicar el tag (#23)
+
+### Notes
+
+- El tag `v0.3.0` no exhibía este fallo porque es anterior al commit `203af74`, que introdujo la forma corta. Al corregir el desfase del tag en #20, `v0.3.1` pasó a empaquetar el `pyproject.toml` actual y el problema quedó al descubierto
+
+---
+
 ## [0.3.1] — 2026-08-23
 
 ### Added
