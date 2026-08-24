@@ -6,6 +6,34 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) · Versioning: 
 
 ---
 
+## [0.3.1] — 2026-08-23
+
+### Added
+
+- **`TableWriter.apply_contract_metadata()`** — aplica comentario de tabla, comentarios de columna, masks y permisos del contrato de forma idempotente y sin reescribir datos. Sirve tanto para los caminos de escritura que no pasan por `CreateWriter` como para reparar tablas ya creadas (#18)
+- **`insert_only_columns`** en `TableWriter.upsert()` y `UpsertWriter.write()` — columnas que el MERGE inserta pero nunca actualiza (#19)
+- **`_silver_created_at`** en la promoción Bronze → Silver — las cuatro estrategias añaden ahora las dos columnas que `add_silver_timestamps` promete (#19)
+- Verificación en el workflow de publicación: el tag debe coincidir con `version` de `pyproject.toml` o el build falla (#20)
+
+### Fixed
+
+- La carga inicial de `UpsertWriter` (tabla inexistente) dejaba la tabla sin comentarios en el catálogo (#18)
+- `BronzeIngestor._write_stream()` creaba la tabla via `writeStream.toTable()` sin aplicar la metadata del `TableContract` (#18)
+- `add_silver_timestamps` producía dos columnas en `MetadataEnricher` pero solo `_silver_modified_at` en las estrategias de promoción, de modo que un contrato Silver que declarara ambas fallaba la validación (#19)
+- El MERGE de `UpsertWriter` actualizaba todas las columnas no-key, lo que habría sobrescrito `_silver_created_at` en cada ejecución (#19)
+- **`IngestionEngine.promote_silver()` omitía silenciosamente todas las promociones.** El engine resolvía el `TableContract` Bronze de cada contrato Silver desde su `source_contract` y luego descartaba el resultado; la búsqueda efectiva se hacía por nombre contra `_bronze_tables` y no encontraba nada salvo que el contrato de ingesta batch, la tabla Bronze y el contrato Silver se llamaran igual. Los cinco demos salían con `Faltan contratos src/dst — omitido` y Silver quedaba vacío. El mensaje de WARNING ahora dice cuál de los dos contratos no se pudo resolver
+
+### Tests
+
+- Nueva suite `tests/integration/` con Spark y Delta reales — verifica que `_silver_created_at` sobrevive a un segundo MERGE y que `apply_contract_metadata()` deja los comentarios visibles en `DESCRIBE TABLE`. Excluida de la suite por defecto: debe correr en su propio proceso (`pytest tests/integration`)
+- 18 tests nuevos de mocks sobre `apply_contract_metadata`, `insert_only_columns` y las columnas técnicas de Silver
+
+### Notes
+
+- El tag `v0.3.0` empaqueta un `pyproject.toml` que declara `0.2.4`: se creó antes del commit de bump. Se corrige publicando `0.3.1`; el tag `v0.3.0` se deja intacto para no romper instalaciones existentes (#20)
+
+---
+
 ## [0.3.0] — 2026-05-23
 
 ### Added

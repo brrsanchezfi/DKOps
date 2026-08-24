@@ -80,6 +80,15 @@ python scripts/validate_contracts.py
 python -m pytest -q
 ```
 
+Los tests de `tests/integration/` usan Spark y Delta reales y están excluidos
+de la suite por defecto. Deben correr en su **propio proceso**: los módulos con
+mocks registran un `MagicMock` bajo `pyspark` en `sys.modules`, así que
+compartir intérprete dejaría un Spark falso.
+
+```bash
+python -m pytest tests/integration -q
+```
+
 ```bash
 python demos/demo_5/pipeline.py
 ```
