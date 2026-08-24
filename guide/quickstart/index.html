@@ -1964,8 +1964,10 @@
 <code>pip install dkops</code> funciona porque pip normaliza el nombre de la
 distribución, pero <code>import dkops</code> <strong>falla</strong>: el import correcto es
 <code>import DKOps</code>.</p>
-<p>Evita además el tag <code>v0.3.0</code> — empaqueta un <code>pyproject.toml</code> que declara
-<code>0.2.4</code> porque se creó antes del commit de bump. Usa <code>v0.3.1</code> o posterior.</p>
+<p>Si instalas <strong>desde un tag de git</strong>, evita <code>v0.3.0</code>: apunta a un commit
+cuyo <code>pyproject.toml</code> declara <code>0.2.4</code>, porque el tag se creó antes del
+commit de bump. Usa <code>v0.3.1</code> o posterior. Instalando desde PyPI no hay
+problema — <code>pip install DKOps</code> entrega un <code>0.3.0</code> bien etiquetado.</p>
 </div>
 <hr />
 <h2 id="2-configjson">2. config.json<a class="headerlink" href="#2-configjson" title="Permanent link">&para;</a></h2>
