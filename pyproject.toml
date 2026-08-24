@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "DKOps"
-version = "0.3.0"
+version = "0.3.1"
 description = "Lakehouse automation framework — IngestionEngine, Medallion architecture and Delta governance for Spark and Databricks"
 readme = "README.md"
 authors = [
@@ -95,6 +95,16 @@ ignore = [
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+# La suite por defecto es la de mocks. Los tests de tests/integration usan
+# Spark + Delta reales y deben correr en su PROPIO proceso: los módulos con
+# mocks hacen sys.modules.setdefault("pyspark", MagicMock()), lo que dejaría
+# un pyspark falso si ambos grupos compartieran intérprete.
+#   pytest                      → suite de mocks
+#   pytest tests/integration    → integración con Spark real
+addopts  = "--ignore=tests/integration"
+markers  = [
+    "integration: requiere PySpark y Delta reales; ejecutar en su propio proceso",
+]
 
 [tool.mypy]
 python_version = "3.9"
