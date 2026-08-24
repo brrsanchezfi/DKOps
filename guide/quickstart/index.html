@@ -1956,7 +1956,7 @@
 <a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">".[databricks-connect]"</span>
 </code></pre></div>
 <p>O directamente desde un tag publicado:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">"DKOps @ git+https://github.com/brrsanchezfi/DKOps.git@v0.3.1"</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">"DKOps @ git+https://github.com/brrsanchezfi/DKOps.git@v0.3.2"</span>
 </code></pre></div>
 <div class="admonition warning">
 <p class="admonition-title">El import distingue mayúsculas</p>
@@ -1966,8 +1966,12 @@ distribución, pero <code>import dkops</code> <strong>falla</strong>: el import 
 <code>import DKOps</code>.</p>
 <p>Si instalas <strong>desde un tag de git</strong>, evita <code>v0.3.0</code>: apunta a un commit
 cuyo <code>pyproject.toml</code> declara <code>0.2.4</code>, porque el tag se creó antes del
-commit de bump. Usa <code>v0.3.1</code> o posterior. Instalando desde PyPI no hay
-problema — <code>pip install DKOps</code> entrega un <code>0.3.0</code> bien etiquetado.</p>
+commit de bump. Instalando desde PyPI no hay problema — <code>pip install DKOps</code>
+entrega un <code>0.3.0</code> bien etiquetado.</p>
+<p>Tampoco instales <code>v0.3.1</code> desde git: declara la licencia con la forma corta
+de PEP 639, que exige <code>setuptools &gt;= 77</code> mientras el bloque de construccion
+pide <code>&gt;= 68</code>. En Databricks eso rompe la instalacion con
+<code>ERROR_WHEEL_BUILD</code>. Usa <strong><code>v0.3.2</code> o posterior</strong>.</p>
 </div>
 <hr />
 <h2 id="2-configjson">2. config.json<a class="headerlink" href="#2-configjson" title="Permanent link">&para;</a></h2>
