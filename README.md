@@ -190,10 +190,12 @@ pip install "DKOps @ git+https://github.com/brrsanchezfi/DKOps.git@v0.3.1"
 > normaliza el nombre de la distribucion a minusculas, pero **el import si
 > distingue mayusculas** — `import dkops` falla. Usa `DKOps` en ambos sitios.
 
-> **Nota sobre `v0.3.0`.** Ese tag empaqueta un `pyproject.toml` que declara
-> `0.2.4`, porque se creo antes del commit que subio la version. Instala
-> `v0.3.1` o posterior; desde esa version el workflow de publicacion falla si
-> el tag y `pyproject.toml` no coinciden.
+> **Nota sobre el tag `v0.3.0`.** Afecta solo a la instalacion desde git: ese
+> tag apunta a un commit cuyo `pyproject.toml` declara `0.2.4`, porque se creo
+> antes del commit que subio la version. **PyPI no esta afectado** —
+> `pip install DKOps` entrega un `0.3.0` correctamente etiquetado. Si instalas
+> desde un tag, usa `v0.3.1` o posterior; desde esa version el workflow de
+> publicacion falla si el tag y `pyproject.toml` no coinciden.
 
 ---
 
