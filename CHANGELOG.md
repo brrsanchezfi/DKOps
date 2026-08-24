@@ -30,7 +30,8 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) · Versioning: 
 
 ### Notes
 
-- El tag `v0.3.0` empaqueta un `pyproject.toml` que declara `0.2.4`: se creó antes del commit de bump. Se corrige publicando `0.3.1`; el tag `v0.3.0` se deja intacto para no romper instalaciones existentes (#20)
+- El tag `v0.3.0` empaqueta un `pyproject.toml` que declara `0.2.4`: se creó antes del commit de bump. **Solo afecta a la instalación desde git** — el `0.3.0` de PyPI se publicó vía `workflow_dispatch` desde `main`, que ya tenía la versión subida, y está correctamente etiquetado. Se corrige publicando `0.3.1`; el tag `v0.3.0` se deja intacto para no romper instalaciones existentes (#20)
+- La verificación tag ↔ versión solo aplica al evento `release`. Una publicación lanzada con `workflow_dispatch` no tiene tag contra el que comparar y sigue publicando lo que haya en la rama por defecto (#20)
 
 ---
 

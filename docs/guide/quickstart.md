@@ -27,8 +27,10 @@ pip install "DKOps @ git+https://github.com/brrsanchezfi/DKOps.git@v0.3.1"
     distribución, pero `import dkops` **falla**: el import correcto es
     `import DKOps`.
 
-    Evita además el tag `v0.3.0` — empaqueta un `pyproject.toml` que declara
-    `0.2.4` porque se creó antes del commit de bump. Usa `v0.3.1` o posterior.
+    Si instalas **desde un tag de git**, evita `v0.3.0`: apunta a un commit
+    cuyo `pyproject.toml` declara `0.2.4`, porque el tag se creó antes del
+    commit de bump. Usa `v0.3.1` o posterior. Instalando desde PyPI no hay
+    problema — `pip install DKOps` entrega un `0.3.0` bien etiquetado.
 
 ---
 
