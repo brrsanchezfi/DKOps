@@ -6,6 +6,22 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) · Versioning: 
 
 ---
 
+## [0.3.3] — 2026-08-30
+
+### Fixed
+
+- **`cdc_merge` propagaba `is_deleted = NULL` a Silver (#25).** El default solo se aplicaba cuando la columna *faltaba* en el DataFrame; bastaba con que llegara desde Bronze —por ejemplo porque Auto Loader la incorporó al esquema de la landing— para que dejara de aplicarse. El daño no está en Silver sino aguas abajo: el filtro natural es `WHERE NOT is_deleted`, y con lógica ternaria `NOT NULL` no es `TRUE`, así que las filas vigentes desaparecen del resultado **sin error alguno**. Nuevo helper `_ensure_is_deleted()`, que rellena en vez de comprobar presencia
+- **El contrato no gobernaba la ubicación de la tabla (#26).** Solo `CreateWriter` emitía `LOCATION`; los demás caminos creaban la tabla desde el esquema del DataFrame con `saveAsTable()` o `toTable()`, que ignoran `type: EXTERNAL` y `location` y la dejan MANAGED en el almacenamiento interno de Unity Catalog. `_write_df()` y `_write_stream()` pasan ahora `path` cuando el contrato es externo
+- **`AppendWriter` no aplicaba la metadata del contrato (#26).** Era el único camino de creación que quedó sin cubrir al corregir #18 en `v0.3.1`: las tablas que creaba nacían sin comentarios en el catálogo
+
+### Notes
+
+- La opción `path` se pasa **solo si la tabla no existe todavía**. Sobre una tabla ya creada, Spark rechaza la escritura cuando la ubicación no coincide, y eso rompería a quien ya venía escribiendo contra una tabla MANAGED creada por este mismo fallo. Convertir esas tablas a EXTERNAL sigue siendo una decisión explícita (#26)
+- En los eventos I/U se respeta el `is_deleted` que traiga el origen y solo se rellenan los nulos; en los eventos D la baja se marca siempre (#25)
+- `SchemaValidator` **no valida `nullable`** hoy. La sugerencia del #25 de avisar cuando una columna no nula va a escribirse con nulos exigiría escanear el DataFrame antes de cada escritura —imposible en streaming— así que queda fuera de esta versión
+
+---
+
 ## [0.3.2] — 2026-08-24
 
 ### Fixed
