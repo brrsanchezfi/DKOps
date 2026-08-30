@@ -37,22 +37,7 @@ SRC  = ROOT / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
-from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
-
-
-@pytest.fixture(scope="module")
-def spark():
-    sess = (
-        SparkSession.builder
-            .appName("DKOps-IT-IsDeleted")
-            .master("local[2]")
-            .config("spark.sql.shuffle.partitions", "2")
-            .getOrCreate()
-    )
-    sess.sparkContext.setLogLevel("ERROR")
-    yield sess
-    sess.stop()
 
 
 def _df(spark):
