@@ -624,3 +624,135 @@ def test_upsert_sobre_tabla_existente_no_reaplica_metadata():
             uw.write(df, merge_keys=["id"])
 
     mock_meta.assert_not_called()
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# TC-EX01  El contrato gobierna la ubicación por cualquier camino de escritura
+#          (issue #26 — saveAsTable ignoraba type: EXTERNAL y location)
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _make_external_contract(location: str = "abfss://ct@sa/bronze/ventas") -> TableContract:
+    return TableContract(
+        catalog  = "bronze",
+        schema   = "batch",
+        name     = "ventas_raw",
+        type     = "EXTERNAL",
+        format   = "DELTA",
+        location = location,
+        columns  = (
+            ColumnContract(name="id",    type="STRING",  nullable=False),
+            ColumnContract(name="valor", type="INTEGER", nullable=True),
+        ),
+    )
+
+
+def _capture_write_df_options(contract, table_exists: bool):
+    """Ejecuta _write_df y devuelve (llamadas a .option, llamadas a saveAsTable)."""
+    from DKOps.table_governance.writers.append_writer import AppendWriter
+
+    mock_launcher = _mock_launcher(is_databricks=True)
+
+    mock_df     = MagicMock()
+    mock_writer = MagicMock()
+    mock_df.write                        = mock_writer
+    mock_writer.format.return_value      = mock_writer
+    mock_writer.mode.return_value        = mock_writer
+    mock_writer.option.return_value      = mock_writer
+    mock_writer.partitionBy.return_value = mock_writer
+
+    mock_validator = MagicMock()
+    mock_validator.validate.return_value = MagicMock(
+        warnings=[], raise_if_critical=MagicMock()
+    )
+
+    with patch("DKOps.table_governance.writers.base_writer.Launcher") as mock_lc, \
+         patch("DKOps.table_governance.contracts.validator.SchemaValidator") as mock_sv:
+        mock_lc.current.return_value = mock_launcher
+        mock_sv.return_value         = mock_validator
+
+        aw = AppendWriter(contract)
+        with patch.object(aw, "_table_exists", return_value=table_exists):
+            aw._write_df(mock_df, mode="append")
+
+    return (
+        [str(c) for c in mock_writer.option.call_args_list],
+        mock_writer.saveAsTable.call_args_list,
+    )
+
+
+def test_external_pasa_path_al_crear_la_tabla():
+    contract = _make_external_contract()
+    options, saves = _capture_write_df_options(contract, table_exists=False)
+
+    assert any("path" in c and contract.location in c for c in options), (
+        f"Se esperaba .option('path', '{contract.location}'). Calls: {options}"
+    )
+    assert len(saves) == 1
+
+
+def test_external_no_pasa_path_si_la_tabla_ya_existe():
+    """Sobre una tabla ya creada, Spark falla si la ubicación no coincide."""
+    contract = _make_external_contract()
+    options, _ = _capture_write_df_options(contract, table_exists=True)
+
+    assert not any("path" in c for c in options), (
+        f"No debía pasarse 'path' con la tabla existente. Calls: {options}"
+    )
+
+
+def test_managed_nunca_pasa_path():
+    contract = _make_contract()          # type=MANAGED, sin location
+    options, _ = _capture_write_df_options(contract, table_exists=False)
+
+    assert not any("path" in c for c in options)
+
+
+def test_external_sin_location_no_pasa_path():
+    contract = TableContract(
+        catalog = "bronze", schema = "batch", name = "ventas_raw",
+        type    = "EXTERNAL", format = "DELTA",
+        columns = (ColumnContract(name="id", type="STRING"),),
+    )
+    options, _ = _capture_write_df_options(contract, table_exists=False)
+
+    assert not any("path" in c for c in options)
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# TC-MD03  AppendWriter documenta la tabla cuando la crea
+#          (issue #26 — residuo del #18: era el camino que quedó sin cubrir)
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _run_append(contract, table_exists: bool):
+    from DKOps.table_governance.writers.append_writer import AppendWriter
+
+    mock_launcher = _mock_launcher(is_databricks=True)
+    df            = MagicMock()
+    df.columns    = list(contract.column_names)
+    df.count.return_value = 2
+
+    mock_val_result = MagicMock()
+    mock_val_result.warnings = []
+
+    with patch("DKOps.table_governance.writers.base_writer.Launcher") as mock_lc, \
+         patch("DKOps.table_governance.writers.base_writer.SchemaValidator") as mock_sv:
+        mock_lc.current.return_value = mock_launcher
+        mock_sv.return_value.validate.return_value = mock_val_result
+
+        aw = AppendWriter(contract)
+        with patch.object(aw, "_table_exists", return_value=table_exists), \
+             patch.object(aw, "_apply_defaults",  side_effect=lambda d: d), \
+             patch.object(aw, "_reorder_columns", side_effect=lambda d: d), \
+             patch.object(aw, "_write_df"), \
+             patch.object(aw, "apply_contract_metadata") as mock_meta:
+            aw.write(df)
+
+    return mock_meta
+
+
+def test_append_documenta_la_tabla_que_crea():
+    assert _run_append(_make_documented_contract(), table_exists=False).called
+
+
+def test_append_sobre_tabla_existente_no_reaplica_metadata():
+    assert not _run_append(_make_documented_contract(), table_exists=True).called

@@ -14,7 +14,6 @@ Ejecutar:
 
 from __future__ import annotations
 
-import shutil
 import sys
 import time
 from pathlib import Path
@@ -42,36 +41,13 @@ SRC  = ROOT / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
-from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
 
 from DKOps.table_governance.contracts.loader import ColumnContract, TableContract
 from DKOps.table_governance.writers.upsert_writer import UpsertWriter
 
 
-WAREHOUSE = "/tmp/dkops_it/warehouse"
-
-
-@pytest.fixture(scope="module")
-def spark():
-    shutil.rmtree("/tmp/dkops_it", ignore_errors=True)
-    sess = (
-        SparkSession.builder
-            .appName("DKOps-IT-SilverTimestamps")
-            .master("local[2]")
-            .config("spark.sql.shuffle.partitions", "2")
-            .config("spark.sql.warehouse.dir", WAREHOUSE)
-            .config("spark.jars.packages", "io.delta:delta-spark_2.12:3.2.0")
-            .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension")
-            .config(
-                "spark.sql.catalog.spark_catalog",
-                "org.apache.spark.sql.delta.catalog.DeltaCatalog",
-            )
-            .getOrCreate()
-    )
-    sess.sparkContext.setLogLevel("ERROR")
-    yield sess
-    sess.stop()
+WAREHOUSE = "/tmp/dkops_it/warehouse"   # definido en conftest.py
 
 
 @pytest.fixture(scope="module")

@@ -111,6 +111,31 @@ Dos usos:
 Si la tabla no existe, registra un WARNING y no hace nada — nunca lanza. En
 `dry_run=True` no emite ninguna sentencia.
 
+### Tablas EXTERNAL y `location`
+
+Si el contrato declara `"type": "EXTERNAL"` con su `location`, DKOps crea la
+tabla en esa ruta por **cualquier** camino de escritura, no solo con
+`overwrite()`:
+
+```json
+{
+  "type":     "EXTERNAL",
+  "location": "{path.bronze}/batch/ventas_raw",
+  "columns":  [ ... ]
+}
+```
+
+!!! warning "Solo aplica al crear la tabla"
+
+    La ubicación se fija en el momento de la creación. Si la tabla **ya
+    existe**, DKOps no le pasa la ruta: Spark rechazaría la escritura cuando la
+    ubicación no coincide, y eso rompería un pipeline que ya estuviera
+    funcionando.
+
+    Si tienes tablas MANAGED creadas antes de la v0.3.3 y quieres pasarlas a
+    EXTERNAL, es una migración explícita — el contrato por sí solo no las
+    mueve.
+
 ---
 
 ## merge_schema — Evolución de schema

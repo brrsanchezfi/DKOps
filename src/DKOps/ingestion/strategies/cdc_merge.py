@@ -64,12 +64,8 @@ class CdcMergeStrategy(BasePromotionStrategy):
             # Añadir timestamps Silver
             upserts = self._add_silver_timestamps(upserts)
 
-            # Añadir is_deleted=False si la columna existe en Silver pero no en el DataFrame
-            if (
-                "is_deleted" in self._dst_contract.column_names
-                and "is_deleted" not in upserts.columns
-            ):
-                upserts = upserts.withColumn("is_deleted", F.lit(False))
+            # Garantizar is_deleted no nulo en los eventos I/U
+            upserts = self._ensure_is_deleted(upserts, deleted=False)
 
             # Seleccionar solo columnas Silver (excluir metadata Bronze)
             upserts = self._select_for_silver(upserts)
@@ -86,6 +82,39 @@ class CdcMergeStrategy(BasePromotionStrategy):
         count = self._dst_reader.read().count()
         self.log.info(f"[{self._contract.name}] CdcMerge completado | silver_rows={count:,}")
         return count
+
+    def _ensure_is_deleted(self, df: DataFrame, deleted: bool) -> DataFrame:
+        """
+        Garantiza que `is_deleted` llegue a Silver como true o false, nunca NULL.
+
+        Antes solo se rellenaba cuando la columna **faltaba** en el DataFrame.
+        Bastaba con que llegara desde Bronze —por ejemplo porque Auto Loader la
+        incorporó al esquema— para que el default dejara de aplicarse y los
+        nulos se propagaran.
+
+        Un NULL aquí no rompe nada de forma visible, y ese es el problema: el
+        filtro natural aguas abajo es `WHERE NOT is_deleted`, y con lógica
+        ternaria `NOT NULL` no es `TRUE`, así que esas filas desaparecen del
+        resultado sin error alguno.
+
+        Parámetros
+        ----------
+        deleted : True  → evento D. La baja se marca pase lo que pase en origen.
+                  False → evento I/U. Se respeta el valor del origen si lo trae,
+                          y solo se rellenan los nulos.
+        """
+        if "is_deleted" not in self._dst_contract.column_names:
+            return df
+
+        if deleted:
+            return df.withColumn("is_deleted", F.lit(True))
+
+        if "is_deleted" not in df.columns:
+            return df.withColumn("is_deleted", F.lit(False))
+
+        return df.withColumn(
+            "is_deleted", F.coalesce(F.col("is_deleted"), F.lit(False))
+        )
 
     def _keep_latest_per_key(self, df: DataFrame) -> DataFrame:
         """Retiene solo el evento más reciente por clave de negocio."""
@@ -107,7 +136,7 @@ class CdcMergeStrategy(BasePromotionStrategy):
 
         if self._soft_delete and "is_deleted" in self._dst_contract.column_names:
             # Soft delete: marcar is_deleted=True vía upsert
-            soft = deletes.withColumn("is_deleted", F.lit(True))
+            soft = self._ensure_is_deleted(deletes, deleted=True)
 
             # Añadir timestamps Silver también en soft-deletes
             soft = self._add_silver_timestamps(soft)

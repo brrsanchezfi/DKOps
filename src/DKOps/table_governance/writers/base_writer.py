@@ -159,6 +159,25 @@ class BaseWriter(LoggableMixin, ABC):
             )
 
         if self._env._is_databricks:
+            # El contrato declara donde vive la tabla, pero saveAsTable la crea
+            # a partir del DataFrame y sin LOCATION la deja MANAGED en el
+            # almacenamiento interno de Unity Catalog. Solo `_build_create_ddl`
+            # emitia LOCATION, y solo CreateWriter lo invoca.
+            #
+            # Se pasa 'path' unicamente cuando la tabla aun no existe: sobre una
+            # tabla ya creada Spark rechaza la escritura si la ubicacion no
+            # coincide, y eso romperia los pipelines que ya venian escribiendo
+            # contra una tabla MANAGED.
+            if (
+                self._contract.is_external()
+                and self._contract.location
+                and not self._table_exists()
+            ):
+                self.log.debug(
+                    f"Tabla EXTERNAL — creando en '{self._contract.location}'"
+                )
+                writer = writer.option("path", self._contract.location)
+
             writer.saveAsTable(self._table_name)
         else:
             writer.save(self._table_path)
