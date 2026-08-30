@@ -229,6 +229,20 @@ class BronzeIngestor(LoggableMixin):
             writer = writer.trigger(availableNow=True)
 
         if self._env._is_databricks:
+            # toTable crea la tabla desde el esquema del DataFrame e ignora
+            # `type: EXTERNAL` y `location` del contrato, dejandola MANAGED.
+            # Igual que en _write_df, solo se pasa 'path' si aun no existe.
+            if (
+                dst_contract.is_external()
+                and dst_contract.location
+                and not self._table_exists(dst_contract)
+            ):
+                self.log.debug(
+                    f"[{contract.name}] tabla EXTERNAL — "
+                    f"creando en '{dst_contract.location}'"
+                )
+                writer = writer.option("path", dst_contract.location)
+
             query = writer.toTable(dst_contract.full_name)
         else:
             delta_path = dst_contract.location or self._local_delta_path(dst_contract)
@@ -252,6 +266,13 @@ class BronzeIngestor(LoggableMixin):
             ).count()
         except Exception:
             return -1
+
+    def _table_exists(self, dst_contract: TableContract) -> bool:
+        """True si la tabla destino ya esta registrada en el catalogo."""
+        try:
+            return bool(self._spark.catalog.tableExists(dst_contract.full_name))
+        except Exception:
+            return False
 
     def _resolve_checkpoint(self, contract: IngestionContract) -> str:
         """Construye la ruta del checkpoint según entorno."""

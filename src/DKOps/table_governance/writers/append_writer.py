@@ -36,7 +36,15 @@ class AppendWriter(BaseWriter):
             self._log_dry_run("append")
             return
 
+        # Un append sobre una tabla inexistente la crea. Igual que en la carga
+        # inicial de UpsertWriter, hay que documentarla desde el contrato o la
+        # tabla nace sin comentarios en el catalogo.
+        creada_ahora = not self._table_exists()
+
         row_count = df.count()
         self._write_df(df, mode="append")
+
+        if creada_ahora:
+            self.apply_contract_metadata()
 
         self.log_write_ok("append", rows=row_count, target=self._table_name, mode="append")

@@ -400,3 +400,88 @@ class TestStreamingContractMetadata:
             ingestor._write_stream(self._mock_stream_df(), contract, dst_contract)
 
         assert mock_tw.call_args.args[0] is dst_contract
+
+
+# ── EXTERNAL + location en el camino streaming (issue #26) ───────────────────
+
+class TestStreamingExternalLocation:
+    """
+    `writeStream.toTable()` crea la tabla desde el esquema del DataFrame e
+    ignora `type: EXTERNAL` y `location`, dejandola MANAGED en el
+    almacenamiento interno de Unity Catalog.
+    """
+
+    @pytest.fixture
+    def env(self):
+        env = MagicMock()
+        env._is_databricks = True
+        env.has_path.return_value = False
+        return env
+
+    @pytest.fixture
+    def ingestor(self, env) -> BronzeIngestor:
+        return BronzeIngestor(spark=MagicMock(), env=env)
+
+    def _external_contract(self, location="abfss://ct@sa/bronze/batch/ventas_raw"):
+        return TableContract(
+            catalog  = "bronze",
+            schema   = "batch",
+            name     = "ventas_raw",
+            type     = "EXTERNAL",
+            format   = "DELTA",
+            location = location,
+            columns  = (
+                ColumnContract(name="id",   type="STRING"),
+                ColumnContract(name="data", type="STRING"),
+            ),
+            partitions  = (),
+            permissions = (),
+        )
+
+    def _stream_df(self):
+        df = MagicMock()
+        df.isStreaming = True
+        # Cadena fluida del DataStreamWriter
+        w = MagicMock()
+        for attr in ("format", "option", "partitionBy", "trigger"):
+            getattr(w, attr).return_value = w
+        df.writeStream = w
+        return df, w
+
+    def test_pasa_path_cuando_la_tabla_no_existe(self, ingestor):
+        contract     = _make_ingestion_contract(ingest_type="streaming")
+        dst_contract = self._external_contract()
+        df, w        = self._stream_df()
+
+        with patch("DKOps.ingestion.bronze_ingestor.TableWriter"), \
+             patch.object(ingestor, "_table_exists", return_value=False):
+            ingestor._write_stream(df, contract, dst_contract)
+
+        opts = [str(c) for c in w.option.call_args_list]
+        assert any("path" in c and dst_contract.location in c for c in opts), (
+            f"Se esperaba .option('path', '{dst_contract.location}'). Calls: {opts}"
+        )
+
+    def test_no_pasa_path_si_la_tabla_ya_existe(self, ingestor):
+        contract     = _make_ingestion_contract(ingest_type="streaming")
+        dst_contract = self._external_contract()
+        df, w        = self._stream_df()
+
+        with patch("DKOps.ingestion.bronze_ingestor.TableWriter"), \
+             patch.object(ingestor, "_table_exists", return_value=True):
+            ingestor._write_stream(df, contract, dst_contract)
+
+        opts = [str(c) for c in w.option.call_args_list]
+        assert not any(dst_contract.location in c for c in opts)
+
+    def test_managed_no_pasa_path(self, ingestor):
+        contract     = _make_ingestion_contract(ingest_type="streaming")
+        dst_contract = _make_partitioned_table_contract()   # MANAGED
+        df, w        = self._stream_df()
+
+        with patch("DKOps.ingestion.bronze_ingestor.TableWriter"), \
+             patch.object(ingestor, "_table_exists", return_value=False):
+            ingestor._write_stream(df, contract, dst_contract)
+
+        opts = [str(c) for c in w.option.call_args_list]
+        assert not any("'path'" in c for c in opts)
