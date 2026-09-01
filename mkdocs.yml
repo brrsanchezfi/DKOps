@@ -72,6 +72,7 @@ nav:
     - Contratos de tabla: guide/contracts.md
     - Writers: guide/writers.md
     - Migraciones: guide/migrations.md
+    - Logging y registro operativo: guide/logging.md
     - Arquitectura: guide/architecture.md
   - Demos:
     - Demo 1 — Aeronáutica: demos/demo_1.md
