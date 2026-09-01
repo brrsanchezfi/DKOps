@@ -316,42 +316,116 @@ class TestBronzeIngestor:
 
 
 class TestOpsLogger:
-    """Tests del IngestionOpsLogger con mocks de Spark."""
+    """
+    Tests del IngestionOpsLogger con mocks de Spark.
 
-    def test_log_start_returns_run_id(self):
+    Aqui solo se comprueba lo que un mock puede demostrar: que cada metodo arma
+    la fila que le toca. El esquema en si no se puede aseverar bajo mocks
+    —_OPS_SCHEMA se construye con StructType mockeados—, y que la fila SEA
+    ESCRIBIBLE por
+    Spark es justo lo que los mocks no pueden ver —createDataFrame sobre un
+    MagicMock nunca falla— y por eso el issue #28 paso inadvertido. Esa parte
+    vive en tests/integration/test_ops_logger_spark.py.
+    """
+
+    @staticmethod
+    def _logger(spark=None):
+        """IngestionOpsLogger sin tocar _ensure_table ni el Launcher."""
         from DKOps.ingestion.ops.ops_logger import IngestionOpsLogger
 
-        spark = MagicMock()
-        spark.createDataFrame.return_value = MagicMock()
-
-        # Mock del write para avoid Delta issues
-        write_mock = MagicMock()
-        spark.createDataFrame.return_value.write = write_mock
-        write_mock.format.return_value.mode.return_value.save = MagicMock()
-
-        ops    = IngestionOpsLogger.__new__(IngestionOpsLogger)
-        ops._spark    = spark
+        ops = IngestionOpsLogger.__new__(IngestionOpsLogger)
+        ops._spark    = spark or MagicMock()
         ops._ops_path = "/tmp/test_ops"
         ops._pipeline = "test"
+        ops._started  = {}
+        return ops
 
-        # Inyectar logger para evitar LoggableMixin setup
-        import logging
-        ops._logger = logging.getLogger("test")
+    def test_log_start_devuelve_un_run_id_de_8_caracteres(self):
+        ops = self._logger()
 
-        run_id = ops.log_start.__func__  # acceder sin llamar _ensure_table
+        with patch.object(ops, "_write_row") as write:
+            run_id = ops.log_start("ventas")
 
-        # Verificación básica del formato run_id
-        import uuid
-        rid = str(uuid.uuid4())[:8]
-        assert len(rid) == 8
+        assert isinstance(run_id, str) and len(run_id) == 8
+        fila = write.call_args.kwargs
+        assert fila["run_id"]  == run_id
+        assert fila["dataset"] == "ventas"
+        assert fila["status"]  == "STARTED"
+        assert fila["started_at"] is not None
 
-    def test_ops_schema_has_required_fields(self):
-        import inspect
-        from DKOps.ingestion.ops import ops_logger
-        source = inspect.getsource(ops_logger)
-        for field in ["run_id", "pipeline", "dataset", "status", "rows_written"]:
-            assert f'"{field}"' in source or f"'{field}'" in source, \
-                f"Campo '{field}' no encontrado en la definición del schema"
+    def test_cada_log_start_devuelve_un_run_id_distinto(self):
+        ops = self._logger()
+        with patch.object(ops, "_write_row"):
+            assert ops.log_start("a") != ops.log_start("b")
+
+    def test_el_cierre_repite_el_started_at_de_su_run_id(self):
+        """Issue #28 — la tabla debe quedar autocontenida, sin self-join."""
+        ops = self._logger()
+
+        with patch.object(ops, "_write_row") as write:
+            run_id  = ops.log_start("ventas")
+            inicio  = write.call_args.kwargs["started_at"]
+            ops.log_success(run_id, "ventas", rows_written=10)
+            cierre  = write.call_args.kwargs
+
+        assert cierre["status"]      == "SUCCESS"
+        assert cierre["started_at"]  == inicio
+        assert cierre["finished_at"] is not None
+
+    def test_el_cierre_por_fallo_tambien_repite_el_started_at(self):
+        ops = self._logger()
+
+        with patch.object(ops, "_write_row") as write:
+            run_id = ops.log_start("ventas")
+            inicio = write.call_args.kwargs["started_at"]
+            ops.log_failure(run_id, "ventas", ValueError("boom"))
+            cierre = write.call_args.kwargs
+
+        assert cierre["status"]     == "FAILED"
+        assert cierre["started_at"] == inicio
+        assert "ValueError" in cierre["notes"]
+
+    def test_started_at_es_none_si_el_run_id_es_desconocido(self):
+        """Proceso reiniciado entre apertura y cierre: la fila no se pierde."""
+        ops = self._logger()
+
+        with patch.object(ops, "_write_row") as write:
+            ops.log_success("run-de-otro-proceso", "ventas", rows_written=3)
+
+        assert write.call_args.kwargs["started_at"] is None
+
+    def test_el_run_id_se_olvida_tras_cerrarlo(self):
+        """Sin esto el diccionario creceria sin limite en un proceso largo."""
+        ops = self._logger()
+
+        with patch.object(ops, "_write_row"):
+            run_id = ops.log_start("ventas")
+            assert run_id in ops._started
+            ops.log_success(run_id, "ventas")
+
+        assert ops._started == {}
+
+    def test_un_fallo_de_escritura_se_registra_como_error(self):
+        """Issue #28 — degradarlo a warning fue lo que oculto el bug."""
+        spark = MagicMock()
+        spark.createDataFrame.side_effect = RuntimeError("schema rechazado")
+
+        from DKOps.ingestion.ops.ops_logger import IngestionOpsLogger
+        from unittest.mock import PropertyMock
+
+        ops       = self._logger(spark)
+        log_mock  = MagicMock()
+
+        with patch.object(
+            IngestionOpsLogger, "log", new_callable=PropertyMock,
+            return_value=log_mock,
+        ):
+            ops._write_row(run_id="a1", dataset="ventas", status="SUCCESS")
+
+        assert log_mock.error.called, "el fallo debe salir como ERROR, no warning"
+        mensaje = str(log_mock.error.call_args)
+        assert "RuntimeError" in mensaje
+        assert "SUCCESS" in mensaje
 
 
 # ── Metadata del contrato en el camino streaming (issue #18) ─────────────────

@@ -6,6 +6,29 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) · Versioning: 
 
 ---
 
+## [0.3.4] — 2026-09-01
+
+### Fixed
+
+- **`IngestionOpsLogger` solo registraba `STARTED` (#28).** `started_at` estaba declarado `nullable=False`, pero `log_success()` y `log_failure()` no lo pasan —un cierre no reabre el inicio—, así que `createDataFrame` rechazaba toda fila de cierre con `PySparkValueError: [CANNOT_BE_NONE]`. La excepción la absorbía un `except` que solo emitía un *warning*, de modo que la ingesta terminaba en verde con la tabla de control incompleta. Afectaba por igual a `BronzeIngestor` y a `SilverPromoter`: ninguna ingesta ni promoción registraba cierre
+- El `except` de `_write_row()` registra ahora el fallo como **`ERROR`**, con el tipo de excepción, el `status` y el `run_id`. Sigue sin relanzar: tumbar una ingesta que fue bien porque no se pudo anotar el cierre sería peor que el problema (#28)
+
+### Changed
+
+- `IngestionOpsLogger` recuerda el `started_at` de cada `run_id` y lo repite en la fila de cierre, de modo que la duración sale de una resta y no de un self-join. Si el proceso se reinicia entre apertura y cierre, la fila se escribe igualmente con `started_at` a `NULL` en lugar de perderse (#28)
+
+### Added
+
+- Guía **[Logging y registro operativo](guide/logging.md)** — distingue el logger de aplicación (`LoggableMixin`, consola y archivo) del registro operativo (`IngestionOpsLogger`, tabla Delta consultable), con el esquema de la tabla, consultas de tasa de éxito, duración y ejecuciones sin cerrar, y cómo usar el registro fuera del engine
+- `tests/integration/test_ops_logger_spark.py` — 10 tests con Spark y Delta reales sobre el ciclo completo del registro operativo
+
+### Notes
+
+- **Los dos tests que existían del `OpsLogger` no probaban nada.** `test_log_start_returns_run_id` nunca llamaba a `log_start()`: obtenía la función con `.__func__` sin invocarla y luego aseveraba que `uuid.uuid4()` recortado a 8 mide 8. `test_ops_schema_has_required_fields` leía el **texto fuente** del módulo con `inspect.getsource()` y buscaba substrings, sin construir jamás un DataFrame. Ambos en verde sobre el único componente roto. Reescritos para aseverar sobre el `StructType` real y sobre las filas que arma cada método (#28)
+- Las tablas de control creadas por versiones anteriores tienen `started_at` como `NOT NULL` en la metadata de Delta. Las filas de cierre normales llevan valor y se escriben sin problema; solo el caso de reinicio del proceso necesitaría recrear la tabla (#28)
+
+---
+
 ## [0.3.3] — 2026-08-30
 
 ### Fixed

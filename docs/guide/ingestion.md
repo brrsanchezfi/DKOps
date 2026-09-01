@@ -314,6 +314,11 @@ ops_df = engine.ops.read()
 ops_df.select("run_id", "dataset", "status", "rows_written", "started_at").show()
 ```
 
+Cada ejecución deja **dos filas** —una `STARTED` al abrir y una `SUCCESS` o
+`FAILED` al cerrar—, así que toda agregación debe filtrar por `status`. El
+esquema completo, las consultas de tasa de éxito y duración, y cómo usar el
+registro fuera del engine están en [Logging y registro operativo](logging.md).
+
 ---
 
 ## Batch vs. Streaming
