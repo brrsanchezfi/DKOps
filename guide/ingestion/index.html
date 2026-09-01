@@ -855,6 +855,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../logging/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Logging y registro operativo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../architecture/" class="md-nav__link">
         
   
@@ -2598,6 +2626,10 @@ en <code>insert_only_columns</code> del MERGE — ver
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">ops_df</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
 <a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">ops_df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">"run_id"</span><span class="p">,</span> <span class="s2">"dataset"</span><span class="p">,</span> <span class="s2">"status"</span><span class="p">,</span> <span class="s2">"rows_written"</span><span class="p">,</span> <span class="s2">"started_at"</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </code></pre></div>
+<p>Cada ejecución deja <strong>dos filas</strong> —una <code>STARTED</code> al abrir y una <code>SUCCESS</code> o
+<code>FAILED</code> al cerrar—, así que toda agregación debe filtrar por <code>status</code>. El
+esquema completo, las consultas de tasa de éxito y duración, y cómo usar el
+registro fuera del engine están en <a href="../logging/">Logging y registro operativo</a>.</p>
 <hr />
 <h2 id="batch-vs-streaming">Batch vs. Streaming<a class="headerlink" href="#batch-vs-streaming" title="Permanent link">&para;</a></h2>
 <table>
