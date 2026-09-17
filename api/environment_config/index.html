@@ -2967,23 +2967,23 @@ que ya carga Launcher. No lee ningún archivo externo.</p>
     ...
 
     "environments": {
-        "2370424844216896": {          ← workspace_id real (Databricks)
+        "1234567890123456": {          &lt;- workspace_id de Databricks
             "env":        "dev",
             "env_short":  "d",
-            "workspace_host": "https://adb-2370424844216896.azuredatabricks.net",
+            "workspace_host": "https://adb-1234567890123456.azuredatabricks.net",
             "catalogs": {
-                "bronze": "ct_bronze_dlsuraanaliticadev",
-                "silver": "ct_silver_dlsuraanaliticadev",
-                "gold":   "ct_gold_dlsuraanaliticadev"
+                "bronze": "ct_bronze_dev",
+                "silver": "ct_silver_dev",
+                "gold":   "ct_gold_dev"
             },
             "storage_accounts": {
-                "default": "dlsuraanaliticadev",
-                "raw":     "dlsuraanaliticadevraw"
+                "default": "midatalakedev",
+                "raw":     "midatalakedevraw"
             },
             "paths": {
-                "raw":     "abfss://raw@dlsuraanaliticadev.dfs.core.windows.net",
-                "curated": "abfss://curated@dlsuraanaliticadev.dfs.core.windows.net",
-                "archive": "abfss://archive@dlsuraanaliticadev.dfs.core.windows.net"
+                "raw":     "abfss://raw@midatalakedev.dfs.core.windows.net",
+                "curated": "abfss://curated@midatalakedev.dfs.core.windows.net",
+                "archive": "abfss://archive@midatalakedev.dfs.core.windows.net"
             },
             "secrets": { "scope": "kv-dev" },
             "tags": {
@@ -2992,7 +2992,7 @@ que ya carga Launcher. No lee ningún archivo externo.</p>
                 "team":        "data-engineering"
             }
         },
-        "7042033821150253": { ... }    ← workspace_id prod
+        "6543210987654321": { ... }    &lt;- workspace_id de produccion
     }
 }
 </code></pre></div>
@@ -3006,7 +3006,7 @@ que ya carga Launcher. No lee ningún archivo externo.</p>
 <div class="language-text highlight"><pre><span></span><code>launcher = Launcher("config.json")
 env      = launcher.env
 
-env.get_catalog("bronze")       →  "ct_bronze_dlsuraanaliticadev"
+env.get_catalog("bronze")       →  "ct_bronze_dev"
 env.get_path("raw")             →  "abfss://raw@..."
 env.get_secret("jdbc_password") →  dbutils o .env según runtime
 env.get_var("tags.cost_center") →  "CC-1001"
@@ -3540,7 +3540,7 @@ env_file     : ruta explícita al .env local (opcional)</p>
 </span><span id="__span-0-229"><a id="__codelineno-0-229" name="__codelineno-0-229"></a><span class="sd">        Nombre real del catálogo Unity Catalog para este ambiente.</span>
 </span><span id="__span-0-230"><a id="__codelineno-0-230" name="__codelineno-0-230"></a>
 </span><span id="__span-0-231"><a id="__codelineno-0-231" name="__codelineno-0-231"></a><span class="sd">        Ejemplo:</span>
-</span><span id="__span-0-232"><a id="__codelineno-0-232" name="__codelineno-0-232"></a><span class="sd">            env.get_catalog("bronze")  →  "ct_bronze_dlsuraanaliticadev"</span>
+</span><span id="__span-0-232"><a id="__codelineno-0-232" name="__codelineno-0-232"></a><span class="sd">            env.get_catalog("bronze")  →  "ct_bronze_dev"</span>
 </span><span id="__span-0-233"><a id="__codelineno-0-233" name="__codelineno-0-233"></a><span class="sd">        """</span>
 </span><span id="__span-0-234"><a id="__codelineno-0-234" name="__codelineno-0-234"></a>        <span class="n">catalogs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vars</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"catalogs"</span><span class="p">,</span> <span class="p">{})</span>
 </span><span id="__span-0-235"><a id="__codelineno-0-235" name="__codelineno-0-235"></a>        <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">catalogs</span><span class="p">:</span>
@@ -3566,8 +3566,8 @@ env_file     : ruta explícita al .env local (opcional)</p>
 </span><span id="__span-0-255"><a id="__codelineno-0-255" name="__codelineno-0-255"></a><span class="sd">        Nombre de la cuenta de storage para este ambiente.</span>
 </span><span id="__span-0-256"><a id="__codelineno-0-256" name="__codelineno-0-256"></a>
 </span><span id="__span-0-257"><a id="__codelineno-0-257" name="__codelineno-0-257"></a><span class="sd">        Ejemplo:</span>
-</span><span id="__span-0-258"><a id="__codelineno-0-258" name="__codelineno-0-258"></a><span class="sd">            env.get_storage_account()       →  "dlsuraanaliticadev"</span>
-</span><span id="__span-0-259"><a id="__codelineno-0-259" name="__codelineno-0-259"></a><span class="sd">            env.get_storage_account("raw")  →  "dlsuraanaliticadevraw"</span>
+</span><span id="__span-0-258"><a id="__codelineno-0-258" name="__codelineno-0-258"></a><span class="sd">            env.get_storage_account()       -&gt;  "midatalakedev"</span>
+</span><span id="__span-0-259"><a id="__codelineno-0-259" name="__codelineno-0-259"></a><span class="sd">            env.get_storage_account("raw")  →  "midatalakedevraw"</span>
 </span><span id="__span-0-260"><a id="__codelineno-0-260" name="__codelineno-0-260"></a><span class="sd">        """</span>
 </span><span id="__span-0-261"><a id="__codelineno-0-261" name="__codelineno-0-261"></a>        <span class="n">accounts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vars</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"storage_accounts"</span><span class="p">,</span> <span class="p">{})</span>
 </span><span id="__span-0-262"><a id="__codelineno-0-262" name="__codelineno-0-262"></a>        <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">accounts</span><span class="p">:</span>
@@ -3582,8 +3582,8 @@ env_file     : ruta explícita al .env local (opcional)</p>
 </span><span id="__span-0-271"><a id="__codelineno-0-271" name="__codelineno-0-271"></a><span class="sd">        Ruta base para este ambiente.</span>
 </span><span id="__span-0-272"><a id="__codelineno-0-272" name="__codelineno-0-272"></a>
 </span><span id="__span-0-273"><a id="__codelineno-0-273" name="__codelineno-0-273"></a><span class="sd">        Ejemplo:</span>
-</span><span id="__span-0-274"><a id="__codelineno-0-274" name="__codelineno-0-274"></a><span class="sd">            env.get_path("raw")      →  "abfss://raw@dlsuraanaliticadev..."</span>
-</span><span id="__span-0-275"><a id="__codelineno-0-275" name="__codelineno-0-275"></a><span class="sd">            env.get_path("curated")  →  "abfss://curated@dlsuraanaliticadev..."</span>
+</span><span id="__span-0-274"><a id="__codelineno-0-274" name="__codelineno-0-274"></a><span class="sd">            env.get_path("raw")      →  "abfss://raw@midatalakedevdev..."</span>
+</span><span id="__span-0-275"><a id="__codelineno-0-275" name="__codelineno-0-275"></a><span class="sd">            env.get_path("curated")  →  "abfss://curated@midatalakedevdev..."</span>
 </span><span id="__span-0-276"><a id="__codelineno-0-276" name="__codelineno-0-276"></a><span class="sd">        """</span>
 </span><span id="__span-0-277"><a id="__codelineno-0-277" name="__codelineno-0-277"></a>        <span class="n">paths</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vars</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"paths"</span><span class="p">,</span> <span class="p">{})</span>
 </span><span id="__span-0-278"><a id="__codelineno-0-278" name="__codelineno-0-278"></a>        <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">paths</span><span class="p">:</span>
@@ -3945,7 +3945,7 @@ env_file     : ruta explícita al .env local (opcional)</p>
 
 <details class="ejemplo" open>
   <summary>Ejemplo</summary>
-  <p>env.get_catalog("bronze")  →  "ct_bronze_dlsuraanaliticadev"</p>
+  <p>env.get_catalog("bronze")  →  "ct_bronze_dev"</p>
 </details>
 
             <details class="mkdocstrings-source">
@@ -3968,7 +3968,7 @@ env_file     : ruta explícita al .env local (opcional)</p>
 </span><span id="__span-0-229"><a id="__codelineno-0-229" name="__codelineno-0-229"></a><span class="sd">    Nombre real del catálogo Unity Catalog para este ambiente.</span>
 </span><span id="__span-0-230"><a id="__codelineno-0-230" name="__codelineno-0-230"></a>
 </span><span id="__span-0-231"><a id="__codelineno-0-231" name="__codelineno-0-231"></a><span class="sd">    Ejemplo:</span>
-</span><span id="__span-0-232"><a id="__codelineno-0-232" name="__codelineno-0-232"></a><span class="sd">        env.get_catalog("bronze")  →  "ct_bronze_dlsuraanaliticadev"</span>
+</span><span id="__span-0-232"><a id="__codelineno-0-232" name="__codelineno-0-232"></a><span class="sd">        env.get_catalog("bronze")  →  "ct_bronze_dev"</span>
 </span><span id="__span-0-233"><a id="__codelineno-0-233" name="__codelineno-0-233"></a><span class="sd">    """</span>
 </span><span id="__span-0-234"><a id="__codelineno-0-234" name="__codelineno-0-234"></a>    <span class="n">catalogs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vars</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"catalogs"</span><span class="p">,</span> <span class="p">{})</span>
 </span><span id="__span-0-235"><a id="__codelineno-0-235" name="__codelineno-0-235"></a>    <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">catalogs</span><span class="p">:</span>
@@ -4045,8 +4045,8 @@ env_file     : ruta explícita al .env local (opcional)</p>
 
 <details class="ejemplo" open>
   <summary>Ejemplo</summary>
-  <p>env.get_storage_account()       →  "dlsuraanaliticadev"
-env.get_storage_account("raw")  →  "dlsuraanaliticadevraw"</p>
+  <p>env.get_storage_account()       -&gt;  "midatalakedev"
+env.get_storage_account("raw")  →  "midatalakedevraw"</p>
 </details>
 
             <details class="mkdocstrings-source">
@@ -4070,8 +4070,8 @@ env.get_storage_account("raw")  →  "dlsuraanaliticadevraw"</p>
 </span><span id="__span-0-255"><a id="__codelineno-0-255" name="__codelineno-0-255"></a><span class="sd">    Nombre de la cuenta de storage para este ambiente.</span>
 </span><span id="__span-0-256"><a id="__codelineno-0-256" name="__codelineno-0-256"></a>
 </span><span id="__span-0-257"><a id="__codelineno-0-257" name="__codelineno-0-257"></a><span class="sd">    Ejemplo:</span>
-</span><span id="__span-0-258"><a id="__codelineno-0-258" name="__codelineno-0-258"></a><span class="sd">        env.get_storage_account()       →  "dlsuraanaliticadev"</span>
-</span><span id="__span-0-259"><a id="__codelineno-0-259" name="__codelineno-0-259"></a><span class="sd">        env.get_storage_account("raw")  →  "dlsuraanaliticadevraw"</span>
+</span><span id="__span-0-258"><a id="__codelineno-0-258" name="__codelineno-0-258"></a><span class="sd">        env.get_storage_account()       -&gt;  "midatalakedev"</span>
+</span><span id="__span-0-259"><a id="__codelineno-0-259" name="__codelineno-0-259"></a><span class="sd">        env.get_storage_account("raw")  →  "midatalakedevraw"</span>
 </span><span id="__span-0-260"><a id="__codelineno-0-260" name="__codelineno-0-260"></a><span class="sd">    """</span>
 </span><span id="__span-0-261"><a id="__codelineno-0-261" name="__codelineno-0-261"></a>    <span class="n">accounts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vars</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"storage_accounts"</span><span class="p">,</span> <span class="p">{})</span>
 </span><span id="__span-0-262"><a id="__codelineno-0-262" name="__codelineno-0-262"></a>    <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">accounts</span><span class="p">:</span>
@@ -4102,8 +4102,8 @@ env.get_storage_account("raw")  →  "dlsuraanaliticadevraw"</p>
 
 <details class="ejemplo" open>
   <summary>Ejemplo</summary>
-  <p>env.get_path("raw")      →  "abfss://raw@dlsuraanaliticadev..."
-env.get_path("curated")  →  "abfss://curated@dlsuraanaliticadev..."</p>
+  <p>env.get_path("raw")      →  "abfss://raw@midatalakedevdev..."
+env.get_path("curated")  →  "abfss://curated@midatalakedevdev..."</p>
 </details>
 
             <details class="mkdocstrings-source">
@@ -4127,8 +4127,8 @@ env.get_path("curated")  →  "abfss://curated@dlsuraanaliticadev..."</p>
 </span><span id="__span-0-271"><a id="__codelineno-0-271" name="__codelineno-0-271"></a><span class="sd">    Ruta base para este ambiente.</span>
 </span><span id="__span-0-272"><a id="__codelineno-0-272" name="__codelineno-0-272"></a>
 </span><span id="__span-0-273"><a id="__codelineno-0-273" name="__codelineno-0-273"></a><span class="sd">    Ejemplo:</span>
-</span><span id="__span-0-274"><a id="__codelineno-0-274" name="__codelineno-0-274"></a><span class="sd">        env.get_path("raw")      →  "abfss://raw@dlsuraanaliticadev..."</span>
-</span><span id="__span-0-275"><a id="__codelineno-0-275" name="__codelineno-0-275"></a><span class="sd">        env.get_path("curated")  →  "abfss://curated@dlsuraanaliticadev..."</span>
+</span><span id="__span-0-274"><a id="__codelineno-0-274" name="__codelineno-0-274"></a><span class="sd">        env.get_path("raw")      →  "abfss://raw@midatalakedevdev..."</span>
+</span><span id="__span-0-275"><a id="__codelineno-0-275" name="__codelineno-0-275"></a><span class="sd">        env.get_path("curated")  →  "abfss://curated@midatalakedevdev..."</span>
 </span><span id="__span-0-276"><a id="__codelineno-0-276" name="__codelineno-0-276"></a><span class="sd">    """</span>
 </span><span id="__span-0-277"><a id="__codelineno-0-277" name="__codelineno-0-277"></a>    <span class="n">paths</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vars</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"paths"</span><span class="p">,</span> <span class="p">{})</span>
 </span><span id="__span-0-278"><a id="__codelineno-0-278" name="__codelineno-0-278"></a>    <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">paths</span><span class="p">:</span>

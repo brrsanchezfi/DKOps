@@ -2792,6 +2792,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#removed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Removed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#fixed" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3147,7 +3158,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#removed" class="md-nav__link">
+  <a href="#removed_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         Removed
@@ -3220,6 +3231,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#removed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Removed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#fixed" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3575,7 +3597,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#removed" class="md-nav__link">
+  <a href="#removed_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         Removed
@@ -3631,18 +3653,43 @@
 <p>Format: <a href="https://keepachangelog.com/en/1.0.0/">Keep a Changelog</a> · Versioning: <a href="https://semver.org/">Semantic Versioning</a>.</p>
 <hr />
 <h2 id="036-2026-09-17">[0.3.6] — 2026-09-17<a class="headerlink" href="#036-2026-09-17" title="Permanent link">&para;</a></h2>
-<p>Release solo de documentación. No cambia ni una línea de <code>src/</code>, así que
-actualizar desde la 0.3.5 no altera el comportamiento de ningún pipeline.</p>
+<p>Release de documentación y limpieza del repositorio. Lo único que cambia en
+<code>src/</code> son docstrings, así que actualizar desde la 0.3.5 no altera el
+comportamiento de ningún pipeline.</p>
+<h3 id="removed">Removed<a class="headerlink" href="#removed" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong><code>databricks.yml</code>.</strong> Era un Databricks Asset Bundle de otro proyecto
+  (<code>proyecto_aeronautica</code>) con hosts de workspace, cuentas de storage, scopes de
+  Key Vault y centros de coste codificados. El framework se configura con
+  <code>config.json</code> y nada en el repositorio lo usaba</li>
+<li>Diagramas generados por <code>pyreverse</code> y <code>pydeps</code> que estaban versionados en el
+  root: <code>classes_DKOps.dot</code> y <code>.png</code>, <code>packages_DKOps.dot</code> y <code>.png</code>,
+  <code>DKOps_deps.svg</code> y <code>dependencies</code>, más las dos copias de <code>docs/assets/</code> que
+  ninguna página referenciaba. Se regeneran cuando se necesiten</li>
+<li><code>src/DKOps.egg-info/</code> deja de estar versionado. Es un artefacto de build que el
+  <code>.gitignore</code> ya excluía, pero se había commiteado antes de esa regla</li>
+</ul>
 <h3 id="fixed">Fixed<a class="headerlink" href="#fixed" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>Tres afirmaciones de la documentación que no coincidían con el código.</strong>
+<li><strong>Nombres de infraestructura real en docstrings y plantillas.</strong> Los docstrings
+  de <code>environment_config.py</code> y <code>loader.py</code> usaban workspace IDs, hosts de Azure,
+  cuentas de storage y catálogos reales como ejemplo, y mkdocstrings los publica
+  en la referencia API del sitio. Igual ocurría en <code>config/config-copy.json</code>.
+  Todos pasan a valores de ejemplo. No hay cambios de comportamiento</li>
+<li>
+<p><code>.gitignore</code> ignora ahora <code>derby.log</code>, el directorio <code>file:/</code> que crea Spark
+  cuando una ruta llega con ese esquema, y los diagramas generados</p>
+</li>
+<li>
+<p><strong>Tres afirmaciones de la documentación que no coincidían con el código.</strong>
   <code>TableWriter.delete(preview=True)</code> se documentaba como una previsualización que
   no borraba, cuando en realidad muestra las filas afectadas <strong>y las borra</strong> (para
   verlas sin borrar hay que combinarlo con <code>dry_run=True</code>). <code>incremental_replace</code>
   se describía como un upsert por <code>merge_keys</code>, pero reemplaza la partición más
   reciente con <code>overwrite_partition</code>. Y la guía de migraciones seguía usando la
   firma antigua <code>SafeMigrator(spark, contract, env)</code>, que dejó de existir cuando
-  el migrador pasó a resolver Spark desde el <code>Launcher</code> activo</li>
+  el migrador pasó a resolver Spark desde el <code>Launcher</code> activo</p>
+</li>
 <li>Los enlaces a <code>LICENSE</code> y <code>CHANGELOG.md</code> del README eran rutas relativas del
   repositorio. GitHub las resuelve, pero PyPI no: en la página del paquete daban</li>
 <li>Ahora son URL absolutas</li>
@@ -3807,7 +3854,7 @@ actualizar desde la 0.3.5 no altera el comportamiento de ningún pipeline.</p>
 <li>Descripción del paquete actualizada para reflejar IngestionEngine y arquitectura Medallion</li>
 <li>URLs del proyecto apuntan a GitHub Pages en lugar del repositorio raw</li>
 </ul>
-<h3 id="removed">Removed<a class="headerlink" href="#removed" title="Permanent link">&para;</a></h3>
+<h3 id="removed_1">Removed<a class="headerlink" href="#removed_1" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Scripts obsoletos <code>pipeline_aeronautica.py</code>, <code>pipeline_manufactura.py</code>, <code>pipeline_ecommerce.py</code>, <code>pipeline_lectura.py</code></li>
 <li><code>data_generator.py</code> ×4 (reemplazados por directorios <code>datagen/</code> por demo)</li>
