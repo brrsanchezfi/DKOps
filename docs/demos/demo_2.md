@@ -1,6 +1,6 @@
-# Demo 2 — Manufactura
+# Demo 2: Manufactura
 
-**Dominio:** manufactura de artículos de aseo · **Foco:** DQ declarativo + transformaciones testeables + IngestionEngine
+**Dominio:** manufactura de artículos de aseo. **Enfoque:** DQ declarativo + transformaciones testeables + IngestionEngine
 
 Pipeline de 3 capas con datos intencionalmente sucios, funciones puras de transformación testeables con `pytest`, y un motor de Data Quality declarativo que valida cada capa.
 
@@ -117,7 +117,7 @@ cd demos/demo_2
 pytest tests/ -v          # ~35 tests, sin Delta, sin catálogo
 ```
 
-Las funciones de transformación en `transformations/` son puras — reciben DataFrames, devuelven DataFrames, sin I/O. Esto las hace triviales de testear:
+Las funciones de transformación en `transformations/` son puras: reciben DataFrames y devuelven DataFrames, sin I/O. Eso las hace muy fáciles de probar:
 
 ```python
 def test_normaliza_estado(spark):
@@ -141,8 +141,8 @@ demos/demo_2/
 │   ├── generate_ordenes.py
 │   └── generate_ventas.py
 ├── ingestion/
-│   ├── batch/                      # contratos Landing → Bronze
-│   └── silver/                     # contratos Bronze → Silver
+│   ├── batch/                      # contratos de Landing a Bronze
+│   └── silver/                     # contratos de Bronze a Silver
 ├── tables/
 │   ├── bronze_new/                 # contratos tabla Bronze
 │   ├── silver_new/                 # contratos tabla Silver

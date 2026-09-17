@@ -1,6 +1,6 @@
-# Demo 4 — Retail / Inventario
+# Demo 4: Retail / Inventario
 
-**Dominio:** inventario retail · **Foco:** `read_cdf()` + `read_stream()` + `SafeMigrator` + streaming
+**Dominio:** inventario retail. **Enfoque:** `read_cdf()` + `read_stream()` + `SafeMigrator` + streaming
 
 Pipeline Lakehouse completo para gestión de inventario. Demuestra las capacidades avanzadas de `TableReader`: Change Data Feed, streaming gobernado, y planificación de migraciones con `SafeMigrator`.
 
@@ -23,7 +23,7 @@ flowchart LR
     subgraph bronze["Bronze · retail"]
         BP["productos_raw\nfull snapshot"]
         BM["movimientos_raw\nincremental"]
-        BA["alertas_raw\nstreaming → batch"]
+        BA["alertas_raw\nstreaming a batch"]
     end
 
     subgraph silver["Silver · retail"]
@@ -53,9 +53,9 @@ flowchart LR
 
 | Concepto | Dónde se ve |
 |---|---|
-| `full_merge` — catálogo de productos | `productos_current` |
-| `append_dedup` — movimientos sin duplicados | `movimientos_current` |
-| `append_dedup` — alertas IoT | `alertas_current` |
+| `full_merge` para el catálogo de productos | `productos_current` |
+| `append_dedup` para movimientos sin duplicados | `movimientos_current` |
+| `append_dedup` para alertas IoT | `alertas_current` |
 | `TableReader.read_cdf()` | Gold: detecta cambios de stock via Change Data Feed |
 | `TableReader.read_stream()` | Validación: demo de streaming gobernado |
 | `SafeMigrator(dry_run=True)` | Fase 5: plan de migración sin ejecutar |
@@ -63,7 +63,7 @@ flowchart LR
 
 ---
 
-## Change Data Feed — `read_cdf()`
+## Change Data Feed con `read_cdf()`
 
 `productos_current` tiene `"change_data_feed": true` en su contrato. Tras las actualizaciones de stock, Gold lee los cambios con:
 
@@ -87,7 +87,7 @@ El DataFrame incluye columnas adicionales de Delta:
 
 ---
 
-## Streaming gobernado — `read_stream()`
+## Streaming gobernado con `read_stream()`
 
 ```python
 stream_df = reader.read_stream()   # isStreaming == True
@@ -105,7 +105,7 @@ query.awaitTermination()
 
 ---
 
-## SafeMigrator — plan de migración
+## Plan de migración con SafeMigrator
 
 ```python
 from DKOps.table_governance import SafeMigrator
@@ -122,7 +122,7 @@ Compara el contrato JSON contra el estado real de la tabla en Delta y genera el 
 
 ```
 demos/demo_4/
-├── pipeline.py                  # orquestador — 6 fases
+├── pipeline.py                  # orquestador con 6 fases
 ├── config/
 │   └── config.json
 ├── datagen/
@@ -148,7 +148,7 @@ demos/demo_4/
 |---|---|---|
 | 0 | Genera datos en Landing | CSV productos + JSON movimientos + JSON alertas |
 | 1 | Inicializa DKOps | `Launcher` + `IngestionEngine` |
-| 2 | Landing → Bronze | `ingest_bronze()` batch + `run_streaming()` |
-| 3 | Bronze → Silver | `promote_silver()` — 3 estrategias |
-| 4 | Silver → Gold | `read_cdf()` + SQL agregaciones |
+| 2 | De Landing a Bronze | `ingest_bronze()` batch + `run_streaming()` |
+| 3 | De Bronze a Silver | `promote_silver()` con 3 estrategias |
+| 4 | De Silver a Gold | `read_cdf()` + SQL agregaciones |
 | 5 | Validación | `read_stream()` + `SafeMigrator` dry_run |

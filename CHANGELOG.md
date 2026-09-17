@@ -46,7 +46,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) · Versioning: 
 
 ### Added
 
-- Guía **[Logging y registro operativo](guide/logging.md)** — distingue el logger de aplicación (`LoggableMixin`, consola y archivo) del registro operativo (`IngestionOpsLogger`, tabla Delta consultable), con el esquema de la tabla, consultas de tasa de éxito, duración y ejecuciones sin cerrar, y cómo usar el registro fuera del engine
+- Guía **[Logging y registro operativo](https://brrsanchezfi.github.io/DKOps/operations/)** — distingue el logger de aplicación (`LoggableMixin`, consola y archivo) del registro operativo (`IngestionOpsLogger`, tabla Delta consultable), con el esquema de la tabla, consultas de tasa de éxito, duración y ejecuciones sin cerrar, y cómo usar el registro fuera del engine
 - `tests/integration/test_ops_logger_spark.py` — 10 tests con Spark y Delta reales sobre el ciclo completo del registro operativo
 
 ### Notes

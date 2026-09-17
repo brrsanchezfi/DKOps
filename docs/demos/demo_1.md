@@ -1,6 +1,6 @@
-# Demo 1 — Aeronáutica
+# Demo 1: Aeronáutica
 
-**Dominio:** operaciones aéreas · **Foco:** escritores gobernados + SafeMigrator
+**Dominio:** operaciones aéreas. **Enfoque:** escritores gobernados + SafeMigrator
 
 Demo de referencia del framework DKOps: define cuatro tablas mediante contratos JSON y ejercita los cinco writers (`overwrite`, `append`, `upsert`, `overwrite_partition`, `delete`) más el `SafeMigrator` sobre un dominio aeronáutico simulado.
 
@@ -43,7 +43,7 @@ flowchart LR
 
 ## Modelo de datos
 
-Esquema en estrella — una fact particionada por fecha y tres dimensiones.
+Esquema en estrella: una tabla de hechos particionada por fecha y tres dimensiones.
 
 ```
         ┌──────────────────┐
@@ -72,12 +72,12 @@ Esquema en estrella — una fact particionada por fecha y tres dimensiones.
 
 | Fase | Operación | Writer |
 |---|---|---|
-| 1 — Bootstrap | Crea las 4 tablas + 7 días de vuelos | `overwrite` + `append` |
-| 2 — Día 8 | Vuelos nuevos + corrección de retrasos + Viva Air → inactiva | `append` + `upsert` |
-| 3 — Reproceso | Regenera solo la partición `fecha = día 5` | `overwrite_partition` |
-| 4 — Limpieza | Inserta vuelos corruptos y los elimina | `append` + `delete` |
-| 5 — Schema | Compara contrato vs tabla real | `SafeMigrator(dry_run=True)` |
-| 6 — Validación | 5 queries de negocio cruzando fact y dims | SQL |
+| 1. Bootstrap | Crea las 4 tablas + 7 días de vuelos | `overwrite` + `append` |
+| 2. Día 8 | Vuelos nuevos + corrección de retrasos + Viva Air pasa a inactiva | `append` + `upsert` |
+| 3. Reproceso | Regenera solo la partición `fecha = día 5` | `overwrite_partition` |
+| 4. Limpieza | Inserta vuelos corruptos y los elimina | `append` + `delete` |
+| 5. Schema | Compara contrato vs tabla real | `SafeMigrator(dry_run=True)` |
+| 6. Validación | 5 queries de negocio cruzando fact y dims | SQL |
 
 ---
 
@@ -86,14 +86,14 @@ Esquema en estrella — una fact particionada por fecha y tres dimensiones.
 | Concepto | Cómo se ve |
 |---|---|
 | Contratos con placeholders | `{catalog.bronze}`, `{path.bronze}` en `tables/*.json` |
-| Runtime local ↔ Databricks | El mismo `pipeline.py` sin cambios |
-| `overwrite` | Fase 1 — crea la tabla desde cero |
-| `append` | Fases 1 y 2 — días siguientes |
-| `upsert` — MERGE INTO | Fase 2 — corrección de vuelos + estado aerolínea |
-| `overwrite_partition` | Fase 3 — reproceso de un día específico |
-| `delete` — SQL condition | Fase 4 — elimina vuelos con `distancia_km = 0` |
-| `SafeMigrator` dry_run | Fase 5 — plan sin ejecutar |
-| `effective_name` en SQL | `FROM {contract.effective_name}` — no hardcoding |
+| Runtime local y Databricks | El mismo `pipeline.py` sin cambios |
+| `overwrite` | Fase 1, crea la tabla desde cero |
+| `append` | Fases 1 y 2, días siguientes |
+| `upsert` con MERGE INTO | Fase 2, corrección de vuelos y estado de aerolínea |
+| `overwrite_partition` | Fase 3, reproceso de un día específico |
+| `delete` con condición SQL | Fase 4, elimina vuelos con `distancia_km = 0` |
+| `SafeMigrator` dry_run | Fase 5, plan sin ejecutar |
+| `effective_name` en SQL | `FROM {contract.effective_name}`, sin nombres fijos en el código |
 
 ---
 
@@ -101,7 +101,7 @@ Esquema en estrella — una fact particionada por fecha y tres dimensiones.
 
 ```
 demos/demo_1/
-├── pipeline.py              # orquestador — 6 fases
+├── pipeline.py              # orquestador con 6 fases
 ├── config/
 │   └── config.json
 ├── datagen/
@@ -139,4 +139,4 @@ demos/demo_1/
 
 ## Idempotencia
 
-El demo es completamente idempotente. La Fase 1 hace `CREATE OR REPLACE` dejando el lakehouse en estado limpio en cada arranque — puedes correrlo múltiples veces sin limpiar nada manualmente.
+El demo es completamente idempotente. La Fase 1 hace `CREATE OR REPLACE` dejando el lakehouse en estado limpio en cada arranque, así que puedes correrlo varias veces sin limpiar nada a mano.

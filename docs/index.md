@@ -1,160 +1,129 @@
-# DKOps
-
-**Framework de gobierno Delta y orquestación de pipelines Spark — el mismo código corre en local y en Databricks.**
-
+---
+hide:
+  - navigation
+  - toc
 ---
 
-## ¿Qué es DKOps?
+<div class="dk-hero" markdown>
 
-DKOps profesionaliza la construcción de pipelines de datos sobre **Apache Spark + Delta Lake** siguiendo la arquitectura Lakehouse Medallion.
+<span class="dk-hero__eyebrow">Spark · Delta Lake · Databricks</span>
 
-Resuelve los problemas que aparecen cuando un equipo crece más allá de los "scripts sueltos":
+# Pipelines de datos gobernados por contratos
 
-| Problema | Solución DKOps |
-|---|---|
-| Schema enterrado en código | Contratos JSON versionados con validación automática |
-| Pipelines frágiles ante cambios de schema | `SafeMigrator` + `merge_schema` |
-| Lógica de ingesta duplicada por dataset | `IngestionEngine` con estrategias declarativas |
-| Código diferente para local y Databricks | Runtime detector — mismo código, sin `if env:` |
-| Falta de visibilidad operativa | Tabla de control operativo + `status()` |
+<p class="dk-hero__text">
+DKOps es un framework en Python para construir lakehouses Delta con la arquitectura
+Medallion. Describes tus tablas y tus cargas en JSON, y el framework se encarga de
+crearlas, validarlas y mantenerlas. El mismo código corre en tu equipo y en Databricks.
+</p>
 
----
+[Empezar](getting-started/index.md){ .md-button .md-button--primary }
+[Ver en GitHub](https://github.com/brrsanchezfi/DKOps){ .md-button }
 
-## Flujo completo: Landing → Bronze → Silver → Gold
+</div>
 
-```mermaid
-flowchart LR
-    L[("☁ Landing\nJSON · CSV · Parquet")]
-    B[("🥉 Bronze\nRaw + metadata\n_ingested_at")]
-    S[("🥈 Silver\nLimpio · dedup\nclave de negocio")]
-    G[("🥇 Gold\nKPIs · agregados\nlisto para BI")]
+<div class="dk-layers">
+  <div class="dk-layer">
+    <div class="dk-layer__step">Capa 1</div>
+    <div class="dk-layer__name">Landing</div>
+    <div class="dk-layer__desc">Archivos crudos en JSON, CSV o Parquet, o mensajes de Kafka.</div>
+  </div>
+  <div class="dk-layer">
+    <div class="dk-layer__step">Capa 2</div>
+    <div class="dk-layer__name">Bronze</div>
+    <div class="dk-layer__desc">Datos tal como llegaron, con columnas de trazabilidad.</div>
+  </div>
+  <div class="dk-layer">
+    <div class="dk-layer__step">Capa 3</div>
+    <div class="dk-layer__name">Silver</div>
+    <div class="dk-layer__desc">Estado actual, limpio y sin duplicados por clave de negocio.</div>
+  </div>
+  <div class="dk-layer">
+    <div class="dk-layer__step">Capa 4</div>
+    <div class="dk-layer__name">Gold</div>
+    <div class="dk-layer__desc">Agregados y métricas listos para BI.</div>
+  </div>
+</div>
 
-    L -->|IngestionEngine\ningest_bronze| B
-    L -->|run_streaming| B
-    B -->|promote_silver\nfull_merge · cdc_merge\nincremental_replace · append_dedup| S
-    S -->|TableWriter\nSQL agregaciones| G
-```
+## Qué resuelve
 
----
+<div class="grid cards" markdown>
 
-## Quickstart — IngestionEngine
+-   :material-file-document-outline:{ .lg .middle } **Contratos versionados**
 
-=== "Batch (diario)"
+    ---
 
-    ```python
-    from DKOps.launcher import Launcher
-    from DKOps.ingestion.engine import IngestionEngine
+    El schema, las particiones, los permisos y las propiedades de cada tabla viven
+    en JSON junto al código, no repartidos entre notebooks.
 
-    launcher = Launcher("config/config.json")
+    [:octicons-arrow-right-24: Contratos](concepts/contracts.md)
 
-    engine = IngestionEngine.from_spark(
-        spark                = launcher.spark,
-        env                  = launcher.env,
-        bronze_contracts_dir = "ingestion/batch",
-        silver_contracts_dir = "ingestion/silver",
-        tables_base_dir      = ".",
-        ops_path             = "/tmp/ops/control",
-    )
+-   :material-transit-connection-variant:{ .lg .middle } **Ingesta declarativa**
 
-    engine.ingest_bronze()    # Landing  → Bronze
-    engine.promote_silver()   # Bronze   → Silver
-    engine.status()           # Resumen del lakehouse
-    ```
+    ---
 
-=== "Streaming (continuo)"
+    Cuatro estrategias de promoción a Silver que eliges desde el contrato:
+    `full_merge`, `cdc_merge`, `incremental_replace` y `append_dedup`.
 
-    ```python
-    from DKOps.launcher import Launcher
-    from DKOps.ingestion.engine import IngestionEngine
+    [:octicons-arrow-right-24: Ingesta](ingestion/index.md)
 
-    launcher = Launcher("config/config.json")
+-   :material-table-edit:{ .lg .middle } **Escritura y lectura gobernadas**
 
-    engine = IngestionEngine.from_spark(
-        spark                   = launcher.spark,
-        env                     = launcher.env,
-        streaming_contracts_dir = "ingestion/streaming",
-        silver_contracts_dir    = "ingestion/silver",
-        tables_base_dir         = ".",
-        ops_path                = "/tmp/ops/control",
-    )
+    ---
 
-    engine.run_streaming()    # Structured Streaming — availableNow
-    engine.promote_silver()   # Bronze → Silver
-    ```
+    `TableWriter` y `TableReader` validan contra el contrato antes de tocar la tabla,
+    y aplican comentarios, máscaras y permisos por ti.
 
----
+    [:octicons-arrow-right-24: Gobierno de tablas](governance/index.md)
 
-## Quickstart — TableWriter / TableReader
+-   :material-laptop:{ .lg .middle } **Local y Databricks**
+
+    ---
+
+    El framework detecta dónde corre y resuelve catálogos y rutas desde
+    `config.json`. No hay ramas `if databricks` en tu pipeline.
+
+    [:octicons-arrow-right-24: Runtime](concepts/runtime.md)
+
+-   :material-source-branch-sync:{ .lg .middle } **Migraciones seguras**
+
+    ---
+
+    `SafeMigrator` compara el contrato con la tabla real y genera solo los cambios
+    que no pierden datos.
+
+    [:octicons-arrow-right-24: Migraciones](governance/migrations.md)
+
+-   :material-chart-timeline-variant:{ .lg .middle } **Trazabilidad operativa**
+
+    ---
+
+    Cada ejecución queda registrada en una tabla Delta que puedes consultar con SQL
+    para auditoría y monitoreo.
+
+    [:octicons-arrow-right-24: Operación](operations/index.md)
+
+</div>
+
+## Un pipeline completo en pocas líneas
 
 ```python
 from DKOps.launcher import Launcher
-from DKOps.table_governance import load_contract, TableWriter, TableReader
+from DKOps.ingestion.engine import IngestionEngine
 
-launcher = Launcher("config/config.json")
-contract = load_contract("tables/silver/ventas_current.json")
+Launcher("config/config.json")
 
-# Escribir
-TableWriter(contract).overwrite(df)                       # CREATE OR REPLACE
-TableWriter(contract).upsert(df, keys=["venta_id"])       # MERGE INTO
-TableWriter(contract).append(df_nuevos)                   # INSERT INTO
+engine = IngestionEngine.from_launcher(
+    bronze_contracts_dir = "ingestion/batch",
+    silver_contracts_dir = "ingestion/silver",
+    tables_base_dir      = ".",
+    ops_path             = "/tmp/ops/control",
+)
 
-# Leer
-df = TableReader(contract).read()                         # Tabla completa
-df = TableReader(contract).read(filter="estado = 'activo'")
-df = TableReader(contract).read_cdf(starting_version=1)   # Change Data Feed
+engine.ingest_bronze()     # de Landing a Bronze
+engine.promote_silver()    # de Bronze a Silver
+engine.status()
 ```
 
----
-
-## Módulos principales
-
-=== "Ingesta (Landing → Silver)"
-
-    ```
-    DKOps/ingestion/
-    ├── engine.py              # IngestionEngine — orquestador principal
-    ├── ingestors/
-    │   ├── bronze_ingestor.py # Landing → Bronze (batch)
-    │   └── silver_promoter.py # Bronze  → Silver (4 estrategias)
-    ├── readers/
-    │   ├── file_reader.py     # Lectura batch de archivos
-    │   └── file_stream.py     # Lectura streaming (auto-schema inference)
-    ├── strategies/
-    │   ├── full_merge.py      # MERGE INTO — snapshot completo
-    │   ├── cdc_merge.py       # CDC I/U/D con soft delete
-    │   ├── incremental_replace.py  # Reemplaza por watermark
-    │   └── append_dedup.py    # Anti-join append
-    └── contracts/
-        └── ingestion_contract.py   # Modelo de contrato de ingesta
-    ```
-
-=== "Gobierno de tablas (Silver → Gold)"
-
-    ```
-    DKOps/table_governance/
-    ├── contracts/
-    │   ├── loader.py          # JSON → TableContract (frozen dataclass)
-    │   └── validator.py       # Validación de tipos y nulabilidad
-    ├── writers/
-    │   ├── table_writer.py    # ★ Fachada pública
-    │   ├── create_writer.py   # CREATE OR REPLACE TABLE
-    │   ├── append_writer.py   # INSERT INTO (mergeSchema)
-    │   ├── upsert_writer.py   # MERGE INTO
-    │   ├── partition_writer.py# overwrite_partition
-    │   └── delete_writer.py   # DELETE WHERE
-    └── migrations/
-        └── safe_migrator.py   # Compara contrato vs estado real
-    ```
-
----
-
-## Características
-
-- **Contratos JSON** — schema, particiones, permisos y metadatos versionados con el código
-- **Motor de ingesta declarativo** — 4 estrategias de promoción Silver configurables desde JSON
-- **Batch y Streaming unificados** — mismo engine, trigger `availableNow` para modo micro-batch
-- **Runtime-agnóstico** — detección automática local / Databricks vía `config.json`
-- **Validación de schema** — verifica tipos y nulabilidad antes de cada escritura
-- **Migraciones seguras** — `SafeMigrator` planifica `ALTER TABLE` sin pérdida de datos
-- **Tabla de control operativo** — cada ejecución registra dataset, filas, estado y timestamp
-- **Logging estructurado** — `loguru` en cada operación con duración y filas
+Toda la lógica de qué leer, dónde escribir y cómo fusionar está en los contratos JSON.
+Si quieres ver cómo se arma un proyecto desde cero, sigue la guía de
+[primeros pasos](getting-started/index.md) o abre alguno de los [demos](demos/index.md).
