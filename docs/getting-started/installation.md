@@ -48,7 +48,7 @@ pip install -e ".[local]"
 También puedes instalar una versión concreta directamente desde un tag:
 
 ```bash
-pip install "DKOps @ git+https://github.com/brrsanchezfi/DKOps.git@v0.3.5"
+pip install "DKOps @ git+https://github.com/brrsanchezfi/DKOps.git@v0.3.6"
 ```
 
 ## Comprueba la instalación
