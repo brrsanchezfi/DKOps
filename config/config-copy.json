@@ -18,7 +18,7 @@
   // ── Databricks Connect (solo cuando EXECUTION_ENVIRONMENT = "databricks") ─
   // CLUSTER_ID: ID del cluster interactivo al que se conectará.
   //   Encuéntralo en: Compute → tu cluster → Tags → ClusterId
-  "CLUSTER_ID": "0405-181044-j4dmpswy",
+  "CLUSTER_ID": "0000-000000-abcd1234",
 
   // ── Autenticación — Método 1: Personal Access Token (PAT) ────────
   // Si DATABRICKS_TOKEN tiene valor, el Launcher usa PAT automáticamente.
@@ -57,55 +57,55 @@
   "environments": {
 
     // ── DEV ───────────────────────────────────────────────────────────
-    "2370424844216896": {
+    "1234567890123456": {
       "env":            "dev",
       "env_short":      "d",
-      "workspace_host": "https://adb-2370424844216896.xx.azuredatabricks.net",
+      "workspace_host": "https://adb-1234567890123456.xx.azuredatabricks.net",
       "catalogs": {
-        "bronze": "ct_bronze_dlsuraanaliticadev",
-        "silver": "ct_silver_dlsuraanaliticadev",
-        "gold":   "ct_gold_dlsuraanaliticadev"
+        "bronze": "ct_bronze_dev",
+        "silver": "ct_silver_dev",
+        "gold":   "ct_gold_dev"
       },
       "storage_accounts": {
-        "default": "dlsuraanaliticadev",
-        "raw":     "dlsuraanaliticadevraw"
+        "default": "midatalakedev",
+        "raw":     "midatalakedevraw"
       },
       "paths": {
-        "raw":     "abfss://raw@dlsuraanaliticadev.dfs.core.windows.net",
-        "curated": "abfss://curated@dlsuraanaliticadev.dfs.core.windows.net",
-        "archive": "abfss://archive@dlsuraanaliticadev.dfs.core.windows.net"
+        "raw":     "abfss://raw@midatalakedev.dfs.core.windows.net",
+        "curated": "abfss://curated@midatalakedev.dfs.core.windows.net",
+        "archive": "abfss://archive@midatalakedev.dfs.core.windows.net"
       },
       "secrets": { "scope": "kv-dev" },
       "tags": {
         "environment": "dev",
-        "cost_center": "CC-1001",
+        "cost_center": "CC-0001",
         "team":        "data-engineering"
       }
     },
 
     // ── PROD ──────────────────────────────────────────────────────────
-    "7042033821150253": {
+    "6543210987654321": {
       "env":            "prod",
       "env_short":      "p",
-      "workspace_host": "https://adb-7042033821150253.xx.azuredatabricks.net",
+      "workspace_host": "https://adb-6543210987654321.xx.azuredatabricks.net",
       "catalogs": {
-        "bronze": "ct_bronze_dlsuraanaliticaprod",
-        "silver": "ct_silver_dlsuraanaliticaprod",
-        "gold":   "ct_gold_dlsuraanaliticaprod"
+        "bronze": "ct_bronze_prod",
+        "silver": "ct_silver_prod",
+        "gold":   "ct_gold_prod"
       },
       "storage_accounts": {
-        "default": "dlsuraanaliticaprod",
-        "raw":     "dlsuraanaliticaprodraw"
+        "default": "midatalakeprod",
+        "raw":     "midatalakeprodraw"
       },
       "paths": {
-        "raw":     "abfss://raw@dlsuraanaliticaprod.dfs.core.windows.net",
-        "curated": "abfss://curated@dlsuraanaliticaprod.dfs.core.windows.net",
-        "archive": "abfss://archive@dlsuraanaliticaprod.dfs.core.windows.net"
+        "raw":     "abfss://raw@midatalakeprod.dfs.core.windows.net",
+        "curated": "abfss://curated@midatalakeprod.dfs.core.windows.net",
+        "archive": "abfss://archive@midatalakeprod.dfs.core.windows.net"
       },
       "secrets": { "scope": "kv-prod" },
       "tags": {
         "environment": "prod",
-        "cost_center": "CC-2001",
+        "cost_center": "CC-0002",
         "team":        "data-engineering"
       }
     }

@@ -8,10 +8,32 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) · Versioning: 
 
 ## [0.3.6] — 2026-09-17
 
-Release solo de documentación. No cambia ni una línea de `src/`, así que
-actualizar desde la 0.3.5 no altera el comportamiento de ningún pipeline.
+Release de documentación y limpieza del repositorio. Lo único que cambia en
+`src/` son docstrings, así que actualizar desde la 0.3.5 no altera el
+comportamiento de ningún pipeline.
+
+### Removed
+
+- **`databricks.yml`.** Era un Databricks Asset Bundle de otro proyecto
+  (`proyecto_aeronautica`) con hosts de workspace, cuentas de storage, scopes de
+  Key Vault y centros de coste codificados. El framework se configura con
+  `config.json` y nada en el repositorio lo usaba
+- Diagramas generados por `pyreverse` y `pydeps` que estaban versionados en el
+  root: `classes_DKOps.dot` y `.png`, `packages_DKOps.dot` y `.png`,
+  `DKOps_deps.svg` y `dependencies`, más las dos copias de `docs/assets/` que
+  ninguna página referenciaba. Se regeneran cuando se necesiten
+- `src/DKOps.egg-info/` deja de estar versionado. Es un artefacto de build que el
+  `.gitignore` ya excluía, pero se había commiteado antes de esa regla
 
 ### Fixed
+
+- **Nombres de infraestructura real en docstrings y plantillas.** Los docstrings
+  de `environment_config.py` y `loader.py` usaban workspace IDs, hosts de Azure,
+  cuentas de storage y catálogos reales como ejemplo, y mkdocstrings los publica
+  en la referencia API del sitio. Igual ocurría en `config/config-copy.json`.
+  Todos pasan a valores de ejemplo. No hay cambios de comportamiento
+- `.gitignore` ignora ahora `derby.log`, el directorio `file:/` que crea Spark
+  cuando una ruta llega con ese esquema, y los diagramas generados
 
 - **Tres afirmaciones de la documentación que no coincidían con el código.**
   `TableWriter.delete(preview=True)` se documentaba como una previsualización que

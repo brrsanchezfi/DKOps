@@ -67,8 +67,8 @@ Uso
     launcher = Launcher("config.json")
     contract = load_contract("tables/aeronautica/vuelos_raw.json")
 
-    print(contract.full_name)         # ct_bronze_dlsuraanaliticadev.aeronautica.vuelos_raw
-    print(contract.location)          # abfss://raw@dlsuraanaliticadev.../aeronautica/vuelos_raw
+    print(contract.full_name)         # ct_bronze_dev.aeronautica.vuelos_raw
+    print(contract.location)          # abfss://raw@midatalakedev.../aeronautica/vuelos_raw
     print(contract.column_names)      # ['vuelo_id', 'origen', 'fecha', 'cargado_en']
     print(contract.required_columns)  # ['vuelo_id', 'origen', 'fecha']  (sin defaults)
 """
