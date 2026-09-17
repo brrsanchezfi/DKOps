@@ -9,12 +9,12 @@
 [![PySpark](https://img.shields.io/badge/pyspark-3.5-orange.svg)](https://spark.apache.org/)
 [![Delta Lake](https://img.shields.io/badge/delta--lake-3.2-00ADD4.svg)](https://delta.io/)
 [![Docs](https://img.shields.io/badge/docs-online-0f766e.svg)](https://brrsanchezfi.github.io/DKOps/)
-[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/brrsanchezfi/DKOps/blob/main/LICENSE)
 
 [Documentación](https://brrsanchezfi.github.io/DKOps/) ·
 [Primeros pasos](https://brrsanchezfi.github.io/DKOps/getting-started/) ·
 [Demos](https://brrsanchezfi.github.io/DKOps/demos/) ·
-[Changelog](CHANGELOG.md)
+[Changelog](https://github.com/brrsanchezfi/DKOps/blob/main/CHANGELOG.md)
 
 </div>
 
@@ -213,4 +213,4 @@ ambos, mantén dos entornos separados.
 
 ## Licencia
 
-MIT. Consulta el archivo [LICENSE](LICENSE).
+MIT. Consulta el archivo [LICENSE](https://github.com/brrsanchezfi/DKOps/blob/main/LICENSE).

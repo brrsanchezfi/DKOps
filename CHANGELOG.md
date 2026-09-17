@@ -6,6 +6,53 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) · Versioning: 
 
 ---
 
+## [0.3.6] — 2026-09-17
+
+Release solo de documentación. No cambia ni una línea de `src/`, así que
+actualizar desde la 0.3.5 no altera el comportamiento de ningún pipeline.
+
+### Fixed
+
+- **Tres afirmaciones de la documentación que no coincidían con el código.**
+  `TableWriter.delete(preview=True)` se documentaba como una previsualización que
+  no borraba, cuando en realidad muestra las filas afectadas **y las borra** (para
+  verlas sin borrar hay que combinarlo con `dry_run=True`). `incremental_replace`
+  se describía como un upsert por `merge_keys`, pero reemplaza la partición más
+  reciente con `overwrite_partition`. Y la guía de migraciones seguía usando la
+  firma antigua `SafeMigrator(spark, contract, env)`, que dejó de existir cuando
+  el migrador pasó a resolver Spark desde el `Launcher` activo
+- Los enlaces a `LICENSE` y `CHANGELOG.md` del README eran rutas relativas del
+  repositorio. GitHub las resuelve, pero PyPI no: en la página del paquete daban
+  404. Ahora son URL absolutas
+
+### Added
+
+- **Documentación de `TableReader`**, que no tenía ninguna página propia pese a ser
+  parte de la API pública desde la 0.3.0: `read()` con sus tres atajos,
+  `read_partition()`, `read_stream()` y `read_cdf()` con sus requisitos
+- Páginas nuevas de conceptos: los dos tipos de contrato y cómo se referencian
+  entre sí, los flujos internos de una escritura y de una promoción, y qué cambia
+  exactamente entre local y Databricks
+- Guía de operación separada en cuatro páginas: logger de aplicación, logs en
+  almacenamiento cloud, registro operativo y consultas SQL de monitoreo
+- Índice de la referencia API y páginas de entrada por sección
+
+### Changed
+
+- **La web pasa de siete páginas largas a unas treinta páginas cortas**
+  organizadas en pestañas, con navegación Anterior y Siguiente al pie. Antes la
+  guía de ingesta sola ocupaba 350 líneas y la de logging 320
+- Tema visual propio: cabecera sobria, paleta verde azulado, tipografía Inter y
+  JetBrains Mono, tablas y avisos más ligeros, y modo claro y oscuro consistentes
+- Portada nueva con las cuatro capas Medallion y acceso directo a cada sección
+- El changelog se publica también en la web
+- Redacción revisada en toda la documentación
+- El workflow de la web fija `mkdocs>=1.6,<2`. Material for MkDocs advierte de que
+  MkDocs 2.0 elimina el sistema de plugins, así que sin la restricción el
+  despliegue podía romperse en cualquier momento al instalar sin pinear
+
+---
+
 ## [0.3.5] — 2026-09-06
 
 ### Fixed
