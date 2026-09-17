@@ -61,6 +61,18 @@ config/config.json
 # =========================
 metastore_db/
 spark-warehouse/
+derby.log
+
+# Directorio que crea Spark cuando una ruta llega con el esquema file:
+file:/
+
+# =========================
+# Diagramas generados (pyreverse, pydeps)
+# =========================
+*.dot
+classes_*.png
+packages_*.png
+*_deps.svg
 
 # =========================
 # Local tables / generated data

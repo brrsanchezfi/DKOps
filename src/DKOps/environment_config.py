@@ -11,23 +11,23 @@ Estructura esperada en config.json
         ...
 
         "environments": {
-            "2370424844216896": {          ← workspace_id real (Databricks)
+            "1234567890123456": {          <- workspace_id de Databricks
                 "env":        "dev",
                 "env_short":  "d",
-                "workspace_host": "https://adb-2370424844216896.azuredatabricks.net",
+                "workspace_host": "https://adb-1234567890123456.azuredatabricks.net",
                 "catalogs": {
-                    "bronze": "ct_bronze_dlsuraanaliticadev",
-                    "silver": "ct_silver_dlsuraanaliticadev",
-                    "gold":   "ct_gold_dlsuraanaliticadev"
+                    "bronze": "ct_bronze_dev",
+                    "silver": "ct_silver_dev",
+                    "gold":   "ct_gold_dev"
                 },
                 "storage_accounts": {
-                    "default": "dlsuraanaliticadev",
-                    "raw":     "dlsuraanaliticadevraw"
+                    "default": "midatalakedev",
+                    "raw":     "midatalakedevraw"
                 },
                 "paths": {
-                    "raw":     "abfss://raw@dlsuraanaliticadev.dfs.core.windows.net",
-                    "curated": "abfss://curated@dlsuraanaliticadev.dfs.core.windows.net",
-                    "archive": "abfss://archive@dlsuraanaliticadev.dfs.core.windows.net"
+                    "raw":     "abfss://raw@midatalakedev.dfs.core.windows.net",
+                    "curated": "abfss://curated@midatalakedev.dfs.core.windows.net",
+                    "archive": "abfss://archive@midatalakedev.dfs.core.windows.net"
                 },
                 "secrets": { "scope": "kv-dev" },
                 "tags": {
@@ -36,7 +36,7 @@ Estructura esperada en config.json
                     "team":        "data-engineering"
                 }
             },
-            "7042033821150253": { ... }    ← workspace_id prod
+            "6543210987654321": { ... }    <- workspace_id de produccion
         }
     }
 
@@ -55,7 +55,7 @@ Uso desde Launcher (no instanciar directamente)
     launcher = Launcher("config.json")
     env      = launcher.env
 
-    env.get_catalog("bronze")       →  "ct_bronze_dlsuraanaliticadev"
+    env.get_catalog("bronze")       →  "ct_bronze_dev"
     env.get_path("raw")             →  "abfss://raw@..."
     env.get_secret("jdbc_password") →  dbutils o .env según runtime
     env.get_var("tags.cost_center") →  "CC-1001"
@@ -229,7 +229,7 @@ class EnvironmentConfig(LoggableMixin):
         Nombre real del catálogo Unity Catalog para este ambiente.
 
         Ejemplo:
-            env.get_catalog("bronze")  →  "ct_bronze_dlsuraanaliticadev"
+            env.get_catalog("bronze")  →  "ct_bronze_dev"
         """
         catalogs = self._vars.get("catalogs", {})
         if name not in catalogs:
@@ -255,8 +255,8 @@ class EnvironmentConfig(LoggableMixin):
         Nombre de la cuenta de storage para este ambiente.
 
         Ejemplo:
-            env.get_storage_account()       →  "dlsuraanaliticadev"
-            env.get_storage_account("raw")  →  "dlsuraanaliticadevraw"
+            env.get_storage_account()       ->  "midatalakedev"
+            env.get_storage_account("raw")  →  "midatalakedevraw"
         """
         accounts = self._vars.get("storage_accounts", {})
         if name not in accounts:
@@ -271,8 +271,8 @@ class EnvironmentConfig(LoggableMixin):
         Ruta base para este ambiente.
 
         Ejemplo:
-            env.get_path("raw")      →  "abfss://raw@dlsuraanaliticadev..."
-            env.get_path("curated")  →  "abfss://curated@dlsuraanaliticadev..."
+            env.get_path("raw")      →  "abfss://raw@midatalakedevdev..."
+            env.get_path("curated")  →  "abfss://curated@midatalakedevdev..."
         """
         paths = self._vars.get("paths", {})
         if name not in paths:
