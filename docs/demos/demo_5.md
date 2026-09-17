@@ -1,6 +1,6 @@
-# Demo 5 — Marketplace
+# Demo 5: Marketplace
 
-**Dominio:** marketplace e-commerce · **Foco:** `cdc_merge` + `full_merge` + streaming + Gold revenue/engagement
+**Dominio:** marketplace e-commerce. **Enfoque:** `cdc_merge` + `full_merge` + streaming + Gold revenue/engagement
 
 Pipeline Lakehouse completo para un marketplace con ventas CDC, catálogo de clientes y eventos de app en streaming. Produce métricas de revenue por canal y engagement por cliente en Gold.
 
@@ -23,7 +23,7 @@ flowchart LR
     subgraph bronze["Bronze · ecommerce"]
         BV["ventas_raw\n_ingested_at\n_ingested_date\n_source_file"]
         BC["clientes_raw\nfull snapshot diario"]
-        BE["eventos_raw\nstreaming → batch"]
+        BE["eventos_raw\nstreaming a batch"]
     end
 
     subgraph silver["Silver · ecommerce"]
@@ -67,12 +67,12 @@ streaming           (streaming batch)
 
 | Concepto | Dónde se ve |
 |---|---|
-| `cdc_merge` con soft delete | `ventas_current` — `op_type I/U/D` → `is_deleted` |
-| `full_merge` — catálogo clientes | `clientes_current` — snapshot diario |
-| Streaming con `availableNow` | `eventos_app` — `run_streaming()` |
-| Gold: revenue por canal | `revenue_diario` — SUM/COUNT/AVG por `canal` |
-| Gold: engagement por cliente | `engagement_clientes` — revenue y ventas por `cliente_id` |
-| Tabla de control operativo | `engine.ops.read()` — auditoría por dataset |
+| `cdc_merge` con soft delete | `ventas_current`, `op_type I/U/D` se traduce en `is_deleted` |
+| `full_merge` para el catálogo de clientes | `clientes_current`, snapshot diario |
+| Streaming con `availableNow` | `eventos_app` con `run_streaming()` |
+| Gold: revenue por canal | `revenue_diario`, SUM, COUNT y AVG por `canal` |
+| Gold: engagement por cliente | `engagement_clientes`, revenue y ventas por `cliente_id` |
+| Tabla de control operativo | `engine.ops.read()`, auditoría por dataset |
 | Idempotencia completa | Partition overwrite Bronze + upsert Silver |
 
 ---
@@ -140,7 +140,7 @@ Salida típica:
 
 ```
 demos/demo_5/
-├── pipeline.py                  # orquestador — 6 fases
+├── pipeline.py                  # orquestador con 6 fases
 ├── config/
 │   └── config.json
 ├── datagen/
@@ -164,7 +164,7 @@ demos/demo_5/
 
 El pipeline puede ejecutarse múltiples veces sin efectos secundarios:
 
-- **Bronze:** partition overwrite por `_ingested_date` — ejecutar dos veces el mismo día produce el mismo resultado
-- **Silver:** MERGE INTO — los upserts no crean duplicados; los soft deletes son idempotentes
-- **Streaming:** checkpoints en `{path.checkpoint}/eventos_app` — no reprocesa archivos ya ingestados
-- **Gold:** `overwrite` — reemplaza completamente cada ejecución
+- **Bronze:** sobrescritura de la partición `_ingested_date`; ejecutar dos veces el mismo día da el mismo resultado
+- **Silver:** MERGE INTO; los upserts no crean duplicados y los borrados lógicos son idempotentes
+- **Streaming:** checkpoints en `{path.checkpoint}/eventos_app`, que evitan reprocesar archivos ya ingeridos
+- **Gold:** `overwrite`, que reemplaza la tabla completa en cada ejecución

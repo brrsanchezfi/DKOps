@@ -27,8 +27,9 @@ jobs:
       - name: Install MkDocs and dependencies
         run: |
           pip install \
-            mkdocs-material \
-            mkdocstrings[python] \
+            "mkdocs>=1.6,<2" \
+            "mkdocs-material>=9.5" \
+            "mkdocstrings[python]" \
             mkdocs-autorefs
 
       - name: Install DKOps (para que mkdocstrings pueda importarlo)

@@ -1,33 +1,67 @@
 site_name: DKOps
-site_description: Framework de gobierno Delta y orquestación de pipelines Spark — local y Databricks
+site_description: Framework de gobierno Delta y orquestación de pipelines Spark para local y Databricks
 site_author: Roberto Sánchez
+site_url: https://brrsanchezfi.github.io/DKOps/
 repo_url: https://github.com/brrsanchezfi/DKOps
 repo_name: brrsanchezfi/DKOps
+edit_uri: edit/main/docs/
+copyright: Copyright &copy; 2026 Roberto Sánchez. Publicado bajo licencia MIT.
 
 theme:
   name: material
   language: es
+  font:
+    text: Inter
+    code: JetBrains Mono
+  icon:
+    logo: material/database-cog-outline
+    repo: fontawesome/brands/github
+  favicon: assets/favicon.svg
   palette:
-    - scheme: default
-      primary: indigo
-      accent: indigo
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: custom
+      accent: custom
       toggle:
-        icon: material/brightness-7
+        icon: material/weather-night
         name: Cambiar a modo oscuro
-    - scheme: slate
-      primary: indigo
-      accent: indigo
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: custom
+      accent: custom
       toggle:
-        icon: material/brightness-4
+        icon: material/weather-sunny
         name: Cambiar a modo claro
   features:
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.tracking
     - navigation.tabs
+    - navigation.tabs.sticky
     - navigation.sections
-    - navigation.expand
+    - navigation.indexes
+    - navigation.footer
     - navigation.top
+    - toc.follow
+    - search.suggest
     - search.highlight
     - content.code.copy
+    - content.code.annotate
     - content.tabs.link
+    - content.action.edit
+
+extra_css:
+  - assets/stylesheets/extra.css
+
+extra:
+  generator: false
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/brrsanchezfi/DKOps
+      name: Repositorio en GitHub
+    - icon: fontawesome/brands/python
+      link: https://pypi.org/project/DKOps/
+      name: Paquete en PyPI
 
 plugins:
   - search:
@@ -46,10 +80,27 @@ plugins:
             show_if_no_docstring: true
 
 markdown_extensions:
+  - abbr
   - admonition
+  - attr_list
+  - def_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+      toc_depth: 3
   - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - pymdownx.highlight:
       anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets:
+      base_path: ["."]
+      check_paths: true
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid
@@ -57,49 +108,71 @@ markdown_extensions:
           format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.tabbed:
       alternate_style: true
-  - tables
-  - toc:
-      permalink: true
-
-extra_javascript:
-  - https://unpkg.com/mermaid@10/dist/mermaid.min.js
 
 nav:
   - Inicio: index.md
-  - Guía de uso:
-    - Quickstart: guide/quickstart.md
-    - Ingesta (Landing → Silver): guide/ingestion.md
-    - Contratos de tabla: guide/contracts.md
-    - Writers: guide/writers.md
-    - Migraciones: guide/migrations.md
-    - Logging y registro operativo: guide/logging.md
-    - Arquitectura: guide/architecture.md
+  - Primeros pasos:
+    - getting-started/index.md
+    - Instalación: getting-started/installation.md
+    - Configuración: getting-started/configuration.md
+    - Tu primer pipeline: getting-started/first-pipeline.md
+  - Conceptos:
+    - concepts/index.md
+    - Módulos: concepts/modules.md
+    - Contratos: concepts/contracts.md
+    - Flujos internos: concepts/flows.md
+    - Local y Databricks: concepts/runtime.md
+  - Ingesta:
+    - ingestion/index.md
+    - Carga batch: ingestion/batch.md
+    - Carga streaming: ingestion/streaming.md
+    - Promoción a Silver: ingestion/silver.md
+    - Estrategias: ingestion/strategies.md
+    - Columnas técnicas: ingestion/metadata.md
+  - Gobierno de tablas:
+    - governance/index.md
+    - Propiedades y máscaras: governance/properties.md
+    - Escritura: governance/writer.md
+    - Metadata y tablas externas: governance/metadata.md
+    - Lectura: governance/reader.md
+    - Migraciones: governance/migrations.md
+  - Operación:
+    - operations/index.md
+    - Logger de aplicación: operations/app-logger.md
+    - Logs en la nube: operations/cloud-logs.md
+    - Registro operativo: operations/ops-table.md
+    - Consultas de monitoreo: operations/ops-queries.md
   - Demos:
-    - Demo 1 — Aeronáutica: demos/demo_1.md
-    - Demo 2 — Manufactura: demos/demo_2.md
-    - Demo 3 — E-commerce: demos/demo_3.md
-    - Demo 4 — Retail / Inventario: demos/demo_4.md
-    - Demo 5 — Marketplace: demos/demo_5.md
-  - API Reference:
-    - Core:
+    - demos/index.md
+    - Aeronáutica: demos/demo_1.md
+    - Manufactura: demos/demo_2.md
+    - E-commerce: demos/demo_3.md
+    - Retail e inventario: demos/demo_4.md
+    - Marketplace: demos/demo_5.md
+  - Referencia API:
+    - api/index.md
+    - Núcleo:
       - Launcher: api/launcher.md
       - EnvironmentConfig: api/environment_config.md
       - LoggerConfig: api/logger_config.md
-    - Ingestion:
+    - Ingesta:
       - IngestionEngine: api/ingestion/engine.md
       - BronzeIngestor: api/ingestion/bronze_ingestor.md
       - SilverPromoter: api/ingestion/silver_promoter.md
       - Estrategias: api/ingestion/strategies.md
-    - Contracts:
-      - loader: api/contracts/loader.md
-      - validator: api/contracts/validator.md
+    - Contratos:
+      - Loader: api/contracts/loader.md
+      - Validator: api/contracts/validator.md
     - Writers:
-      - table_writer: api/writers/table_writer.md
-      - base_writer: api/writers/base.md
-      - create_writer: api/writers/create.md
-      - append_writer: api/writers/append.md
-      - upsert_writer: api/writers/upsert.md
-      - partition_writer: api/writers/partition.md
-      - delete_writer: api/writers/delete.md
-    - Migrations:
-      - safe_migrator: api/migrations/safe_migrator.md
+      - TableWriter: api/writers/table_writer.md
+      - BaseWriter: api/writers/base.md
+      - CreateWriter: api/writers/create.md
+      - AppendWriter: api/writers/append.md
+      - UpsertWriter: api/writers/upsert.md
+      - PartitionWriter: api/writers/partition.md
+      - DeleteWriter: api/writers/delete.md
+    - Readers:
+      - TableReader: api/readers/table_reader.md
+    - Migraciones:
+      - SafeMigrator: api/migrations/safe_migrator.md
+  - Changelog: changelog.md

@@ -1,6 +1,6 @@
-# Demo 3 — E-commerce
+# Demo 3: E-commerce
 
-**Dominio:** e-commerce · **Foco:** `merge_schema` + column masking + streaming + 3 estrategias Silver
+**Dominio:** e-commerce. **Enfoque:** `merge_schema` + column masking + streaming + 3 estrategias Silver
 
 Pipeline Lakehouse completo con schema evolution automática, enmascaramiento de columnas sensibles (email), streaming de clickstream y las tres estrategias principales de promoción Silver.
 
@@ -22,8 +22,8 @@ flowchart LR
 
     subgraph bronze["Bronze · ecommerce"]
         BC["clientes_raw\nfull snapshot"]
-        BP["pedidos_raw\nmerge_schema: true\nv1 → v2 evolution"]
-        BE["eventos_raw\nstreaming → batch"]
+        BP["pedidos_raw\nmerge_schema: true\nevolución v1 a v2"]
+        BE["eventos_raw\nstreaming a batch"]
     end
 
     subgraph silver["Silver · ecommerce"]
@@ -52,10 +52,10 @@ flowchart LR
 
 | Concepto | Dónde se ve |
 |---|---|
-| `full_merge` — snapshot completo | `clientes_current` |
-| `cdc_merge` — CDC I/U/D + soft delete | `pedidos_current` — campo `op_type` |
-| `append_dedup` — anti-join append | `eventos_current` — clickstream |
-| `merge_schema: true` — schema evolution | `pedidos_raw` — columnas v2 añadidas sin recrear |
+| `full_merge` con snapshot completo | `clientes_current` |
+| `cdc_merge` con CDC I/U/D y borrado lógico | `pedidos_current`, campo `op_type` |
+| `append_dedup` con anti-join | `eventos_current`, clickstream |
+| `merge_schema: true` para evolución de schema | `pedidos_raw`, columnas v2 añadidas sin recrear la tabla |
 | Column masking (`mask`) | `email_cliente` en pedidos y clientes |
 | Streaming con `availableNow` | `eventos_web` vía `run_streaming()` |
 | Schema auto-inference en streaming | `FileStreamReader` infiere desde archivos estáticos |
@@ -97,7 +97,7 @@ ALTER TABLE ecommerce.clientes_current
   ALTER COLUMN email SET MASK security.mask_email;
 ```
 
-En local PC la operación se omite silenciosamente — el pipeline corre sin cambios.
+En local la operación se omite sin error y el pipeline corre igual.
 
 ---
 
@@ -105,7 +105,7 @@ En local PC la operación se omite silenciosamente — el pipeline corre sin cam
 
 ```
 demos/demo_3/
-├── pipeline.py                  # orquestador — 6 fases
+├── pipeline.py                  # orquestador con 6 fases
 ├── config/
 │   └── config.json
 ├── datagen/
